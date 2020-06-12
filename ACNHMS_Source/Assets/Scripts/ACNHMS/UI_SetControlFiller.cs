@@ -6,19 +6,15 @@ using UnityEngine.UI;
 public class UI_SetControlFiller : MonoBehaviour
 {
 	public UI_ACItemGrid ItemGrid;
-
 	public UI_SearchWindow SearchWindow;
 
 	public Button SetCurrent;
-
 	public Button SetFillRow;
-
 	public Button SetFillAll;
-
 	public Button SetFillVariations;
+    public Button DeleteItem;
 
 	private int lastItemIndex = -1;
-
 	private Item lastItem;
 
 	private void Start()
@@ -35,7 +31,15 @@ public class UI_SetControlFiller : MonoBehaviour
 		{
 			FillRow(lastItemIndex / 10);
 		});
-	}
+        SetFillAll.onClick.AddListener(delegate
+        {
+            FillAll();
+        });
+        DeleteItem.onClick.AddListener(delegate
+        {
+            DeleteItemAt(lastItemIndex);
+        });
+    }
 
 	private void Update()
 	{
@@ -45,9 +49,10 @@ public class UI_SetControlFiller : MonoBehaviour
 	{
 		lastItemIndex = itemIndex;
 		lastItem = item;
-		SetCurrent.GetComponentInChildren<Text>().text=("Set to current \n(" + itemIndex + ")");
-		SetFillRow.GetComponentInChildren<Text>().text=("Fill row \n(" + itemIndex / 10 + ")");
-	}
+        SetCurrent.GetComponentInChildren<Text>().text = "Set to current \n(" + itemIndex + ")";
+        SetFillRow.GetComponentInChildren<Text>().text = "Fill row \n(" + itemIndex / 10 + ")";
+        DeleteItem.GetComponentInChildren<Text>().text = "Delete item \n(" + itemIndex + ")";
+    }
 
 	public void FillSelected(int index)
 	{
@@ -57,5 +62,27 @@ public class UI_SetControlFiller : MonoBehaviour
 
 	public void FillRow(int row)
 	{
+        int start = row * 10;
+        for (int i = start; i < start + 10; ++i)
+        {
+            lastItem = ItemGrid.GetItemAt(i);
+            FillSelected(i);
+        }
 	}
+
+    public void FillAll()
+    {
+        for (int i = 0; i < 40; ++i)
+        {
+            lastItem = ItemGrid.GetItemAt(i);
+            FillSelected(i);
+        }
+    }
+
+    public void DeleteItemAt(int index)
+    {
+        lastItem = ItemGrid.GetItemAt(index);
+        lastItem.Delete();
+        ItemGrid.SetItemAt(lastItem, index, true);
+    }
 }
