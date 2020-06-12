@@ -61,4 +61,10 @@ public class UI_Sysbot : MonoBehaviour
 		PlayerPrefs.SetString("IP_SYS", IP.text);
 		PlayerPrefs.SetString("SOCK_SYS", Socket.text);
 	}
+
+    private void OnApplicationQuit()
+    {
+        if (sysBot.Bot.Connected)
+            sysBot.Bot.Disconnect();
+    }
 }

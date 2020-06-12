@@ -56,12 +56,18 @@ public class UI_SetControlFiller : MonoBehaviour
 
 	public void FillSelected(int index)
 	{
-		Item asItem = SearchWindow.GetAsItem(lastItem);
+        if (SearchWindow.IsNoItemMode)
+            return;
+
+        Item asItem = SearchWindow.GetAsItem(lastItem);
 		ItemGrid.SetItemAt(asItem, index, setFocus: true);
 	}
 
 	public void FillRow(int row)
 	{
+        if (SearchWindow.IsNoItemMode)
+            return;
+
         int start = row * 10;
         for (int i = start; i < start + 10; ++i)
         {
@@ -72,6 +78,9 @@ public class UI_SetControlFiller : MonoBehaviour
 
     public void FillAll()
     {
+        if (SearchWindow.IsNoItemMode)
+            return;
+
         for (int i = 0; i < 40; ++i)
         {
             lastItem = ItemGrid.GetItemAt(i);

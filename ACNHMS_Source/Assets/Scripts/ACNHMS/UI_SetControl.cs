@@ -103,7 +103,7 @@ public class UI_SetControl : MonoBehaviour
 				num6 = list2[k];
 			}
 		}
-		BUses.value=(num6);
+		BUses.value=list2.IndexOf(num6);
 		BUses.RefreshShownValue();
 		BCount.value=(num % num6);
 		BCount.RefreshShownValue();
@@ -113,11 +113,11 @@ public class UI_SetControl : MonoBehaviour
 	{
 		int num = 0;
 		int result = 0;
-		if (int.TryParse(GetUntilOrEmpty(BCount.itemText.text), out result))
+		if (int.TryParse(GetUntilOrEmpty(BCount.captionText.text), out result))
 		{
 			num += result;
 		}
-		if (BUses.gameObject.activeSelf && int.TryParse(GetUntilOrEmpty(BUses.itemText.text), out result))
+		if (BUses.gameObject.activeSelf && int.TryParse(GetUntilOrEmpty(BUses.captionText.text), out result))
 		{
 			num += result;
 		}

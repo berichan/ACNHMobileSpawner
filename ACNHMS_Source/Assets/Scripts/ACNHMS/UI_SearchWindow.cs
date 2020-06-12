@@ -25,6 +25,7 @@ public class UI_SearchWindow : MonoBehaviour
     //editor vars
     public RectTransform SelectionOverlay;
     public Text ItemSelectedName;
+    public Toggle KeepItemLoadedToggle;
     public InputField SearchField;
     public Dropdown DropdownFilter;
     public UI_SearchItem SearchItemPrefab;
@@ -37,17 +38,20 @@ public class UI_SearchWindow : MonoBehaviour
 
     [HideInInspector]
     public int CurrentSelectedIndex = -1;
-
     [HideInInspector]
     public int CurrentItemID = -1;
-
     [HideInInspector]
     public ItemFilter CurrentFilter;
+    [HideInInspector]
+    public bool IsNoItemMode = true;
+
     private string currentSearchString = "";
 
     private List<ComboItem> cachedItemList;
     private List<ComboItem> cachedRecipeList;
     private List<ComboItem> cachedFossilList;
+
+    private bool stopSearch = false;
 
     private List<UI_SearchItem> spawnedObjects;
 
@@ -62,6 +66,10 @@ public class UI_SearchWindow : MonoBehaviour
         DropdownFilter.onValueChanged.AddListener(delegate
         {
             UpdateFilter(DropdownFilter);
+        });
+        KeepItemLoadedToggle.onValueChanged.AddListener(delegate
+        {
+            stopSearch = KeepItemLoadedToggle.isOn;
         });
         SearchItemPrefab.gameObject.SetActive(false);
         UpdateSearchString(SearchField.text);
@@ -80,6 +88,8 @@ public class UI_SearchWindow : MonoBehaviour
 
     public void UpdateSearchString(string val)
     {
+        if (stopSearch)
+            return;
         if (val != "")
         {
             currentSearchString = val.ToLower();
@@ -96,10 +106,12 @@ public class UI_SearchWindow : MonoBehaviour
                 range.Insert(0, fullMatch);
             }
             initFor(range, list.Count > MAXITEMS, currentSearchString);
+            IsNoItemMode = false;
         }
         else
         {
             initFor(new List<ComboItem>(), greaterThanMaxVal: false, currentSearchString);
+            IsNoItemMode = true;
         }
     }
 
