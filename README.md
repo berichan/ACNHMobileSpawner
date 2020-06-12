@@ -1,5 +1,9 @@
 # ACNHMobileSpawner
-ACNH Injector for mobile built in Unity. Based Heavily on [NHSE](https://github.com/kwsch/NHSE).
+
+Item injector for Animal Crossing: New Horizons for mobile built in Unity. 
+Requires a Switch running the [Atmosphere](https://github.com/Atmosphere-NX/Atmosphere) with the plugin [sys-botbase](https://github.com/olliz0r/sys-botbase) installed.
+
+Based Heavily on [NHSE](https://github.com/kwsch/NHSE).
 
 ### Notes
 
