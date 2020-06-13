@@ -7,6 +7,8 @@ Based Heavily on [NHSE](https://github.com/kwsch/NHSE).
 
 ### Android builds
 
+The application requires an Android device running at minimum Android 4.4 (KitKat) with support for OpenGLES2.
+
 Builds are not guaranteed to be stable and you run them at your own risk. You may download the [apk files here](https://github.com/berichan/ACNHMobileSpawner/releases).
 
 ### Screenshots
