@@ -3,13 +3,17 @@
 Item injector for Animal Crossing: New Horizons for mobile built in Unity. 
 Requires a Switch running [Atmosphere](https://github.com/Atmosphere-NX/Atmosphere) with the plugin [sys-botbase](https://github.com/olliz0r/sys-botbase) installed.
 
-Based Heavily on [NHSE](https://github.com/kwsch/NHSE).
+Based heavily on [NHSE](https://github.com/kwsch/NHSE).
 
 ### Android builds
 
 The application requires an Android device running at minimum Android 4.4 (KitKat) with support for OpenGLES2.
 
 Builds are not guaranteed to be stable and you run them at your own risk. You may download the [apk files here](https://github.com/berichan/ACNHMobileSpawner/releases).
+
+### iOS builds
+
+I will try to build iOS .ipa files if there is enough interest in this.
 
 ### Screenshots
 
