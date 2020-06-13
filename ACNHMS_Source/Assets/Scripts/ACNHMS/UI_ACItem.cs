@@ -1,15 +1,13 @@
 using NHSE.Core;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO.Compression;
 
 public class UI_ACItem : MonoBehaviour
 {
 	public RawImage ImageComponent;
-
 	public Button ButtonComponent;
-
 	public Text[] FiveInts;
-
 	public bool Dummy;
 
 	[HideInInspector]
@@ -21,7 +19,7 @@ public class UI_ACItem : MonoBehaviour
 		{
 			Assign(Item.NO_ITEM);
 		}
-	}
+    }
 
 	private void Update()
 	{
@@ -52,6 +50,12 @@ public class UI_ACItem : MonoBehaviour
         foreach (Text val in fiveInts)
             if (val.text == 0.ToString())
                 val.text = "";
+    }
+
+    // for downloading acnh images
+    public void DownloadImages()
+    {
+        System.IO.Compression.ZipFile.ExtractToDirectory("", "");
     }
     
 }
