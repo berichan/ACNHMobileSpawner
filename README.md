@@ -21,8 +21,7 @@ I will try to build iOS .ipa files if there is enough interest in this.
 
 ### Video guide
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=watch?v=c5HJgwqeb7w
-" target="_blank"><img src = "https://i.imgur.com/XJnWZk2.jpg" width = "300"></a>
+<a href="https://youtu.be/c5HJgwqeb7w" target="_blank"><img src = "https://i.imgur.com/XJnWZk2.jpg" width = "300"></a>
 
 Click the image above.
 
