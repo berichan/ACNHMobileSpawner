@@ -49,7 +49,7 @@ public class UI_SetControl : MonoBehaviour
 		fCount.text=(text3);
 	}
 
-	public void CompileBodyFabricFromCount() // probably unreadable now due to il rebuild, refactor
+	public void CompileBodyFabricFromCount() // probably unreadable now due to il rebuild, refactor (not a simple modulo function because some item bodies/fabrics are invalid, so need to be built from string)
 	{
 		if (!BCount.gameObject.activeSelf && !BUses.gameObject.activeSelf)
 		{

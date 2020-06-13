@@ -4,21 +4,16 @@ using UnityEngine.UI;
 public class UI_Sysbot : MonoBehaviour
 {
 	public const string IPKEY = "IP_SYS";
-
 	public const string SOCKETKEY = "SOCK_SYS";
 
 	public string DefaultIp = "192.168.0.1";
-
 	public string DefaultSocket = "6000";
 
 	public Text ConnectedText;
 
 	public InputField IP;
-
 	public InputField Socket;
-
 	public GameObject RootConnected;
-
 	public GameObject RootNotConnected;
 
 	private SysBotController sysBot;
@@ -64,6 +59,8 @@ public class UI_Sysbot : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+        if (sysBot == null)
+            return;
         if (sysBot.Bot.Connected)
             sysBot.Bot.Disconnect();
     }

@@ -18,9 +18,9 @@ public enum ItemFilter
 public class UI_SearchWindow : MonoBehaviour
 {
     public readonly int MAXITEMS = 50;
-    public readonly int MESSAGEBOTTLEITEM = 5794;
-    public readonly int RECIPEITEM = 5795;
-    public readonly int FOSSILITEM = 2580;
+    public readonly int MESSAGEBOTTLEITEM = 5793;
+    public readonly int RECIPEITEM = 5794;
+    public readonly int FOSSILITEM = 2579;
 
     //editor vars
     public RectTransform SelectionOverlay;
@@ -35,6 +35,8 @@ public class UI_SearchWindow : MonoBehaviour
     public UI_FlowerEditor FlowerController;
 
     public GameObject FlowerButtonRoot;
+
+    public GameObject SearchBlocker;
 
     [HideInInspector]
     public int CurrentSelectedIndex = -1;
@@ -70,6 +72,7 @@ public class UI_SearchWindow : MonoBehaviour
         KeepItemLoadedToggle.onValueChanged.AddListener(delegate
         {
             stopSearch = KeepItemLoadedToggle.isOn;
+            SearchBlocker.gameObject.SetActive(stopSearch);
         });
         SearchItemPrefab.gameObject.SetActive(false);
         UpdateSearchString(SearchField.text);
@@ -93,7 +96,11 @@ public class UI_SearchWindow : MonoBehaviour
         if (val != "")
         {
             currentSearchString = val.ToLower();
-            List<ComboItem> list = allItems(CurrentFilter).FindAll((ComboItem x) => x.Text.ToLower().Contains(currentSearchString));
+            List<ComboItem> list;
+            if (UI_Settings.GetSearchMode() == StringSearchMode.Contains)
+                list = allItems(CurrentFilter).FindAll((ComboItem x) => x.Text.ToLower().Contains(currentSearchString));
+            else
+                list = allItems(CurrentFilter).FindAll((ComboItem x) => x.Text.ToLower().StartsWith(currentSearchString));
             ComboItem fullMatch = list.Find((ComboItem x) => x.Text.ToLower() == currentSearchString);
             List<ComboItem> range = list.GetRange(0, Mathf.Min(MAXITEMS, list.Count));
             if (fullMatch.Text != null)
@@ -286,6 +293,8 @@ public class UI_SearchWindow : MonoBehaviour
 
     public void LoadItem(Item item)
     {
+        if (stopSearch)
+            return;
         CurrentItemID = item.ItemId;
         if (CurrentItemID == MESSAGEBOTTLEITEM)
         {
@@ -336,6 +345,9 @@ public class UI_SearchWindow : MonoBehaviour
         WrapController.WrapColor.value = (int)item.WrappingPaper;
         WrapController.ShowItemToggle.isOn = item.WrappingShowItem;
         WrapController.Flag80 = item.Wrapping80;
+
+        DropdownFilter.SetValueWithoutNotify((int)CurrentFilter);
+        DropdownFilter.RefreshShownValue();
     }
 
     public Item GetAsItem(Item referenceItem)
@@ -391,31 +403,18 @@ public class UI_SearchWindow : MonoBehaviour
 
     private List<ComboItem> allItems(ItemFilter filter)
     {
-        if (cachedItemList == null)
-        {
-            cachedItemList = GameInfo.Strings.ItemDataSource.ToList();
-        }
-        if (cachedRecipeList == null)
-        {
-            cachedRecipeList = GameInfo.Strings.CreateItemDataSource(RecipeList.Recipes, false);
-        }
-        if (cachedFossilList == null)
-        {
-            cachedFossilList = GameInfo.Strings.CreateItemDataSource(GameLists.Fossils, false);
-        }
-        new List<ComboItem>();
         switch (filter)
         {
             case ItemFilter.Items:
-                return cachedItemList;
+                return GameInfo.Strings.ItemDataSource.ToList();
             case ItemFilter.MsgBottle:
-                return cachedRecipeList;
+                return GameInfo.Strings.CreateItemDataSource(RecipeList.Recipes, false);
             case ItemFilter.Recipes:
-                return cachedRecipeList;
+                return GameInfo.Strings.CreateItemDataSource(RecipeList.Recipes, false);
             case ItemFilter.Fossils:
-                return cachedFossilList;
+                return GameInfo.Strings.CreateItemDataSource(GameLists.Fossils, false);
             default:
-                return cachedItemList;
+                return GameInfo.Strings.ItemDataSource.ToList(); 
         }
     }
 

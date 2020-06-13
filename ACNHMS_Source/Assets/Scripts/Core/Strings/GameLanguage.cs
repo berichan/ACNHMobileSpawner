@@ -24,6 +24,8 @@ namespace NHSE.Core
         /// </summary>
         private static readonly string[] LanguageCodes = { "en", "jp", "de", "es", "fr", "it", "ko", "zhs", "zht" };
 
+        public static string[] AvailableLanguageCodes { get { return LanguageCodes; } }
+
         public static string[] GetStrings(string ident, string lang, string type = "text")
         {
             string[] data = ResourceUtil.GetStringList(ident, lang, type);
