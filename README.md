@@ -5,6 +5,14 @@ Requires a Switch running [Atmosphere](https://github.com/Atmosphere-NX/Atmosphe
 
 Based Heavily on [NHSE](https://github.com/kwsch/NHSE).
 
+### Android builds
+
+Builds are not guaranteed to be stable and you run them at your own risk. You may download the [apk files here](https://github.com/berichan/ACNHMobileSpawner/releases).
+
+### Screenshots
+
+<img src = "https://user-images.githubusercontent.com/66521620/84556327-bcb53000-ad19-11ea-96c6-12dc65441efd.png" width = "300">
+
 ### Notes
 
 Some code was deleted and had to be rebuilt using ILSpy. I've done my best to clean up the classes affected, but they will be uncommented, minus ILSpy warnings I've kept in just to know what was affected.
