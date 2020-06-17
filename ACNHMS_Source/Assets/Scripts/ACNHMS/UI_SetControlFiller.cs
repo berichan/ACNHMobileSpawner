@@ -26,7 +26,7 @@ public class UI_SetControlFiller : MonoBehaviour
 		SetCurrent.onClick.AddListener(delegate
 		{
 			FillSelected(lastItemIndex);
-		});
+        });
 		SetFillRow.onClick.AddListener(delegate
 		{
 			FillRow(lastItemIndex / 10);
@@ -93,5 +93,13 @@ public class UI_SetControlFiller : MonoBehaviour
         lastItem = ItemGrid.GetItemAt(index);
         lastItem.Delete();
         ItemGrid.SetItemAt(lastItem, index, true);
+    }
+
+    void doAndroidDebug()
+    {
+#if UNITY_ANDROID
+        AndroidUSBUtils.CurrentInstance.ConnectUSB();
+        AndroidUSBUtils.CurrentInstance.WriteToEndpoint(NHSE.Injection.SwitchCommand.Click(NHSE.Injection.SwitchButton.A));
+#endif
     }
 }

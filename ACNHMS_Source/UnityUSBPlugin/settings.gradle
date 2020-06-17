@@ -1,0 +1,3 @@
+include ':UsbUnityLibrary'
+include ':app'
+rootProject.name = "UnityUSBPlugin"
