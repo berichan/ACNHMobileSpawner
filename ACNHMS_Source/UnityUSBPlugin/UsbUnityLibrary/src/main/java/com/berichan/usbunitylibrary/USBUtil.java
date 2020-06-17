@@ -11,6 +11,7 @@ import android.hardware.usb.UsbManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class USBUtil {
@@ -35,13 +36,13 @@ public class USBUtil {
 
     }
 
-    public void ConnectUSB()
+    public boolean ConnectUSB()
     {
         usbManager = (UsbManager) unityContext.getSystemService(Context.USB_SERVICE);
         if(usbManager == null)
         {
             Log.d("Unity", "No usb manager");
-            return;
+            return false;
         }
         HashMap<String, UsbDevice> deviceHashMap;
         deviceHashMap = usbManager.getDeviceList();
@@ -54,7 +55,7 @@ public class USBUtil {
         {
             Log.d("Unity", "No usb device");
             CreateToast(unityContext, "no usb device");
-            return;
+            return false;
         }
         else
         {
@@ -63,8 +64,9 @@ public class USBUtil {
 
         if (! usbManager.hasPermission(usbDevice)){
             usbManager.requestPermission(usbDevice, PendingIntent.getBroadcast(unityContext, 0, new Intent("com.berichan.usbunitylibrary.USB_PERMISSION"), 0));
-            return;
         }
+
+        return true;
     }
 
     public void SendData(byte[] unsignedByteCount, byte[] bytes)
@@ -92,6 +94,38 @@ public class USBUtil {
 
         connection.releaseInterface(intf);
         connection.close();
+    }
+
+    public byte[] ReadData(int bytesExpected)
+    {
+        byte[] countReadBuffer = new byte[4];
+        byte[] readBuffer = new byte[bytesExpected];
+        int readResult;
+
+        if (usbDevice == null)
+        {
+            CreateToast(unityContext, "no usb device");
+            return null;
+        }
+        UsbInterface intf = usbDevice.getInterface(0);
+        UsbEndpoint endpoint = intf.getEndpoint(0);
+        UsbDeviceConnection connection = usbManager.openDevice(usbDevice);
+
+        if (connection == null)
+        {
+            CreateToast(unityContext, "connection failed");
+            return null;
+        }
+
+        connection.claimInterface(intf, true);
+        readResult = connection.bulkTransfer(endpoint, countReadBuffer, 4, 1000);
+        CreateToast(unityContext, "Bytes read: " + readResult);
+        readResult = connection.bulkTransfer(endpoint, readBuffer, bytesExpected, 1000);
+
+        connection.releaseInterface(intf);
+        connection.close();
+
+        return Arrays.copyOf(readBuffer, readResult);
     }
 
 }

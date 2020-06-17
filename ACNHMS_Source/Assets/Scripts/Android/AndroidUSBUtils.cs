@@ -34,9 +34,11 @@ public class AndroidUSBUtils
         usbClass.Call("Init", (object)context);
     }
 
-    public void ConnectUSB()
+    public bool ConnectUSB()
     {
-        usbClass.Call("ConnectUSB");
+        bool success = usbClass.Call<bool>("ConnectUSB");
+        Debug.Log("USB connect: " + success.ToString());
+        return success;
     }
 
     public void WriteToEndpoint(byte[] buffer)
@@ -44,6 +46,12 @@ public class AndroidUSBUtils
         uint pack = (uint)buffer.Length + 2;
         byte[] byteCount = BitConverter.GetBytes(pack);
         usbClass.Call("SendData", (object)byteCount, (object)buffer);
+    }
+
+    public byte[] ReadEndpoint(int bytesExpected)
+    {
+        byte[] returned = usbClass.Call<byte[]>("ReadData", (object)bytesExpected);
+        return returned;
     }
 
     public void DebugToast(string message)

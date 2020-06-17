@@ -23,6 +23,11 @@ public class UI_ACItemGrid : MonoBehaviour
     private SysBotController sbc;
     private AutoInjector injector;
 
+#if PLATFORM_ANDROID
+    private USBBotAndroidController usbac;
+    private AutoInjector usbaInjector;
+#endif
+
     private List<UI_ACItem> uiitems;
 
     private int currentSelected;
@@ -37,6 +42,10 @@ public class UI_ACItemGrid : MonoBehaviour
         //IL_0102: Expected O, but got Unknown
         sbc = new SysBotController(InjectionType.Pouch);
         UISB.AssignSysbot(sbc);
+#if PLATFORM_ANDROID
+        usbac = new USBBotAndroidController();
+        UISB.AssignUSBBotAndroid(usbac);
+#endif
 
         for (int i = 0; i < MAXITEMS; i++)
         {
@@ -69,6 +78,10 @@ public class UI_ACItemGrid : MonoBehaviour
 
         PocketInjector inj = new PocketInjector(Items, sbc.Bot);
         injector = new AutoInjector(inj, AfterRead, AfterWrite);
+#if PLATFORM_ANDROID
+        PocketInjector usbaInj = new PocketInjector(Items, usbac.Bot);
+        usbaInjector = new AutoInjector(usbaInj, AfterRead, AfterWrite);
+#endif
 
         SetSelection(0);
     }
@@ -114,11 +127,22 @@ public class UI_ACItemGrid : MonoBehaviour
         {
             set(Items.ToArray());
         }
+        else
+        {
+            Debug.LogError(r.ToString());
+#if PLATFORM_ANDROID
+            AndroidUSBUtils.CurrentInstance.DebugToast(r.ToString());
+#endif
+        }
     }
 
     private static void AfterWrite(InjectionResult r)
     {
         Debug.Log($"Write result: {r}");
+#if PLATFORM_ANDROID
+        if (r != InjectionResult.Success)
+            AndroidUSBUtils.CurrentInstance.DebugToast($"Write result: {r}");
+#endif
     }
 
     private void set(Item[] items)
@@ -188,4 +212,51 @@ public class UI_ACItemGrid : MonoBehaviour
             UISB.SetConnected(val: false);
         }
     }
+#if PLATFORM_ANDROID
+    public void ReadFromSourceUSBA()
+    {
+        uint offset = sbc.GetDefaultOffset();
+        usbaInjector.SetWriteOffset(offset);
+        try
+        {
+            InjectionResult injectionResult = usbaInjector.Read(true);
+            if (injectionResult != InjectionResult.Success)
+            {
+                Debug.Log(injectionResult.ToString());
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+            UISB.ConnectedText.text = (ex.Message);
+            UISB.SetConnected(val: false);
+        }
+    }
+
+    public void WriteToSourceUSBA()
+    {
+        uint offset = sbc.GetDefaultOffset();
+        usbaInjector.SetWriteOffset(offset);
+        try
+        {
+            InjectionResult injectionResult = usbaInjector.Write(true);
+            if (injectionResult == InjectionResult.Success)
+            {
+                HappyParticles.gameObject.SetActive(true);
+                HappyParticles.Stop();
+                HappyParticles.Play();
+            }
+            else
+            {
+                Debug.Log(injectionResult.ToString());
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex.Message);
+            UISB.ConnectedText.text = (ex.Message);
+            UISB.SetConnected(val: false);
+        }
+    }
+#endif
 }

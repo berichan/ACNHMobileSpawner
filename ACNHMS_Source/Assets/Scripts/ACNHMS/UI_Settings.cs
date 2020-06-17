@@ -11,13 +11,21 @@ public enum StringSearchMode
     StartsWith = 1
 }
 
+public enum InjectionProtocol
+{
+    Sysbot = 0,
+    UsbBotAndroid = 1
+}
+
 public class UI_Settings : MonoBehaviour
 {
     public const string SEARCHMODEKEY = "SMODEKEY";
     public const string ITEMLANGMODEKEY = "ITEMLMKEY";
+    public const string INJMODEKEY = "INJKEY";
 
     public Dropdown LanguageField;
     public Dropdown SearchMode;
+    public Dropdown InjectionMode;
     public InputField Offset;
 
     // Start is called before the first frame update
@@ -47,6 +55,26 @@ public class UI_Settings : MonoBehaviour
 
         Offset.text = SysBotController.CurrentOffset;
 
+#if PLATFORM_ANDROID
+        InjectionMode.ClearOptions();
+        string[] injChoices = Enum.GetNames(typeof(InjectionProtocol));
+        foreach (string insj in injChoices)
+        {
+            Dropdown.OptionData newVal = new Dropdown.OptionData();
+            newVal.text = insj;
+            InjectionMode.options.Add(newVal);
+        }
+        InjectionMode.value = (int)GetInjectionProtocol();
+        InjectionMode.RefreshShownValue();
+        InjectionMode.onValueChanged.AddListener(delegate {
+            SetInjectionProtocol((InjectionProtocol)InjectionMode.value);
+            if (UI_Sysbot.LastLoadedUI_Sysbot != null)
+                UI_Sysbot.LastLoadedUI_Sysbot.SetInjectionProtocol((InjectionProtocol)InjectionMode.value);
+        });
+#else
+        InjectionMode.gameObject.SetActive(false);
+#endif
+
         SearchMode.onValueChanged.AddListener(delegate { setSearchMode((StringSearchMode)SearchMode.value); });
         LanguageField.onValueChanged.AddListener(delegate { SetLanguage(LanguageField.value); });
         Offset.onValueChanged.AddListener(delegate { SysBotController.CurrentOffset = Offset.text; });
@@ -58,6 +86,16 @@ public class UI_Settings : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public static InjectionProtocol GetInjectionProtocol(InjectionProtocol imDefault = InjectionProtocol.Sysbot)
+    {
+        return (InjectionProtocol)PlayerPrefs.GetInt(INJMODEKEY, (int)imDefault);
+    }
+
+    public static void SetInjectionProtocol(InjectionProtocol injp)
+    {
+        PlayerPrefs.SetInt(INJMODEKEY, (int)injp);
     }
 
     public static StringSearchMode GetSearchMode(StringSearchMode ssmDefault = StringSearchMode.Contains)
