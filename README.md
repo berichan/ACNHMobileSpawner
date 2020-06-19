@@ -9,15 +9,13 @@ Based heavily on [NHSE](https://github.com/kwsch/NHSE).
 
 You run this at your own risk, I'm not responsible for anything.
 
-### Android builds
+### Android and iOS builds
 
 The application requires an Android device running at minimum Android 4.4 (KitKat) with support for OpenGLES2.
 
-Builds are not guaranteed to be stable. You may download the [apk files here](https://github.com/berichan/ACNHMobileSpawner/releases).
+Builds are not guaranteed to be stable. You may download the [apk or ipa files here](https://github.com/berichan/ACNHMobileSpawner/releases).
 
-### iOS builds
-
-I will try to build iOS .ipa files if there is enough interest in this.
+iOS builds are auto-built and untested, but I've been told they work. 
 
 ### Screenshots
 
