@@ -10,6 +10,8 @@ public class UI_ACItemGrid : MonoBehaviour
 {
     public readonly int MAXITEMS = 40;
 
+    public static UI_ACItemGrid LastInstanceOfItemGrid;
+
     public RectTransform SelectionOverlay;
     public UI_Sysbot UISB;
     public UI_ACItem PrefabItem;
@@ -84,6 +86,7 @@ public class UI_ACItemGrid : MonoBehaviour
 #endif
 
         SetSelection(0);
+        LastInstanceOfItemGrid = this;
     }
 
     public void SetSelection(int itemIndex)
@@ -152,7 +155,7 @@ public class UI_ACItemGrid : MonoBehaviour
             uiitems[i].Assign(items[i]);
         }
     }
-
+    
     public void SetItemAt(Item it, int index, bool setFocus)
     {
         uiitems[index].Assign(it);
