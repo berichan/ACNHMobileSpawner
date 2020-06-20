@@ -21,12 +21,14 @@ public class UI_Settings : MonoBehaviour
 {
     public const string SEARCHMODEKEY = "SMODEKEY";
     public const string ITEMLANGMODEKEY = "ITEMLMKEY";
+    public const string VALIDATADATAKEY = "VKEY";
     public const string INJMODEKEY = "INJKEY";
 
     public Dropdown LanguageField;
     public Dropdown SearchMode;
     public Dropdown InjectionMode;
     public InputField Offset;
+    public Toggle ValidataData;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +56,7 @@ public class UI_Settings : MonoBehaviour
         LanguageField.RefreshShownValue();
 
         Offset.text = SysBotController.CurrentOffset;
+        ValidataData.isOn = GetValidateData();
 
 #if PLATFORM_ANDROID
         InjectionMode.ClearOptions();
@@ -78,6 +81,7 @@ public class UI_Settings : MonoBehaviour
         SearchMode.onValueChanged.AddListener(delegate { setSearchMode((StringSearchMode)SearchMode.value); });
         LanguageField.onValueChanged.AddListener(delegate { SetLanguage(LanguageField.value); });
         Offset.onValueChanged.AddListener(delegate { SysBotController.CurrentOffset = Offset.text; });
+        ValidataData.onValueChanged.AddListener(delegate { SetValidateData(ValidataData.isOn); });
 
         SetLanguage(GetLanguage());
     }
@@ -86,6 +90,18 @@ public class UI_Settings : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public static bool GetValidateData(bool defVal = true)
+    {
+        int ret = PlayerPrefs.GetInt(VALIDATADATAKEY, defVal ? 1 : 0);
+        bool toRet = ret == 1 ? true : false;
+        return toRet;
+    }
+
+    public static void SetValidateData(bool nVal)
+    {
+        PlayerPrefs.SetInt(VALIDATADATAKEY, nVal ? 1 : 0);
     }
 
     public static InjectionProtocol GetInjectionProtocol(InjectionProtocol imDefault = InjectionProtocol.Sysbot)

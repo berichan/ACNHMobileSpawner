@@ -174,6 +174,7 @@ public class UI_ACItemGrid : MonoBehaviour
     {
         uint offset = sbc.GetDefaultOffset();
         injector.SetWriteOffset(offset);
+        injector.ValidateEnabled = UI_Settings.GetValidateData();
         try
         {
             InjectionResult injectionResult = injector.Read(true);
@@ -194,6 +195,7 @@ public class UI_ACItemGrid : MonoBehaviour
     {
         uint offset = sbc.GetDefaultOffset();
         injector.SetWriteOffset(offset);
+        injector.ValidateEnabled = UI_Settings.GetValidateData();
         try
         {
             InjectionResult injectionResult = injector.Write(true);
@@ -220,6 +222,7 @@ public class UI_ACItemGrid : MonoBehaviour
     {
         uint offset = sbc.GetDefaultOffset();
         usbaInjector.SetWriteOffset(offset);
+        injector.ValidateEnabled = UI_Settings.GetValidateData();
         try
         {
             InjectionResult injectionResult = usbaInjector.Read(true);
@@ -240,6 +243,7 @@ public class UI_ACItemGrid : MonoBehaviour
     {
         uint offset = sbc.GetDefaultOffset();
         usbaInjector.SetWriteOffset(offset);
+        injector.ValidateEnabled = UI_Settings.GetValidateData();
         try
         {
             InjectionResult injectionResult = usbaInjector.Write(true);
