@@ -3,7 +3,7 @@
 Item injector for Animal Crossing: New Horizons for mobile built in Unity. 
 Requires a Switch running [Atmosphere](https://github.com/Atmosphere-NX/Atmosphere) if using the background service, with the plugin [sys-botbase](https://github.com/olliz0r/sys-botbase) or [USB-Botbase](https://github.com/fishguy6564/USB-Botbase) installed.
 
-Refer to the Wiki for [troubleshooting](https://github.com/berichan/ACNHMobileSpawner/wiki) or for more information on [using USB-Botbase](https://github.com/berichan/ACNHMobileSpawner/wiki/USB-botbase)
+Refer to the [Wiki](https://github.com/berichan/ACNHMobileSpawner/wiki) for help and troubleshooting.
 
 Based heavily on [NHSE](https://github.com/kwsch/NHSE).
 
