@@ -22,11 +22,15 @@ public class UI_SetControl : MonoBehaviour
 		BCount.onValueChanged.AddListener(delegate
 		{
 			CompileCountFromBodyFabric();
+            if (UI_SearchWindow.LastLoadedSearchWindow != null)
+                UI_SearchWindow.LastLoadedSearchWindow.UpdateSprite();
 		});
 		BUses.onValueChanged.AddListener(delegate
 		{
 			CompileCountFromBodyFabric();
-		});
+            if (UI_SearchWindow.LastLoadedSearchWindow != null)
+                UI_SearchWindow.LastLoadedSearchWindow.UpdateSprite();
+        });
 		BCount.gameObject.SetActive(false);
 		BUses.gameObject.SetActive(false);
 	}
@@ -105,7 +109,10 @@ public class UI_SetControl : MonoBehaviour
 		}
 		BUses.value=list2.IndexOf(num6);
 		BUses.RefreshShownValue();
-		BCount.value=(num % num6);
+        if (num6 == 0)
+            BCount.value = num;
+        else
+		    BCount.value=(num % num6);
 		BCount.RefreshShownValue();
 	}
 

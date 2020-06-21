@@ -1,7 +1,7 @@
 using NHSE.Core;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO.Compression;
+using System.IO;
 
 public class UI_ACItem : MonoBehaviour
 {
@@ -30,17 +30,10 @@ public class UI_ACItem : MonoBehaviour
         //IL_0026: Unknown result type (might be due to invalid IL or missing references)
         //IL_006f: Unknown result type (might be due to invalid IL or missing references)
         ItemAssigned = item;
-        if (ItemAssigned.IsNone)
-        {
-            ImageComponent.texture = null;
-            ImageComponent.color = Color.white;
-        }
-        else
-        {
-            ImageComponent.texture = ResourceLoader.GetLeafImage();
-            System.Drawing.Color itemColor = ItemColor.GetItemColor(item);
-            ImageComponent.color = new Color(itemColor.R / 255f, itemColor.G / 255f, itemColor.B / 255f, itemColor.A / 255f);
-        }
+        Texture2D imageToAssign = SpriteController.ItemToTexture2D(ItemAssigned, out var c);
+        ImageComponent.texture = imageToAssign;
+        ImageComponent.color = c;
+        
         FiveInts[0].text = item.Count.ToString();
         FiveInts[1].text = item.SystemParam.ToString();
         FiveInts[2].text = item.AdditionalParam.ToString();

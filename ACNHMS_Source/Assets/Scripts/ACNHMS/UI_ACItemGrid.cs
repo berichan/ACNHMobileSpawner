@@ -170,6 +170,14 @@ public class UI_ACItemGrid : MonoBehaviour
         return uiitems[index].ItemAssigned;
     }
 
+    public void ResetAllItems()
+    {
+        for (int i = 0; i < uiitems.Count; ++i)
+        {
+            uiitems[i].Assign(Items[i]);
+        }
+    }
+
     public void ReadFromSource()
     {
         uint offset = sbc.GetDefaultOffset();

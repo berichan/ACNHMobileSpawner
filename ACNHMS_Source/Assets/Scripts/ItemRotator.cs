@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemRotator : MonoBehaviour
 {
+    public Vector3 AxisStrength;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,6 @@ public class ItemRotator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(transform.up * (90 * Time.deltaTime));
+        transform.Rotate(AxisStrength * Time.deltaTime);
     }
 }

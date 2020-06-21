@@ -17,10 +17,12 @@ public enum ItemFilter
 
 public class UI_SearchWindow : MonoBehaviour
 {
-    public readonly int MAXITEMS = 50;
-    public readonly int MESSAGEBOTTLEITEM = 5793;
-    public readonly int RECIPEITEM = 5794;
-    public readonly int FOSSILITEM = 2579;
+    public static readonly int MAXITEMS = 50;
+    public static readonly int MESSAGEBOTTLEITEM = 5793;
+    public static readonly int RECIPEITEM = 5794;
+    public static readonly int FOSSILITEM = 2579;
+
+    public static UI_SearchWindow LastLoadedSearchWindow;
 
     //editor vars
     public RectTransform SelectionOverlay;
@@ -33,6 +35,8 @@ public class UI_SearchWindow : MonoBehaviour
     public UI_SetControl SetController;
     public UI_WrappingControl WrapController;
     public UI_FlowerEditor FlowerController;
+    public GameObject SpriteImageRoot;
+    public RawImage SpriteImageMain;
 
     public GameObject FlowerButtonRoot;
 
@@ -77,6 +81,23 @@ public class UI_SearchWindow : MonoBehaviour
         SearchItemPrefab.gameObject.SetActive(false);
         UpdateSearchString(SearchField.text);
         FlowerButtonRoot.SetActive(false);
+
+        LastLoadedSearchWindow = this;
+    }
+
+    public void UpdateSprite()
+    {
+        if (CurrentItemID < 0)
+            return;
+        Texture2D toSet = SpriteController.ItemToTexture2D(Convert.ToUInt16(CurrentItemID), Convert.ToUInt16(SetController.FCount.text), out var col);
+        SpriteImageMain.texture = toSet;
+        col.a = toSet == null ? 0.0f : 0.75f;
+        SpriteImageMain.color = col;
+    }
+
+    public void ToggleSpriteVisibility()
+    {
+        SpriteImageRoot.gameObject.SetActive(!SpriteImageRoot.gameObject.activeSelf);
     }
 
     private void Update()
@@ -120,6 +141,7 @@ public class UI_SearchWindow : MonoBehaviour
             initFor(new List<ComboItem>(), greaterThanMaxVal: false, currentSearchString);
             IsNoItemMode = true;
         }
+        
     }
 
     private void initFor(List<ComboItem> vals, bool greaterThanMaxVal, string searchedString)
@@ -269,6 +291,8 @@ public class UI_SearchWindow : MonoBehaviour
             StopCoroutine(currentAnimationFuction);
         }
         currentAnimationFuction = StartCoroutine(sendSelectorToSelected());
+
+        UpdateSprite();
     }
 
     private IEnumerator sendSelectorToSelected(float time = 0.1f)
@@ -348,6 +372,8 @@ public class UI_SearchWindow : MonoBehaviour
 
         DropdownFilter.SetValueWithoutNotify((int)CurrentFilter);
         DropdownFilter.RefreshShownValue();
+
+        UpdateSprite();
     }
 
     public Item GetAsItem(Item referenceItem)
