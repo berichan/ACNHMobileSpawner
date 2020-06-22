@@ -99,7 +99,7 @@ public class SpriteController : MonoBehaviour
         yield return new WaitForSeconds(shortwaittime);
         FileInfoText.text = "Resolving hosts...";
 
-        string[] hostLines = www.downloadHandler.text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        string[] hostLines = www.downloadHandler.text.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
         www.Dispose();
         int currentHost = 0;
         bool downloadAndUnzipSuccess = false;

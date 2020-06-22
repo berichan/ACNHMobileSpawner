@@ -17,7 +17,7 @@ public class UI_ACItem : MonoBehaviour
 	{
 		if (!Dummy)
 		{
-			Assign(Item.NO_ITEM);
+			//Assign(Item.NO_ITEM);
 		}
     }
 
