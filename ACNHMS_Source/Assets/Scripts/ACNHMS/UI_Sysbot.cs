@@ -121,4 +121,9 @@ public class UI_Sysbot : MonoBehaviour
         if (sysBot.Bot.Connected)
             sysBot.Bot.Disconnect();
     }
+
+    public void GoToHelpWebsite()
+    {
+        Application.OpenURL("https://github.com/berichan/ACNHMobileSpawner/wiki/FAQ-and-Troubleshooting");
+    }
 }
