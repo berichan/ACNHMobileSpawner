@@ -26533,7 +26533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 245.34, y: -121.24}
+  m_AnchoredPosition: {x: 166.8, y: -121.24}
   m_SizeDelta: {x: 241.32806, y: 241.32806}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1329643772
@@ -26571,7 +26571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.5019608}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -27222,7 +27222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/06/22 17:39:28
+  LastEditorDateTime: 2020/06/24 18:59:11
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
