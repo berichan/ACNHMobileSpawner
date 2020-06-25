@@ -11,6 +11,9 @@ public class UI_ACItemGrid : MonoBehaviour
     public readonly int MAXITEMS = 40;
 
     public static UI_ACItemGrid LastInstanceOfItemGrid;
+    // honestly this is bad but I'll clean it up later
+    public USBBotAndroid CurrentUSBBotAndroid { get { return usbac.Bot; } }
+    public SysBot CurrentSysBot { get { return sbc.Bot; } }
 
     public RectTransform SelectionOverlay;
     public UI_Sysbot UISB;
