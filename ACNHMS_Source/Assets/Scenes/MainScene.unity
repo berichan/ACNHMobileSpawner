@@ -13567,8 +13567,8 @@ RectTransform:
   - {fileID: 953342158}
   - {fileID: 185960959}
   - {fileID: 1268647359}
-  - {fileID: 1996221565}
   - {fileID: 965791226}
+  - {fileID: 1996221565}
   m_Father: {fileID: 1672128551}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26433,7 +26433,7 @@ RectTransform:
   - {fileID: 1847484719}
   - {fileID: 1774295258}
   m_Father: {fileID: 410536966}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -34838,7 +34838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/06/26 15:32:53
+  LastEditorDateTime: 2020/06/26 15:57:14
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -49396,7 +49396,7 @@ RectTransform:
   - {fileID: 1377667755}
   - {fileID: 193894780}
   m_Father: {fileID: 410536966}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
