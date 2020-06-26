@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class UI_SetControlFiller : MonoBehaviour
 {
+    private int DELETEALLTAPSNEEDED = 4;
+    private float DELETEALLSECONDSALIVE = 1f;
+
 	public UI_ACItemGrid ItemGrid;
 	public UI_SearchWindow SearchWindow;
 
@@ -14,8 +17,13 @@ public class UI_SetControlFiller : MonoBehaviour
 	public Button SetFillVariations;
     public Button DeleteItem;
 
+    public Text DeleteAllTapsText;
+
 	private int lastItemIndex = -1;
 	private Item lastItem;
+
+    private float deleteAllIntervalTimer = -1;
+    private int deleteAllTapCount = 0;
 
 	private void Start()
 	{
@@ -43,6 +51,24 @@ public class UI_SetControlFiller : MonoBehaviour
 
 	private void Update()
 	{
+        if (deleteAllIntervalTimer > 0)
+        {
+            deleteAllIntervalTimer -= Time.deltaTime;
+            DeleteAllTapsText.gameObject.SetActive(true);
+            DeleteAllTapsText.text = string.Format("Delete all: {0} taps", DELETEALLTAPSNEEDED - deleteAllTapCount);
+            if (deleteAllTapCount >= DELETEALLTAPSNEEDED)
+            {
+                DeleteAll();
+                deleteAllIntervalTimer = -1;
+                deleteAllTapCount = 0;
+            }
+        }
+        else
+        {
+            DeleteAllTapsText.gameObject.SetActive(false);
+            deleteAllIntervalTimer = -1;
+            deleteAllTapCount = 0;
+        }
 	}
 
 	public void UpdateSelected(int itemIndex, Item item)
@@ -90,9 +116,21 @@ public class UI_SetControlFiller : MonoBehaviour
 
     public void DeleteItemAt(int index)
     {
+        deleteAllIntervalTimer = DELETEALLSECONDSALIVE;
+        deleteAllTapCount++;
         lastItem = ItemGrid.GetItemAt(index);
         lastItem.Delete();
         ItemGrid.SetItemAt(lastItem, index, true);
+    }
+
+    public void DeleteAll()
+    {
+        for (int i = 0; i < 40; ++i)
+        {
+            lastItem = ItemGrid.GetItemAt(i);
+            lastItem.Delete();
+            ItemGrid.SetItemAt(lastItem, i, true);
+        }
     }
 
     void doAndroidDebug()

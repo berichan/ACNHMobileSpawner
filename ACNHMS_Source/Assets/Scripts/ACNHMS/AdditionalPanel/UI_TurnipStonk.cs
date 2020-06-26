@@ -70,18 +70,41 @@ public class UI_TurnipStonk : IUI_Additional
 
     public void SetTurnipValues()
     {
-        byte[] bytes = new byte[TurnipStonk.SIZE];
-        bytes = currentStonk.ToBytesClass();
-        CurrentConnection.WriteBytes(bytes, CurrentTurnipAddress);
+        try
+        {
+            byte[] bytes = new byte[TurnipStonk.SIZE];
+            bytes = currentStonk.ToBytesClass();
+            CurrentConnection.WriteBytes(bytes, CurrentTurnipAddress);
+
+            if (UI_ACItemGrid.LastInstanceOfItemGrid != null)
+                UI_ACItemGrid.LastInstanceOfItemGrid.PlayHappyParticles();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+#if PLATFORM_ANDROID
+            AndroidUSBUtils.CurrentInstance.DebugToast(e.Message);
+#endif
+        }
     }
 
     public void GetTurnipValues()
     {
-        byte[] bytes = new byte[TurnipStonk.SIZE];
-        bytes = CurrentConnection.ReadBytes(CurrentTurnipAddress, TurnipStonk.SIZE);
-        currentStonk = bytes.ToClass<TurnipStonk>();
+        try
+        {
+            byte[] bytes = new byte[TurnipStonk.SIZE];
+            bytes = CurrentConnection.ReadBytes(CurrentTurnipAddress, TurnipStonk.SIZE);
+            currentStonk = bytes.ToClass<TurnipStonk>();
 
-        stonkToUI();
+            stonkToUI();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+#if PLATFORM_ANDROID
+            AndroidUSBUtils.CurrentInstance.DebugToast(e.Message);
+#endif
+        }
     }
 
     void stonkToUI()

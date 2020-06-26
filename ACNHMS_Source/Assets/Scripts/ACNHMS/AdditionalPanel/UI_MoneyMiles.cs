@@ -42,41 +42,64 @@ public class UI_MoneyMiles : IUI_Additional
 
     public void GetMoneyValues()
     {
-        byte[] bytes;
+        try
+        {
+            byte[] bytes;
 
-        //money
-        bytes = CurrentConnection.ReadBytes(CurrentMoneyAddress, ENCRYPTIONSIZE);
-        currentUtil.LoadBank(bytes);
+            //money
+            bytes = CurrentConnection.ReadBytes(CurrentMoneyAddress, ENCRYPTIONSIZE);
+            currentUtil.LoadBank(bytes);
 
-        //miles
-        bytes = CurrentConnection.ReadBytes(CurrentMilesAddress, ENCRYPTIONSIZE * 2);
-        currentUtil.LoadMilesNow(bytes); currentUtil.LoadMilesForever(bytes);
+            //miles
+            bytes = CurrentConnection.ReadBytes(CurrentMilesAddress, ENCRYPTIONSIZE * 2);
+            currentUtil.LoadMilesNow(bytes); currentUtil.LoadMilesForever(bytes);
 
-        //wallet
-        bytes = CurrentConnection.ReadBytes(CurrentWalletAddress, ENCRYPTIONSIZE);
-        currentUtil.LoadPouch(bytes);
+            //wallet
+            bytes = CurrentConnection.ReadBytes(CurrentWalletAddress, ENCRYPTIONSIZE);
+            currentUtil.LoadPouch(bytes);
 
-        moneyToUI();
+            moneyToUI();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+#if PLATFORM_ANDROID
+            AndroidUSBUtils.CurrentInstance.DebugToast(e.Message);
+#endif
+        }
     }
 
     public void SetMoneyValues()
     {
-        byte[] bytes;
+        try
+        {
+            byte[] bytes;
 
-        //money
-        bytes = new byte[ENCRYPTIONSIZE];
-        currentUtil.Bank.Write(bytes, 0);
-        CurrentConnection.WriteBytes(bytes, CurrentMoneyAddress);
+            //money
+            bytes = new byte[ENCRYPTIONSIZE];
+            currentUtil.Bank.Write(bytes, 0);
+            CurrentConnection.WriteBytes(bytes, CurrentMoneyAddress);
 
-        //miles
-        bytes = new byte[ENCRYPTIONSIZE * 2];
-        currentUtil.MilesNow.Write(bytes, 0); currentUtil.MilesNow.Write(bytes, ENCRYPTIONSIZE);
-        CurrentConnection.WriteBytes(bytes, CurrentMilesAddress);
+            //miles
+            bytes = new byte[ENCRYPTIONSIZE * 2];
+            currentUtil.MilesNow.Write(bytes, 0); currentUtil.MilesNow.Write(bytes, ENCRYPTIONSIZE);
+            CurrentConnection.WriteBytes(bytes, CurrentMilesAddress);
 
-        //wallet
-        bytes = new byte[ENCRYPTIONSIZE];
-        currentUtil.Pouch.Write(bytes, 0);
-        CurrentConnection.WriteBytes(bytes, CurrentWalletAddress);
+            //wallet
+            bytes = new byte[ENCRYPTIONSIZE];
+            currentUtil.Pouch.Write(bytes, 0);
+            CurrentConnection.WriteBytes(bytes, CurrentWalletAddress);
+
+            if (UI_ACItemGrid.LastInstanceOfItemGrid != null)
+                UI_ACItemGrid.LastInstanceOfItemGrid.PlayHappyParticles();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+#if PLATFORM_ANDROID
+            AndroidUSBUtils.CurrentInstance.DebugToast(e.Message);
+#endif
+        }
     }
 
     void moneyToUI()

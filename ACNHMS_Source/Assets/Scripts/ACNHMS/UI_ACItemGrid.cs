@@ -114,6 +114,13 @@ public class UI_ACItemGrid : MonoBehaviour
     {
     }
 
+    public void PlayHappyParticles()
+    {
+        HappyParticles.gameObject.SetActive(true);
+        HappyParticles.Stop();
+        HappyParticles.Play();
+    }
+
     private IEnumerator sendSelectorToSelected(float time = 0.25f)
     {
         float i = 0f;
@@ -214,9 +221,7 @@ public class UI_ACItemGrid : MonoBehaviour
             InjectionResult injectionResult = injector.Write(true);
             if (injectionResult == InjectionResult.Success)
             {
-                HappyParticles.gameObject.SetActive(true);
-                HappyParticles.Stop();
-                HappyParticles.Play();
+                PlayHappyParticles();
             }
             else
             {
@@ -262,9 +267,7 @@ public class UI_ACItemGrid : MonoBehaviour
             InjectionResult injectionResult = usbaInjector.Write(true);
             if (injectionResult == InjectionResult.Success)
             {
-                HappyParticles.gameObject.SetActive(true);
-                HappyParticles.Stop();
-                HappyParticles.Play();
+                PlayHappyParticles();
             }
             else
             {
