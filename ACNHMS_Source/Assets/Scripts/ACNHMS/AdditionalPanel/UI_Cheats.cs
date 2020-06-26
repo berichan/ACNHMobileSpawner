@@ -8,6 +8,7 @@ public class UI_Cheats : IUI_Additional
 {
 
     public InputField CheatField;
+    public Toggle EmptySpacesOnly;
 
     public void LoadCheats()
     {
@@ -20,7 +21,7 @@ public class UI_Cheats : IUI_Additional
             var bytes = ItemCheatCode.ReadCode(parseable);
             if (bytes.Length % ItemArray.ItemSize == 0)
             {
-                ItemArray.ImportItemDataX(bytes, true, 0);
+                ItemArray.ImportItemDataX(bytes, EmptySpacesOnly.isOn, 0);
             }
         }
 

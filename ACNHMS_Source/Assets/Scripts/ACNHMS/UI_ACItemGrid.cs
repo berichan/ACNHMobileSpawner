@@ -12,7 +12,9 @@ public class UI_ACItemGrid : MonoBehaviour
 
     public static UI_ACItemGrid LastInstanceOfItemGrid;
     // honestly this is bad but I'll clean it up later
+#if PLATFORM_ANDROID
     public USBBotAndroid CurrentUSBBotAndroid { get { return usbac.Bot; } }
+#endif
     public SysBot CurrentSysBot { get { return sbc.Bot; } }
 
     public RectTransform SelectionOverlay;
@@ -277,4 +279,28 @@ public class UI_ACItemGrid : MonoBehaviour
         }
     }
 #endif
+
+    /// <summary>
+    /// Returns null if settings selected bot is active
+    /// </summary>
+    /// <returns>Active readwriter</returns>
+    public IRAMReadWriter GetCurrentlyActiveReadWriter()
+    {
+        InjectionProtocol currentIP = UI_Settings.GetInjectionProtocol();
+        IRAMReadWriter toRet = null;
+        switch (currentIP)
+        {
+            case InjectionProtocol.Sysbot:
+                if (CurrentSysBot.Connected)
+                    toRet = CurrentSysBot;
+                break;
+            case InjectionProtocol.UsbBotAndroid:
+#if PLATFORM_ANDROID
+                if (CurrentUSBBotAndroid.Connected)
+                    toRet = CurrentUSBBotAndroid;
+#endif
+                break;
+        }
+        return toRet;
+    }
 }

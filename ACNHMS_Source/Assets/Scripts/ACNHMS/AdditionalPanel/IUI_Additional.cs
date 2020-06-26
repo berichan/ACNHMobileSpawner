@@ -7,5 +7,9 @@ using NHSE.Injection;
 public class IUI_Additional : MonoBehaviour
 {
     public string PanelName = "FUNCTIONALITYNAME";
+
+    public bool RequiresActiveConnection = false;
+
+    [HideInInspector]
     public IRAMReadWriter CurrentConnection;
 }
