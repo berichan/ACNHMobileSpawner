@@ -3,6 +3,12 @@
 Item injector for Animal Crossing: New Horizons for mobile built in Unity. Confirmed working on Windows, Mac, Linux, Android and iOS.
 Requires a Switch running custom firmware with the sysmodule [sys-botbase](https://github.com/olliz0r/sys-botbase) or [USB-Botbase](https://github.com/fishguy6564/USB-Botbase) installed.
 
+It currently supports the following:
+* Injecting and deleting inventory items.
+* Changing amount of miles, bells in your bank and in your wallet (inventory).
+* Changing the turnip buy/sell prices and fluctuations.
+* Loading item cheats (using the NHSE cheat parser).
+
 Refer to the [Wiki](https://github.com/berichan/ACNHMobileSpawner/wiki) for help and troubleshooting.
 
 Based heavily on [NHSE](https://github.com/kwsch/NHSE).
