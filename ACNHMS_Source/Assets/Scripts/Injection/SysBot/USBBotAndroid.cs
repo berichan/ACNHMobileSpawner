@@ -8,6 +8,7 @@ namespace NHSE.Injection
     {
         public bool Connected { get; private set; }
         private readonly object _sync = new object();
+        public int MaximumTransferSize { get { return 536; } }
 
         public bool Connect()
         {

@@ -34838,7 +34838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/06/26 15:57:14
+  LastEditorDateTime: 2020/06/26 23:28:09
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -47029,7 +47029,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Sprites require ~100MB free space.\nSprite credit: \nKingLycosa, MyShiLingStar
-    & kur5h"
+    & kru5h"
 --- !u!222 &1893047667
 CanvasRenderer:
   m_ObjectHideFlags: 0

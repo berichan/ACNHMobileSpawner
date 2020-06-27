@@ -9,6 +9,7 @@ namespace NHSE.Injection
         public int Port = 6000;
         public Socket Connection = new Socket(SocketType.Stream, ProtocolType.Tcp);
         public bool Connected { get; private set; }
+        public int MaximumTransferSize { get { return 8192; } }
 
         private readonly object _sync = new object();
 
@@ -51,7 +52,6 @@ namespace NHSE.Injection
 
         public byte[] ReadBytes(uint offset, int length)
         {
-            //offset = 2890343192;
             lock (_sync)
             {
                 var cmd = SwitchCommand.Peek(offset, length);
