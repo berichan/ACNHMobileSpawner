@@ -34838,7 +34838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/07/03 01:42:10
+  LastEditorDateTime: 2020/07/03 01:51:50
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -44581,6 +44581,7 @@ GameObject:
   - component: {fileID: 1804605862}
   - component: {fileID: 1804605861}
   - component: {fileID: 1804605860}
+  - component: {fileID: 1804605863}
   m_Layer: 5
   m_Name: SpriteImageMain
   m_TagString: Untagged
@@ -44641,6 +44642,21 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000015258789, y: -0.000015258789}
   m_SizeDelta: {x: 241.32806, y: 241.32806}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1804605863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804605859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1809117318
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace NHSE.Core
 {
@@ -308,7 +308,7 @@ namespace NHSE.Core
             {03581, 0188}, // fish-drying rack
             {03582, 0150}, // book
             {03583, 0207}, // fishing-boat flag
-            {03584, 0270}, // writing poster
+            {03584, 0270}, // study poster
             {03586, 0254}, // magazine
             {03587, 0362}, // fishing-rod stand
             {03588, 0160}, // signpost
@@ -335,8 +335,8 @@ namespace NHSE.Core
             {03692, 0356}, // plain wooden shop sign
             {03697, 0334}, // portable radio
             {03699, 0335}, // fish print
-            {03701, 0337}, // writing desk
-            {03702, 0336}, // writing chair
+            {03701, 0337}, // study desk
+            {03702, 0336}, // study chair
             {03773, 0375}, // terrarium
             {03775, 0376}, // hanging terrarium
             {03776, 0377}, // brick well

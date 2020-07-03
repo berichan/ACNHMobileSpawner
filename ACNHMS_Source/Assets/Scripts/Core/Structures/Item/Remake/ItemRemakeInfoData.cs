@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace NHSE.Core
 {
@@ -157,7 +157,7 @@ namespace NHSE.Core
             {0267, new ItemRemakeInfo(0267, 00997,  5, new byte[] {10, 12, 04, 06, 02, 09, 14, 14}, new byte[] {01, 09, 10, 08, 12, 06, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // incense burner
             {0268, new ItemRemakeInfo(0268, 01495,  5, new byte[] {01, 04, 06, 02, 10, 12, 14, 14}, new byte[] {08, 08, 08, 08, 08, 08, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // dolly
             {0269, new ItemRemakeInfo(0269, 01628,  2, new byte[] {10, 12, 06, 14, 14, 14, 14, 14}, new byte[] {10, 12, 06, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // garden lantern
-            {0270, new ItemRemakeInfo(0270, 03584,  3, new byte[] {01, 05, 12, 10, 14, 14, 14, 14}, new byte[] {13, 13, 10, 10, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // writing poster
+            {0270, new ItemRemakeInfo(0270, 03584,  3, new byte[] {01, 05, 12, 10, 14, 14, 14, 14}, new byte[] {13, 13, 10, 10, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // study poster
             {0271, new ItemRemakeInfo(0271, 03445,  3, new byte[] {10, 12, 11, 06, 14, 14, 14, 14}, new byte[] {10, 12, 11, 06, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {13, 06, 04, 13, 14, 14, 14, 14}, false)}, // standard umbrella stand
             {0272, new ItemRemakeInfo(0272, 01836,  7, new byte[] {12, 08, 09, 02, 07, 06, 05, 03}, new byte[] {12, 12, 12, 02, 07, 06, 05, 03}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // humidifier
             {0273, new ItemRemakeInfo(0273, 01234,  4, new byte[] {05, 01, 04, 06, 11, 14, 14, 14}, new byte[] {12, 12, 12, 12, 12, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // portable toilet
@@ -210,8 +210,8 @@ namespace NHSE.Core
             {0329, new ItemRemakeInfo(0329, 03675,  2, new byte[] {07, 12, 06, 14, 14, 14, 14, 14}, new byte[] {07, 12, 06, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // hay bed
             {0334, new ItemRemakeInfo(0334, 03697,  7, new byte[] {12, 07, 01, 02, 04, 05, 06, 10}, new byte[] {10, 10, 10, 10, 10, 10, 10, 10}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // portable radio
             {0335, new ItemRemakeInfo(0335, 03699,  6, new byte[] {10, 01, 10, 10, 10, 10, 10, 10}, new byte[] {12, 13, 12, 12, 12, 12, 12, 12}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // fish print
-            {0336, new ItemRemakeInfo(0336, 03702,  3, new byte[] {08, 07, 09, 12, 14, 14, 14, 14}, new byte[] {08, 07, 09, 12, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {07, 04, 02, 14, 14, 14, 14, 14}, false)}, // writing chair
-            {0337, new ItemRemakeInfo(0337, 03701,  3, new byte[] {08, 07, 09, 12, 14, 14, 14, 14}, new byte[] {08, 07, 09, 12, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // writing desk
+            {0336, new ItemRemakeInfo(0336, 03702,  3, new byte[] {08, 07, 09, 12, 14, 14, 14, 14}, new byte[] {08, 07, 09, 12, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {07, 04, 02, 14, 14, 14, 14, 14}, false)}, // study chair
+            {0337, new ItemRemakeInfo(0337, 03701,  3, new byte[] {08, 07, 09, 12, 14, 14, 14, 14}, new byte[] {08, 07, 09, 12, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // study desk
             {0340, new ItemRemakeInfo(0340, 00808,  4, new byte[] {09, 12, 06, 01, 07, 14, 14, 14}, new byte[] {08, 12, 12, 08, 08, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // mush table
             {0342, new ItemRemakeInfo(0342, 01779, -1, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {12, 09, 10, 01, 02, 07, 06, 05}, new byte[] {12, 09, 10, 01, 02, 07, 06, 05}, false)}, // table with cloth
             {0343, new ItemRemakeInfo(0343, 03499,  6, new byte[] {05, 04, 02, 07, 00, 06, 03, 14}, new byte[] {05, 04, 02, 07, 00, 06, 03, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // frozen arch

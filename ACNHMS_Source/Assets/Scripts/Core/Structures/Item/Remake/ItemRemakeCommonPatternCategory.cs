@@ -1,4 +1,4 @@
-﻿namespace NHSE.Core
+namespace NHSE.Core
 {
     /// <summary>
     /// Category of <see cref="ItemRemakeCommonPattern"/>

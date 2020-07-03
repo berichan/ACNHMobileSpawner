@@ -1,4 +1,4 @@
-﻿using static NHSE.Core.ItemKind;
+using static NHSE.Core.ItemKind;
 
 namespace NHSE.Core
 {
@@ -9,6 +9,7 @@ namespace NHSE.Core
     public enum ItemKind : byte
 #pragma warning restore CA1027 // Mark enums with FlagsAttribute
     {
+        Type_Null,
         Bottoms_Long,
         Bottoms_Middle,
         Bottoms_Short,
@@ -32,6 +33,7 @@ namespace NHSE.Core
         Kind_CraftMaterial,
         Kind_CraftPhoneCase,
         Kind_CraftRemake,
+        Kind_DiveFish,
         Kind_DIYRecipe,
         Kind_DoorDeco,
         Kind_DummyCardboard,
@@ -92,6 +94,7 @@ namespace NHSE.Core
         Kind_Picture,
         Kind_PictureFake,
         Kind_PinataStick,
+        Kind_PirateQuest,
         Kind_PitFallSeed,
         Kind_PlayerDemoOutfit,
         Kind_Poster,

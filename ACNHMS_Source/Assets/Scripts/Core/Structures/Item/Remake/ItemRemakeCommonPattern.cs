@@ -1,4 +1,4 @@
-﻿namespace NHSE.Core
+namespace NHSE.Core
 {
     /// <summary>
     /// Customization fabric used for an <see cref="Item"/>, sourced from the Able Sisters

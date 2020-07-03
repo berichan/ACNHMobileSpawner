@@ -41,7 +41,7 @@ public class SpriteBehaviour : MonoBehaviour
 
     public void InitStatusLabels()
     {
-        if (Directory.Exists(imgroot))
+        if (SpritesExist())
         {
             SpriteStatusText.text = "Sprites loaded";
             ButtonText.text = "Repair sprites";
@@ -218,6 +218,8 @@ public class SpriteBehaviour : MonoBehaviour
                 imgroot + Path.DirectorySeparatorChar + pointerListName);
     }
 
+    public static bool SpritesExist() => File.Exists(imgroot + Path.DirectorySeparatorChar + dumpFileName);
+
     public static Texture2D ItemToTexture2D(ushort itemId, ushort count, out Color c)
     {
         Item tempItem = new Item(itemId);
@@ -232,17 +234,19 @@ public class SpriteBehaviour : MonoBehaviour
             c = Color.white;
             return null;
         }
-
-        InitParser();
-
+        
         Texture2D toAssignImage = ResourceLoader.GetLeafImage();
         System.Drawing.Color itemColor = ItemColor.GetItemColor(t);
         c = new Color(itemColor.R / 255f, itemColor.G / 255f, itemColor.B / 255f, itemColor.A / 255f);
-        
-        byte[] bytes = SpriteParser.CurrentInstance.GetPng(t.ItemId, (byte)t.Count);
-        toAssignImage = new Texture2D(2, 2);
-        toAssignImage.LoadImage(bytes);
-        c = Color.white;
+
+        if (SpritesExist())
+        {
+            InitParser();
+            byte[] bytes = SpriteParser.CurrentInstance.GetPng(t.ItemId, (byte)t.Count);
+            toAssignImage = new Texture2D(2, 2);
+            toAssignImage.LoadImage(bytes);
+            c = Color.white;
+        }
 
         return toAssignImage;
     }
