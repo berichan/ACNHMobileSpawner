@@ -250,4 +250,49 @@ public class SpriteBehaviour : MonoBehaviour
 
         return toAssignImage;
     }
+
+    public static Texture2D ItemToTexture2D(ushort itemId, ushort count, out Color c, ItemFilter iF)
+    {
+        if (iF == ItemFilter.Items)
+            return ItemToTexture2D(itemId, count, out c);
+        
+        ushort toFindItem = iF == ItemFilter.Fossils ? itemId : RecipeList.Recipes[itemId];
+        return ItemToTexture2D(toFindItem, count, out c);
+    }
+
+    public static Texture2D ItemToTexture2DSlow(ushort itemId, ushort count, out Color c, ItemFilter iF)
+    {
+        if (iF == ItemFilter.Items)
+            return ItemToTexture2D(itemId, count, out c);
+
+        ushort checkValueId = UI_SearchWindow.FilterToItemId(iF, 0);
+        ushort toFindItem = iF == ItemFilter.Fossils ? itemId : RecipeList.Recipes[itemId];
+        Texture2D itemType = ItemToTexture2D(checkValueId, count, out c); 
+        Texture2D itemMain = ItemToTexture2D(toFindItem, count, out c);
+        TextureScale.Bilinear(itemType, itemMain.width / 2, itemMain.height / 2);
+        return AddWatermark(itemMain, itemType, 0, 0);
+    }
+
+    public static Texture2D AddWatermark(Texture2D background, Texture2D watermark, int startX, int startY)
+    {
+        Texture2D newTex = new Texture2D(background.width, background.height, background.format, false);
+        for (int x = 0; x < background.width; x++)
+        {
+            for (int y = 0; y < background.height; y++)
+            {
+                if (x >= startX && y >= startY && x < watermark.width && y < watermark.height)
+                {
+                    Color bgColor = background.GetPixel(x, y);
+                    Color wmColor = watermark.GetPixel(x - startX, y - startY);
+                    Color final_color = Color.Lerp(bgColor, wmColor, wmColor.a / 1.0f);
+                    newTex.SetPixel(x, y, final_color);
+                }
+                else
+                    newTex.SetPixel(x, y, background.GetPixel(x, y));
+            }
+        }
+
+        newTex.Apply();
+        return newTex;
+    }
 }

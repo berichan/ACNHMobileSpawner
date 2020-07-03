@@ -50,7 +50,7 @@ public class UI_SearchItem : MonoBehaviour
 
         // Sprite image
         Color c;
-        Texture2D t2d = SpriteBehaviour.ItemToTexture2D((ushort)itemId, 0, out c);
+        Texture2D t2d = SpriteBehaviour.ItemToTexture2D((ushort)itemId, 0, out c, uiFilter);
         ItemImage.texture = t2d;
         ItemImage.color = c;
 	}

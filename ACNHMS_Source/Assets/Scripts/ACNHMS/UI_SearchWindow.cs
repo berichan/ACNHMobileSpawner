@@ -119,9 +119,9 @@ public class UI_SearchWindow : MonoBehaviour
             currentSearchString = val.ToLower();
             List<ComboItem> list;
             if (UI_Settings.GetSearchMode() == StringSearchMode.Contains)
-                list = allItems(CurrentFilter).FindAll((ComboItem x) => x.Text.ToLower().Contains(currentSearchString));
+                list = FilterToItems(CurrentFilter).FindAll((ComboItem x) => x.Text.ToLower().Contains(currentSearchString));
             else
-                list = allItems(CurrentFilter).FindAll((ComboItem x) => x.Text.ToLower().StartsWith(currentSearchString));
+                list = FilterToItems(CurrentFilter).FindAll((ComboItem x) => x.Text.ToLower().StartsWith(currentSearchString));
             ComboItem fullMatch = list.Find((ComboItem x) => x.Text.ToLower() == currentSearchString);
             List<ComboItem> range = list.GetRange(0, Mathf.Min(MAXITEMS, list.Count));
             if (fullMatch.Text != null)
@@ -336,7 +336,7 @@ public class UI_SearchWindow : MonoBehaviour
         {
             CurrentFilter = ItemFilter.Items;
         }
-        List<ComboItem> list = allItems(CurrentFilter);
+        List<ComboItem> list = FilterToItems(CurrentFilter);
         ComboItem comboItem = (CurrentFilter == ItemFilter.Items) ? list.Find((ComboItem x) => x.Value == item.ItemId) : list.Find((ComboItem x) => x.Value == item.Count);
         SearchField.text = comboItem.Text;
         CurrentItemID = item.ItemId;
@@ -427,7 +427,7 @@ public class UI_SearchWindow : MonoBehaviour
         return item;
     }
 
-    private List<ComboItem> allItems(ItemFilter filter)
+    public static List<ComboItem> FilterToItems(ItemFilter filter)
     {
         switch (filter)
         {
@@ -492,5 +492,24 @@ public class UI_SearchWindow : MonoBehaviour
         FlowerController.W2.isOn = (genes & FlowerGene.w2) == 0;
         FlowerController.S1.isOn = (genes & FlowerGene.S1) != 0;
         FlowerController.S2.isOn = (genes & FlowerGene.S2) != 0;
+    }
+
+    public static ushort FilterToItemId(ItemFilter f, ushort defaultId)
+    {
+        ushort toRet = defaultId;
+        switch (f)
+        {
+            case ItemFilter.Recipes:
+                toRet = (ushort)RECIPEITEM;
+                break;
+            case ItemFilter.Fossils:
+                toRet = (ushort)FOSSILITEM;
+                break;
+            case ItemFilter.MsgBottle:
+                toRet = (ushort)MESSAGEBOTTLEITEM;
+                break;
+        }
+
+        return toRet;
     }
 }
