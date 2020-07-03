@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class SysBotController
 {
-    public static string CurrentOffset = "ABA526A8";
+    public static string CurrentOffset = OffsetHelper.InventoryOffset.ToString("X");// "ABA526A8";
 
     public SysBotController(InjectionType type) => Type = type;
 

@@ -8,6 +8,8 @@ public class UI_SearchItem : MonoBehaviour
 
 	public Text SelectionText;
 
+    public RawImage ItemImage;
+
 	[HideInInspector]
 	public string RawValue;
 
@@ -45,6 +47,12 @@ public class UI_SearchItem : MonoBehaviour
 		{
 			SetSelection();
 		});
+
+        // Sprite image
+        Color c;
+        Texture2D t2d = SpriteBehaviour.ItemToTexture2D((ushort)itemId, 0, out c);
+        ItemImage.texture = t2d;
+        ItemImage.color = c;
 	}
 
 	public void SetSelection()

@@ -7,7 +7,7 @@ using NHSE.Core;
 
 public class UI_TurnipStonk : IUI_Additional
 {
-    public static string TurnipValuesAddress = "AA890CB0";
+    public static string TurnipValuesAddress = OffsetHelper.TurnipAddress.ToString("X");
     public static uint CurrentTurnipAddress { get { return StringUtil.GetHexValue(TurnipValuesAddress); } }
 
     //info

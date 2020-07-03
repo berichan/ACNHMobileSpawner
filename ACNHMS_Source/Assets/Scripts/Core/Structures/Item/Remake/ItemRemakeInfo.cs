@@ -37,6 +37,7 @@ namespace NHSE.Core
         }
 
         private const string Invalid = nameof(Invalid);
+        public const string InvalidCheck = Invalid;
 
         public bool HasBodyColor(int variant) => ReBodyPatternColors0[variant] != 14 || ReBodyPatternColors1[variant] != 14;
         public bool HasFabricColor(int variant) => ReFabricPatternColors0[variant] != 14 || ReFabricPatternColors1[variant] != 14;
@@ -93,7 +94,7 @@ namespace NHSE.Core
 
         private static string GetColorText(byte value) => ((ItemCustomColor)value).ToString();
 
-        public string GetBodySummary(IRemakeString str, bool tryGetDescriptor = true)
+        public string GetBodySummary(IRemakeString str, bool tryGetDescriptor = true, bool checkValid = true)
         {
             var sb = new StringBuilder();
             if (tryGetDescriptor)
@@ -106,7 +107,7 @@ namespace NHSE.Core
             for (int i = 0; i < 8; i++)
             {
                 var cd = GetBodyDescription(i);
-                if (cd == Invalid)
+                if (cd == Invalid && checkValid)
                     continue;
 
                 sb.Append(i).Append('=');
@@ -120,7 +121,7 @@ namespace NHSE.Core
             return sb.ToString();
         }
 
-        public string GetFabricSummary(IRemakeString str, bool tryGetDescriptor = true)
+        public string GetFabricSummary(IRemakeString str, bool tryGetDescriptor = true, bool checkValid = true)
         {
             var sb = new StringBuilder();
             if (tryGetDescriptor)
@@ -133,7 +134,7 @@ namespace NHSE.Core
             for (int i = 0; i < 8; i++)
             {
                 var cd = GetFabricDescription(i);
-                if (cd == Invalid)
+                if (cd == Invalid && checkValid)
                     continue;
 
                 var shifted = (i << 5);

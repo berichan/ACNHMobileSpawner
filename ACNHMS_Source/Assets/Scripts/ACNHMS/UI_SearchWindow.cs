@@ -255,7 +255,7 @@ public class UI_SearchWindow : MonoBehaviour
         else
         {
             ItemRemakeInfo itemRemakeInfo = ItemRemakeInfoData.List[remakeIndex];
-            string bodySummary = itemRemakeInfo.GetBodySummary(GameInfo.Strings, tryGetDescriptor: false);
+            string bodySummary = itemRemakeInfo.GetBodySummary(GameInfo.Strings, false, false);
             if (bodySummary.Length != 0)
             {
                 string[] values = bodySummary.Split(new string[3]
@@ -270,7 +270,7 @@ public class UI_SearchWindow : MonoBehaviour
             {
                 SetController.CreateBody(new string[0]);
             }
-            string fabricSummary = itemRemakeInfo.GetFabricSummary(GameInfo.Strings, tryGetDescriptor: false);
+            string fabricSummary = itemRemakeInfo.GetFabricSummary(GameInfo.Strings, false, false);
             if (fabricSummary.Length != 0)
             {
                 string[] values2 = fabricSummary.Split(new string[3]

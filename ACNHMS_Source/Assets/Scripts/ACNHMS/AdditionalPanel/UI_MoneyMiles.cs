@@ -7,9 +7,9 @@ public class UI_MoneyMiles : IUI_Additional
 {
     public const int ENCRYPTIONSIZE = 0x8;
 
-    public static string MoneyValueAddress = "ABA86BC4"; // ABA86BC4
-    public static string MilesAddress = "ABA2DD28"; // has miles current then miles total after it :) ABA2DD28
-    public static string WalletAddress = "ABA52760"; // has storage a bit after it in ram ABA52760 
+    public static string MoneyValueAddress = OffsetHelper.BankAddress.ToString("X"); // ABA86BC4
+    public static string MilesAddress = OffsetHelper.MilesAddress.ToString("X"); // has miles current then miles total after it :) ABA2DD28
+    public static string WalletAddress = OffsetHelper.WalletAddress.ToString("X"); // has storage a bit after it in ram ABA52760 
     public static uint CurrentMoneyAddress { get { return StringUtil.GetHexValue(MoneyValueAddress); } }
     public static uint CurrentMilesAddress { get { return StringUtil.GetHexValue(MilesAddress); } }
     public static uint CurrentWalletAddress { get { return StringUtil.GetHexValue(WalletAddress); } }

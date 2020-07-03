@@ -1,3 +1,4 @@
+using NHSE.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -141,7 +142,8 @@ public class UI_SetControl : MonoBehaviour
 			BCount.gameObject.SetActive(false);
 			return;
 		}
-		FCount.gameObject.SetActive(false);
+        values = values.TruncateEndInvalidValues();
+        FCount.gameObject.SetActive(false);
 		BCount.gameObject.SetActive(true);
 		BCount.ClearOptions();
 		foreach (string text in values)
@@ -149,7 +151,7 @@ public class UI_SetControl : MonoBehaviour
 			if (text.Length != 0)
 			{
 				Dropdown.OptionData val = new Dropdown.OptionData();
-				val.text =text;
+				val.text = text.ClearInvalidText();
 				BCount.options.Add(val);
 			}
 		}
@@ -161,12 +163,13 @@ public class UI_SetControl : MonoBehaviour
 	{
 		//IL_0066: Unknown result type (might be due to invalid IL or missing references)
 		//IL_006c: Expected O, but got Unknown
-		if (values.Length == 0)
+		if (values.Length == 0 || values.IsInvalidFabricArray())
 		{
 			FUses.gameObject.SetActive(true);
 			BUses.gameObject.SetActive(false);
 			return;
 		}
+        values = values.TruncateEndInvalidValues();
 		FUses.gameObject.SetActive(false);
 		BUses.gameObject.SetActive(true);
 		BUses.ClearOptions();
@@ -175,7 +178,7 @@ public class UI_SetControl : MonoBehaviour
 			if (text.Length != 0)
 			{
                 Dropdown.OptionData val = new Dropdown.OptionData();
-                val.text = text;
+                val.text = text.ClearInvalidText() ;
                 BUses.options.Add(val);
 			}
 		}
@@ -195,4 +198,31 @@ public class UI_SetControl : MonoBehaviour
 		}
 		return string.Empty;
 	}
+}
+
+public static class InvalidRemakeStringsUtil
+{
+    // some string functions to clear out invalids
+    public static bool IsInvalidFabricArray(this string[] fa)
+    {
+        foreach (string f in fa)
+            if (!(f.EndsWith("=" + ItemRemakeInfo.InvalidCheck) || f == string.Empty))
+                return false;
+        return true;
+    }
+
+    public static string[] TruncateEndInvalidValues(this string[] sa)
+    {
+        List<string> ls = new List<string>(sa);
+        for (int i = ls.Count-1; i > 0; --i)
+        {
+            if (ls[i].EndsWith("=" + ItemRemakeInfo.InvalidCheck) || ls[i] == string.Empty)
+                ls.RemoveAt(i);
+            else
+                break;
+        }
+        return ls.ToArray();
+    }
+
+    public static string ClearInvalidText(this string s) => s.Replace(string.Format("({0})", ItemRemakeInfo.InvalidCheck), string.Empty);
 }
