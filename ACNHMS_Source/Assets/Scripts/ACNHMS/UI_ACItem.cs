@@ -30,7 +30,7 @@ public class UI_ACItem : MonoBehaviour
         //IL_0026: Unknown result type (might be due to invalid IL or missing references)
         //IL_006f: Unknown result type (might be due to invalid IL or missing references)
         ItemAssigned = item;
-        Texture2D imageToAssign = SpriteController.ItemToTexture2D(ItemAssigned, out var c);
+        Texture2D imageToAssign = SpriteBehaviour.ItemToTexture2D(ItemAssigned, out var c);
         ImageComponent.texture = imageToAssign;
         ImageComponent.color = c;
         

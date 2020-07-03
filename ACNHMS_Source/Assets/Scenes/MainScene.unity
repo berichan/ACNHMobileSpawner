@@ -3938,8 +3938,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 24.4}
-  m_SizeDelta: {x: 668.31744, y: 306.51978}
+  m_AnchoredPosition: {x: 0, y: 41.6}
+  m_SizeDelta: {x: 668.31744, y: 272.2177}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &169844159
 MonoBehaviour:
@@ -34838,7 +34838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/06/26 23:28:09
+  LastEditorDateTime: 2020/07/03 01:42:10
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -35835,7 +35835,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1425652986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9313f7fda537464c9065aaa5df94cee, type: 3}
+  m_Script: {fileID: 11500000, guid: 38007e7e112a26a47895e9a530ec1c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   FileInfoText: {fileID: 1242055593}
@@ -40073,7 +40073,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1561563516
 RectTransform:
   m_ObjectHideFlags: 0
@@ -46993,8 +46993,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.0001, y: -56}
-  m_SizeDelta: {x: 471.196, y: 92.942566}
+  m_AnchoredPosition: {x: 6.0001, y: -29.764}
+  m_SizeDelta: {x: 471.196, y: 40.471344}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1893047666
 MonoBehaviour:
@@ -47028,8 +47028,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Sprites require ~100MB free space.\nSprite credit: \nKingLycosa, MyShiLingStar
-    & kru5h"
+  m_Text: Sprites require ~200MB free space.
 --- !u!222 &1893047667
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -89,7 +89,7 @@ public class UI_SearchWindow : MonoBehaviour
     {
         if (CurrentItemID < 0)
             return;
-        Texture2D toSet = SpriteController.ItemToTexture2D(Convert.ToUInt16(CurrentItemID), Convert.ToUInt16(SetController.FCount.text), out var col);
+        Texture2D toSet = SpriteBehaviour.ItemToTexture2D(Convert.ToUInt16(CurrentItemID), Convert.ToUInt16(SetController.FCount.text), out var col);
         SpriteImageMain.texture = toSet;
         col.a = toSet == null ? 0.0f : 0.75f;
         SpriteImageMain.color = col;
