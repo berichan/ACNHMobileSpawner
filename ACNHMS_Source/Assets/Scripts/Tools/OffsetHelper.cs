@@ -12,4 +12,5 @@ public static class OffsetHelper
     public const ulong BankAddress = InventoryOffset + 0x3451C;
 
     public const ulong TurnipAddress = 0xAA890CB0;
+    public const ulong VillagerAddress = TurnipAddress - 4267840;
 }

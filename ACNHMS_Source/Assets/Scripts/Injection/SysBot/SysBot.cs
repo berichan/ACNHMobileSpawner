@@ -1,5 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Threading;
+using System.Collections.Generic;
+using System;
 
 namespace NHSE.Injection
 {
@@ -9,7 +11,7 @@ namespace NHSE.Injection
         public int Port = 6000;
         public Socket Connection = new Socket(SocketType.Stream, ProtocolType.Tcp);
         public bool Connected { get; private set; }
-        public int MaximumTransferSize { get { return 8192; } }
+        public int MaximumTransferSize { get { return 81920; } }
 
         private readonly object _sync = new object();
 
@@ -74,6 +76,30 @@ namespace NHSE.Injection
                 // give it time to push data back
                 Thread.Sleep((data.Length / 256) + 100);
             }
+        }
+
+        public void WriteBytesLarge(byte[] data, uint offset)
+        {
+            int byteCount = data.Length;
+            for (int i = 0; i < byteCount; i += MaximumTransferSize)
+                WriteBytes(SubArray(data, i, MaximumTransferSize), offset + (uint)i);
+        }
+
+        public byte[] ReadBytesLarge(uint offset, int length)
+        {
+            List<byte> read = new List<byte>();
+            for (int i = 0; i < length; i += MaximumTransferSize)
+                read.AddRange(ReadBytes(offset + (uint)i, Math.Min(MaximumTransferSize, length - i)));
+            return read.ToArray();
+        }
+
+        public static T[] SubArray<T>(T[] data, int index, int length)
+        {
+            if (index + length > data.Length)
+                length = data.Length - index;
+            T[] result = new T[length];
+            Array.Copy(data, index, result, 0, length);
+            return result;
         }
     }
 
