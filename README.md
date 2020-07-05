@@ -6,6 +6,7 @@ Requires a Switch running custom firmware with the sysmodule [sys-botbase](https
 It currently supports the following:
 * Injecting and deleting inventory items.
 * Changing amount of miles, bells in your bank and in your wallet (inventory).
+* [Changing and replacing villagers](https://www.youtube.com/watch?v=5CUUZhGtsxk) using the perfect villager database.
 * Changing the turnip buy/sell prices and fluctuations.
 * Loading item cheats (using the NHSE cheat parser).
 
