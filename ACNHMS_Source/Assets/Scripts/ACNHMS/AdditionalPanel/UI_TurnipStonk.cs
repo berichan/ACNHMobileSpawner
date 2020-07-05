@@ -82,9 +82,7 @@ public class UI_TurnipStonk : IUI_Additional
         catch (Exception e)
         {
             Debug.LogError(e.Message);
-#if PLATFORM_ANDROID
-            AndroidUSBUtils.CurrentInstance.DebugToast(e.Message);
-#endif
+            PopupHelper.CreateError(e.Message, 2f);
         }
     }
 
@@ -101,9 +99,7 @@ public class UI_TurnipStonk : IUI_Additional
         catch (Exception e)
         {
             Debug.LogError(e.Message);
-#if PLATFORM_ANDROID
-            AndroidUSBUtils.CurrentInstance.DebugToast(e.Message);
-#endif
+            PopupHelper.CreateError(e.Message, 2f);
         }
     }
 

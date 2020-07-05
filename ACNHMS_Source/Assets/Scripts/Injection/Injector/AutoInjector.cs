@@ -40,9 +40,7 @@ namespace NHSE.Injection
             catch (IndexOutOfRangeException ex)
             {
                 Debug.WriteLine(ex.Message);
-#if PLATFORM_ANDROID
-                AndroidUSBUtils.CurrentInstance.DebugToast(ex.Message);
-#endif
+                PopupHelper.CreateError(ex.Message, 2f);
                 return InjectionResult.FailConnectionError;
             }
         }
@@ -60,9 +58,7 @@ namespace NHSE.Injection
             catch (IndexOutOfRangeException ex)
             {
                 Debug.WriteLine(ex.Message);
-#if PLATFORM_ANDROID
-                AndroidUSBUtils.CurrentInstance.DebugToast(ex.Message);
-#endif
+                PopupHelper.CreateError(ex.Message, 2f);
                 return InjectionResult.FailConnectionError;
             }
         }

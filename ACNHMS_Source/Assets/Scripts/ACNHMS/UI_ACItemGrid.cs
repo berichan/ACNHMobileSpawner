@@ -145,19 +145,15 @@ public class UI_ACItemGrid : MonoBehaviour
         else
         {
             Debug.LogError(r.ToString());
-#if PLATFORM_ANDROID
-            AndroidUSBUtils.CurrentInstance.DebugToast(r.ToString());
-#endif
+            PopupHelper.CreateError(r.ToString(), 2f);
         }
     }
 
     private static void AfterWrite(InjectionResult r)
     {
         Debug.Log($"Write result: {r}");
-#if PLATFORM_ANDROID
         if (r != InjectionResult.Success)
-            AndroidUSBUtils.CurrentInstance.DebugToast($"Write result: {r}");
-#endif
+            PopupHelper.CreateError($"Write result: {r}", 2f);
     }
 
     private void set(Item[] items)

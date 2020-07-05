@@ -58,7 +58,7 @@ public class UI_Villager : IUI_Additional
         VillagerHouseRamOffset.onValueChanged.AddListener(delegate { VillagerHouseAddress = VillagerHouseRamOffset.text; });
     }
 
-    public void LoadAllVillagers() // gets first 3 bytes of each villager
+    private void loadAllVillagers()
     {
         for (int i = 0; i < 10; ++i)
         {
@@ -73,11 +73,13 @@ public class UI_Villager : IUI_Additional
         BlockerRoot.gameObject.SetActive(false);
     }
 
-    public void LoadVillager(int index)
+    public void LoadAllVillagers() // gets first 3 bytes of each villager
     {
-        if (!loadedVillagerShells)
-            return;
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Loading villagers...", () => { loadAllVillagers(); });
+    }
 
+    public void loadVillager(int index)
+    {
         try
         {
             byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(index * Villager.SIZE), Villager.SIZE);
@@ -87,15 +89,26 @@ public class UI_Villager : IUI_Additional
 
             currentlyLoadedVillagerIndex = index;
             loadedVillager = new Villager(loaded);
+
+            // get their house
+            byte[] loadedHouse = CurrentConnection.ReadBytes(CurrentVillagerHouseAddress + (uint)(currentlyLoadedVillagerIndex * VillagerHouse.SIZE), VillagerHouse.SIZE);
+            loadedVillagerHouse = new VillagerHouse(loadedHouse);
+
             VillagerToUI(loadedVillager);
         }
         catch (Exception e)
         {
             Debug.LogError(e.Message);
-#if PLATFORM_ANDROID
-            AndroidUSBUtils.CurrentInstance.DebugToast(e.Message);
-#endif
+            PopupHelper.CreateError(e.Message, 2f);
         }
+    }
+
+    public void LoadVillager(int index)
+    {
+        if (!loadedVillagerShells)
+            return;
+
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Loading villager...", () => { loadVillager(index); });
     }
 
     public void VillagerToUI(Villager v)
@@ -108,7 +121,7 @@ public class UI_Villager : IUI_Additional
         SaveVillagerLabel.text = string.Format("Save villager ({0})", VillagerName.text);
     }
 
-    public void SetCurrentVillager(bool includeHouse)
+    private void setCurrentVillager(bool includeHouse)
     {
         if (currentlyLoadedVillagerIndex == -1)
             return;
@@ -120,7 +133,7 @@ public class UI_Villager : IUI_Additional
 
             if (includeHouse)
                 CurrentConnection.WriteBytes(loadedVillagerHouse.Data, CurrentVillagerHouseAddress + (uint)(currentlyLoadedVillagerIndex * VillagerHouse.SIZE));
-            
+
 
             if (UI_ACItemGrid.LastInstanceOfItemGrid != null)
                 UI_ACItemGrid.LastInstanceOfItemGrid.PlayHappyParticles();
@@ -128,10 +141,13 @@ public class UI_Villager : IUI_Additional
         catch (Exception e)
         {
             Debug.LogError(e.Message);
-#if PLATFORM_ANDROID
-            AndroidUSBUtils.CurrentInstance.DebugToast(e.Message);
-#endif
+            PopupHelper.CreateError(e.Message, 2f);
         }
+    }
+
+    public void SetCurrentVillager(bool includeHouse)
+    {
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Saving villager...", () => { setCurrentVillager(includeHouse); });
     }
 
     public void RevertCurrentPhraseToOriginal()
@@ -149,23 +165,38 @@ public class UI_Villager : IUI_Additional
 
     private void loadVillagerFromResource()
     {
-        string newVillager = Selector.LastSelectedVillager;
-        byte[] villagerDump = ((TextAsset)Resources.Load("DefaultVillagers/" + newVillager + "V")).bytes;
-        byte[] villagerHouse = ((TextAsset)Resources.Load("DefaultVillagers/" + newVillager + "H")).bytes;
-        if (villagerDump == null || villagerHouse == null)
-            return;
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Sending villager...", () => { loadVillagerData(); });
+    }
 
-        Villager newV = new Villager(villagerDump);
-        //newV.SetMemories(loadedVillager.GetMemories());
-        newV.CatchPhrase = GameInfo.Strings.GetVillagerDefaultPhrase(newVillager);
-        VillagerHouse newVH = new VillagerHouse(villagerHouse);
+    private void loadVillagerData()
+    {
+        try
+        {
+            string newVillager = Selector.LastSelectedVillager;
+            byte[] villagerDump = ((TextAsset)Resources.Load("DefaultVillagers/" + newVillager + "V")).bytes;
+            byte[] villagerHouse = ((TextAsset)Resources.Load("DefaultVillagers/" + newVillager + "H")).bytes;
+            if (villagerDump == null || villagerHouse == null)
+                return;
 
-        loadedVillager = newV;
-        loadedVillagerHouse = newVH;
+            Villager newV = new Villager(villagerDump);
+            newV.SetMemories(loadedVillager.GetMemories());
+            newV.CatchPhrase = GameInfo.Strings.GetVillagerDefaultPhrase(newVillager);
+            VillagerHouse newVH = new VillagerHouse(villagerHouse);
+            newVH.NPC1 = loadedVillagerHouse.NPC1;
 
-        SetCurrentVillager(true);
-        TenVillagers[currentlyLoadedVillagerIndex].texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, newVillager);
-        VillagerToUI(loadedVillager);
+
+            loadedVillager = newV;
+            loadedVillagerHouse = newVH;
+
+            SetCurrentVillager(true);
+            TenVillagers[currentlyLoadedVillagerIndex].texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, newVillager);
+            VillagerToUI(loadedVillager);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+            PopupHelper.CreateError(e.Message, 2f);
+        }
     }
 
     private void resetVillagerSelection()
