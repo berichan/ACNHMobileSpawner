@@ -11,7 +11,7 @@ namespace NHSE.Injection
         public int Port = 6000;
         public Socket Connection = new Socket(SocketType.Stream, ProtocolType.Tcp);
         public bool Connected { get; private set; }
-        public int MaximumTransferSize { get { return 81920; } }
+        public int MaximumTransferSize { get { return 8192; } }
 
         private readonly object _sync = new object();
 
@@ -54,6 +54,8 @@ namespace NHSE.Injection
 
         public byte[] ReadBytes(uint offset, int length)
         {
+            if (length > MaximumTransferSize)
+                return ReadBytesLarge(offset, length);
             lock (_sync)
             {
                 var cmd = SwitchCommand.Peek(offset, length);
@@ -69,23 +71,26 @@ namespace NHSE.Injection
 
         public void WriteBytes(byte[] data, uint offset)
         {
-            lock (_sync)
-            {
+            if (data.Length > MaximumTransferSize)
+                WriteBytesLarge(data, offset);
+            else
+                lock (_sync)
+                {
                 SendInternal(SwitchCommand.Poke(offset, data));
 
                 // give it time to push data back
                 Thread.Sleep((data.Length / 256) + 100);
-            }
+                }
         }
 
-        public void WriteBytesLarge(byte[] data, uint offset)
+        private void WriteBytesLarge(byte[] data, uint offset)
         {
             int byteCount = data.Length;
             for (int i = 0; i < byteCount; i += MaximumTransferSize)
                 WriteBytes(SubArray(data, i, MaximumTransferSize), offset + (uint)i);
         }
 
-        public byte[] ReadBytesLarge(uint offset, int length)
+        private byte[] ReadBytesLarge(uint offset, int length)
         {
             List<byte> read = new List<byte>();
             for (int i = 0; i < length; i += MaximumTransferSize)
@@ -93,7 +98,7 @@ namespace NHSE.Injection
             return read.ToArray();
         }
 
-        public static T[] SubArray<T>(T[] data, int index, int length)
+        private static T[] SubArray<T>(T[] data, int index, int length)
         {
             if (index + length > data.Length)
                 length = data.Length - index;

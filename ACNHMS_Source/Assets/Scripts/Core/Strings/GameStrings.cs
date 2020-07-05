@@ -21,6 +21,8 @@ namespace NHSE.Core
         public IReadOnlyDictionary<string, string> FabricParts { get; }
         public IReadOnlyDictionary<string, string> FabricColor { get; }
 
+        public IReadOnlyDictionary<string, string> VillagerPhrase { get; }
+
         private string[] Get(string ident) => GameLanguage.GetStrings(ident, lang);
 
         public GameStrings(string l)
@@ -36,6 +38,8 @@ namespace NHSE.Core
             BodyColor = GetDictionary(Get("body_color"));
             FabricParts = GetDictionary(Get("fabric_parts"));
             FabricColor = GetDictionary(Get("fabric_color"));
+
+            VillagerPhrase = GetDictionary(Get("phrase"));
         }
 
         private static IReadOnlyDictionary<string, string> GetDictionary(IEnumerable<string> lines, char split = '\t')
@@ -110,6 +114,11 @@ namespace NHSE.Core
         public string GetVillager(string name)
         {
             return VillagerMap.TryGetValue(name, out var result) ? result : name;
+        }
+
+        public string GetVillagerDefaultPhrase(string name)
+        {
+            return VillagerPhrase.TryGetValue(name, out var result) ? result : name;
         }
 
         public static string[] GetItemDisplayList(string[] items)

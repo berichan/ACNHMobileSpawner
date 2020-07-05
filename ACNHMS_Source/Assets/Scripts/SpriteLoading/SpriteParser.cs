@@ -8,12 +8,12 @@ namespace NH_CreationEngine
     public class SpriteParser
     {
         private string filePathSprites;
-        private IDictionary<string, string> spritePointerTable;
         private IDictionary<string, ByteBoundary> spritePointerHeader;
+        private IDictionary<string, string> spritePointerTable = null;
 
         public static SpriteParser CurrentInstance = null;
 
-        public SpriteParser(string filePathDmp, string filePathHeader, string filePathPointer)
+        public SpriteParser(string filePathDmp, string filePathHeader)
         {
             filePathSprites = filePathDmp;
 
@@ -22,16 +22,22 @@ namespace NH_CreationEngine
             foreach (var line in lines)
                 if (line != null)
                     spritePointerHeader.Add(processHeaderLine(line));
+        }
 
+        public SpriteParser(string filePathDmp, string filePathHeader, string filePathPointer)
+            : this(filePathDmp, filePathHeader)
+        {
             spritePointerTable = new Dictionary<string, string>();
-            lines = File.ReadLines(filePathPointer);
+            var lines = File.ReadLines(filePathPointer);
             foreach (var line in lines)
                 if (line != null)
                     spritePointerTable.Add(processPointerLine(line));
         }
 
-        public byte[] GetPng(ushort itemId, byte count)
+        public byte[] GetPng(ushort itemId, ushort count)
         {
+            if (spritePointerTable == null)
+                throw new Exception("Not pointer table loaded.");
             string sItemdId = itemId.ToString("X");
             string bodyVal = (count & 0xF).ToString();
             string fabricVal = (((count & 0xFF) - (count & 0xF)) / 32u).ToString();
@@ -57,6 +63,21 @@ namespace NH_CreationEngine
                 readlist.AddRange(b.ReadBytes((int)bytesReq));
             }
 
+            return readlist.ToArray();
+        }
+
+        public byte[] GetPng(string itemName)
+        {
+            if (!spritePointerHeader.ContainsKey(itemName))
+                return null;
+            ByteBoundary bb = spritePointerHeader[itemName];
+            ulong bytesReq = bb.end - bb.start;
+            List<byte> readlist = new List<byte>();
+            using (BinaryReader b = new BinaryReader(File.Open(filePathSprites, FileMode.Open)))
+            {
+                b.BaseStream.Seek((long)bb.start, SeekOrigin.Begin);
+                readlist.AddRange(b.ReadBytes((int)bytesReq));
+            }
             return readlist.ToArray();
         }
 
@@ -87,7 +108,7 @@ namespace NH_CreationEngine
                 fileByteIndexes.Add(Path.GetFileNameWithoutExtension(file), new ByteBoundary(byteCounter, byteCounter + (ulong)png.Length));
                 byteCounter += (ulong)png.Length; //\r\n
 
-                Console.WriteLine("Loaded: {0}/{1}. Bytes: {2}", counter, allFiles.Length, byteCounter);
+                Console.WriteLine("Loaded: {0}/{1}. Bytes: {2}", counter, allFiles.Length, byteCounter / 1000);
                 counter++;
             }
 

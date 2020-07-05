@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 
@@ -21,7 +22,9 @@ namespace NHSE.Injection
 
         public byte[] ReadBytes(uint offset, int length)
         {
-           lock (_sync)
+            if (length > MaximumTransferSize)
+                return ReadBytesLarge(offset, length);
+            lock (_sync)
             {
                 byte[] cmd = SwitchCommand.PeekRaw(offset, length);
                 AndroidUSBUtils.CurrentInstance.WriteToEndpoint(cmd);
@@ -36,13 +39,40 @@ namespace NHSE.Injection
 
         public void WriteBytes(byte[] data, uint offset)
         {
-            lock (_sync)
-            {
-                AndroidUSBUtils.CurrentInstance.WriteToEndpoint(SwitchCommand.PokeRaw(offset, data));
+            if (data.Length > MaximumTransferSize)
+                WriteBytesLarge(data, offset);
+            else
+                lock (_sync)
+                {
+                    AndroidUSBUtils.CurrentInstance.WriteToEndpoint(SwitchCommand.PokeRaw(offset, data));
 
-                // give it time to push data back
-                Thread.Sleep((data.Length / 256) + 100);
-            }
+                    // give it time to push data back
+                    Thread.Sleep((data.Length / 256) + 100);
+                }
+        }
+
+        private void WriteBytesLarge(byte[] data, uint offset)
+        {
+            int byteCount = data.Length;
+            for (int i = 0; i < byteCount; i += MaximumTransferSize)
+                WriteBytes(SubArray(data, i, MaximumTransferSize), offset + (uint)i);
+        }
+
+        private byte[] ReadBytesLarge(uint offset, int length)
+        {
+            List<byte> read = new List<byte>();
+            for (int i = 0; i < length; i += MaximumTransferSize)
+                read.AddRange(ReadBytes(offset + (uint)i, Math.Min(MaximumTransferSize, length - i)));
+            return read.ToArray();
+        }
+
+        private static T[] SubArray<T>(T[] data, int index, int length)
+        {
+            if (index + length > data.Length)
+                length = data.Length - index;
+            T[] result = new T[length];
+            Array.Copy(data, index, result, 0, length);
+            return result;
         }
     }
 }

@@ -22,6 +22,8 @@ public class SpriteBehaviour : MonoBehaviour
 
     private static float longwaittime = 3f, shortwaittime = 1f;
 
+    public static string UsableImagePath { get { return imgroot; } }
+
     public Text FileInfoText, SpriteStatusText, ButtonText;
     public GameObject RootBlocker;
     public GameObject DownloadingAnim;
@@ -242,10 +244,13 @@ public class SpriteBehaviour : MonoBehaviour
         if (SpritesExist())
         {
             InitParser();
-            byte[] bytes = SpriteParser.CurrentInstance.GetPng(t.ItemId, (byte)t.Count);
-            toAssignImage = new Texture2D(2, 2);
-            toAssignImage.LoadImage(bytes);
-            c = Color.white;
+            byte[] bytes = SpriteParser.CurrentInstance.GetPng(t.ItemId, t.Count);
+            if (bytes != null)
+            {
+                toAssignImage = new Texture2D(2, 2);
+                toAssignImage.LoadImage(bytes);
+                c = Color.white;
+            }
         }
 
         return toAssignImage;
@@ -259,6 +264,20 @@ public class SpriteBehaviour : MonoBehaviour
         ushort toFindItem = iF == ItemFilter.Fossils ? itemId : RecipeList.Recipes[itemId];
         return ItemToTexture2D(toFindItem, count, out c);
     }
+
+    public static Texture2D PullTextureFromParser(SpriteParser parser, string itemName)
+    {
+        byte[] items = parser.GetPng(itemName);
+        if (items != null)
+        {
+            Texture2D toRet = new Texture2D(2, 2);
+            toRet.LoadImage(items);
+            return toRet;
+        }
+        return null;
+    }
+
+    // not used
 
     public static Texture2D ItemToTexture2DSlow(ushort itemId, ushort count, out Color c, ItemFilter iF)
     {
