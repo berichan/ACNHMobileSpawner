@@ -34,7 +34,7 @@ public class UI_Villager : IUI_Additional
     public UI_VillagerSelect Selector;
 
     private Villager loadedVillager;
-    private VillagerHouse loadedVillagerHouse;
+    private List<VillagerHouse> loadedVillagerHouses;
     private SpriteParser villagerSprites;
     private bool loadedVillagerShells = false;
     private int currentlyLoadedVillagerIndex = -1;
@@ -64,9 +64,25 @@ public class UI_Villager : IUI_Additional
         {
             byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(i * Villager.SIZE), 3);
             Villager villagerShell = new Villager(loaded);
+            if (villagerShell.Species == (byte)VillagerSpecies.non)
+            {
+                TenVillagers[i].GetComponent<Button>().enabled = false;
+                continue;
+            }
+            else
+                TenVillagers[i].GetComponent<Button>().enabled = true;
+            
             Texture2D pic = SpriteBehaviour.PullTextureFromParser(villagerSprites, villagerShell.InternalName);
             if (pic != null)
                 TenVillagers[i].texture = pic;
+        }
+
+        // load all houses
+        loadedVillagerHouses = new List<VillagerHouse>();
+        byte[] houses = CurrentConnection.ReadBytes(CurrentVillagerHouseAddress, VillagerHouse.SIZE * 10);
+        for (int i = 0; i < 10; ++i)
+        {
+            loadedVillagerHouses.Add(new VillagerHouse(houses.Slice(i * VillagerHouse.SIZE, VillagerHouse.SIZE)));
         }
 
         loadedVillagerShells = true;
@@ -89,10 +105,6 @@ public class UI_Villager : IUI_Additional
 
             currentlyLoadedVillagerIndex = index;
             loadedVillager = new Villager(loaded);
-
-            // get their house
-            byte[] loadedHouse = CurrentConnection.ReadBytes(CurrentVillagerHouseAddress + (uint)(currentlyLoadedVillagerIndex * VillagerHouse.SIZE), VillagerHouse.SIZE);
-            loadedVillagerHouse = new VillagerHouse(loadedHouse);
 
             VillagerToUI(loadedVillager);
         }
@@ -132,7 +144,14 @@ public class UI_Villager : IUI_Additional
             CurrentConnection.WriteBytes(villager, CurrentVillagerAddress + (uint)(currentlyLoadedVillagerIndex * Villager.SIZE));
 
             if (includeHouse)
-                CurrentConnection.WriteBytes(loadedVillagerHouse.Data, CurrentVillagerHouseAddress + (uint)(currentlyLoadedVillagerIndex * VillagerHouse.SIZE));
+            {
+                // send all houses
+                List<byte> linearHouseArray = new List<byte>();
+                foreach (VillagerHouse vh in loadedVillagerHouses)
+                    linearHouseArray.AddRange(vh.Data);
+                CurrentConnection.WriteBytes(linearHouseArray.ToArray(), CurrentVillagerHouseAddress);
+                CurrentConnection.WriteBytes(linearHouseArray.ToArray(), CurrentVillagerHouseAddress + (uint)OffsetHelper.VillagerHouseBufferDiff); // there's a temporary day buffer
+            }
 
 
             if (UI_ACItemGrid.LastInstanceOfItemGrid != null)
@@ -181,12 +200,16 @@ public class UI_Villager : IUI_Additional
             Villager newV = new Villager(villagerDump);
             newV.SetMemories(loadedVillager.GetMemories());
             newV.CatchPhrase = GameInfo.Strings.GetVillagerDefaultPhrase(newVillager);
+
             VillagerHouse newVH = new VillagerHouse(villagerHouse);
+            VillagerHouse loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
             newVH.NPC1 = loadedVillagerHouse.NPC1;
 
-
             loadedVillager = newV;
-            loadedVillagerHouse = newVH;
+            int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
+            if (index == -1)
+                throw new Exception("The villager being replaced doesn't have a house on your island.");
+            loadedVillagerHouses[index] = newVH;
 
             SetCurrentVillager();
             TenVillagers[currentlyLoadedVillagerIndex].texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, newVillager);

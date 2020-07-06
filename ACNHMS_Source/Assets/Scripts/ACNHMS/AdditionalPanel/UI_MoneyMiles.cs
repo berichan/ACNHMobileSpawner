@@ -10,9 +10,9 @@ public class UI_MoneyMiles : IUI_Additional
     public static string MoneyValueAddress = OffsetHelper.BankAddress.ToString("X"); // ABA86BC4
     public static string MilesAddress = OffsetHelper.MilesAddress.ToString("X"); // has miles current then miles total after it :) ABA2DD28
     public static string WalletAddress = OffsetHelper.WalletAddress.ToString("X"); // has storage a bit after it in ram ABA52760 
-    public static uint CurrentMoneyAddress { get { return StringUtil.GetHexValue(MoneyValueAddress); } }
-    public static uint CurrentMilesAddress { get { return StringUtil.GetHexValue(MilesAddress); } }
-    public static uint CurrentWalletAddress { get { return StringUtil.GetHexValue(WalletAddress); } }
+    public static uint CurrentMoneyAddress { get { return StringUtil.GetHexValue(MoneyValueAddress) + (uint)(UI_Settings.GetPlayerIndex() * (uint)OffsetHelper.PlayerSize); } }
+    public static uint CurrentMilesAddress { get { return StringUtil.GetHexValue(MilesAddress) + (uint)(UI_Settings.GetPlayerIndex() * (uint)OffsetHelper.PlayerSize); ; } }
+    public static uint CurrentWalletAddress { get { return StringUtil.GetHexValue(WalletAddress) + (uint)(UI_Settings.GetPlayerIndex() * (uint)OffsetHelper.PlayerSize); ; } }
 
     public InputField BankInput, PouchInput, MilesInput, MilesTotalInput;
     public InputField MoneyAddressInput, PouchAddressInput, MilesAddressInput;

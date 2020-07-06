@@ -7,6 +7,7 @@ using UnityEngine;
 public class SysBotController
 {
     public static string CurrentOffset = OffsetHelper.InventoryOffset.ToString("X");// "ABA526A8";
+    public static uint CurrentOffsetFirstPlayerUInt { get => StringUtil.GetHexValue(CurrentOffset); }
 
     public SysBotController(InjectionType type) => Type = type;
 
@@ -41,8 +42,8 @@ public class SysBotController
 
     public uint GetDefaultOffset()
     {
-        uint toRet = StringUtil.GetHexValue(CurrentOffset);
-        return toRet;
+        var toRet = StringUtil.GetHexValue(CurrentOffset) + ((ulong)UI_Settings.GetPlayerIndex() * OffsetHelper.PlayerSize);
+        return (uint)toRet;
     }
 
     public void SetOffset(uint value)

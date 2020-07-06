@@ -23,12 +23,16 @@ public class UI_Settings : MonoBehaviour
     public const string ITEMLANGMODEKEY = "ITEMLMKEY";
     public const string VALIDATADATAKEY = "VKEY";
     public const string INJMODEKEY = "INJKEY";
+    public const string PLAYERINDEXKEY = "PINDKEY";
 
     public Dropdown LanguageField;
     public Dropdown SearchMode;
     public Dropdown InjectionMode;
+    public Dropdown WhichPlayer;
     public InputField Offset;
     public Toggle ValidataData;
+
+    public Button FetchNamesButton;
 
     // Start is called before the first frame update
     void Start()
@@ -83,13 +87,27 @@ public class UI_Settings : MonoBehaviour
         Offset.onValueChanged.AddListener(delegate { SysBotController.CurrentOffset = Offset.text; });
         ValidataData.onValueChanged.AddListener(delegate { SetValidateData(ValidataData.isOn); });
 
+        // player index
+        string[] choices = new string[8];
+        for (int i = 0; i < 8; ++i)
+            choices[i] = string.Format("Player {0}", (char)((uint)'A' + i)); // 'A' + i
+        generatePlayerIndexList(choices, GetPlayerIndex());
+
         SetLanguage(GetLanguage());
     }
 
     // Update is called once per frame
+    float counter = 1; //hacky but check every second, OnEnable won't work here! 1 so it check immediately
     void Update()
     {
-        
+        counter += Time.deltaTime;
+
+        if (counter > 1)
+        {
+            var rw = UI_ACItemGrid.LastInstanceOfItemGrid?.GetCurrentlyActiveReadWriter();
+            FetchNamesButton.gameObject.SetActive(rw != null);
+            counter = 0;
+        }
     }
 
     public static bool GetValidateData(bool defVal = true)
@@ -133,5 +151,37 @@ public class UI_Settings : MonoBehaviour
     {
         PlayerPrefs.SetInt(ITEMLANGMODEKEY, nLang);
         GameInfo.SetLanguage2Char(nLang);
+    }
+
+    // player index
+    public static int GetPlayerIndex(int defPlayer = 0) => PlayerPrefs.GetInt(PLAYERINDEXKEY, defPlayer);
+
+    public static void SetPlayerIndex(int nVal) => PlayerPrefs.SetInt(PLAYERINDEXKEY, nVal);
+
+    public void FetchPlayerNames()
+    {
+        var rw = UI_ACItemGrid.LastInstanceOfItemGrid.GetCurrentlyActiveReadWriter();
+        string[] toPlace;
+        if (rw != null)
+            toPlace = UI_Player.FetchPlayerNames(rw);
+        else
+            return;
+
+        generatePlayerIndexList(toPlace, GetPlayerIndex());
+    }
+
+    private void generatePlayerIndexList(string[] values, int select = 0)
+    {
+        WhichPlayer.onValueChanged.RemoveAllListeners();
+        WhichPlayer.ClearOptions();
+        foreach (string sm in values)
+        {
+            Dropdown.OptionData newVal = new Dropdown.OptionData();
+            newVal.text = sm;
+            WhichPlayer.options.Add(newVal);
+        }
+        WhichPlayer.value = Mathf.Min(WhichPlayer.options.Count-1, select);
+        WhichPlayer.RefreshShownValue();
+        WhichPlayer.onValueChanged.AddListener(delegate { SetPlayerIndex(WhichPlayer.value); });
     }
 }

@@ -145,7 +145,8 @@ public class UI_ACItemGrid : MonoBehaviour
         else
         {
             Debug.LogError(r.ToString());
-            PopupHelper.CreateError(r.ToString(), 2f);
+            if (r != InjectionResult.Same)
+                PopupHelper.CreateError(r.ToString(), 2f);
         }
     }
 
@@ -153,7 +154,8 @@ public class UI_ACItemGrid : MonoBehaviour
     {
         Debug.Log($"Write result: {r}");
         if (r != InjectionResult.Success)
-            PopupHelper.CreateError($"Write result: {r}", 2f);
+            if (r != InjectionResult.Same)
+                PopupHelper.CreateError($"Write result: {r}", 2f);
     }
 
     private void set(Item[] items)
