@@ -145,9 +145,9 @@ public class UI_Villager : IUI_Additional
         }
     }
 
-    public void SetCurrentVillager(bool includeHouse)
+    public void SetCurrentVillager()
     {
-        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Saving villager...", () => { setCurrentVillager(includeHouse); });
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Saving villager...", () => { setCurrentVillager(true); });
     }
 
     public void RevertCurrentPhraseToOriginal()
@@ -176,7 +176,7 @@ public class UI_Villager : IUI_Additional
             byte[] villagerDump = ((TextAsset)Resources.Load("DefaultVillagers/" + newVillager + "V")).bytes;
             byte[] villagerHouse = ((TextAsset)Resources.Load("DefaultVillagers/" + newVillager + "H")).bytes;
             if (villagerDump == null || villagerHouse == null)
-                return;
+                throw new Exception("Villager not found: " + newVillager);
 
             Villager newV = new Villager(villagerDump);
             newV.SetMemories(loadedVillager.GetMemories());
@@ -188,7 +188,7 @@ public class UI_Villager : IUI_Additional
             loadedVillager = newV;
             loadedVillagerHouse = newVH;
 
-            SetCurrentVillager(true);
+            SetCurrentVillager();
             TenVillagers[currentlyLoadedVillagerIndex].texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, newVillager);
             VillagerToUI(loadedVillager);
         }

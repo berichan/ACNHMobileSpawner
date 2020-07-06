@@ -9,7 +9,7 @@ public class PopupHelper
 #if UNITY_ANDROID && !UNITY_EDITOR
         AndroidUSBUtils.CurrentInstance.DebugToast(message);
 #else
-        UI_Popup.CurrentInstance.CreatePopupMessage(length, message, null);
+        UI_Popup.CurrentInstance.CreatePopupMessage(length, "Error: "+message, null, Color.red);
 #endif
     }
 }
