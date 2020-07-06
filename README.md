@@ -4,7 +4,7 @@ Item injector (and more) for Animal Crossing: New Horizons for mobile built in U
 Requires a Switch running custom firmware with the sysmodule [sys-botbase](https://github.com/olliz0r/sys-botbase) or [USB-Botbase](https://github.com/fishguy6564/USB-Botbase) installed.
 
 It currently supports the following:
-* Injecting and deleting inventory items.
+* Injecting and deleting inventory items. Supports all players 1-8.
 * Changing amount of miles, bells in your bank and in your wallet (inventory).
 * [Changing and replacing villagers](https://www.youtube.com/watch?v=5CUUZhGtsxk) using the perfect villager database.
 * Changing the turnip buy/sell prices and fluctuations.
