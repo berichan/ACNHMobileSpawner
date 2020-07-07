@@ -30,7 +30,7 @@ namespace NHSE.Injection
                 AndroidUSBUtils.CurrentInstance.WriteToEndpoint(cmd);
 
                 // give it time to push data back
-                Thread.Sleep((length / 256) + 100);
+                Thread.Sleep((length / 256) + 40);
 
                 byte[] buffer = AndroidUSBUtils.CurrentInstance.ReadEndpoint(length);
                 return buffer;
@@ -47,7 +47,7 @@ namespace NHSE.Injection
                     AndroidUSBUtils.CurrentInstance.WriteToEndpoint(SwitchCommand.PokeRaw(offset, data));
 
                     // give it time to push data back
-                    Thread.Sleep((data.Length / 256) + 100);
+                    Thread.Sleep((data.Length / 256) + 40);
                 }
         }
 

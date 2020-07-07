@@ -25,14 +25,17 @@ public class UI_Settings : MonoBehaviour
     public const string INJMODEKEY = "INJKEY";
     public const string PLAYERINDEXKEY = "PINDKEY";
 
+    public static string[] VillagerPlayerNames;
+
     public Dropdown LanguageField;
     public Dropdown SearchMode;
     public Dropdown InjectionMode;
     public Dropdown WhichPlayer;
     public InputField Offset;
     public Toggle ValidataData;
-
     public Button FetchNamesButton;
+
+    private bool fetchedPlayersFromRam = false;
 
     // Start is called before the first frame update
     void Start()
@@ -168,10 +171,12 @@ public class UI_Settings : MonoBehaviour
             return;
 
         generatePlayerIndexList(toPlace, GetPlayerIndex());
+        fetchedPlayersFromRam = true;
     }
 
     private void generatePlayerIndexList(string[] values, int select = 0)
     {
+        VillagerPlayerNames = values;
         WhichPlayer.onValueChanged.RemoveAllListeners();
         WhichPlayer.ClearOptions();
         foreach (string sm in values)

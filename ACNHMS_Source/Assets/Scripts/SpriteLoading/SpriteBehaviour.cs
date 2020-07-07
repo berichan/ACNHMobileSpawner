@@ -194,6 +194,7 @@ public class SpriteBehaviour : MonoBehaviour
         if (success)
         {
             InitStatusLabels();
+            InitParser(true);
 
             //reset with sprites
             if (UI_ACItemGrid.LastInstanceOfItemGrid != null)
@@ -211,9 +212,9 @@ public class SpriteBehaviour : MonoBehaviour
 
     // NH_CreationEngine: https://github.com/berichan/NH_CreationEngine
 
-    static void InitParser()
+    static void InitParser(bool force = false)
     {
-        if (SpriteParser.CurrentInstance == null)
+        if (SpriteParser.CurrentInstance == null || force)
             SpriteParser.CurrentInstance = new SpriteParser(
                 imgroot + Path.DirectorySeparatorChar + dumpFileName,
                 imgroot + Path.DirectorySeparatorChar + dumpHeaderName,

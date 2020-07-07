@@ -10,6 +10,7 @@ public class UI_Popup : MonoBehaviour
 
     public GameObject Root;
     public GameObject MainBlocker;
+    public RawImage PopImage;
     public Text ToWriteTo;
 
     Color originalTextColor = new Color(1,1,1,1);
@@ -21,7 +22,7 @@ public class UI_Popup : MonoBehaviour
         originalTextColor = ToWriteTo.color;
     }
 
-    public void CreatePopupMessage(float length, string message, Action onStart, Color? c = null, bool animate = false)
+    public void CreatePopupMessage(float length, string message, Action onStart, Color? c = null, bool animate = false, Texture2D imgTexture = null)
     {
         ToWriteTo.text = message;
         MainBlocker.SetActive(true);
@@ -31,6 +32,12 @@ public class UI_Popup : MonoBehaviour
             ToWriteTo.color = c.Value;
         else
             ToWriteTo.color = originalTextColor;
+
+        PopImage.gameObject.SetActive(true);
+        if (imgTexture != null)
+            PopImage.texture = imgTexture;
+        else
+            PopImage.gameObject.SetActive(false);
 
         StopAllCoroutines();
         StartCoroutine(waitPop(length, onStart, animate));

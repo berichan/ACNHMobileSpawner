@@ -35,6 +35,7 @@ public class UI_Villager : IUI_Additional
 
     private Villager loadedVillager;
     private List<VillagerHouse> loadedVillagerHouses;
+    private List<Villager> loadedVillagerShellsList;
     private SpriteParser villagerSprites;
     private bool loadedVillagerShells = false;
     private int currentlyLoadedVillagerIndex = -1;
@@ -60,10 +61,12 @@ public class UI_Villager : IUI_Additional
 
     private void loadAllVillagers()
     {
+        loadedVillagerShellsList = new List<Villager>();
         for (int i = 0; i < 10; ++i)
         {
             byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(i * Villager.SIZE), 3);
             Villager villagerShell = new Villager(loaded);
+            loadedVillagerShellsList.Add(villagerShell);
             if (villagerShell.Species == (byte)VillagerSpecies.non)
             {
                 TenVillagers[i].GetComponent<Button>().enabled = false;
@@ -78,15 +81,20 @@ public class UI_Villager : IUI_Additional
         }
 
         // load all houses
+        loadAllHouses();
+
+        loadedVillagerShells = true;
+        BlockerRoot.gameObject.SetActive(false);
+    }
+
+    private void loadAllHouses()
+    {
         loadedVillagerHouses = new List<VillagerHouse>();
         byte[] houses = CurrentConnection.ReadBytes(CurrentVillagerHouseAddress, VillagerHouse.SIZE * 10);
         for (int i = 0; i < 10; ++i)
         {
             loadedVillagerHouses.Add(new VillagerHouse(houses.Slice(i * VillagerHouse.SIZE, VillagerHouse.SIZE)));
         }
-
-        loadedVillagerShells = true;
-        BlockerRoot.gameObject.SetActive(false);
     }
 
     public void LoadAllVillagers() // gets first 3 bytes of each villager
@@ -102,6 +110,9 @@ public class UI_Villager : IUI_Additional
 
             if (villagerIsNull(loaded))
                 return;
+
+            // reload all houses
+            loadAllHouses();
 
             currentlyLoadedVillagerIndex = index;
             loadedVillager = new Villager(loaded);
@@ -120,7 +131,12 @@ public class UI_Villager : IUI_Additional
         if (!loadedVillagerShells)
             return;
 
-        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Loading villager...", () => { loadVillager(index); });
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, 
+            string.Format("Loading {0}...", GameInfo.Strings.GetVillager(loadedVillagerShellsList[index].InternalName)), 
+            () => { loadVillager(index); }, 
+            loadedVillagerShellsList[index].Gender == 0 ? new Color (0.15f, 0.46f, 1f) : new Color (1f, 0.51f, 0.75f), // blue or pink
+            false,
+            (Texture2D)TenVillagers[index].texture); 
     }
 
     public void VillagerToUI(Villager v)
@@ -166,7 +182,12 @@ public class UI_Villager : IUI_Additional
 
     public void SetCurrentVillager()
     {
-        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Saving villager...", () => { setCurrentVillager(true); });
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f,
+            string.Format("Saving {0}...", GameInfo.Strings.GetVillager(loadedVillagerShellsList[currentlyLoadedVillagerIndex].InternalName)), 
+            () => { setCurrentVillager(true); },
+            loadedVillagerShellsList[currentlyLoadedVillagerIndex].Gender == 0 ? new Color(0.15f, 0.46f, 1f) : new Color(1f, 0.51f, 0.75f), // blue or pink
+            false,
+            (Texture2D)TenVillagers[currentlyLoadedVillagerIndex].texture);
     }
 
     public void RevertCurrentPhraseToOriginal()
@@ -184,7 +205,12 @@ public class UI_Villager : IUI_Additional
 
     private void loadVillagerFromResource()
     {
-        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Sending villager...", () => { loadVillagerData(); });
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f,
+            string.Format("Sending {0}...", GameInfo.Strings.GetVillager(loadedVillagerShellsList[currentlyLoadedVillagerIndex].InternalName)), 
+            () => { loadVillagerData(); },
+            null,
+            false,
+            (Texture2D)TenVillagers[currentlyLoadedVillagerIndex].texture);
     }
 
     private void loadVillagerData()
@@ -204,15 +230,16 @@ public class UI_Villager : IUI_Additional
             VillagerHouse newVH = new VillagerHouse(villagerHouse);
             VillagerHouse loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
             newVH.NPC1 = loadedVillagerHouse.NPC1;
-
-            loadedVillager = newV;
+            
             int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
             if (index == -1)
                 throw new Exception("The villager being replaced doesn't have a house on your island.");
             loadedVillagerHouses[index] = newVH;
-
-            SetCurrentVillager();
+            loadedVillager = newV;
+            loadedVillagerShellsList[currentlyLoadedVillagerIndex] = newV;
+            
             TenVillagers[currentlyLoadedVillagerIndex].texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, newVillager);
+            SetCurrentVillager(); // where the magic happens
             VillagerToUI(loadedVillager);
         }
         catch (Exception e)

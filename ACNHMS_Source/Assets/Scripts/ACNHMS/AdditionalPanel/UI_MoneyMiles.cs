@@ -16,6 +16,7 @@ public class UI_MoneyMiles : IUI_Additional
 
     public InputField BankInput, PouchInput, MilesInput, MilesTotalInput;
     public InputField MoneyAddressInput, PouchAddressInput, MilesAddressInput;
+    public Text CurrentlyEditingVillagerName;
 
     private MoneyMilesUtility currentUtil;
 
@@ -38,6 +39,12 @@ public class UI_MoneyMiles : IUI_Additional
         MoneyAddressInput.onValueChanged.AddListener(delegate { MoneyValueAddress = MoneyAddressInput.text; });
         PouchAddressInput.onValueChanged.AddListener(delegate { WalletAddress = PouchAddressInput.text; });
         MilesAddressInput.onValueChanged.AddListener(delegate { MilesAddress = MilesAddressInput.text; });
+    }
+
+    private void OnEnable()
+    {
+        if (UI_Settings.VillagerPlayerNames != null)
+            CurrentlyEditingVillagerName.text = "Current Player: " + UI_Settings.VillagerPlayerNames[UI_Settings.GetPlayerIndex()];
     }
 
     public void GetMoneyValues()
