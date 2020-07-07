@@ -26,12 +26,14 @@ public class UI_Villager : IUI_Additional
     public InputField VillagerPhrase;
     public Toggle MovingOutToggle;
     public InputField VillagerRamOffset, VillagerHouseRamOffset;
+    public Button DataButton;
 
     public RawImage[] TenVillagers;
 
     public GameObject BlockerRoot;
 
     public UI_VillagerSelect Selector;
+    public UI_VillagerData DataSelector;
 
     private Villager loadedVillager;
     private List<VillagerHouse> loadedVillagerHouses;
@@ -39,6 +41,10 @@ public class UI_Villager : IUI_Additional
     private SpriteParser villagerSprites;
     private bool loadedVillagerShells = false;
     private int currentlyLoadedVillagerIndex = -1;
+
+    public VillagerHouse GetCurrentLoadedVillagerHouse() => loadedVillagerHouses?.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex);
+
+    public Villager GetCurrentlyLoadedVillager() => loadedVillager;
 
     void Start()
     {
@@ -57,34 +63,48 @@ public class UI_Villager : IUI_Additional
 
         VillagerRamOffset.onValueChanged.AddListener(delegate { VillagerRootAddress = VillagerRamOffset.text; });
         VillagerHouseRamOffset.onValueChanged.AddListener(delegate { VillagerHouseAddress = VillagerHouseRamOffset.text; });
+
+        DataButton.interactable = false;
     }
 
     private void loadAllVillagers()
     {
-        loadedVillagerShellsList = new List<Villager>();
-        for (int i = 0; i < 10; ++i)
+        try
         {
-            byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(i * Villager.SIZE), 3);
-            Villager villagerShell = new Villager(loaded);
-            loadedVillagerShellsList.Add(villagerShell);
-            if (villagerShell.Species == (byte)VillagerSpecies.non)
+            // load all houses
+            loadAllHouses();
+
+            loadedVillagerShellsList = new List<Villager>();
+            for (int i = 0; i < 10; ++i)
             {
-                TenVillagers[i].GetComponent<Button>().enabled = false;
-                continue;
+                byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(i * Villager.SIZE), 3);
+                Villager villagerShell = new Villager(loaded);
+                loadedVillagerShellsList.Add(villagerShell);
+                if (villagerShell.Species == (byte)VillagerSpecies.non)
+                {
+                    TenVillagers[i].GetComponent<Button>().interactable = false;
+                    continue;
+                }
+                else
+                    TenVillagers[i].GetComponent<Button>().interactable = true;
+
+                var ourHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)i);
+                if (ourHouse != null)
+                    if (checkIfMovingIn(ourHouse))
+                        TenVillagers[i].GetComponent<Button>().interactable = false; // but still show them
+
+                Texture2D pic = SpriteBehaviour.PullTextureFromParser(villagerSprites, villagerShell.InternalName);
+                if (pic != null)
+                    TenVillagers[i].texture = pic;
             }
-            else
-                TenVillagers[i].GetComponent<Button>().enabled = true;
-            
-            Texture2D pic = SpriteBehaviour.PullTextureFromParser(villagerSprites, villagerShell.InternalName);
-            if (pic != null)
-                TenVillagers[i].texture = pic;
+
+            loadedVillagerShells = true;
+            BlockerRoot.gameObject.SetActive(false);
         }
-
-        // load all houses
-        loadAllHouses();
-
-        loadedVillagerShells = true;
-        BlockerRoot.gameObject.SetActive(false);
+        catch (Exception e)
+        {
+            PopupHelper.CreateError(e.Message, 2f);
+        }
     }
 
     private void loadAllHouses()
@@ -147,6 +167,8 @@ public class UI_Villager : IUI_Additional
         MovingOutToggle.isOn = v.MovingOut;
 
         SaveVillagerLabel.text = string.Format("Save villager ({0})", VillagerName.text);
+
+        DataButton.interactable = true;
     }
 
     private void setCurrentVillager(bool includeHouse)
@@ -203,17 +225,24 @@ public class UI_Villager : IUI_Additional
         Selector.Init(() => { loadVillagerFromResource(); }, () => { resetVillagerSelection(); }, villagerSprites);
     }
 
+    public void ShowDataSelector()
+    {
+        DataSelector.gameObject.SetActive(true);
+        DataSelector.VillagerName.text = VillagerName.text;
+        DataSelector.VillagerImg.texture = (Texture2D)MainVillagerTexture.texture;
+    }
+
     private void loadVillagerFromResource()
     {
         UI_Popup.CurrentInstance.CreatePopupMessage(0.001f,
             string.Format("Sending {0}...", GameInfo.Strings.GetVillager(loadedVillagerShellsList[currentlyLoadedVillagerIndex].InternalName)), 
-            () => { loadVillagerData(); },
+            () => { loadVillagerDataFromSelector(); },
             null,
             false,
             (Texture2D)TenVillagers[currentlyLoadedVillagerIndex].texture);
     }
 
-    private void loadVillagerData()
+    private void loadVillagerDataFromSelector()
     {
         try
         {
@@ -223,30 +252,43 @@ public class UI_Villager : IUI_Additional
             if (villagerDump == null || villagerHouse == null)
                 throw new Exception("Villager not found: " + newVillager);
 
-            Villager newV = new Villager(villagerDump);
-            newV.SetMemories(loadedVillager.GetMemories());
-            newV.CatchPhrase = GameInfo.Strings.GetVillagerDefaultPhrase(newVillager);
+            loadVillagerData(new Villager(villagerDump), new VillagerHouse(villagerHouse));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+            PopupHelper.CreateError(e.Message, 2f);
+        }
+    }
 
-            VillagerHouse newVH = new VillagerHouse(villagerHouse);
-            VillagerHouse loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
-            
+    private void loadVillagerData(Villager v, VillagerHouse vh, bool raw = false)
+    {
+        try
+        {
+            Villager newV = v;
+            VillagerHouse newVH = vh;
+            if (!raw)
+            {
+                newV.SetMemories(loadedVillager.GetMemories());
+                newV.SetEventFlagsSave(loadedVillager.GetEventFlagsSave());
+                newV.CatchPhrase = GameInfo.Strings.GetVillagerDefaultPhrase(newV.InternalName);
+            }
+
+            VillagerHouse loadedVillagerHouse = GetCurrentLoadedVillagerHouse(); // non indexed so search for the correct one
             int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
             if (index == -1)
                 throw new Exception("The villager being replaced doesn't have a house on your island.");
 
             // check if they are moving in
             if (checkIfMovingIn(loadedVillagerHouse))
-            {
                 newVH = combineHouseOrders(newVH, loadedVillagerHouse);
-                newV.SetEventFlagsSave(loadedVillager.GetEventFlagsSave());
-            }
             newVH.NPC1 = loadedVillagerHouse.NPC1;
 
             loadedVillagerHouses[index] = newVH;
             loadedVillager = newV;
             loadedVillagerShellsList[currentlyLoadedVillagerIndex] = newV;
-            
-            TenVillagers[currentlyLoadedVillagerIndex].texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, newVillager);
+
+            TenVillagers[currentlyLoadedVillagerIndex].texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, newV.InternalName);
             SetCurrentVillager(); // where the magic happens
             VillagerToUI(loadedVillager);
         }
@@ -272,6 +314,25 @@ public class UI_Villager : IUI_Additional
     {
 
     }
+
+    // villager data
+
+    public void WriteVillagerDataHouse(VillagerHouse vh)
+    {
+        loadVillagerData(loadedVillager, vh, true);
+    }
+
+    public void WriteVillagerDataVillager(Villager v)
+    {
+        VillagerHouse loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
+        int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
+        if (index == -1)
+            throw new Exception("The villager having their house replaced doesn't have a house on your island."); // not sure why but it can get unloaded during the check
+
+        loadVillagerData(v, loadedVillagerHouse, true);
+    }
+
+    // tools
 
     private void checkAndLoadSpriteDump()
     {

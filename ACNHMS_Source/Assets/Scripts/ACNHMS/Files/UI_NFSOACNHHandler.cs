@@ -7,10 +7,53 @@ using NHSE.Core;
 
 public class UI_NFSOACNHHandler : MonoBehaviour
 {
+    public static UI_NFSOACNHHandler LastInstanceOfNFSO;
+
     private static string TempNHIPath { get => Application.persistentDataPath + Path.DirectorySeparatorChar + "Inventory.nhi"; }
     private SupportedFileType[] supportedFileTypes = { SupportedFileType.Any };
 
     public Toggle EmptySpacesOnly;
+
+    private void Start()
+    {
+        LastInstanceOfNFSO = this;
+    }
+
+    public void SaveFile(string filenameNoPath, byte[] bytes)
+    {
+        try
+        {
+            string tempPath = Application.persistentDataPath + Path.DirectorySeparatorChar + filenameNoPath;
+
+            if (!Directory.Exists(Path.GetDirectoryName(tempPath)))
+                Directory.CreateDirectory(Path.GetDirectoryName(tempPath));
+
+            if (File.Exists(tempPath))
+                File.Delete(tempPath);
+
+            File.WriteAllBytes(tempPath, bytes);
+
+            saveFile(tempPath, filenameNoPath);
+
+            File.Delete(tempPath);
+        }
+        catch (Exception e)
+        {
+            PopupHelper.CreateError(e.Message, 2f, true);
+        }
+    }
+
+    public void OpenFile(string aType, Action<byte[]> handleFile, int expectedFileSize = -1)
+    {
+        try
+        {
+            openFile(aType, handleFile, expectedFileSize);
+        }
+        catch (Exception e)
+        {
+            PopupHelper.CreateError(e.Message, 2f, true);
+        }
+    }
 
     public void SaveInventoryNHI()
     {
@@ -20,25 +63,13 @@ public class UI_NFSOACNHHandler : MonoBehaviour
         }
         catch (Exception e)
         {
-            PopupHelper.CreateError(e.Message, 2f);
+            PopupHelper.CreateError(e.Message, 2f, true);
         }
     }
 
     public void OpenFileNHI()
     {
-        OpenFile("nhi", parseItemDataArray);
-    }
-
-    public void OpenFile(string aType, Action<byte[]> handleFile)
-    {
-        try
-        {
-            openFile(aType, handleFile);
-        }
-        catch (Exception e)
-        {
-            PopupHelper.CreateError(e.Message, 2f);
-        }
+        OpenFile("nhi", parseItemDataArray, Item.SIZE * 40);
     }
 
     private void saveItemArray()
@@ -57,7 +88,9 @@ public class UI_NFSOACNHHandler : MonoBehaviour
 
         File.WriteAllBytes(TempNHIPath, bytes);
 
-        saveFile(TempNHIPath, DateTime.Now.ToString("yyyyddMMHHmmss") + ".nhi");
+        saveFile(TempNHIPath, DateTime.Now.ToString("yyyyddMM_HHmmss") + ".nhi");
+
+        File.Delete(TempNHIPath);
     }
 
     private void parseItemDataArray(byte[] bytes)
@@ -81,7 +114,7 @@ public class UI_NFSOACNHHandler : MonoBehaviour
         NativeFileSO.shared.SaveFile(file);
     }
     
-    private void openFile(string aType, Action<byte[]> handleFile)
+    private void openFile(string aType, Action<byte[]> handleFile, int expectedFileSize = -1)
     {
         NativeFileSO.shared.OpenFile(supportedFileTypes,
           delegate (bool fileWasOpened, OpenedFile file)
@@ -90,7 +123,9 @@ public class UI_NFSOACNHHandler : MonoBehaviour
               {
                   // Process the loaded contents of "file"
                   if (file.Extension != "." + aType)
-                      throw new Exception(string.Format("Not an *.{0} file.", aType));
+                      PopupHelper.CreateError(string.Format("Not a *.{0} file.", aType), 2f, true);
+                  else if (file.Data.Length != expectedFileSize && expectedFileSize != -1)
+                      PopupHelper.CreateError(string.Format("Selected file is not the correct size for a *.{0} file.", aType), 2f, true);
                   else
                       handleFile(file.Data);
               }
