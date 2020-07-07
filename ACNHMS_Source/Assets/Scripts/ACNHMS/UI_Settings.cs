@@ -35,6 +35,8 @@ public class UI_Settings : MonoBehaviour
     public Toggle ValidataData;
     public Button FetchNamesButton;
 
+    public Text[] PlayerNamesToChange; // Various places that need player name
+
     private bool fetchedPlayersFromRam = false;
 
     // Start is called before the first frame update
@@ -187,6 +189,15 @@ public class UI_Settings : MonoBehaviour
         }
         WhichPlayer.value = Mathf.Min(WhichPlayer.options.Count-1, select);
         WhichPlayer.RefreshShownValue();
-        WhichPlayer.onValueChanged.AddListener(delegate { SetPlayerIndex(WhichPlayer.value); });
+        WhichPlayer.onValueChanged.AddListener(delegate {
+            SetPlayerIndex(WhichPlayer.value);
+            if (PlayerNamesToChange != null)
+                foreach (var pn in PlayerNamesToChange)
+                    pn.text = VillagerPlayerNames[GetPlayerIndex()];
+        });
+
+        if (PlayerNamesToChange != null)
+            foreach (var pn in PlayerNamesToChange)
+                pn.text = VillagerPlayerNames[GetPlayerIndex()];
     }
 }
