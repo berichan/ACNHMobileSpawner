@@ -229,7 +229,6 @@ public class UI_Villager : IUI_Additional
 
             VillagerHouse newVH = new VillagerHouse(villagerHouse);
             VillagerHouse loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
-            newVH.NPC1 = loadedVillagerHouse.NPC1;
             
             int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
             if (index == -1)
@@ -241,6 +240,7 @@ public class UI_Villager : IUI_Additional
                 newVH = combineHouseOrders(newVH, loadedVillagerHouse);
                 newV.SetEventFlagsSave(loadedVillager.GetEventFlagsSave());
             }
+            newVH.NPC1 = loadedVillagerHouse.NPC1;
 
             loadedVillagerHouses[index] = newVH;
             loadedVillager = newV;
