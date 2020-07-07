@@ -234,6 +234,14 @@ public class UI_Villager : IUI_Additional
             int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
             if (index == -1)
                 throw new Exception("The villager being replaced doesn't have a house on your island.");
+
+            // check if they are moving in
+            if (checkIfMovingIn(loadedVillagerHouse))
+            {
+                newVH = combineHouseOrders(newVH, loadedVillagerHouse);
+                newV.SetEventFlagsSave(loadedVillager.GetEventFlagsSave());
+            }
+
             loadedVillagerHouses[index] = newVH;
             loadedVillager = newV;
             loadedVillagerShellsList[currentlyLoadedVillagerIndex] = newV;
@@ -247,6 +255,17 @@ public class UI_Villager : IUI_Additional
             Debug.LogError(e.Message);
             PopupHelper.CreateError(e.Message, 2f);
         }
+    }
+
+    private bool checkIfMovingIn(VillagerHouse vOld) => vOld.WallUniqueID == WallType.HouseWallNSoldOut;
+
+    private VillagerHouse combineHouseOrders(VillagerHouse vNew, VillagerHouse vOld)
+    {
+        VillagerHouse vTmp = new VillagerHouse(vOld.Data);
+        vTmp.OrderWallUniqueID = vNew.OrderWallUniqueID;
+        vTmp.OrderRoofUniqueID = vNew.OrderRoofUniqueID;
+        vTmp.OrderDoorUniqueID = vNew.OrderDoorUniqueID;
+        return vTmp;
     }
 
     private void resetVillagerSelection()
