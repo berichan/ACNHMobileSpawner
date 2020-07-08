@@ -24,7 +24,7 @@ public class UI_Villager : IUI_Additional
     public Text VillagerName, SaveVillagerLabel;
     public RawImage MainVillagerTexture;
     public InputField VillagerPhrase;
-    public Toggle MovingOutToggle;
+    public Toggle MovingOutToggle, ReloadVillagerToggle;
     public InputField VillagerRamOffset, VillagerHouseRamOffset;
     public Button DataButton;
 
@@ -146,13 +146,36 @@ public class UI_Villager : IUI_Additional
         }
     }
 
+    private Villager loadVillagerExternal(int index, bool includeHouses)
+    {
+        try
+        {
+            byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(index * Villager.SIZE), Villager.SIZE);
+
+            if (villagerIsNull(loaded))
+                return null;
+
+            // reload all houses
+            if (includeHouses)
+                loadAllHouses();
+            
+            return new Villager(loaded);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e.Message);
+            PopupHelper.CreateError(e.Message, 2f);
+            return null;
+        }
+    }
+
     public void LoadVillager(int index)
     {
         if (!loadedVillagerShells)
             return;
 
         UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, 
-            string.Format("Loading {0}...", GameInfo.Strings.GetVillager(loadedVillagerShellsList[index].InternalName)), 
+            string.Format("Fetching {0}...", GameInfo.Strings.GetVillager(loadedVillagerShellsList[index].InternalName)), 
             () => { loadVillager(index); }, 
             loadedVillagerShellsList[index].Gender == 0 ? new Color (0.15f, 0.46f, 1f) : new Color (1f, 0.51f, 0.75f), // blue or pink
             false,
@@ -202,7 +225,18 @@ public class UI_Villager : IUI_Additional
         }
     }
 
-    public void SetCurrentVillager()
+    public void SetCurrentVillagerWithCheck()
+    {
+        if (currentlyLoadedVillagerIndex == -1)
+        {
+            PopupHelper.CreateError("No villager selected. Select a villager from the left-hand panel.", 2f);
+            return;
+        }
+        checkReloadVillager();
+        setCurrentVillager();
+    }
+
+    private void setCurrentVillager()
     {
         UI_Popup.CurrentInstance.CreatePopupMessage(0.001f,
             string.Format("Saving {0}...", GameInfo.Strings.GetVillager(loadedVillagerShellsList[currentlyLoadedVillagerIndex].InternalName)), 
@@ -234,6 +268,11 @@ public class UI_Villager : IUI_Additional
 
     private void loadVillagerFromResource()
     {
+        if (currentlyLoadedVillagerIndex == -1)
+        {
+            PopupHelper.CreateError("No villager selected to replace.", 2f);
+            return;
+        }
         UI_Popup.CurrentInstance.CreatePopupMessage(0.001f,
             string.Format("Sending {0}...", GameInfo.Strings.GetVillager(loadedVillagerShellsList[currentlyLoadedVillagerIndex].InternalName)), 
             () => { loadVillagerDataFromSelector(); },
@@ -246,6 +285,7 @@ public class UI_Villager : IUI_Additional
     {
         try
         {
+            checkReloadVillager();
             string newVillager = Selector.LastSelectedVillager;
             byte[] villagerDump = ((TextAsset)Resources.Load("DefaultVillagers/" + newVillager + "V")).bytes;
             byte[] villagerHouse = ((TextAsset)Resources.Load("DefaultVillagers/" + newVillager + "H")).bytes;
@@ -289,7 +329,7 @@ public class UI_Villager : IUI_Additional
             loadedVillagerShellsList[currentlyLoadedVillagerIndex] = newV;
 
             TenVillagers[currentlyLoadedVillagerIndex].texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, newV.InternalName);
-            SetCurrentVillager(); // where the magic happens
+            setCurrentVillager(); // where the magic happens
             VillagerToUI(loadedVillager);
         }
         catch (Exception e)
@@ -315,15 +355,33 @@ public class UI_Villager : IUI_Additional
 
     }
 
+    private void checkReloadVillager()
+    {
+        if (ReloadVillagerToggle.isOn)
+        {
+            Villager v = loadVillagerExternal(currentlyLoadedVillagerIndex, true);
+            if (v != null)
+            {
+                loadedVillager.SetMemories(v.GetMemories());
+                loadedVillager.SetEventFlagsSave(v.GetEventFlagsSave());
+                loadedVillager.MovingOut = v.MovingOut;
+                loadedVillager.CatchPhrase = v.CatchPhrase;
+            }
+        }
+
+    }
+
     // villager data
 
     public void WriteVillagerDataHouse(VillagerHouse vh)
     {
+        checkReloadVillager();
         loadVillagerData(loadedVillager, vh, true);
     }
 
     public void WriteVillagerDataVillager(Villager v)
     {
+        checkReloadVillager();
         VillagerHouse loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
         int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
         if (index == -1)

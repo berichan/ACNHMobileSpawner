@@ -24,6 +24,7 @@ public class UI_Settings : MonoBehaviour
     public const string VALIDATADATAKEY = "VKEY";
     public const string INJMODEKEY = "INJKEY";
     public const string PLAYERINDEXKEY = "PINDKEY";
+    public const string THREADSLEEPKEY = "TSLKEY";
 
     public static string[] VillagerPlayerNames;
 
@@ -34,6 +35,7 @@ public class UI_Settings : MonoBehaviour
     public InputField Offset;
     public Toggle ValidataData;
     public Button FetchNamesButton;
+    public InputField ThreadSleepTime;
 
     public Text[] PlayerNamesToChange; // Various places that need player name
 
@@ -65,6 +67,7 @@ public class UI_Settings : MonoBehaviour
         LanguageField.RefreshShownValue();
 
         Offset.text = SysBotController.CurrentOffset;
+        ThreadSleepTime.text = GetThreadSleepTime().ToString();
         ValidataData.isOn = GetValidateData();
 
 #if PLATFORM_ANDROID
@@ -90,6 +93,7 @@ public class UI_Settings : MonoBehaviour
         SearchMode.onValueChanged.AddListener(delegate { setSearchMode((StringSearchMode)SearchMode.value); });
         LanguageField.onValueChanged.AddListener(delegate { SetLanguage(LanguageField.value); });
         Offset.onValueChanged.AddListener(delegate { SysBotController.CurrentOffset = Offset.text; });
+        ThreadSleepTime.onValueChanged.AddListener(delegate { SetThreadSleepTime(int.Parse(ThreadSleepTime.text)); });
         ValidataData.onValueChanged.AddListener(delegate { SetValidateData(ValidataData.isOn); });
 
         // player index
@@ -156,6 +160,16 @@ public class UI_Settings : MonoBehaviour
     {
         PlayerPrefs.SetInt(ITEMLANGMODEKEY, nLang);
         GameInfo.SetLanguage2Char(nLang);
+    }
+
+    public static int GetThreadSleepTime(int defVal = 100)
+    {
+        return PlayerPrefs.GetInt(THREADSLEEPKEY, defVal);
+    }
+
+    public static void SetThreadSleepTime(int nVal)
+    {
+        PlayerPrefs.SetInt(THREADSLEEPKEY, nVal);
     }
 
     // player index

@@ -62,7 +62,7 @@ namespace NHSE.Injection
                 SendInternal(cmd);
 
                 // give it time to push data back
-                Thread.Sleep((length / 256) + 100);
+                Thread.Sleep((length / 256) + UI_Settings.GetThreadSleepTime());
                 var buffer = new byte[(length * 2) + 1];
                 var _ = ReadInternal(buffer);
                 return Decoder.ConvertHexByteStringToBytes(buffer);
@@ -79,7 +79,7 @@ namespace NHSE.Injection
                 SendInternal(SwitchCommand.Poke(offset, data));
 
                 // give it time to push data back
-                Thread.Sleep((data.Length / 256) + 100);
+                Thread.Sleep((data.Length / 256) + UI_Settings.GetThreadSleepTime());
                 }
         }
 
