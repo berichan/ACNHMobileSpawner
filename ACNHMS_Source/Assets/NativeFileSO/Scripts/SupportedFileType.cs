@@ -200,5 +200,47 @@ namespace Keiwando.NFSO {
 			AppleUTI = "com.compuserve.gif",
 			MimeType = "image/gif"
 		};
-	}
+
+        /// <summary>
+		/// The <see cref="SupportedFileType"/> preset that matches NHI (New Horizons Inventory) files
+		/// with a .pdf file extension.
+		/// </summary>
+		public static readonly SupportedFileType NHI = new SupportedFileType
+        {
+
+            Name = "NHI",
+            Extension = "nhi",
+            Owner = true,
+            AppleUTI = "public.data|public.content",
+            MimeType = "*/*"
+        };
+
+        /// <summary>
+		/// The <see cref="SupportedFileType"/> preset that matches NHV (New Horizons Villager) files
+		/// with a .pdf file extension.
+		/// </summary>
+		public static readonly SupportedFileType NHV = new SupportedFileType
+        {
+
+            Name = "NHV",
+            Extension = "nhv",
+            Owner = true,
+            AppleUTI = "public.data|public.content",
+            MimeType = "*/*"
+        };
+
+        /// <summary>
+		/// The <see cref="SupportedFileType"/> preset that matches NHVH (New Horizons Villager House) files
+		/// with a .pdf file extension.
+		/// </summary>
+		public static readonly SupportedFileType NHVH = new SupportedFileType
+        {
+
+            Name = "NHVH",
+            Extension = "nhvh",
+            Owner = true,
+            AppleUTI = "public.data|public.content",
+            MimeType = "*/*"
+        };
+    }
 }

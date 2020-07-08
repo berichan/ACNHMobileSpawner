@@ -9,8 +9,12 @@ public class UI_NFSOACNHHandler : MonoBehaviour
 {
     public static UI_NFSOACNHHandler LastInstanceOfNFSO;
 
-    private static string TempNHIPath { get => Application.persistentDataPath + Path.DirectorySeparatorChar + "Inventory.nhi"; }
-    private SupportedFileType[] supportedFileTypes = { SupportedFileType.Any };
+    private static string TempNHIPath { get => Application.temporaryCachePath + Path.DirectorySeparatorChar + "Inventory.nhi"; }
+    private SupportedFileType[] supportedFileTypes = {
+        SupportedFileType.Any,
+        SupportedFileType.NHI,
+        SupportedFileType.NHV,
+        SupportedFileType.NHVH};
 
     public Toggle EmptySpacesOnly;
 
@@ -23,7 +27,7 @@ public class UI_NFSOACNHHandler : MonoBehaviour
     {
         try
         {
-            string tempPath = Application.persistentDataPath + Path.DirectorySeparatorChar + filenameNoPath;
+            string tempPath = Application.temporaryCachePath + Path.DirectorySeparatorChar + filenameNoPath;
 
             if (!Directory.Exists(Path.GetDirectoryName(tempPath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(tempPath));
@@ -34,8 +38,6 @@ public class UI_NFSOACNHHandler : MonoBehaviour
             File.WriteAllBytes(tempPath, bytes);
 
             saveFile(tempPath, filenameNoPath);
-
-            File.Delete(tempPath);
         }
         catch (Exception e)
         {
@@ -80,17 +82,7 @@ public class UI_NFSOACNHHandler : MonoBehaviour
         ItemArrayEditor<Item> ItemArray = new ItemArrayEditor<Item>(UI_ACItemGrid.LastInstanceOfItemGrid.Items);
         var bytes = ItemArray.Write();
 
-        if (!Directory.Exists(Path.GetDirectoryName(TempNHIPath)))
-            Directory.CreateDirectory(Path.GetDirectoryName(TempNHIPath));
-
-        if (File.Exists(TempNHIPath))
-            File.Delete(TempNHIPath);
-
-        File.WriteAllBytes(TempNHIPath, bytes);
-
-        saveFile(TempNHIPath, DateTime.Now.ToString("yyyyddMM_HHmmss") + ".nhi");
-
-        File.Delete(TempNHIPath);
+        SaveFile(DateTime.Now.ToString("yyyyddMM_HHmmss") + ".nhi", bytes);
     }
 
     private void parseItemDataArray(byte[] bytes)

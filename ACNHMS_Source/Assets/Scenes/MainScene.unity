@@ -1540,7 +1540,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Save villager house
+  m_Text: 'Save villager
 
     (*.nhv)'
 --- !u!222 &60621957
@@ -3665,8 +3665,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 53, y: -235}
-  m_SizeDelta: {x: 413.90222, y: 63.135246}
+  m_AnchoredPosition: {x: 162, y: -396}
+  m_SizeDelta: {x: 195.85889, y: 63.135246}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &129705311
 MonoBehaviour:
@@ -4339,7 +4339,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 53, y: -397}
+  m_AnchoredPosition: {x: 53, y: -316}
   m_SizeDelta: {x: 413.90222, y: 63.135246}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &156896816
@@ -5198,7 +5198,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -20.04071, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &188107881
 MonoBehaviour:
@@ -24734,7 +24734,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Save villager
+  m_Text: Save villager changes
 --- !u!222 &733033458
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -41870,7 +41870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/07/08 00:53:40
+  LastEditorDateTime: 2020/07/08 14:08:44
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -44416,7 +44416,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -20.687042, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1461285510
 MonoBehaviour:
@@ -44450,7 +44450,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Villager data tools
+  m_Text: Save/load villager files
 --- !u!222 &1461285511
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -50313,7 +50313,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 888191203}
   m_HandleRect: {fileID: 888191202}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -58008,8 +58008,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 53, y: -316}
-  m_SizeDelta: {x: 413.90222, y: 63.135246}
+  m_AnchoredPosition: {x: -56.4, y: -396}
+  m_SizeDelta: {x: 195.08472, y: 63.135246}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1953364758
 MonoBehaviour:
