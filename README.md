@@ -9,6 +9,7 @@ It currently supports the following:
 * [Changing and replacing villagers](https://www.youtube.com/watch?v=5CUUZhGtsxk) using the perfect villager database.
 * Changing the turnip buy/sell prices and fluctuations.
 * Loading item cheats (using the NHSE cheat parser).
+* Saving and loading certain New Horizons file types: _*.nhi (inventory), *.nhv (villager) and *.nhvh (villager house)._
 
 Refer to the [Wiki](https://github.com/berichan/ACNHMobileSpawner/wiki) for help and troubleshooting.
 
