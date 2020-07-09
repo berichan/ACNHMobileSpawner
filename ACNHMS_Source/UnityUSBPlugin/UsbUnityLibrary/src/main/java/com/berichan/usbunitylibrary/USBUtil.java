@@ -11,8 +11,10 @@ import android.hardware.usb.UsbManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Hashtable;
 
 public class USBUtil {
 
@@ -21,6 +23,8 @@ public class USBUtil {
 
     Context unityContext;
 
+    Hashtable<Integer, Long> lastToastTimes;
+
     USBUtil() {}
 
     public void CreateToast(Context ctx, String message)
@@ -28,6 +32,30 @@ public class USBUtil {
         Log.d("Unity", "create toast called");
         boolean longDuration = true;
         Toast.makeText(ctx, message, longDuration ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
+    }
+
+    private void createToastInternal(Context ctx, String message, Integer functionId)
+    {
+        // internal toasts have a cooldown of 700 ms
+        if (lastToastTimes == null)
+            lastToastTimes = new Hashtable<Integer, Long>();
+
+        if (lastToastTimes.containsKey(functionId))
+        {
+            Long currTime = System.currentTimeMillis();
+            Long lastTime = lastToastTimes.get(functionId);
+            if (currTime - lastTime > 700L)
+            {
+                CreateToast(ctx, message);
+                lastToastTimes.put(functionId, currTime);
+            }
+        }
+        else
+        {
+            Long currTime = System.currentTimeMillis();
+            CreateToast(ctx, message);
+            lastToastTimes.put(functionId, currTime);
+        }
     }
 
     public void Init(Context ctx)
@@ -54,12 +82,12 @@ public class USBUtil {
         if(usbDevice == null)
         {
             Log.d("Unity", "No usb device");
-            CreateToast(unityContext, "no usb device");
+            createToastInternal(unityContext, "no usb device", 1);
             return false;
         }
         else
         {
-            CreateToast(unityContext, "usb found:" + usbDevice.getDeviceName());
+            createToastInternal(unityContext, "usb found:" + usbDevice.getDeviceName(), 2);
         }
 
         if (! usbManager.hasPermission(usbDevice)){
@@ -74,7 +102,7 @@ public class USBUtil {
         int bytesWritten;
         if (usbDevice == null)
         {
-            CreateToast(unityContext, "no usb device");
+            createToastInternal(unityContext, "no usb device", 3);
             return;
         }
         UsbInterface intf = usbDevice.getInterface(0);
@@ -83,13 +111,14 @@ public class USBUtil {
 
         if (connection == null)
         {
-            CreateToast(unityContext, "connection failed");
+            createToastInternal(unityContext, "connection failed", 4);
             return;
         }
 
         connection.claimInterface(intf, true);
         bytesWritten = connection.bulkTransfer(endpoint, unsignedByteCount, unsignedByteCount.length, 5050);
-        CreateToast(unityContext, "Bytes written: " + bytesWritten);
+        if (bytesWritten == -1)
+            createToastInternal(unityContext, "USB-Botbase has malfunctioned. Restart your console.", 5);
         bytesWritten = connection.bulkTransfer(endpoint, bytes, bytes.length, 5050);
 
         connection.releaseInterface(intf);
@@ -104,7 +133,7 @@ public class USBUtil {
 
         if (usbDevice == null)
         {
-            CreateToast(unityContext, "no usb device");
+            createToastInternal(unityContext, "no usb device", 6);
             return null;
         }
         UsbInterface intf = usbDevice.getInterface(0);
@@ -113,13 +142,14 @@ public class USBUtil {
 
         if (connection == null)
         {
-            CreateToast(unityContext, "connection failed");
+            createToastInternal(unityContext, "connection failed", 7);
             return null;
         }
 
         connection.claimInterface(intf, true);
         readResult = connection.bulkTransfer(endpoint, countReadBuffer, 4, 1000);
-        CreateToast(unityContext, "Bytes read: " + readResult);
+        if (readResult == -1)
+            createToastInternal(unityContext, "USB-Botbase has malfunctioned. Restart your console.", 8);
         readResult = connection.bulkTransfer(endpoint, readBuffer, bytesExpected, 1000);
 
         connection.releaseInterface(intf);
