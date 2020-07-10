@@ -33,8 +33,8 @@ public class UI_Sysbot : MonoBehaviour
     private void Start()
 	{
 		SetConnected(val: false);
-		DefaultIp = PlayerPrefs.GetString("IP_SYS", DefaultIp);
-		DefaultSocket = PlayerPrefs.GetString("SOCK_SYS", DefaultSocket);
+		DefaultIp = PlayerPrefs.GetString(IPKEY, DefaultIp);
+		DefaultSocket = PlayerPrefs.GetString(SOCKETKEY, DefaultSocket);
 		IP.text=(DefaultIp);
 		Socket.text=(DefaultSocket);
 
@@ -97,8 +97,8 @@ public class UI_Sysbot : MonoBehaviour
 		}
 		SetConnected(true);
 		ConnectedText.text=("Connected successfully");
-		PlayerPrefs.SetString("IP_SYS", IP.text);
-		PlayerPrefs.SetString("SOCK_SYS", Socket.text);
+		PlayerPrefs.SetString(IPKEY, IP.text);
+		PlayerPrefs.SetString(SOCKETKEY, Socket.text);
 	}
 
     public void TryConnectUSBa()

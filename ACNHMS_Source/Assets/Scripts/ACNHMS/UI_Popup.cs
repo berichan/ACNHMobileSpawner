@@ -10,7 +10,9 @@ public class UI_Popup : MonoBehaviour
 
     public GameObject Root;
     public GameObject MainBlocker;
-    public RawImage PopImage;
+    public RawImage PopImage, LoaderImage;
+    public GameObject LoaderPosStart, LoaderPosEnd;
+    public SlicedFilledImage ProgressBar;
     public Text ToWriteTo;
     public Button Choice1, Choice2;
 
@@ -22,7 +24,7 @@ public class UI_Popup : MonoBehaviour
         // there can be only one (0_0)
         CurrentInstance = this;
         originalTextColor = ToWriteTo.color;
-        ClearButtons();
+        cleanUp();
     }
 
     public void ClearButtons()
@@ -33,8 +35,38 @@ public class UI_Popup : MonoBehaviour
         Choice2.gameObject.SetActive(false);
     }
 
+    public void CreateProgressBar(string message, ReferenceContainer<float> progress, Texture2D progressMovingTexture = null, Vector3? pmtRot = null, Texture2D imgTexture = null, string buttonLabel1 = null, Action onButton1 = null, Color? c = null)
+    {
+        CreatePopupChoice(message, buttonLabel1, onButton1, c);
+
+        ProgressBar.gameObject.SetActive(true);
+        ProgressBar.transform.parent.gameObject.SetActive(true);
+
+        PopImage.gameObject.SetActive(true);
+        if (imgTexture != null)
+            PopImage.texture = imgTexture;
+        else
+            PopImage.gameObject.SetActive(false);
+
+        LoaderImage.gameObject.SetActive(true);
+        if (progressMovingTexture != null)
+            LoaderImage.texture = progressMovingTexture;
+        else
+            LoaderImage.gameObject.SetActive(false);
+        LoaderImage.transform.position = LoaderPosStart.transform.position;
+
+        if (pmtRot.HasValue)
+            LoaderImage.transform.rotation = Quaternion.Euler(pmtRot.Value);
+        else
+            LoaderImage.transform.rotation = Quaternion.identity;
+
+        StopAllCoroutines();
+        StartCoroutine(progressBar(progress));
+    }
+
     public void CreatePopupChoice(string message, string buttonLabel1, Action onButton1, Color? c = null, string buttonLabel2 = null,  Action onButton2 = null)
     {
+        cleanUp();
         ToWriteTo.text = message;
         MainBlocker.SetActive(true);
         Root.SetActive(true);
@@ -47,10 +79,13 @@ public class UI_Popup : MonoBehaviour
         StopAllCoroutines();
         PopImage.gameObject.SetActive(false);
 
-        currentB1Action = onButton1;
-        Choice1.gameObject.SetActive(true);
-        Choice1.onClick.AddListener(delegate { currentB1Action(); cleanUp(); });
-        Choice1.GetComponentInChildren<Text>().text = buttonLabel1;
+        if (buttonLabel1 != null && onButton1 != null)
+        {
+            currentB1Action = onButton1;
+            Choice1.gameObject.SetActive(true);
+            Choice1.onClick.AddListener(delegate { currentB1Action(); cleanUp(); });
+            Choice1.GetComponentInChildren<Text>().text = buttonLabel1;
+        }
 
         if (buttonLabel2 != null && onButton2 != null)
         {
@@ -63,7 +98,7 @@ public class UI_Popup : MonoBehaviour
 
     public void CreatePopupMessage(float length, string message, Action onStart, Color? c = null, bool animate = false, Texture2D imgTexture = null)
     {
-        ClearButtons();
+        cleanUp();
         ToWriteTo.text = message;
         MainBlocker.SetActive(true);
         Root.SetActive(true);
@@ -96,9 +131,30 @@ public class UI_Popup : MonoBehaviour
         cleanUp();
     }
 
+    IEnumerator progressBar(ReferenceContainer<float> progress)
+    {
+        while (progress.Value < 1)
+        {
+            ProgressBar.fillAmount = progress.Value;
+
+            Vector3 newLoaderPos = Vector3.Lerp(LoaderPosStart.transform.position, LoaderPosEnd.transform.position, progress.Value);
+            LoaderImage.transform.position = newLoaderPos;
+
+            yield return null;
+        }
+
+        cleanUp();
+    }
+
     private void cleanUp()
     {
+        ClearButtons();
         MainBlocker.SetActive(false);
         Root.SetActive(false);
+        PopImage.gameObject.SetActive(false);
+        LoaderImage.gameObject.SetActive(false);
+
+        ProgressBar.gameObject.SetActive(false);
+        ProgressBar.transform.parent.gameObject.SetActive(false);
     }
 }

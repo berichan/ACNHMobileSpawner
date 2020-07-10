@@ -118,7 +118,7 @@ public class USBUtil {
         connection.claimInterface(intf, true);
         bytesWritten = connection.bulkTransfer(endpoint, unsignedByteCount, unsignedByteCount.length, 5050);
         if (bytesWritten == -1)
-            createToastInternal(unityContext, "USB-Botbase has malfunctioned. Restart your console.", 5);
+            createToastInternal(unityContext, "USB-Botbase transfer Error: This is usually because your USB OTG adaptor is non-existent, not functioning or installed incorrectly, or your console requires a restart.", 5);
         bytesWritten = connection.bulkTransfer(endpoint, bytes, bytes.length, 5050);
 
         connection.releaseInterface(intf);
@@ -149,7 +149,7 @@ public class USBUtil {
         connection.claimInterface(intf, true);
         readResult = connection.bulkTransfer(endpoint, countReadBuffer, 4, 1000);
         if (readResult == -1)
-            createToastInternal(unityContext, "USB-Botbase has malfunctioned. Restart your console.", 8);
+            createToastInternal(unityContext, "USB-Botbase transfer Error: This is usually because your USB OTG adaptor is non-existent, not functioning or installed incorrectly, or your console requires a restart.", 8);
         readResult = connection.bulkTransfer(endpoint, readBuffer, bytesExpected, 1000);
 
         connection.releaseInterface(intf);

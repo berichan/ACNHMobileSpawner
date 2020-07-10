@@ -2,7 +2,7 @@
 using NHSE.Injection;
 using NHSE.Core;
 using UnityEngine;
-
+using System.Net.Sockets;
 
 public class SysBotController
 {
@@ -33,6 +33,8 @@ public class SysBotController
         {
             Debug.LogError(ex.Message);
             error = ex.Message;
+            if (ex is SocketException)
+                UI_Popup.CurrentInstance.CreatePopupChoice("Error: This app could not connect to Sys-botbase running on your console. This is likely because sys-botbase is not installed correctly, a vpn or firewall is stopping the connection, or you aren't on the same network. Please run the python tester script on the Sys-botbase github page to ensure it is working.", "OK", () => { }, Color.red);
             return false;
         }
 

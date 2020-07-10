@@ -236,14 +236,6 @@ namespace NHSE.Core
                     break;
             }
             return returnValue;
-
-            //return WrappingType switch
-            //{
-            //    ItemWrapping.WrappingPaper => (ushort) (0x1E13 + (ushort)WrappingPaper),
-            //    ItemWrapping.Present => 0x1180,
-            //    ItemWrapping.Delivery => 0x1225,
-            //    _ => ItemId,
-            //};
         }
     }
 }
