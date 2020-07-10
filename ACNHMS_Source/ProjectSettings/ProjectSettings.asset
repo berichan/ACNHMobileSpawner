@@ -167,7 +167,7 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.berichan.ACNHMobileSpawner
     Standalone: com.berichan.ACNHSpawner
-    iPhone: com.berichan.ACNHMSpawner
+    iPhone: com.berichan.ACNHSpawner
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
