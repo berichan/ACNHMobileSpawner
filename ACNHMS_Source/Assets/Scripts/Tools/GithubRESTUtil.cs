@@ -1,0 +1,82 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+using UnityEngine.Networking;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
+public class GithubRESTUtil : MonoBehaviour, IPointerClickHandler
+{
+    [Serializable]
+    public struct GitRelease
+    {
+        public string tag_name;
+        public bool draft;
+    }
+
+    [HideInInspector]
+    public static string LatestUri = "https://api.github.com/repos/berichan/ACNHMobileSpawner/releases/latest";
+
+    [HideInInspector]
+    public static string ReleasePage = "https://github.com/berichan/ACNHMobileSpawner/releases";
+
+    public Text UpdateOrErrorWriter;
+
+    private bool tapThrough = false;
+    private bool alreadyChecked = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        StartCoroutine(doRequest());
+    }
+
+    IEnumerator doRequest()
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(LatestUri))
+        {
+            // Request and wait for the desired page.
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.isNetworkError)
+            {
+                Debug.Log("Error: " + webRequest.error);
+                UpdateOrErrorWriter.text = "No network. Couldn't check for update.";
+                UpdateOrErrorWriter.color = Color.magenta;
+                yield break;
+            }
+
+            var json = JsonUtility.FromJson<GitRelease>(webRequest.downloadHandler.text);
+
+            if (!json.draft)
+            {
+                string rootRelease = json.tag_name.Split('-')[0];
+                decimal currentVersion = decimal.Parse(Application.version);
+                decimal gitVersion = decimal.Parse(rootRelease);
+
+                if (gitVersion > currentVersion)
+                {
+                    UpdateOrErrorWriter.text = string.Format("A new update is available. Tap here to get version {0}.", json.tag_name);
+                    UpdateOrErrorWriter.color = Color.red;
+                    tapThrough = true;
+                }
+                else
+                {
+                    UpdateOrErrorWriter.text = "You are using the latest version, and looking pretty fine doing it!";
+                    UpdateOrErrorWriter.color = new Color(1, 1, 1, 0.4f);
+                }
+            }
+            else
+                UpdateOrErrorWriter.text = "A new release is being prepped!";
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!tapThrough)
+            return;
+
+        Application.OpenURL(ReleasePage);
+    }
+}
