@@ -9,6 +9,7 @@ It currently supports the following:
 * [Changing and replacing villagers](https://www.youtube.com/watch?v=5CUUZhGtsxk) using the perfect villager database.
 * Changing the turnip buy/sell prices and fluctuations.
 * Loading item cheats (using the NHSE cheat parser).
+* Hex editing raw RAM bytes. This can be used in any Switch game, not just Animal Crossing.
 * Saving, sharing and loading certain New Horizons file types: _*.nhi (inventory), *.nhv (villager) and *.nhvh (villager house)._
 * Mowing your lawn (removing all weeds).
 
