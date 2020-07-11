@@ -14,10 +14,13 @@ public class UI_Map : IUI_Additional
 
     public Item CurrentlyPlacingItem;
 
+    public InputField RAMOffset;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        RAMOffset.text = MapAddress;
+        RAMOffset.onValueChanged.AddListener(delegate { MapAddress = RAMOffset.text; });
     }
 
     // Update is called once per frame

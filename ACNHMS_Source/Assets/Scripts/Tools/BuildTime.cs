@@ -23,7 +23,7 @@ public class BuildTime : MonoBehaviour
     void Update()
     {
 #if UNITY_EDITOR
-        LastEditorDateTime = String.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now); 
+        LastEditorDateTime = String.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
 #endif
     }
 

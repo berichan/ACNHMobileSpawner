@@ -6,15 +6,15 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+[Serializable]
+public struct GitRelease
+{
+    public string tag_name;
+    public bool draft;
+}
+
 public class GithubRESTUtil : MonoBehaviour, IPointerClickHandler
 {
-    [Serializable]
-    public struct GitRelease
-    {
-        public string tag_name;
-        public bool draft;
-    }
-
     [HideInInspector]
     public static string LatestUri = "https://api.github.com/repos/berichan/ACNHMobileSpawner/releases/latest";
 
@@ -52,8 +52,8 @@ public class GithubRESTUtil : MonoBehaviour, IPointerClickHandler
             if (!json.draft)
             {
                 string rootRelease = json.tag_name.Split('-')[0];
-                decimal currentVersion = decimal.Parse(Application.version);
-                decimal gitVersion = decimal.Parse(rootRelease);
+                double currentVersion = double.Parse(Application.version);
+                double gitVersion = double.Parse(rootRelease);
 
                 if (gitVersion > currentVersion)
                 {
@@ -66,6 +66,14 @@ public class GithubRESTUtil : MonoBehaviour, IPointerClickHandler
                     UpdateOrErrorWriter.text = "You are using the latest version, and looking pretty fine doing it!";
                     UpdateOrErrorWriter.color = new Color(1, 1, 1, 0.4f);
                 }
+#if UNITY_EDITOR
+                if (gitVersion >= currentVersion)
+                {
+                    var upVal = (gitVersion + 0.01).ToString();
+                    UpdateOrErrorWriter.text = string.Format("Warning!! Editor version should be at least {0}.", upVal);
+                    UpdateOrErrorWriter.color = Color.red;
+                }
+#endif
             }
             else
                 UpdateOrErrorWriter.text = "A new release is being prepped!";

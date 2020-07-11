@@ -83,7 +83,7 @@ public class UI_Popup : MonoBehaviour
         {
             currentB1Action = onButton1;
             Choice1.gameObject.SetActive(true);
-            Choice1.onClick.AddListener(delegate { currentB1Action(); cleanUp(); });
+            Choice1.onClick.AddListener(delegate { cleanUp(); currentB1Action(); });
             Choice1.GetComponentInChildren<Text>().text = buttonLabel1;
         }
 
@@ -91,7 +91,7 @@ public class UI_Popup : MonoBehaviour
         {
             currentB2Action = onButton2;
             Choice2.gameObject.SetActive(true);
-            Choice2.onClick.AddListener(delegate { currentB2Action(); cleanUp(); });
+            Choice2.onClick.AddListener(delegate { cleanUp(); currentB2Action(); });
             Choice2.GetComponentInChildren<Text>().text = buttonLabel2;
         }
     }
