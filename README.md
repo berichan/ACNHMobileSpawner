@@ -10,6 +10,7 @@ It currently supports the following:
 * Changing the turnip buy/sell prices and fluctuations.
 * Loading item cheats (using the NHSE cheat parser).
 * Saving, sharing and loading certain New Horizons file types: _*.nhi (inventory), *.nhv (villager) and *.nhvh (villager house)._
+* Mowing your lawn (removing all weeds)
 
 Refer to the [Wiki](https://github.com/berichan/ACNHMobileSpawner/wiki) for help and troubleshooting.
 
