@@ -10,6 +10,7 @@ public class GraphicSetter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Application.runInBackground = true;
 #if UNITY_STANDALONE
         Screen.SetResolution((int)(Screen.height * (9f / 16f)), Screen.height, false, 60);
         Screen.SetResolution(Screen.width, (int)(Screen.width * (16f / 9f)), false, 60);

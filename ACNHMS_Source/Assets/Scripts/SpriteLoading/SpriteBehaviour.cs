@@ -74,6 +74,7 @@ public class SpriteBehaviour : MonoBehaviour
         RootBlocker.SetActive(true);
         DownloadButton.interactable = false;
         DownloadingAnim.SetActive(true);
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         StartCoroutine(tryDownloadSprites());
     }
 
@@ -190,6 +191,7 @@ public class SpriteBehaviour : MonoBehaviour
         RootBlocker.gameObject.SetActive(false);
         DownloadingAnim.SetActive(false);
         DownloadButton.interactable = true;
+        Screen.sleepTimeout = SleepTimeout.SystemSetting;
 
         if (success)
         {
