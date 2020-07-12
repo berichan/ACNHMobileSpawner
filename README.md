@@ -3,7 +3,7 @@
 Multi-tool for Animal Crossing: New Horizons built in Unity. Designed to be used while you are playing the game so you don't have to manually edit saves on a PC. Confirmed working on Windows, Mac, Linux, Android and iOS.
 Requires a Switch running custom firmware with the sysmodule [sys-botbase](https://github.com/olliz0r/sys-botbase) or [USB-Botbase](https://github.com/fishguy6564/USB-Botbase) installed.
 
-It currently supports the following:
+It currently supports the following in-play actions:
 * Injecting and deleting inventory items. Supports all players 1-8.
 * Changing amount of miles, bells in your bank and in your wallet (inventory).
 * [Changing and replacing villagers](https://www.youtube.com/watch?v=5CUUZhGtsxk) using the perfect villager database.
