@@ -11,6 +11,9 @@ namespace NH_CreationEngine
         private IDictionary<string, ByteBoundary> spritePointerHeader;
         private IDictionary<string, string> spritePointerTable = null;
 
+        public IDictionary<string, ByteBoundary> SpritePointerHeader { get => spritePointerHeader; }
+        public IDictionary<string, string> SpritePointerTable { get => spritePointerTable; }
+
         public static SpriteParser CurrentInstance = null;
 
         public SpriteParser(string filePathDmp, string filePathHeader)

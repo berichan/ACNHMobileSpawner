@@ -5,10 +5,9 @@ using UnityEngine.UI;
 public class UI_SearchItem : MonoBehaviour
 {
 	public Button SelectionButton;
-
 	public Text SelectionText;
-
     public RawImage ItemImage;
+    public RawImage MenuIconImage;
 
 	[HideInInspector]
 	public string RawValue;
@@ -53,6 +52,11 @@ public class UI_SearchItem : MonoBehaviour
         Texture2D t2d = SpriteBehaviour.ItemToTexture2D((ushort)itemId, 0, out c, uiFilter);
         ItemImage.texture = t2d;
         ItemImage.color = c;
+
+        // Menu icon
+        t2d = MenuItemSpriteHelper.GetIconTexture((ushort)itemId);
+        MenuIconImage.texture = t2d;
+        MenuIconImage.color = Color.white;
 	}
 
 	public void SetSelection()
