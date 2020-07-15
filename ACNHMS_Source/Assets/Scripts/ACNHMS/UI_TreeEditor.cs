@@ -1,5 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using NHSE.Core;
@@ -10,26 +11,30 @@ public class UI_TreeEditor : MonoBehaviour
     public ItemIconSelector IconSelect;
     public Toggle IsBearingFruit;
 
-    ushort currentSelected = 0;
+    private string currentSelected = "";
 
-    Item currentlySelectedItem;
+    private Item currentlySelectedItem;
+    private Action<Item> endTreeControl;
+
+    private StaticSpriteHelperBase localHSB;
+    private StaticSpriteHelperBase cSHB { get {
+            if (localHSB == null)
+                localHSB = IconSpriteHelper.CurrentInstance;
+            return localHSB;
+        } }
 
     void Start()
     {
         IsBearingFruit.onValueChanged.AddListener(delegate { currentlySelectedItem.UseCount = IsBearingFruit.isOn ? (ushort)32 : (ushort)0; });
-
-        Item i = new Item(4439);
-        i.Count = 0;
-        i.UseCount = 32;
-        InitialiseWithItem(i);
     }
 
-    public void InitialiseWithItem(Item i)
+    public void InitialiseWithItem(Item i, Action<Item> onEnd)
     {
         currentlySelectedItem = i;
-        IconSelect.Initialize(MenuItemSpriteHelper.CurrentParser, UpdateSelectedItem);
-        
-        IsBearingFruit.isOn = i.UseCount >= 32;
+        IconSelect.Initialize(cSHB.GetCurrentParser(), UpdateSelectedItem, cSHB);
+        endTreeControl = onEnd;
+        IsBearingFruit.isOn = currentlySelectedItem.UseCount >= 32;
+        Item1.color = Item2.color = Item3.color = Color.clear;
 
         StartCoroutine(selectOn2Frame());
     }
@@ -38,20 +43,21 @@ public class UI_TreeEditor : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        IconSelect.SelectItemGlobal(currentlySelectedItem.Count);
+        IconSelect.SelectItemGlobal(currentlySelectedItem.Count.ToString("X"));
     }
 
-    public void UpdateSelectedItem(ushort u)
+    public void UpdateSelectedItem(string u)
     {
-        currentSelected = u;
-        currentlySelectedItem.Count = u;
-        Texture2D t2d = MenuItemSpriteHelper.GetIconTexture(u);
+        currentSelected = cSHB.GetCurrentParser().SpritePointerTable.FirstOrDefault(x => x.Value == u).Key;
+        currentlySelectedItem.Count = ushort.Parse(currentSelected, System.Globalization.NumberStyles.HexNumber);
+        Texture2D t2d = cSHB.GetIconTexture(currentSelected);
         Item1.texture = Item2.texture = Item3.texture = t2d;
+        Item1.color = Item2.color = Item3.color = Color.white;
     }
 
     public void Done()
     {
-
+        endTreeControl(currentlySelectedItem);
     }
 }
 
@@ -59,6 +65,6 @@ public static class ItemTreeExtensions
 {
     public static bool IsMoneyTree(this Item i)
     {
-        return (i.ItemId > 4436 && i.ItemId < 4439) || i.ItemId == 4426;
+        return (i.ItemId >= 4436 && i.ItemId <= 4439) || i.ItemId == 4426;
     }
 }

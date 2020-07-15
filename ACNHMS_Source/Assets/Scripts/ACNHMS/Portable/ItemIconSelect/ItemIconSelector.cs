@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using NH_CreationEngine;
 using System;
 using System.Linq;
+using NHSE.Core;
 
 public class ItemIconSelector : MonoBehaviour
 {
@@ -14,18 +15,25 @@ public class ItemIconSelector : MonoBehaviour
     public VerticalLayoutGroup VLG;
 
     private SpriteParser currentFilteredParser;
-    private Action<ushort> onValueChanged;
+    private Action<string> onValueChanged;
     private List<ItemIconLine> spawnedIcons;
     private bool inited = false;
 
-    public void Initialize(SpriteParser iconSpriteParser, Action<ushort> onValueChanged)
+    public void Initialize(SpriteParser iconSpriteParser, Action<string> valueChanged, StaticSpriteHelperBase cSHB)
     {
         currentFilteredParser = iconSpriteParser;
-        var pointer = currentFilteredParser.SpritePointerHeader;
+        onValueChanged = valueChanged;
 
-        if (spawnedIcons != null)
-            foreach (var icon in spawnedIcons)
-                Destroy(icon.gameObject);
+        if (inited)
+            return;
+
+        var pointerShuffled = currentFilteredParser.SpritePointerHeader;
+        IOrderedEnumerable<KeyValuePair<string, ByteBoundary>> pointerOrdered;
+        if (ushort.TryParse(pointerShuffled.ElementAt(0).Key, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.CurrentCulture, out var _))
+            pointerOrdered = pointerShuffled.OrderBy(x => ItemInfo.GetItemKind(ushort.Parse(x.Key, System.Globalization.NumberStyles.HexNumber)));
+        else
+            pointerOrdered = pointerShuffled.OrderBy(x => x.Key);
+        var pointer = pointerOrdered.ToDictionary(pair => pair.Key, pair => pair.Value);
 
         spawnedIcons = new List<ItemIconLine>();
         IconLineTemplate.gameObject.SetActive(false);
@@ -38,7 +46,7 @@ public class ItemIconSelector : MonoBehaviour
             ins.gameObject.SetActive(true);
 
             int valsToTake = Math.Min(iLineCount, pointer.Count - i);
-            ins.InitFor(stringToUshortArray(pointer.Keys.Skip(i).Take(valsToTake)), onValueChanged);
+            ins.InitFor(pointer.Keys.Skip(i).Take(valsToTake).ToArray(), onValueChanged, cSHB);
             spawnedIcons.Add(ins);
         }
 
@@ -48,12 +56,12 @@ public class ItemIconSelector : MonoBehaviour
         StartCoroutine(waitForVerticalLayout());
     }
 
-    public void SelectItemGlobal(ushort itemId)
+    public void SelectItemGlobal(string itemId)
     {
-        var point = currentFilteredParser.SpritePointerTable.FirstOrDefault((x) => ushort.Parse(x.Key, System.Globalization.NumberStyles.HexNumber) == itemId);
+        var point = currentFilteredParser.SpritePointerTable.FirstOrDefault((x) => x.Key == itemId);
         if (point.Value == null)
             return;
-        ushort toSelect = ushort.Parse(point.Value, System.Globalization.NumberStyles.HexNumber);
+        string toSelect = point.Value;
 
         foreach (var spawned in spawnedIcons)
         {
@@ -61,7 +69,7 @@ public class ItemIconSelector : MonoBehaviour
             {
                 var pos = spawned.Select(toSelect);
                 var posContent = IconLineTemplate.transform.parent.GetComponent<RectTransform>().anchoredPosition;
-                posContent.y = -pos.y - (spawned.MenuIconButtons[0].GetComponent<RectTransform>().sizeDelta.y);
+                posContent.y = -pos.y - (spawned.MenuIconButtons[0].GetComponent<RectTransform>().sizeDelta.y/2);
                 IconLineTemplate.transform.parent.GetComponent<RectTransform>().anchoredPosition = posContent;
                 break;
             }
@@ -79,12 +87,12 @@ public class ItemIconSelector : MonoBehaviour
             csf.enabled = false;
     }
 
-    private ushort[] stringToUshortArray(IEnumerable<string> strings, System.Globalization.NumberStyles ns = System.Globalization.NumberStyles.HexNumber)
+    /*private string[] ushortTostringArray(IEnumerable<ushort> strings, System.Globalization.NumberStyles ns = System.Globalization.NumberStyles.HexNumber)
     {
-        List<ushort> toRet = new List<ushort>();
+        List<string> toRet = new List<string>();
         foreach (var s in strings)
             toRet.Add(ushort.Parse(s, ns));
 
         return toRet.ToArray();
-    }
+    }*/
 }

@@ -35,12 +35,15 @@ public class UI_SearchWindow : MonoBehaviour
     public UI_SetControl SetController;
     public UI_WrappingControl WrapController;
     public UI_FlowerEditor FlowerController;
+    public UI_TreeEditor TreeController;
     public GameObject SpriteImageRoot;
     public RawImage SpriteImageMain;
 
     public GameObject FlowerButtonRoot;
+    public GameObject TreeButtonRoot;
 
     public GameObject SearchBlocker;
+    public GameObject OverBlocker;
 
     [HideInInspector]
     public int CurrentSelectedIndex = -1;
@@ -81,6 +84,7 @@ public class UI_SearchWindow : MonoBehaviour
         SearchItemPrefab.gameObject.SetActive(false);
         UpdateSearchString(SearchField.text);
         FlowerButtonRoot.SetActive(false);
+        TreeButtonRoot.SetActive(false);
 
         LastLoadedSearchWindow = this;
     }
@@ -100,8 +104,29 @@ public class UI_SearchWindow : MonoBehaviour
         SpriteImageRoot.gameObject.SetActive(!SpriteImageRoot.gameObject.activeSelf);
     }
 
+    public void ShowTreeController(bool val)
+    {
+        TreeController.gameObject.SetActive(val);
+        OverBlocker.gameObject.SetActive(val);
+
+        if (val)
+        {
+            Item dummy = new Item((ushort)CurrentItemID);
+            dummy.UseCount = ushort.Parse(SetController.FUses.text);
+            dummy.Count = ushort.Parse(SetController.FCount.text);
+            TreeController.InitialiseWithItem(dummy, (x) => { endTreeControl(x); ShowTreeController(false); } );
+        }
+    }
+
+    private void endTreeControl(Item i)
+    {
+        SetController.FUses.text = i.UseCount.ToString();
+        SetController.FCount.text = i.Count.ToString();
+    }
+
     private void Update()
     {
+
     }
 
     public void UpdateFilter(Dropdown filt)
@@ -236,6 +261,7 @@ public class UI_SearchWindow : MonoBehaviour
                 SetController.FCount.text = 0.ToString();
                 break;
         }
+
         CurrentSelectedIndex = spawnedObjects.IndexOf(sItem);
         if (ItemInfo.GetItemKind(Convert.ToUInt16(CurrentItemID)).IsFlower())
         {
@@ -246,6 +272,12 @@ public class UI_SearchWindow : MonoBehaviour
             FlowerController.ResetToZero();
             FlowerButtonRoot.SetActive(false);
         }
+
+        if (new Item((ushort)id).IsMoneyTree())
+            TreeButtonRoot.gameObject.SetActive(true);
+        else
+            TreeButtonRoot.gameObject.SetActive(false);
+
         short remakeIndex = ItemRemakeUtil.GetRemakeIndex(Convert.ToUInt16(CurrentItemID));
         if (remakeIndex < 0)
         {

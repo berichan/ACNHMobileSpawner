@@ -37,6 +37,40 @@ namespace NH_CreationEngine
                     spritePointerTable.Add(processPointerLine(line));
         }
 
+        public byte[] GetPng(string itemId, ushort count)
+        {
+            if (spritePointerTable == null)
+                throw new Exception("Not pointer table loaded.");
+            if (itemId == null)
+                return null;
+            string sItemdId = itemId;
+            string bodyVal = (count & 0xF).ToString();
+            string fabricVal = (((count & 0xFF) - (count & 0xF)) / 32u).ToString();
+            string fileToGet = string.Empty;
+            // try full
+            string check = string.Format("{0}_{1}_{2}", sItemdId, bodyVal, fabricVal);
+            string check2 = string.Format("{0}_{1}", sItemdId, bodyVal);
+            if (spritePointerTable.ContainsKey(check))
+                fileToGet = spritePointerTable[check];
+            else if (spritePointerTable.ContainsKey(check2))
+                fileToGet = spritePointerTable[check2];
+            else if (spritePointerTable.ContainsKey(sItemdId))
+                fileToGet = spritePointerTable[sItemdId];
+            else
+                return null;
+
+            ByteBoundary bb = spritePointerHeader[fileToGet];
+            ulong bytesReq = bb.end - bb.start;
+            List<byte> readlist = new List<byte>();
+            using (BinaryReader b = new BinaryReader(File.Open(filePathSprites, FileMode.Open)))
+            {
+                b.BaseStream.Seek((long)bb.start, SeekOrigin.Begin);
+                readlist.AddRange(b.ReadBytes((int)bytesReq));
+            }
+
+            return readlist.ToArray();
+        }
+
         public byte[] GetPng(ushort itemId, ushort count)
         {
             if (spritePointerTable == null)

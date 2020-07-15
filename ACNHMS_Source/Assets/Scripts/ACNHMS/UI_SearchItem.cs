@@ -54,7 +54,7 @@ public class UI_SearchItem : MonoBehaviour
         ItemImage.color = c;
 
         // Menu icon
-        t2d = MenuItemSpriteHelper.GetIconTexture((ushort)itemId);
+        t2d = MenuSpriteHelper.CurrentInstance.GetIconTexture((ushort)itemId);
         MenuIconImage.texture = t2d;
         MenuIconImage.color = Color.white;
 	}
