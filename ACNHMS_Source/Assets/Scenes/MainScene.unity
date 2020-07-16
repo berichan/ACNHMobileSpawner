@@ -49340,12 +49340,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d719095cc45cadd4e84cfb254871c046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Message: 'Welcome to ACNHMobileSpawner. This software is free, because you''re
-    great.
+  Message: 'Welcome to ACNHMobileSpawner. This app is free, because you''re great.
 
 
-    You don''t have item images (sprites) installed. Would you like
-    to go to the settings to download them now?'
+    You
+    don''t have item images (sprites) installed. Would you like to go to the settings
+    to download them now?'
   Button1Msg: Yes
   Button2Msg: No, and never show this again
   MsgColor: {r: 1, g: 1, b: 1, a: 1}
@@ -50421,7 +50421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/07/16 21:49:35
+  LastEditorDateTime: 2020/07/16 21:58:21
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
