@@ -5,7 +5,7 @@ using System.Linq;
 
 public class UI_ACItem : MonoBehaviour
 {
-	public RawImage ImageComponent;
+	public RawImage ImageComponent, TopRightImage;
 	public Button ButtonComponent;
     public MultiImage TreeMultiImage;
 	public Text[] FiveInts;
@@ -45,6 +45,14 @@ public class UI_ACItem : MonoBehaviour
             ImageComponent.texture = imageToAssign;
             ImageComponent.color = c;
         }
+
+        if (item.IsInternalItem())
+        {
+            TopRightImage.texture = ResourceLoader.GetExclaimImage();
+            TopRightImage.gameObject.SetActive(true);
+        }
+        else
+            TopRightImage.gameObject.SetActive(false);
         
         FiveInts[0].text = item.Count.ToString();
         FiveInts[1].text = item.SystemParam.ToString();
