@@ -1068,7 +1068,7 @@ GameObject:
   - component: {fileID: 24651457}
   - component: {fileID: 24651456}
   m_Layer: 5
-  m_Name: Button? (5)
+  m_Name: Button? Sprites
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1086,12 +1086,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1742191877}
-  m_Father: {fileID: 1425652987}
-  m_RootOrder: 6
+  m_Father: {fileID: 1561563516}
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -251, y: 17.554}
+  m_AnchoredPosition: {x: -251, y: -462.44604}
   m_SizeDelta: {x: 53.54904, y: 47.89589}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &24651456
@@ -50421,7 +50421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/07/16 21:58:21
+  LastEditorDateTime: 2020/07/16 22:01:53
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -51636,9 +51636,8 @@ RectTransform:
   - {fileID: 1242055592}
   - {fileID: 1228529111}
   - {fileID: 1893047665}
-  - {fileID: 24651455}
   m_Father: {fileID: 1561563516}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -56966,7 +56965,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1561563516}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -57378,6 +57377,7 @@ RectTransform:
   - {fileID: 745860282}
   - {fileID: 1952767986}
   - {fileID: 1924073079}
+  - {fileID: 24651455}
   - {fileID: 1544445292}
   - {fileID: 1425652987}
   m_Father: {fileID: 488041030}
