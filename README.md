@@ -8,7 +8,8 @@ It currently supports the following in-play actions:
 * Changing amount of miles, bells in your bank and in your wallet (inventory).
 * [Changing and replacing villagers](https://www.youtube.com/watch?v=5CUUZhGtsxk) using the perfect villager database.
 * Changing the turnip buy/sell prices and fluctuations.
-* Loading item cheats (using the NHSE cheat parser).
+* [Creating star and item trees](https://www.youtube.com/watch?v=KEYgo9ybB8o) using the built-in tree creator.
+* [Spawning internal items](https://www.youtube.com/watch?v=q50R6ky0hIQ) such as the donut and harvey's fence.
 * Hex editing raw RAM bytes. This can be used in any Switch game, not just Animal Crossing.
 * Saving, sharing and loading certain New Horizons file types: _*.nhi (inventory), *.nhv (villager) and *.nhvh (villager house)._
 * Mowing your lawn (removing all weeds).
