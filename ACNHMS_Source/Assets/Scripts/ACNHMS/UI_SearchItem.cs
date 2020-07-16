@@ -4,10 +4,13 @@ using UnityEngine.UI;
 
 public class UI_SearchItem : MonoBehaviour
 {
+    private readonly Color internalColor = new Color32(0xDF, 0x80, 0x80, 0xFF);
+
 	public Button SelectionButton;
 	public Text SelectionText;
     public RawImage ItemImage;
     public RawImage MenuIconImage;
+    public RawImage WarningImage;
 
 	[HideInInspector]
 	public string RawValue;
@@ -57,7 +60,22 @@ public class UI_SearchItem : MonoBehaviour
         t2d = MenuSpriteHelper.CurrentInstance.GetIconTexture((ushort)itemId);
         MenuIconImage.texture = t2d;
         MenuIconImage.color = Color.white;
-	}
+
+        if (ItemExtensions.IsInternalItem((ushort)itemId))
+        {
+            ColorBlock cb = SelectionButton.colors;
+            cb.normalColor = cb.normalColor * internalColor;
+            cb.highlightedColor = cb.highlightedColor * internalColor;
+            cb.pressedColor = cb.pressedColor * internalColor;
+            cb.disabledColor = cb.disabledColor * internalColor;
+            cb.selectedColor = cb.selectedColor * internalColor;
+            SelectionButton.colors = cb;
+
+            WarningImage.gameObject.SetActive(true);
+        }
+        else
+            WarningImage.gameObject.SetActive(false);
+    }
 
 	public void SetSelection()
 	{
