@@ -26,14 +26,38 @@ public class GithubRESTUtil : MonoBehaviour, IPointerClickHandler
     private bool tapThrough = false;
     private bool alreadyChecked = false;
 
+    private long timeAtLastCheck = -1;
+    private bool updateAvailable = false;
+
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(doRequest());
     }
 
+    void OnApplicationPause(bool paused)
+    {
+        if (!paused)
+            OnApplicationFocus(true);
+    }
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus && !updateAvailable)
+        {
+            long timeDifference = (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond) - timeAtLastCheck;
+            if (timeDifference > 3600000)
+            {
+                StopAllCoroutines();
+                StartCoroutine(doRequest());
+            }
+        }
+    }
+
     IEnumerator doRequest()
     {
+        timeAtLastCheck = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+
         using (UnityWebRequest webRequest = UnityWebRequest.Get(LatestUri))
         {
             // Request and wait for the desired page.
@@ -60,6 +84,7 @@ public class GithubRESTUtil : MonoBehaviour, IPointerClickHandler
                     UpdateOrErrorWriter.text = string.Format("A new update is available. Tap here to get version {0}.", json.tag_name);
                     UpdateOrErrorWriter.color = Color.red;
                     tapThrough = true;
+                    updateAvailable = true;
                 }
                 else
                 {
