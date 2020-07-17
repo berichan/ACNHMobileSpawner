@@ -1,6 +1,6 @@
 # ACNHMobileSpawner
 
-Multi-tool for Animal Crossing: New Horizons built in Unity. Designed to be used while you are playing the game so you don't have to manually edit saves on a PC. Confirmed working on Windows, Mac, Linux, Android and iOS.
+Multi-tool app for Animal Crossing: New Horizons built in Unity. Designed to be used while you are playing the game so you don't have to manually edit saves on a PC. Confirmed working on Windows, Mac, Linux, Android and iOS.
 Requires a Switch running custom firmware with the sysmodule [sys-botbase](https://github.com/olliz0r/sys-botbase) or [USB-Botbase](https://github.com/fishguy6564/USB-Botbase) installed.
 
 It currently supports the following in-play actions:
@@ -18,13 +18,13 @@ Refer to the [Wiki](https://github.com/berichan/ACNHMobileSpawner/wiki) for help
 
 Based heavily on [NHSE](https://github.com/kwsch/NHSE).
 
-You run this at your own risk, I'm not responsible for anything.
+You run this at your own risk, I'm not responsible for anything. Please check the [license](https://github.com/berichan/ACNHMobileSpawner/blob/master/LICENSE) for full details before using the app or source. 
 
-### Android and iOS builds
+### Builds
 
 The application requires an Android device running at minimum Android 4.4 (KitKat) with support for OpenGLES2.
 
-Builds are not guaranteed to be stable. You may download the [apk or ipa files here](https://github.com/berichan/ACNHMobileSpawner/releases).
+Builds are not guaranteed to be stable. You may download the [compiled builds here](https://github.com/berichan/ACNHMobileSpawner/releases).
 
 iOS builds are auto-built and untested, but I've been told they work. 
 
