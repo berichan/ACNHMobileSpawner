@@ -1,6 +1,9 @@
 # ACNHMobileSpawner
 
 Multi-tool app for Animal Crossing: New Horizons built in Unity. Designed to be used while you are playing the game so you don't have to manually edit saves on a PC. Confirmed working on Windows, Mac, Linux, Android and iOS.
+
+『あつまれ どうぶつの森』でリアルタイムにアイテムをインジェクトしたり島を編集したりゲーム内の値を変更したり等のカスタマイズを行うことができるAndroid/ iOS(Windows/ macOS/ Linuxも可)向けユーティリティ。
+
 Requires a Switch running custom firmware with the sysmodule [sys-botbase](https://github.com/olliz0r/sys-botbase) or [USB-Botbase](https://github.com/fishguy6564/USB-Botbase) installed.
 
 It currently supports the following in-play actions:
