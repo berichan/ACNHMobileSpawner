@@ -221,6 +221,8 @@ public static class InvalidRemakeStringsUtil
             else
                 break;
         }
+        if (ls.Count > 0)
+            ls[0] = ls[0].Replace("=" + ItemRemakeInfo.InvalidCheck, string.Empty);
         return ls.ToArray();
     }
 
