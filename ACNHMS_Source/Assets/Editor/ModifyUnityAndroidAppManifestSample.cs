@@ -20,6 +20,7 @@ public class ModifyUnityAndroidAppManifestSample : IPostGenerateGradleAndroidPro
         androidManifest.SetUSBMetadata();
         androidManifest.SetExtStoragePermission();
         androidManifest.SetMGDPermission();
+        androidManifest.SetLocationPermission();
         MergeResources(basePath);
 
         // Add your XML manipulation routines
@@ -178,6 +179,15 @@ internal class AndroidManifest : AndroidXmlDocument
         XmlElement child = CreateElement("uses-permission");
         manifest.AppendChild(child);
         XmlAttribute newAttribute = CreateAndroidAttribute("name", "android.permission.READ_EXTERNAL_STORAGE");
+        child.Attributes.Append(newAttribute);
+    }
+
+    internal void SetLocationPermission()
+    {
+        var manifest = SelectSingleNode("/manifest");
+        XmlElement child = CreateElement("uses-permission");
+        manifest.AppendChild(child);
+        XmlAttribute newAttribute = CreateAndroidAttribute("name", "android.permission.ACCESS_COARSE_LOCATION");
         child.Attributes.Append(newAttribute);
     }
 
