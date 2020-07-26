@@ -33,10 +33,10 @@ public class NetworkInfoAsync
         string baseString = string.Format("{0}.{1}.{2}.", strArr[0], strArr[1], strArr[2]);
         string s = string.Empty;
 #if PLATFORM_ANDROID
-        s = "\r\nLocation permission may be required to use this tool on Android.";
-        if (!Permission.HasUserAuthorizedPermission(Permission.CoarseLocation))
+        s = "\r\nNetwork state permission may be required to use this tool on Android.";
+        if (!Permission.HasUserAuthorizedPermission("android.permission.ACCESS_NETWORK_STATE"))
         {
-            Permission.RequestUserPermission(Permission.CoarseLocation);
+            Permission.RequestUserPermission("android.permission.ACCESS_NETWORK_STATE");
         }
 #endif
         UI_Popup.CurrentInstance.CreatePopupChoice(string.Format("The network helper tool will attempt to ping everything on your network that starts with {0}*{1}", baseString, s),
@@ -52,7 +52,7 @@ public class NetworkInfoAsync
     private static void RunDaemon(string rootIP)
     {
 #if PLATFORM_ANDROID
-        if (!Permission.HasUserAuthorizedPermission(Permission.CoarseLocation))
+        if (!Permission.HasUserAuthorizedPermission("android.permission.ACCESS_NETWORK_STATE"))
         {
             PopupHelper.CreateError("Unable to create pingers, no access to local network.", 2f);
             return;

@@ -54,6 +54,12 @@ public class AndroidUSBUtils
         return returned;
     }
 
+    public string GetMacAddress(string ip)
+    {
+        string mac = usbClass.Call<string>("getMacAddress", (object)ip);
+        return mac;
+    }
+
     public void DebugToast(string message)
     {
         if (message == "")

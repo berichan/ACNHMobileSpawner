@@ -20,7 +20,8 @@ public class ModifyUnityAndroidAppManifestSample : IPostGenerateGradleAndroidPro
         androidManifest.SetUSBMetadata();
         androidManifest.SetExtStoragePermission();
         androidManifest.SetMGDPermission();
-        androidManifest.SetLocationPermission();
+        androidManifest.SetNSPermission();
+        androidManifest.SetWFPermission();
         MergeResources(basePath);
 
         // Add your XML manipulation routines
@@ -182,12 +183,21 @@ internal class AndroidManifest : AndroidXmlDocument
         child.Attributes.Append(newAttribute);
     }
 
-    internal void SetLocationPermission()
+    internal void SetNSPermission()
     {
         var manifest = SelectSingleNode("/manifest");
         XmlElement child = CreateElement("uses-permission");
         manifest.AppendChild(child);
-        XmlAttribute newAttribute = CreateAndroidAttribute("name", "android.permission.ACCESS_COARSE_LOCATION");
+        XmlAttribute newAttribute = CreateAndroidAttribute("name", "android.permission.ACCESS_NETWORK_STATE");
+        child.Attributes.Append(newAttribute);
+    }
+
+    internal void SetWFPermission()
+    {
+        var manifest = SelectSingleNode("/manifest");
+        XmlElement child = CreateElement("uses-permission");
+        manifest.AppendChild(child);
+        XmlAttribute newAttribute = CreateAndroidAttribute("name", "android.permission.ACCESS_WIFI_STATE");
         child.Attributes.Append(newAttribute);
     }
 

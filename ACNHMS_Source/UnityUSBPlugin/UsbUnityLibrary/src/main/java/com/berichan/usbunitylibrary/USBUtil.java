@@ -11,6 +11,10 @@ import android.hardware.usb.UsbManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -156,6 +160,23 @@ public class USBUtil {
         connection.close();
 
         return Arrays.copyOf(readBuffer, readResult);
+    }
+
+    public String getMacAddress(String ipAddress) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(new File("/proc/net/arp")));
+            String line;
+            while((line = br.readLine()) != null) {
+                if(line.contains(ipAddress)) {
+                    /* this string still would need to be sanitized */
+                    return line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error:" + e.getMessage();
+        }
+        return null;
     }
 
 }
