@@ -121,11 +121,13 @@ public class NetworkInfoUnity : MonoBehaviour
 
         UI_Popup.CurrentInstance.CreateProgressBar("Generating pingers for local addresses, please wait...", percentageDone);
 
-        StartCoroutine(createTimer(1 + TIMEOUTSECONDS + (0.05f * 255f), () => 
+        StartCoroutine(createTimer(0.1f + TIMEOUTSECONDS + (0.05f * 255f), () => 
         {
             //percentageDone.UpdateValue(1);
             string s = string.Join("\r\n", activeIP.ToArray());
-            UI_Popup.CurrentInstance.CreatePopupChoice($"The following {upCount.ToString()} IP addresses were found:\r\n" + s, "OK!", () => { Screen.sleepTimeout = SleepTimeout.SystemSetting; });
+            UI_Popup.CurrentInstance.CreatePopupChoice($"The following {upCount.ToString()} IP addresses were found:\r\n" + s, 
+                                                        "OK!", () => { Screen.sleepTimeout = SleepTimeout.SystemSetting; }, null,
+                                                        "Copy list to clipboard", () => { Screen.sleepTimeout = SleepTimeout.SystemSetting; GUIUtility.systemCopyBuffer = s.Replace("<color=red>", string.Empty).Replace("</color>", string.Empty); });
         }));
     }
 
@@ -134,8 +136,13 @@ public class NetworkInfoUnity : MonoBehaviour
         if (ip != myip)
         {
             UnityEngine.Ping ping = new UnityEngine.Ping(ip);
-            yield return new WaitForSeconds(timeout);
-            if (ping.isDone && ping.time != -1)
+            float timer = 0;
+            while (!ping.isDone && timer < timeout)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+            if (ping.time != -1)
             {
                 upCount++;
                 string mac = null;
@@ -147,10 +154,6 @@ public class NetworkInfoUnity : MonoBehaviour
                 string addit = "Unknown";
                 if (idents != null && mac != null)
                 {
-                    //var manufacturer = idents.Find(ByFirst3MacValues(mac));
-                    //var manufacturer = idents.Find(x => mac.StartsWith(x.Split(' ')[0]));
-                    //if (!string.IsNullOrEmpty(manufacturer))
-                    //    addit = manufacturer.Split('\t')[2];
                     string macLookup = getFirst3MacValues(mac.ToUpper());
                     if (hexToManufacturerHash.ContainsKey(macLookup))
                         addit = hexToManufacturerHash[macLookup];
@@ -161,6 +164,7 @@ public class NetworkInfoUnity : MonoBehaviour
                 else
                     activeIP.Add(string.Format("IP: {0}", ip));
             }
+            ping.DestroyPing();
         }
         else
             activeIP.Add(string.Format("IP: {0} (This device)", ip));
