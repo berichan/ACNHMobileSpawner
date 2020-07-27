@@ -15,6 +15,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -175,6 +177,48 @@ public class USBUtil {
         } catch (IOException e) {
             e.printStackTrace();
             return "Error:" + e.getMessage();
+        }
+        return null;
+    }
+
+    // no access to proc/net/arp after Android Q but Linux is nice and gives us this nifty command wow
+    public String getMacAddressQ(String ipAddr)
+    {
+        Log.d("ADDR", "Searching for: "+ipAddr);
+        try {
+            BufferedReader reader = null;
+            Process ipProc = Runtime.getRuntime().exec("ip neighbor");
+            ipProc.waitFor();
+            if (ipProc.exitValue() != 0) {
+                return null;
+            }
+
+            reader = new BufferedReader(new InputStreamReader(ipProc.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] neighborLine = line.split("\\s+");
+
+                // We don't have a validated ARP entry for this case.
+                if (neighborLine.length <= 4) {
+                    continue;
+                }
+
+                String ip = neighborLine[0];
+                if (ip.equals(ipAddr)) {
+                    InetAddress addr = InetAddress.getByName(ip);
+                    if (addr.isLinkLocalAddress() || addr.isLoopbackAddress()) {
+                        continue;
+                    }
+
+                    String macAddress = neighborLine[4].replace(':','-');
+                    Log.d("ADDR", "Sending back mac: "+macAddress);
+                    return macAddress;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            return null;
         }
         return null;
     }

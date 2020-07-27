@@ -11,7 +11,7 @@ using UnityEngine.Android;
 
 public class NetworkInfoUnity : MonoBehaviour
 {
-    const float TIMEOUTSECONDS = 1.5f;
+    const float TIMEOUTSECONDS = 3.5f;
 
     static string macIdentifiers = "http://standards-oui.ieee.org/oui/oui.txt";
     static CountdownEvent countdown;
@@ -20,6 +20,8 @@ public class NetworkInfoUnity : MonoBehaviour
     const bool resolveNames = true;
     static List<string> idents = null;
     static List<string> activeIP = null;
+    static Dictionary<string, string> hexToManufacturerHash;
+    static string myip;
 
     ReferenceContainer<float> percentageDone;
 
@@ -47,14 +49,14 @@ public class NetworkInfoUnity : MonoBehaviour
             Permission.RequestUserPermission("android.permission.ACCESS_WIFI_STATE");
         }
 #endif
-        UI_Popup.CurrentInstance.CreatePopupChoice(string.Format("The network helper tool will attempt to ping everything on your network that starts with {0}* and will then show you the list of IPs.{1}", baseString, s),
+        UI_Popup.CurrentInstance.CreatePopupChoice(string.Format("The network helper tool will attempt to ping everything on your network that starts with {0}* and will then show you the list of IPs. This will take about 15-20 seconds and a small 4mb list of manufacturers will be downloaded.{1}", baseString, s),
                                                         "Start", () => { GetPermissionToRunDaemonIfRequired(baseString); }, null,
                                                         "Cancel", () => { });
     }
 
     private void GetPermissionToRunDaemonIfRequired(string baseString)
     {
-        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Downloading Manufacturer (Mfr) table...", () => { RunDaemon(baseString); });
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Downloading Manufacturer (Mfr) table and creating hashes...", () => { RunDaemon(baseString); });
     }
 
     private void RunDaemon(string rootIP)
@@ -68,11 +70,13 @@ public class NetworkInfoUnity : MonoBehaviour
 #endif
         try
         {
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
             SendUnityDaemon(rootIP);
         }
         catch (Exception e)
         {
             PopupHelper.CreateError(e.Message, 2f);
+            Screen.sleepTimeout = SleepTimeout.SystemSetting;
         }
     }
 
@@ -81,7 +85,8 @@ public class NetworkInfoUnity : MonoBehaviour
         activeIP = new List<string>();
         upCount = 0;
         pingCount = 0;
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        myip = IPManager.GetIP(ADDRESSFAM.IPv4);
+#if UNITY_STANDALONE_WIN || UNITY_ANDROID || UNITY_EDITOR_WIN
         try
         {
             string ident = string.Empty;
@@ -89,8 +94,19 @@ public class NetworkInfoUnity : MonoBehaviour
                 ident = webc.DownloadString(macIdentifiers);
             Console.WriteLine("Identities downloaded");
             idents = new List<string>(ident.Split(new string[] { "\r", "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries));
-            idents = idents.Where(x => !x.StartsWith("\t")).ToList();
-            UnityEngine.Debug.Log("Identities created");
+            idents = idents.Where(x => !x.StartsWith("\t")).Where(x => !x.StartsWith(" ")).ToList();
+            hexToManufacturerHash = new Dictionary<string, string>();
+            foreach (var line in idents)
+            {
+                string validMac = line.Split(' ')[0];
+                string[] splitline = line.Split('\t');
+                if (validMac != string.Empty)
+                    if (validMac.Split('-').Length > 2)
+                        if (line.Split('\t').Length > 0)
+                            if (!hexToManufacturerHash.ContainsKey(validMac))
+                                hexToManufacturerHash.Add(validMac, line.Split('\t')[splitline.Length-1]);
+            }
+            UnityEngine.Debug.Log("Identities created: "+hexToManufacturerHash.Count.ToString());
         }
         catch { }
 #endif
@@ -103,39 +119,51 @@ public class NetworkInfoUnity : MonoBehaviour
             StartCoroutine(createPinger(ipToPing, TIMEOUTSECONDS + (0.05f * i)));
         }
 
-        UI_Popup.CurrentInstance.CreateProgressBar("Pinging local addresses...", percentageDone);
+        UI_Popup.CurrentInstance.CreateProgressBar("Generating pingers for local addresses, please wait...", percentageDone);
 
-        StartCoroutine(createTimer(TIMEOUTSECONDS + (0.05f * 255f), () => 
+        StartCoroutine(createTimer(1 + TIMEOUTSECONDS + (0.05f * 255f), () => 
         {
             //percentageDone.UpdateValue(1);
             string s = string.Join("\r\n", activeIP.ToArray());
-            UI_Popup.CurrentInstance.CreatePopupChoice($"The following {upCount.ToString()} IP addresses were found:\r\n" + s, "OK!", () => { });
+            UI_Popup.CurrentInstance.CreatePopupChoice($"The following {upCount.ToString()} IP addresses were found:\r\n" + s, "OK!", () => { Screen.sleepTimeout = SleepTimeout.SystemSetting; });
         }));
     }
 
     private System.Collections.IEnumerator createPinger(string ip, float timeout)
     {
-        UnityEngine.Ping ping = new UnityEngine.Ping(ip);
-        yield return new WaitForSeconds(timeout);
-        if (ping.isDone && ping.time != -1)
+        if (ip != myip)
         {
-            upCount++;
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-            var mac = getMacByIp(ip);
-            var addit = "No identity table";
-            if (idents != null && mac != null)
+            UnityEngine.Ping ping = new UnityEngine.Ping(ip);
+            yield return new WaitForSeconds(timeout);
+            if (ping.isDone && ping.time != -1)
             {
-                var manufacturer = idents.Find(ByFirst3MacValues(mac));
-                if (manufacturer != string.Empty)
-                    addit = manufacturer.Split('\t')[2];
-                if (addit.StartsWith("Nintendo", StringComparison.OrdinalIgnoreCase))
-                    addit = "<color=red>" + addit + "</color>";
-                activeIP.Add(string.Format("IP: {0} Mfr: {1}", ip, addit));
-            }
-            else
+                upCount++;
+                string mac = null;
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+                mac = getMacByIp(ip);
+#elif UNITY_ANDROID
+            mac = AndroidUSBUtils.CurrentInstance.GetMacAddressQ(ip);
 #endif
-                activeIP.Add(string.Format("IP: {0}", ip));
+                string addit = "Unknown";
+                if (idents != null && mac != null)
+                {
+                    //var manufacturer = idents.Find(ByFirst3MacValues(mac));
+                    //var manufacturer = idents.Find(x => mac.StartsWith(x.Split(' ')[0]));
+                    //if (!string.IsNullOrEmpty(manufacturer))
+                    //    addit = manufacturer.Split('\t')[2];
+                    string macLookup = getFirst3MacValues(mac.ToUpper());
+                    if (hexToManufacturerHash.ContainsKey(macLookup))
+                        addit = hexToManufacturerHash[macLookup];
+                    if (addit.StartsWith("Nintendo", StringComparison.OrdinalIgnoreCase))
+                        addit = "<color=red>" + addit + "</color>";
+                    activeIP.Add(string.Format("IP: {0} Mfr: {1}", ip, addit));
+                }
+                else
+                    activeIP.Add(string.Format("IP: {0}", ip));
+            }
         }
+        else
+            activeIP.Add(string.Format("IP: {0} (This device)", ip));
 
         pingCount++;
         percentageDone.UpdateValue(pingCount / 255f);
@@ -202,5 +230,13 @@ public class NetworkInfoUnity : MonoBehaviour
     {
         public string MacAddress;
         public string IpAddress;
+    }
+
+    private string getFirst3MacValues(string mac)
+    {
+        string[] split = mac.Split('-');
+        if (split.Length < 3)
+            return mac;
+        return $"{split[0]}-{split[1]}-{split[2]}";
     }
 }
