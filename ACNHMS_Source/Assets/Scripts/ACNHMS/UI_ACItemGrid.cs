@@ -15,6 +15,9 @@ public class UI_ACItemGrid : MonoBehaviour
 #if PLATFORM_ANDROID
     public USBBotAndroid CurrentUSBBotAndroid { get { return usbac.Bot; } }
 #endif
+#if UNITY_STANDALONE || UNITY_EDITOR
+    public USBBot CurrentUSBBot { get { return usbc.Bot; } }
+#endif
     public SysBot CurrentSysBot { get { return sbc.Bot; } }
 
     public RectTransform SelectionOverlay;
@@ -33,6 +36,10 @@ public class UI_ACItemGrid : MonoBehaviour
 #if PLATFORM_ANDROID
     private USBBotAndroidController usbac;
     private AutoInjector usbaInjector;
+#endif
+#if UNITY_STANDALONE || UNITY_EDITOR
+    private USBBotController usbc;
+    private AutoInjector usbInjector;
 #endif
 
     private List<UI_ACItem> uiitems;
@@ -53,7 +60,10 @@ public class UI_ACItemGrid : MonoBehaviour
         usbac = new USBBotAndroidController();
         UISB.AssignUSBBotAndroid(usbac);
 #endif
-
+#if UNITY_STANDALONE || UNITY_EDITOR
+        usbc = new USBBotController();
+        UISB.AssignUSBBot(usbc);
+#endif
         for (int i = 0; i < MAXITEMS; i++)
         {
             Items.Add(new Item(Item.NONE));
@@ -88,6 +98,10 @@ public class UI_ACItemGrid : MonoBehaviour
 #if PLATFORM_ANDROID
         PocketInjector usbaInj = new PocketInjector(Items, usbac.Bot);
         usbaInjector = new AutoInjector(usbaInj, AfterRead, AfterWrite);
+#endif
+#if UNITY_STANDALONE || UNITY_EDITOR
+        PocketInjector usbInj = new PocketInjector(Items, usbc.Bot);
+        usbInjector = new AutoInjector(usbInj, AfterRead, AfterWrite);
 #endif
 
         SetSelection(0);
@@ -233,36 +247,55 @@ public class UI_ACItemGrid : MonoBehaviour
             UISB.SetConnected(val: false);
         }
     }
-#if PLATFORM_ANDROID
+
+#if PLATFORM_ANDROID || UNITY_STANDALONE || UNITY_EDITOR
     public void ReadFromSourceUSBA()
     {
         uint offset = sbc.GetDefaultOffset();
-        usbaInjector.SetWriteOffset(offset);
-        usbaInjector.ValidateEnabled = UI_Settings.GetValidateData();
+        AutoInjector platformInjector;
+#if UNITY_STANDALONE || UNITY_EDITOR
+        platformInjector = usbInjector;
+#else
+        platformInjector = usbaInjector;
+#endif
+        platformInjector.SetWriteOffset(offset);
+        platformInjector.ValidateEnabled = UI_Settings.GetValidateData();
         try
         {
-            InjectionResult injectionResult = usbaInjector.Read(true);
+            InjectionResult injectionResult = platformInjector.Read(true);
             if (injectionResult != InjectionResult.Success)
             {
                 Debug.Log(injectionResult.ToString());
+#if UNITY_STANDALONE || UNITY_EDITOR
+                PopupHelper.CreateError(injectionResult.ToString(), 2f);
+#endif
             }
         }
         catch (Exception ex)
         {
             Debug.LogError(ex.Message);
             UISB.ConnectedText.text = (ex.Message);
-            UISB.SetConnected(val: false);
+            UISB.SetConnected(false);
+#if UNITY_STANDALONE || UNITY_EDITOR
+            PopupHelper.CreateError(ex.Message, 2f);
+#endif
         }
     }
 
     public void WriteToSourceUSBA()
     {
         uint offset = sbc.GetDefaultOffset();
-        usbaInjector.SetWriteOffset(offset);
-        usbaInjector.ValidateEnabled = UI_Settings.GetValidateData();
+        AutoInjector platformInjector;
+#if UNITY_STANDALONE || UNITY_EDITOR
+        platformInjector = usbInjector;
+#else
+        platformInjector = usbaInjector;
+#endif
+        platformInjector.SetWriteOffset(offset);
+        platformInjector.ValidateEnabled = UI_Settings.GetValidateData();
         try
         {
-            InjectionResult injectionResult = usbaInjector.Write(true);
+            InjectionResult injectionResult = platformInjector.Write(true);
             if (injectionResult == InjectionResult.Success)
             {
                 PlayHappyParticles();
@@ -270,22 +303,28 @@ public class UI_ACItemGrid : MonoBehaviour
             else
             {
                 Debug.Log(injectionResult.ToString());
+#if UNITY_STANDALONE || UNITY_EDITOR
+                PopupHelper.CreateError(injectionResult.ToString(), 2f);
+#endif
             }
         }
         catch (Exception ex)
         {
             Debug.LogError(ex.Message);
             UISB.ConnectedText.text = (ex.Message);
-            UISB.SetConnected(val: false);
+            UISB.SetConnected(false);
+#if UNITY_STANDALONE || UNITY_EDITOR
+            PopupHelper.CreateError(ex.Message, 2f);
+#endif
         }
     }
 #endif
 
-    /// <summary>
-    /// Returns null if settings selected bot is active
-    /// </summary>
-    /// <returns>Active readwriter</returns>
-    public IRAMReadWriter GetCurrentlyActiveReadWriter()
+        /// <summary>
+        /// Returns null if settings selected bot is active
+        /// </summary>
+        /// <returns>Active readwriter</returns>
+        public IRAMReadWriter GetCurrentlyActiveReadWriter()
     {
         InjectionProtocol currentIP = UI_Settings.GetInjectionProtocol();
         IRAMReadWriter toRet = null;
@@ -295,8 +334,11 @@ public class UI_ACItemGrid : MonoBehaviour
                 if (CurrentSysBot.Connected)
                     toRet = CurrentSysBot;
                 break;
-            case InjectionProtocol.UsbBotAndroid:
-#if PLATFORM_ANDROID
+            case InjectionProtocol.UsbBot:
+#if UNITY_STANDALONE || UNITY_EDITOR
+                if (CurrentUSBBot.Connected)
+                    toRet = CurrentUSBBot;
+#elif PLATFORM_ANDROID
                 if (CurrentUSBBotAndroid.Connected)
                     toRet = CurrentUSBBotAndroid;
 #endif

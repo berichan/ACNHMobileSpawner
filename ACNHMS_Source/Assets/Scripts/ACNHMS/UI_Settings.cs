@@ -14,7 +14,7 @@ public enum StringSearchMode
 public enum InjectionProtocol
 {
     Sysbot = 0,
-    UsbBotAndroid = 1
+    UsbBot = 1
 }
 
 public class UI_Settings : MonoBehaviour
@@ -70,7 +70,7 @@ public class UI_Settings : MonoBehaviour
         ThreadSleepTime.text = GetThreadSleepTime().ToString();
         ValidataData.isOn = GetValidateData();
 
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID || UNITY_STANDALONE || UNITY_EDITOR
         InjectionMode.ClearOptions();
         string[] injChoices = Enum.GetNames(typeof(InjectionProtocol));
         foreach (string insj in injChoices)

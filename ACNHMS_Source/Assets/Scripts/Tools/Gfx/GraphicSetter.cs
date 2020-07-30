@@ -12,8 +12,9 @@ public class GraphicSetter : MonoBehaviour
     {
         Application.runInBackground = true;
 #if UNITY_STANDALONE
-        Screen.SetResolution((int)(Screen.height * (9f / 16f)), Screen.height, false, 60);
-        Screen.SetResolution(Screen.width, (int)(Screen.width * (16f / 9f)), false, 60);
+        int height = (int) (Screen.currentResolution.height * 0.75f);
+        int width = (int)(height * (9f / 16f));
+        Screen.SetResolution(width, height, false, 60);
 #endif
     }
 

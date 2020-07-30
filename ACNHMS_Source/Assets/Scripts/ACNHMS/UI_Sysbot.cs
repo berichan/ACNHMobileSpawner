@@ -29,6 +29,9 @@ public class UI_Sysbot : MonoBehaviour
 #if PLATFORM_ANDROID
     private USBBotAndroidController usbaBot;
 #endif
+#if UNITY_STANDALONE || UNITY_EDITOR
+    private USBBotController usbBot;
+#endif
 
     private void Start()
 	{
@@ -55,7 +58,7 @@ public class UI_Sysbot : MonoBehaviour
             case InjectionProtocol.Sysbot:
                 RootSYS.SetActive(true);
                 break;
-            case InjectionProtocol.UsbBotAndroid:
+            case InjectionProtocol.UsbBot:
                 RootUSB.SetActive(true);
                 break;
             default:
@@ -77,6 +80,12 @@ public class UI_Sysbot : MonoBehaviour
     public void AssignUSBBotAndroid(USBBotAndroidController usbab)
     {
         usbaBot = usbab;
+    }
+#endif
+#if UNITY_STANDALONE || UNITY_EDITOR
+    public void AssignUSBBot(USBBotController usbb)
+    {
+        usbBot = usbb;
     }
 #endif
 
@@ -103,8 +112,12 @@ public class UI_Sysbot : MonoBehaviour
 
     public void TryConnectUSBa()
     {
-#if PLATFORM_ANDROID
+#if PLATFORM_ANDROID || UNITY_STANDALONE || UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
+        if (!usbBot.Connect())
+#else
         if (!usbaBot.Connect())
+#endif
         {
             ConnectedText.text = "USB connection failed: Check popup";
             return;
