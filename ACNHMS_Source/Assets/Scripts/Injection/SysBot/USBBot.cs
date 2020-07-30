@@ -50,6 +50,8 @@ namespace NHSE.Injection
                     }
                     usbHandle.Close();
                 }
+                else
+                    throw new Exception("Console not found or usb driver failed to open device. Is the console connected and is libusb configured correctly?");
 
                 Connected = false;
                 UnityEngine.Debug.Log("Failed");
