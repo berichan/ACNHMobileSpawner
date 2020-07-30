@@ -30,7 +30,7 @@ public class StaticSpriteHelperBase : ISpriteHelper
         if (!File.Exists(getOutputItemPath(imgdumpin)))
         {
             // clear folder
-            Directory.Delete(fileroot);
+            Directory.Delete(fileroot, true);
             Directory.CreateDirectory(fileroot);
 
             // copy files over

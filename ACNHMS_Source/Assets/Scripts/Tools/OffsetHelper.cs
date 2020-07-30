@@ -15,7 +15,7 @@ public static class OffsetHelper
 
     public const ulong WalletAddress = InventoryOffset + 0xB8;
     public const ulong MilesAddress = InventoryOffset - 0x24980;
-    public const ulong BankAddress = InventoryOffset + 0x3451C;
+    public const ulong BankAddress = InventoryOffset + 0x34FFC;
 
     // main player offsets functions
     private static ulong getPlayerStart(ulong invOffset) => invOffset - 0x10 - PlayerOtherStartPadding + 0x110;
@@ -24,10 +24,10 @@ public static class OffsetHelper
 
 
     // main save offsets
-    public const ulong TurnipAddress = 0xAA890CB0;
+    public const ulong TurnipAddress = 0xAA8AEA70;
     public const ulong VillagerAddress = TurnipAddress - 0x411F40;
     public const ulong VillagerHouseAddress = VillagerAddress + 0x40E228;
-    public const ulong VillagerHouseBufferDiff = 0xACEDA0;
+    public const ulong VillagerHouseBufferDiff = 0xB057B0;
 
     public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x20180C;
 }
