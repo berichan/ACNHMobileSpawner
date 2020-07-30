@@ -6,11 +6,11 @@ using UnityEngine;
 public static class OffsetHelper
 {
     // some helpers
-    public const ulong PlayerSize = 0x6D6D0;
+    public const ulong PlayerSize = 0x74420;
     public const ulong PlayerOtherStartPadding = 0x35E40;
 
     // player other (Personal Offsets 13)
-    public const ulong InventoryOffset = 0xABA526A8; // player 0 (A)
+    public const ulong InventoryOffset = 0xABADD888; // player 0 (A)
     private const ulong playerOtherStart = InventoryOffset - 0x10; // helps to get other values, unused 
 
     public const ulong WalletAddress = InventoryOffset + 0xB8;

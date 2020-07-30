@@ -523,7 +523,7 @@ namespace NHSE.Core
             {05310, 0841}, // spider doorplate
             {05337, 0606}, // three-tiered snowperson
             {05338, 0607}, // simple panel
-            {05397, 0784}, // 
+            {05397, 0784}, // player's smartphone (internal)
             {05543, 0628}, // wooden-block stool
             {05635, 0643}, // tiny library
             {05636, 0642}, // wooden-plank sign
