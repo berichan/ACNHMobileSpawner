@@ -1,4 +1,5 @@
-# ACNHSpawner (mobile and desktop, despite the name)
+# ACNHSpawner 
+For mobile and desktop, despite the name.
 
 Multi-tool app for Animal Crossing: New Horizons built in Unity. Designed to be used while you are playing the game so you don't have to manually edit saves on a PC. Confirmed working on Windows, Mac, Linux, Android and iOS.
 
