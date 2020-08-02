@@ -7,542 +7,544 @@ namespace NHSE.Core
     public enum ItemMenuIconType : ushort
 #pragma warning restore CA1027 // Mark enums with FlagsAttribute
     {
-        Akoyagai, // アコヤガイ
-        Amaebi, // アマエビ
-        Anemone0, // しろいアネモネ
-        Anemone1, // あかいアネモネ
-        Anemone2, // オレンジのアネモネ
-        Anemone3, // ピンクのアネモネ
-        Anemone4, // むらさきのアネモネ
-        Anemone5, // あおいアネモネ
-        Apple, // リンゴ
-        AutumnLeaf, // もみじのはっぱ
-        Awabi, // アワビ
-        Axe, // オノ
-        AxeDull, // オノ（切れない）
-        BadKabu, // くさったカブ
-        Bag, // 装備品：バッグ
-        Baigai, // バイガイ
-        Balloon, // 風船
-        BanbooShoot, // たけのこ
-        BdayCupcake, // バースデーカップケーキ
-        BellExchangeTicket, // ベルひきかえけん
-        BlowRollItem, // ふきもどし
-        Book, // 落とし物：本
-        BookRecipe, // レシピ本
-        Boots, // ながぐつ
-        BottleRecipe, // メッセージボトル
-        Bottoms, // 装備品：ボトムス
-        Bridge, // 橋
-        Can, // あきカン
-        Cap, // 装備品：帽子
-        Cardboard, // ダンボール
-        Carpet, // ラグ
-        Cherry, // さくらんぼ
-        Chinanago, // チンアナゴ
-        ChristmasOrnamentA, // クリスマスオーナメント赤
-        ChristmasOrnamentB, // クリスマスオーナメント青
-        ChristmasOrnamentC, // クリスマスオーナメント金
-        Cinder, // 置き花火の燃えカス
-        Coconut, // ヤシの実
-        Coin, // ベル：コイン
-        Cosmos0, // しろいコスモス
-        Cosmos1, // あかいコスモス
-        Cosmos2, // きいろいコスモス
-        Cosmos3, // ピンクのコスモス
-        Cosmos4, // オレンジのコスモス
-        Cosmos5, // くろいコスモス
-        Cracker, // クラッカー
-        Daiougusokumushi, // ダイオウグソクムシ
-        DIYAcorn, // どんぐり
-        DIYBamboo, // 竹材
-        DIYBambooSpring, // はるのわかたけ
-        DIYBranch, // きのえだ
-        DIYPinecone, // まつぼっくり
-        DIYRecipeFence, // レシピ：柵
-        DIYRecipeFtr, // レシピ：家具
-        DIYWoodHard, // かたいもくざい
-        DIYWoodNormal, // もくざい
-        DIYWoodSoft, // やわらかいもくざい
-        DreamBellExchangeTicket, // ゆめのベルひきかえけん
-        DungenessCrab, // ダンジネスクラブ
-        EggFish, // サカナのたまご
-        EggForest, // もりのたまご
-        EggGround, // じめんのたまご
-        EggLeaf, // はっぱのたまご
-        EggRock, // いわのたまご
-        EggSky, // そらとぶたまご
-        Fence, // 柵
-        Fish0, // タナゴ
-        Fish1, // オイカワ
-        Fish10, // ザリガニ
-        Fish11, // カエル
-        Fish12, // ドンコ
-        Fish13, // ドジョウ
-        Fish14, // ナマズ
-        Fish16, // ライギョ
-        Fish17, // ブルーギル
-        Fish18, // イエローパーチ
-        Fish19, // ブラックバス
-        Fish2, // フナ
-        Fish20, // パイク
-        Fish21, // ワカサギ
-        Fish22, // アユ
-        Fish23, // ヤマメ
-        Fish24, // オオイワナ
-        Fish26, // イトウ
-        Fish27, // サケ
-        Fish28, // キングサーモン
-        Fish29, // グッピー
-        Fish3, // ウグイ
-        Fish30, // エンゼルフィッシュ
-        Fish31, // ネオンテトラ
-        Fish32, // ピラニア
-        Fish33, // アロワナ
-        Fish34, // ドラド
-        Fish35, // ガー
-        Fish36, // ピラルク
-        Fish37, // クリオネ
-        Fish39, // タツノオトシゴ
-        Fish40, // クマノミ
-        Fish41, // ナンヨウハギ
-        Fish42, // チョウチョウウオ
-        Fish43, // ナポレオンフィッシュ
-        Fish44, // ミノカサゴ
-        Fish45, // ハリセンボン
-        Fish46, // アジ
-        Fish47, // イシダイ
-        Fish48, // スズキ
-        Fish49, // タイ
-        Fish5, // コイ
-        Fish50, // カレイ
-        Fish51, // ヒラメ
-        Fish52, // イカ
-        Fish54, // ロブスター
-        Fish55, // ウツボ
-        Fish56, // チョウチンアンコウ
-        Fish57, // マグロ
-        Fish58, // カジキ
-        Fish59, // エイ
-        Fish6, // ニシキゴイ
-        Fish60, // マンボウ
-        Fish61, // シュモクザメ
-        Fish62, // サメ
-        Fish63, // シーラカンス
-        Fish64, // オタマジャクシ
-        Fish65, // スッポン
-        Fish66, // シャンハイガニ
-        Fish67, // ドクターフィッシュ
-        Fish68, // エンドリケリー
-        Fish69, // リュウグウノツカイ
-        Fish7, // キンギョ
-        Fish70, // ロウニンアジ
-        Fish71, // ハナヒゲウツボ
-        Fish72, // ジンベエザメ
-        Fish73, // フグ
-        Fish74, // ノコギリザメ
-        Fish75, // チョウザメ
-        Fish76, // ティラピア
-        Fish77, // ベタ
-        Fish78, // カミツキガメ
-        Fish79, // ゴールデントラウト
-        Fish8, // デメキン
-        Fish80, // レインボーフィッシュ
-        Fish81, // アンチョビ
-        Fish82, // シイラ
-        Fish83, // コバンザメ
-        Fish84, // デメニギス
-        Fish85, // ランチュウ
-        Fish9, // メダカ
-        FishBait, // サカナの撒き餌
-        Fishingrod, // つりざお
-        Floor, // 床板
-        Fossil, // 化石
-        FossilJ, // 鑑定済化石
-        Fujitsubo, // フジツボ
-        GAxe, // オノ：金
-        Gazami, // ガザミ
-        GFishingrod, // つりざお：金
-        Glasses, // 装備品：メガネ
-        GlowStick, // スティックライト
-        GNet, // あみ：金
-        Gold_Ore, // 鉱石：金鉱石
-        GoldenRose, // 金のバラ
-        GPachinko, // パチンコ：金
-        Gscoop, // スコップ：金
-        GWatering, // じょうろ：金
-        Hanabi, // 手持ち花火
-        Helmet, // たぬき開発ヘルメット
-        Hiramushi, // ヒラムシ
-        Hitode, // ヒトデ
-        Honeycomb, // ハチの巣
-        Hotaruika, // ホタルイカ
-        Hotate, // ホタテ
-        HowtoBookExpansion, // ハウツー本：機能拡張
-        HowtoBookHair, // ハウツー本：髪
-        Hoya, // ホヤ
-        Hyacinth0, // しろいヒヤシンス
-        Hyacinth1, // きいろいヒヤシンス
-        Hyacinth2, // あかいヒヤシンス
-        Hyacinth3, // オレンジのヒヤシンス
-        Hyacinth4, // ピンクのヒヤシンス
-        Hyacinth5, // むらさきのヒヤシンス
-        Hyacinth6, // あおいヒヤシンス
-        Ins0, // モンシロチョウ
-        Ins1, // モンキチョウ
-        Ins10, // ヨナグニサン
-        Ins11, // ミツバチ
-        Ins12, // ハチ
-        Ins13, // ショウリョウバッタ
-        Ins14, // トノサマバッタ
-        Ins15, // カマキリ
-        Ins16, // ハナカマキリ
-        Ins17, // アブラゼミ
-        Ins18, // ミンミンゼミ
-        Ins19, // ツクツクホウシ
-        Ins2, // アゲハチョウ
-        Ins20, // ヒグラシ
-        Ins22, // アキアカネ
-        Ins23, // ギンヤンマ
-        Ins24, // オニヤンマ
-        Ins26, // アリ
-        Ins27, // アメンボ
-        Ins28, // ゲンゴロウ
-        Ins29, // カタツムリ
-        Ins3, // カラスアゲハ
-        Ins30, // コオロギ
-        Ins31, // スズムシ
-        Ins32, // キリギリス
-        Ins33, // オケラ
-        Ins34, // コノハムシ
-        Ins35, // ナナフシ
-        Ins36, // ミノムシ
-        Ins37, // テントウムシ
-        Ins38, // バイオリンムシ
-        Ins39, // カミキリムシ
-        Ins4, // オオカバマダラ
-        Ins40, // フンコロガシ
-        Ins41, // ホタル
-        Ins42, // コガネムシ
-        Ins43, // プラチナコガネ
-        Ins44, // タマムシ
-        Ins45, // ミヤマクワガタ
-        Ins46, // ノコギリクワガタ
-        Ins47, // オオクワガタ
-        Ins48, // ニジイロクワガタ
-        Ins49, // ホソアカクワガタ
-        Ins5, // モルフォチョウ
-        Ins50, // オウゴンオニクワガタ
-        Ins51, // カブトムシ
-        Ins52, // コーカサスオオカブト
-        Ins53, // ゾウカブト
-        Ins54, // ヘラクレスオオカブト
-        Ins55, // ゴライアスハナムグリ
-        Ins56, // ノミ
-        Ins57, // ダンゴムシ
-        Ins58, // カ
-        Ins59, // ハエ
-        Ins6, // ミイロタテハ
-        Ins60, // ムカデ
-        Ins61, // クモ
-        Ins62, // タランチュラ
-        Ins63, // サソリ
-        Ins64, // カメムシ
-        Ins65, // クマゼミ
-        Ins66, // ヤドカリ
-        Ins67, // イナゴ
-        Ins69, // セミのぬけがら
-        Ins7, // アカエリアゲハ
-        Ins70, // ハンミョウ
-        Ins71, // フナムシ
-        Ins72, // アオスジアゲハ
-        Ins73, // オオゴマダラ
-        Ins74, // オオムラサキ
-        Ins75, // カナブン
-        Ins76, // タガメ
-        Ins77, // ギラファノコギリクワ
-        Ins78, // ジンメンカメムシ
-        Ins79, // ニシキオオツバメガ
-        Ins8, // アレクサンドラアゲハ
-        Ins80, // ホウセキゾウムシ
-        Ins81, // イトトンボ
-        Ins82, // ルリボシカミキリ
-        Ins9, // ガ
-        Iseebi, // イセエビ
-        Isogintyaku, // イソギンチャク
-        JohnnyQuestDust1, // さびたパーツ
-        JohnyParts, // つうしんそうちのパーツ
-        Kabu, // カブ
-        Kabutogani, // カブトガニ
-        Kairoudouketsu, // カイロウドウケツ
-        Kaki, // カキ
-        Koumoridako, // コウモリダコ
-        Kurumaebi, // クルマエビ
-        Leaf, // 葉っぱ
-        LeafDesign, // 葉っぱ（マイデザイン）
-        Liner, // 道造成キット
-        LostQuestMemo, // 落とし物：本（かきもの）
-        Love, // あいのけっしょう
-        Medicine, // おくすり
-        Mendako, // メンダコ
-        MessageBottleEgg, // たまごのメッセージボトル
-        Mizukurage, // ミズクラゲ
-        MoneyBag010, // ベル：金袋小
-        MoneyBag039, // ベル：金袋中
-        MoneyBag069, // ベル：金袋大
-        Muhrugai, // ムールガイ
-        Mum0, // しろいキク
-        Mum1, // きいろいキク
-        Mum2, // あかいキク
-        Mum3, // ピンクのキク
-        Mum4, // みどりのキク
-        Mum5, // むらさきのキク
-        Mush0, // りっぱなキノコ
-        Mush1, // まるいキノコ
-        Mush2, // ほそいキノコ
-        Mush3, // ひらたいキノコ
-        Mush4, // めずらしいキノコ
-        Music, // ミュージック
-        MyDesignPro, // マイデザインPRO
-        Namako, // ナマコ
-        Net, // あみ
-        Ocarina, // オカリナ
-        OddGlove, // 落とし物：片方の手袋
-        Onepiece, // 装備品：ワンピース
-        Orange, // オレンジ
-        OreClay, // 鉱石：ねんど
-        OreIron, // 鉱石：鉄鉱石
-        OreStone, // 鉱石：いし
-        Oumugai, // オウムガイ
-        Oyster, // カキのかいがら
-        Pachinko, // パチンコ
-        Paipuuni, // パイプウニ
-        Panflute, // パンフルート
-        Pansi0, // しろいパンジー
-        Pansi1, // きいろいパンジー
-        Pansi2, // あかいパンジー
-        Pansi3, // むらさきのパンジー
-        Pansi4, // あかきいろパンジー
-        Pansi5, // あおいパンジー
-        PaperRecipe, // レシピ
-        Peach, // モモ
-        Pear, // ナシ
-        Pearl, // しんじゅ
-        PirateQuest, // むせんき
-        PlaneTicket, // こうくうけん
-        PltAnemone0, // しろいアネモネのかぶ
-        PltAnemone1, // あかいアネモネのかぶ
-        PltAnemone2, // オレンジのアネモネのかぶ
-        PltAnemone3, // ピンクのアネモネのかぶ
-        PltAnemone4, // むらさきのアネモネのかぶ
-        PltAnemone5, // あおいアネモネのかぶ
-        PltApple, // リンゴの木
-        PltAzaleaPink, // ピンクのツツジのかぶ
-        PltAzaleaWhite, // しろいツツジのかぶ
-        PltBamboo, // 竹
-        PltBushCamelliaPink, // ピンクツバキのかぶ
-        PltBushCamelliaRed, // あかいツバキのかぶ
-        PltBushOsmathusOrange, // オレンジキンモクセイのかぶ
-        PltBushOsmathusYellow, // きいろいキンモクセイのかぶ
-        PltCherry, // さくらんぼの木
-        PltConifer, // 針葉樹
-        PltCosmos0, // しろいコスモスのかぶ
-        PltCosmos1, // あかいコスモスのかぶ
-        PltCosmos2, // きいろいコスモスのかぶ
-        PltCosmos3, // ピンクのコスモスのかぶ
-        PltCosmos4, // オレンジのコスモスのかぶ
-        PltCosmos5, // くろいコスモスのかぶ
-        PltGoldenRose, // 金のバラのかぶ
-        PltHibiscusRed, // あかいハイビスカスのかぶ
-        PltHibiscusYellow, // きいろいハイビスカスのかぶ
-        PltHolly, // ヒイラギのかぶ
-        PltHyacinth0, // しろいヒヤシンスのかぶ
-        PltHyacinth1, // きいろいヒヤシンスのかぶ
-        PltHyacinth2, // あかいヒヤシンスのかぶ
-        PltHyacinth3, // オレンジのヒヤシンスのかぶ
-        PltHyacinth4, // ピンクのヒヤシンスのかぶ
-        PltHyacinth5, // むらさきのヒヤシンスのかぶ
-        PltHyacinth6, // あおいヒヤシンスのかぶ
-        PltHydrangeaBlue, // あおいアジサイのかぶ
-        PltHydrangeaPink, // ピンクのアジサイのかぶ
-        PltMoney, // 金のなる木
-        PltMum0, // しろいキクのかぶ
-        PltMum1, // きいろいキクのかぶ
-        PltMum2, // あかいキクのかぶ
-        PltMum3, // ピンクのキクのかぶ
-        PltMum4, // みどりのキクのかぶ
-        PltMum5, // むらさきのキクのかぶ
-        PltOak, // 広葉樹
-        PltOrange, // オレンジの木
-        PltPalm, // ヤシの木
-        PltPansi0, // しろいパンジーのかぶ
-        PltPansi1, // きいろいパンジーのかぶ
-        PltPansi2, // あかいパンジーのかぶ
-        PltPansi3, // むらさきのパンジーのかぶ
-        PltPansi4, // あかきいろパンジーのかぶ
-        PltPansi5, // あおいパンジーのかぶ
-        PltPeach, // モモの木
-        PltPear, // ナシの木
-        PltRose0, // あかいバラのかぶ
-        PltRose1, // しろいバラのかぶ
-        PltRose2, // きいろいバラのかぶ
-        PltRose3, // ピンクのバラのかぶ
-        PltRose4, // オレンジのバラのかぶ
-        PltRose5, // むらさきのバラのかぶ
-        PltRose6, // くろいバラのかぶ
-        PltRose7, // あおいバラのかぶ
-        PltSuzuran, // スズランのかぶ
-        PltTurip0, // あかいチューリップのかぶ
-        PltTurip1, // しろいチューリップのかぶ
-        PltTurip2, // きいろいチューリップのかぶ
-        PltTurip3, // ピンクのチューリップのかぶ
-        PltTurip4, // むらさきチューリップのかぶ
-        PltTurip5, // くろいチューリップのかぶ
-        PltTurip6, // オレンジのチューリップのかぶ
-        PltYuri0, // しろいユリのかぶ
-        PltYuri1, // きいろいユリのかぶ
-        PltYuri2, // あかいユリのかぶ
-        PltYuri3, // オレンジのユリのかぶ
-        PltYuri4, // ピンクのユリのかぶ
-        PltYuri5, // くろいユリのかぶ
-        Porch, // 落とし物：ポーチ
-        Post, // ポスト
-        Present, // プレゼントBOX
-        Present2, // プレゼントBOX：クエスト用
-        PutHanabi, // 置き花火
-        RemakeKit, // リメイクキット
-        RollanTicket, // ローランひきかえけん
-        Rose0, // あかいバラ
-        Rose1, // しろいバラ
-        Rose2, // きいろいバラ
-        Rose3, // ピンクのバラ
-        Rose4, // オレンジのバラ
-        Rose5, // むらさきのバラ
-        Rose6, // くろいバラ
-        Rose7, // あおいバラ
-        Sakurapetal, // さくらのはなびら
-        Sazae, // サザエ
-        Scoop, // スコップ
-        Seedling, // 木の苗
-        SeedlingBush, // 低木の苗
-        SeedlingConifer, // 針葉樹の苗
-        SeedPaperbag0, // あかい種袋
-        SeedPaperbag1, // しろい種袋
-        SeedPaperbag2, // きいろい種袋
-        SeedPaperbag3, // オレンジの種袋
-        SeedPitfall, // おとしあなのタネ
-        Senjunamako, // センジュナマコ
-        Shako, // シャコ
-        Shakogai, // オオシャコガイ
-        Shell0, // アコヤガイのかいがら
-        Shell1, // ホラガイ
-        Shell2, // シャコガイ
-        Shell3, // サンゴ
-        Shell4, // ホネガイ
-        Shell5, // ホタテガイ
-        Shell6, // エビスガイ
-        Shell7, // タカラガイ
-        Shell8, // サンドダラー
-        ShellFishAsari, // アサリ
-        ShellSummer, // なつのかいがら
-        Shoes, // 装備品：靴
-        Slope, // 坂
-        SmartphoneCase, // スマホケース
-        SnowCrystal, // 雪の結晶
-        SnowCrystalLarge, // 雪の大結晶
-        Socks, // 装備品：靴下
-        StarPiece, // ほしのかけら
-        StarpieceAquarius, // みずがめざのかけら
-        StarpieceAries, // おひつじざのかけら
-        StarpieceCancer, // かにざのかけら
-        StarpieceCapricornus, // やぎざのかけら
-        StarpieceGemini, // ふたござのかけら
-        StarpieceLeo, // ししざのかけら
-        StarpieceLibra, // てんびんざのかけら
-        StarpiecePisces, // うおざのかけら
-        StarPieceRare, // ほしのかけら：レア
-        StarpieceSagittarius, // いてざのかけら
-        StarpieceScorpio, // さそりざのかけら
-        StarpieceTaurus, // おうしざのかけら
-        StarpieceVirgo, // おとめざのかけら
-        Syabon, // シャボン玉
-        TailorTicket, // したてやひきかえけん
-        Takaashigani, // タカアシガニ
-        Tako, // タコ
-        Tambourine, // タンバリン
-        Tarabagani, // タラバガニ
-        Tent, // ハウジングキット：黄
-        TentWhite, // ハウジングキット：白
-        Timer, // タイマー
-        Tire, // タイヤ
-        ToolChangeStick, // 変身ステッキ
-        ToolCliffMaker, // 崖造成キット
-        ToolLadder, // ハシゴ
-        ToolPennantRcm, // つぶまめの手持ちペナント
-        ToolRiverJump, // 川越えツール
-        ToolRiverMaker, // 川造成キット
-        Tops, // 装備品：トップス
-        Turip0, // あかいチューリップ
-        Turip1, // しろいチューリップ
-        Turip2, // きいろいチューリップ
-        Turip3, // ピンクのチューリップ
-        Turip4, // むらさきチューリップ
-        Turip5, // くろいチューリップ
-        Turip6, // オレンジチューリップ
-        Uchiwa, // うちわ
-        Umbrella, // 装備品：かさ
-        Umibudou, // ウミブドウ
-        Umiushi, // ウミウシ
-        Uni, // ウニ
-        Wakame, // ワカメ
-        Wall, // 壁紙
-        Watering, // じょうろ
-        WBagBlack, // ラッピング袋：ブラック
-        WBagBlue, // ラッピング袋：ブルー
-        WBagBrown, // ラッピング袋：ブラウン
-        WBagGary, // ラッピング袋：グレー
-        WBagGold, // ラッピング袋：ゴールド
-        WBagGreen, // ラッピング袋：ミドリ
-        WBagLightBlue, // ラッピング袋：ライトブルー
-        WBagLightGreen, // ラッピング袋：キミドリ
-        WBagMint, // ラッピング袋：ミント
-        WBagNavy, // ラッピング袋：ネイビー
-        WBagOrange, // ラッピング袋：オレンジ
-        WBagPink, // ラッピング袋：ピンク
-        WBagPurple, // ラッピング袋：パープル
-        WBagRed, // ラッピング袋：レッド
-        WBagWhite, // ラッピング袋：ホワイト
-        WBagYellow, // ラッピング袋：イエロー
-        Weed, // ざっそう
-        WetSuit, // 装備品：マリンスーツ
-        Wig, // 装備品：かぶりもの
-        Windmill, // 風車
-        WPaperBlack, // ラッピングペーパー：ブラック
-        WPaperBlue, // ラッピングペーパー：ブルー
-        WPaperBrown, // ラッピングペーパー：ブラウン
-        WPaperGold, // ラッピングペーパー：ゴールド
-        WPaperGray, // ラッピングペーパー：グレー
-        WPaperGreen, // ラッピングペーパー：ミドリ
-        WPaperLightBlue, // ラッピングペーパー：ライトブルー
-        WPaperLightGreen, // ラッピングペーパー：キミドリ
-        WPaperMint, // ラッピングペーパー：ミント
-        WPaperNavy, // ラッピングペーパー：ネイビー
-        WPaperOrange, // ラッピングペーパー：オレンジ
-        WPaperPink, // ラッピングペーパー：ピンク
-        WPaperPurple, // ラッピングペーパー：パープル
-        WPaperRed, // ラッピングペーパー：レッド
-        WPaperWhite, // ラッピングペーパー：ホワイト
-        WPaperYellow, // ラッピングペーパー：イエロー
-        WrappingPaper, // ラッピング済みアイテム
-        YellowPaperBag, // 汎用紙袋
-        Yuri0, // しろいユリ
-        Yuri1, // きいろいユリ
-        Yuri2, // あかいユリ
-        Yuri3, // オレンジのユリ
-        Yuri4, // ピンクのユリ
-        Yuri5, // くろいユリ
-        YutaroWisp, // ゆうたろうのたましい
-        Zuwaigani, // ズワイガニ
+        Akoyagai,
+        Amaebi,
+        Anemone0,
+        Anemone1,
+        Anemone2,
+        Anemone3,
+        Anemone4,
+        Anemone5,
+        Apple,
+        AutumnLeaf,
+        Awabi,
+        Axe,
+        AxeDull,
+        BadKabu,
+        Bag,
+        Baigai,
+        Balloon,
+        BanbooShoot,
+        BdayCupcake,
+        BellExchangeTicket,
+        BlowRollItem,
+        Book,
+        BookRecipe,
+        Boots,
+        BottleRecipe,
+        Bottoms,
+        Bridge,
+        Can,
+        Cap,
+        Cardboard,
+        Carpet,
+        Cherry,
+        Chinanago,
+        ChristmasOrnamentA,
+        ChristmasOrnamentB,
+        ChristmasOrnamentC,
+        Cinder,
+        Coconut,
+        Coin,
+        Cosmos0,
+        Cosmos1,
+        Cosmos2,
+        Cosmos3,
+        Cosmos4,
+        Cosmos5,
+        Cracker,
+        Daiougusokumushi,
+        DIYAcorn,
+        DIYBamboo,
+        DIYBambooSpring,
+        DIYBranch,
+        DIYPinecone,
+        DIYRecipeFence,
+        DIYRecipeFtr,
+        DIYWoodHard,
+        DIYWoodNormal,
+        DIYWoodSoft,
+        DreamBellExchangeTicket,
+        DungenessCrab,
+        EggFish,
+        EggForest,
+        EggGround,
+        EggLeaf,
+        EggRock,
+        EggSky,
+        Fence,
+        Fish54,
+        FishAji,
+        FishAngelfish,
+        FishAntyobi,
+        FishArowana,
+        FishAyu,
+        FishBait,
+        FishBeta,
+        FishBlackbass,
+        FishBlueguill,
+        FishChouchinankou,
+        FishChouchouuo,
+        FishDemekin,
+        FishDemenigisu,
+        FishDojou,
+        FishDokutaafish,
+        FishDolado,
+        FishDonko,
+        FishEi,
+        FishEndorikerii,
+        FishFugu,
+        FishFuna,
+        FishGa,
+        FishGoldenTorauto,
+        FishGuppi,
+        FishHanahigeutubo,
+        FishHarisenbon,
+        FishHirame,
+        FishIka,
+        Fishingrod,
+        FishIshidai,
+        FishItou,
+        FishJinbeezame,
+        FishKaeru,
+        FishKajiki,
+        FishKamitsukigame,
+        FishKarei,
+        FishKingsalmon,
+        FishKingyo,
+        FishKobanzame,
+        FishKoi,
+        FishKumanomi,
+        FishKurione,
+        FishMaguro,
+        FishManbou,
+        FishMedaka,
+        FishMinokasago,
+        FishNamazu,
+        FishNanyouhagi,
+        FishNaporeonfish,
+        FishNeontetora,
+        FishNishikigoi,
+        FishNokogirizame,
+        FishOikawa,
+        FishOoiwana,
+        FishOtamajakusi,
+        FishPaiku,
+        FishPirania,
+        FishPiraruku,
+        FishRaigyo,
+        FishRainbowfish,
+        FishRouninaji,
+        FishRyuuguunotukai,
+        FishSake,
+        FishSame,
+        FishShiira,
+        FishShumokuzame,
+        FishSirakansu,
+        FishSuppon,
+        FishSuzuki,
+        FishSyanhaigani,
+        FishTai,
+        FishTanago,
+        FishTatsunootoshigo,
+        FishThirapia,
+        FishTyouzame,
+        FishUgui,
+        FishUtsubo,
+        FishWakasagi,
+        FishYamame,
+        FishYellowparch,
+        FishZarigani,
+        Floor,
+        Fossil,
+        FossilJ,
+        FtrFishRanchu,
+        FtrInsectTagame,
+        Fujitsubo,
+        GAxe,
+        Gazami,
+        GFishingrod,
+        Glasses,
+        GlowStick,
+        GNet,
+        GoldenRose,
+        GPachinko,
+        Gscoop,
+        GWatering,
+        Hanabi,
+        Helmet,
+        Hiramushi,
+        Hitode,
+        Honeycomb,
+        Hotaruika,
+        Hotate,
+        HowtoBookExpansion,
+        HowtoBookHair,
+        Hoya,
+        Hyacinth0,
+        Hyacinth1,
+        Hyacinth2,
+        Hyacinth3,
+        Hyacinth4,
+        Hyacinth5,
+        Hyacinth6,
+        InsAburazemi,
+        InsAgehacho,
+        InsAkaeri,
+        InsAkiakane,
+        InsAmenbo,
+        InsAosuji,
+        InsArekisandora,
+        InsAri,
+        InsBaiorinmushi,
+        InsDangomushi,
+        InsFunamushi,
+        InsFunkorogashi,
+        InsGa,
+        InsGengorou,
+        InsGinyanma,
+        InsGirafanokogiri,
+        InsGomadarakamikiri,
+        InsGoraiasu,
+        InsHachi,
+        InsHae,
+        InsHanakamakiri,
+        InsHanmyou,
+        InsHerakuresu,
+        InsHigurashi,
+        InsHosoakakuwagata,
+        InsHotaru,
+        InsHousekizoumushi,
+        InsInago,
+        InsJinmenkamemushi,
+        InsKa,
+        InsKabutomushi,
+        InsKamakiri,
+        InsKamemushi,
+        InsKanabun,
+        InsKarasuageha,
+        InsKatatsumuri,
+        InsKirigirisu,
+        InsKohkasasu,
+        InsKohrogi,
+        InsKonohamushi,
+        InsKumazemi,
+        InsKumo,
+        InsMiirotateha,
+        InsMinminzemi,
+        InsMinomushi,
+        InsMitsubachi,
+        InsMiyamakuwagata,
+        InsMonkicho,
+        InsMonshirocho,
+        InsMorufuocho,
+        InsMukade,
+        InsNanafushi,
+        InsNijiirokuwagata,
+        InsNishikiohtsu,
+        InsNokogirikuwagata,
+        InsNomi,
+        InsOhgomamadara,
+        InsOhkabamadara,
+        InsOhkuwagata,
+        InsOhmurasaki,
+        InsOhsenchikogane,
+        InsOkera,
+        InsOniyanma,
+        InsOugononikuwa,
+        InsPurachinakogane,
+        InsRuriboshikamikiri,
+        InsSasori,
+        InsSeminonukegara,
+        InsShoryobatta,
+        InsSuzumushi,
+        InsTamamushi,
+        InsTaranchura,
+        InsTentoumushi,
+        InsTonosamabatta,
+        InsTsukutsuku,
+        InsYadokari,
+        InsYonagunisan,
+        InsZoukabuto,
+        Iseebi,
+        Isogintyaku,
+        Itotonbo,
+        JohnnyQuestDust1,
+        JohnyParts,
+        Kabu,
+        Kabutogani,
+        Kairoudouketsu,
+        Kaki,
+        Koumoridako,
+        Kurumaebi,
+        Leaf,
+        LeafDesign,
+        LostQuestMemo,
+        LostQuestPorch,
+        Love,
+        Medicine,
+        Mendako,
+        MessageBottleEgg,
+        Mizukurage,
+        MoneyBag010,
+        MoneyBag039,
+        MoneyBag069,
+        Muhrugai,
+        Mum0,
+        Mum1,
+        Mum2,
+        Mum3,
+        Mum4,
+        Mum5,
+        Mush0,
+        Mush1,
+        Mush2,
+        Mush3,
+        Mush4,
+        Music,
+        MyDesignPro,
+        Namako,
+        Net,
+        Ocarina,
+        OddGlove,
+        Onepiece,
+        Orange,
+        OreClay,
+        OreGold,
+        OreIron,
+        OreStone,
+        Oumugai,
+        Oyster,
+        Pachinko,
+        Paipuuni,
+        Panflute,
+        Pansi0,
+        Pansi1,
+        Pansi2,
+        Pansi3,
+        Pansi4,
+        Pansi5,
+        PaperRecipe,
+        Peach,
+        Pear,
+        Pearl,
+        PirateQuest,
+        PlaneTicket,
+        PltAnemone0,
+        PltAnemone1,
+        PltAnemone2,
+        PltAnemone3,
+        PltAnemone4,
+        PltAnemone5,
+        PltApple,
+        PltAzaleaPink,
+        PltAzaleaWhite,
+        PltBamboo,
+        PltBushCamelliaPink,
+        PltBushCamelliaRed,
+        PltBushOsmathusOrange,
+        PltBushOsmathusYellow,
+        PltCherry,
+        PltConifer,
+        PltCosmos0,
+        PltCosmos1,
+        PltCosmos2,
+        PltCosmos3,
+        PltCosmos4,
+        PltCosmos5,
+        PltGoldenRose,
+        PltHibiscusRed,
+        PltHibiscusYellow,
+        PltHolly,
+        PltHyacinth0,
+        PltHyacinth1,
+        PltHyacinth2,
+        PltHyacinth3,
+        PltHyacinth4,
+        PltHyacinth5,
+        PltHyacinth6,
+        PltHydrangeaBlue,
+        PltHydrangeaPink,
+        PltMoney,
+        PltMum0,
+        PltMum1,
+        PltMum2,
+        PltMum3,
+        PltMum4,
+        PltMum5,
+        PltOak,
+        PltOrange,
+        PltPalm,
+        PltPansi0,
+        PltPansi1,
+        PltPansi2,
+        PltPansi3,
+        PltPansi4,
+        PltPansi5,
+        PltPeach,
+        PltPear,
+        PltRose0,
+        PltRose1,
+        PltRose2,
+        PltRose3,
+        PltRose4,
+        PltRose5,
+        PltRose6,
+        PltRose7,
+        PltSuzuran,
+        PltTurip0,
+        PltTurip1,
+        PltTurip2,
+        PltTurip3,
+        PltTurip4,
+        PltTurip5,
+        PltTurip6,
+        PltYuri0,
+        PltYuri1,
+        PltYuri2,
+        PltYuri3,
+        PltYuri4,
+        PltYuri5,
+        Porch,
+        Post,
+        Present,
+        Present2,
+        PutHanabi,
+        RemakeKit,
+        RollanTicket,
+        Rose0,
+        Rose1,
+        Rose2,
+        Rose3,
+        Rose4,
+        Rose5,
+        Rose6,
+        Rose7,
+        Sakurapetal,
+        Sazae,
+        Scoop,
+        Seedling,
+        SeedlingBush,
+        SeedlingConifer,
+        SeedPaperbag0,
+        SeedPaperbag1,
+        SeedPaperbag2,
+        SeedPaperbag3,
+        SeedPitfall,
+        Senjunamako,
+        Shako,
+        Shakogai,
+        Shell0,
+        Shell1,
+        Shell2,
+        Shell3,
+        Shell4,
+        Shell5,
+        Shell6,
+        Shell7,
+        Shell8,
+        ShellFIshAsari,
+        ShellSummer,
+        Shoes,
+        Slope,
+        SmartphoneCase,
+        SnowCrystal,
+        SnowCrystalLarge,
+        Socks,
+        StarPiece,
+        StarpieceAquarius,
+        StarpieceAries,
+        StarpieceCancer,
+        StarpieceCapricornus,
+        StarpieceGemini,
+        StarpieceLeo,
+        StarpieceLibra,
+        StarpiecePisces,
+        StarPieceRare,
+        StarpieceSagittarius,
+        StarpieceScorpio,
+        StarPieceSeason,
+        StarpieceTaurus,
+        StarpieceVirgo,
+        Syabon,
+        TailorTicket,
+        Takaashigani,
+        Tako,
+        Tambourine,
+        Tarabagani,
+        Tent,
+        TentWhite,
+        Timer,
+        Tire,
+        ToolChangeStick,
+        ToolCliffMaker,
+        ToolGroundMaker,
+        ToolLadder,
+        ToolPennantRcm,
+        ToolRiverJump,
+        ToolRiverMaker,
+        Tops,
+        Turip0,
+        Turip1,
+        Turip2,
+        Turip3,
+        Turip4,
+        Turip5,
+        Turip6,
+        Uchiwa,
+        Umbrella,
+        Umibudou,
+        Umiushi,
+        Uni,
+        Wakame,
+        Wall,
+        Watering,
+        WBagBlack,
+        WBagBlue,
+        WBagBrown,
+        WBagGary,
+        WBagGold,
+        WBagGreen,
+        WBagLightBlue,
+        WBagLightGreen,
+        WBagMint,
+        WBagNavy,
+        WBagOrange,
+        WBagPink,
+        WBagPurple,
+        WBagRed,
+        WBagWhite,
+        WBagYellow,
+        Weed,
+        WetSuit,
+        Wig,
+        Windmill,
+        WPaperBlack,
+        WPaperBlue,
+        WPaperBrown,
+        WPaperGold,
+        WPaperGray,
+        WPaperGreen,
+        WPaperLightBlue,
+        WPaperLightGreen,
+        WPaperMint,
+        WPaperNavy,
+        WPaperOrange,
+        WPaperPink,
+        WPaperPurple,
+        WPaperRed,
+        WPaperWhite,
+        WPaperYellow,
+        WrappingPaper,
+        YellowPaperBag,
+        Yuri0,
+        Yuri1,
+        Yuri2,
+        Yuri3,
+        Yuri4,
+        Yuri5,
+        YutaroWisp,
+        Zuwaigani,
 
         Unknown = ushort.MaxValue,
     }
