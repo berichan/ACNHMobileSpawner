@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Create a report to help fix an issue with ACNHMS functionality
 title: ''
 labels: ''
 assignees: ''
