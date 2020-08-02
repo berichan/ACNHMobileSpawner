@@ -28,4 +28,4 @@ Please do not use vague descriptions such as "the latest version" and instead gi
  - OS: [e.g. Android 10.0]
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context about the problem here. Please state the steps you have already followed at https://github.com/berichan/ACNHMobileSpawner/wiki/FAQ-and-Troubleshooting
