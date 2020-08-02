@@ -38,6 +38,7 @@ public class UI_SearchWindow : MonoBehaviour
     public UI_TreeEditor TreeController;
     public GameObject SpriteImageRoot;
     public RawImage SpriteImageMain;
+    public PShowOnInternalItem InternalItemWarning;
 
     public GameObject FlowerButtonRoot;
     public GameObject TreeButtonRoot;
@@ -240,8 +241,13 @@ public class UI_SearchWindow : MonoBehaviour
     public void SelectItem(ItemFilter itemF, int id, UI_SearchItem sItem)
     {
         if (id == Item.NONE)
-        {
             return;
+        if (ItemExtensions.IsInternalItem((ushort)id))
+        {
+            if (!InternalItemWarning.gameObject.activeInHierarchy)
+                InternalItemWarning.gameObject.SetActive(true);
+            else
+                InternalItemWarning.Start();
         }
         SetController.FCount.text = id.ToString();
         ItemSelectedName.text = sItem.RawValue;

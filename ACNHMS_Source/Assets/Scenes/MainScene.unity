@@ -18485,7 +18485,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 209.68}
+  m_AnchoredPosition: {x: 0, y: 201}
   m_SizeDelta: {x: 379.12726, y: -45.031612}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &402936316
@@ -18619,6 +18619,92 @@ MonoBehaviour:
   TreeMultiImage: {fileID: 0}
   FiveInts: []
   Dummy: 1
+--- !u!1 &407028222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 407028223}
+  - component: {fileID: 407028225}
+  - component: {fileID: 407028224}
+  m_Layer: 0
+  m_Name: InternalItemSelectPopup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &407028223
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407028222}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -425.95667, y: 790.6562, z: 99.899635}
+  m_LocalScale: {x: 2.522996, y: 2.522996, z: 2.522996}
+  m_Children: []
+  m_Father: {fileID: 1908861341}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &407028224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407028222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30513b5da8949b64885b4a5b66e4b576, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UEP: {fileID: 407028225}
+--- !u!114 &407028225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407028222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d719095cc45cadd4e84cfb254871c046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Message: 'You have selected an internal item. These items may be glitchy and difficult
+    to remove on a non-custom-firmware console. Please do not try to ruin another
+    player''s experience by giving them any of the internal items.
+
+
+    If you place
+    an internal item on your map and find it difficult to remove, I have added functionality
+    to remove all placed internal items using Map Tools within the additional "+"
+    panel in the bottom right corner.'
+  Button1Msg: OK!
+  Button2Msg: OK and never show this again
+  MsgColor: {r: 1, g: 1, b: 1, a: 1}
+  FirstButtonEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  SecondButtonEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 407028224}
+        m_MethodName: NeverShowAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &407263894
 GameObject:
   m_ObjectHideFlags: 0
@@ -40438,8 +40524,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: 128}
-  m_SizeDelta: {x: 343.74838, y: 59.50432}
+  m_AnchoredPosition: {x: 47, y: 128}
+  m_SizeDelta: {x: 300.43594, y: 59.50432}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1066078395
 MonoBehaviour:
@@ -44726,12 +44812,13 @@ RectTransform:
   - {fileID: 1066078394}
   - {fileID: 1316625129}
   - {fileID: 1577895641}
+  - {fileID: 1287554733}
   m_Father: {fileID: 981713059}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 26}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1199233496
@@ -47722,6 +47809,84 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286739152}
+  m_CullTransparentMesh: 0
+--- !u!1 &1287554732
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1287554733}
+  - component: {fileID: 1287554735}
+  - component: {fileID: 1287554734}
+  m_Layer: 5
+  m_Name: Text (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1287554733
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287554732}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1198388025}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -161.9, y: 128}
+  m_SizeDelta: {x: 17.293427, y: -45.031612}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1287554734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287554732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 32
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Type:'
+--- !u!222 &1287554735
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287554732}
   m_CullTransparentMesh: 0
 --- !u!1 &1288228964
 GameObject:
@@ -51247,7 +51412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/08/02 21:48:16
+  LastEditorDateTime: 2020/08/02 23:26:43
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -58599,8 +58764,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 121.5}
-  m_SizeDelta: {x: 958.2544, y: 550.25574}
+  m_AnchoredPosition: {x: 0, y: 112.9}
+  m_SizeDelta: {x: 958.2544, y: 539.3573}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1577895642
 MonoBehaviour:
@@ -62239,8 +62404,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -12.47, y: -0.5}
-  m_SizeDelta: {x: -44.933167, y: -13}
+  m_AnchoredPosition: {x: -9.35, y: -0.5}
+  m_SizeDelta: {x: -51.18225, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1710174392
 MonoBehaviour:
@@ -70345,6 +70510,7 @@ RectTransform:
   - {fileID: 1680571954}
   - {fileID: 1329643771}
   - {fileID: 1462480786}
+  - {fileID: 407028223}
   m_Father: {fileID: 1672128551}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -70378,6 +70544,7 @@ MonoBehaviour:
   TreeController: {fileID: 234372930}
   SpriteImageRoot: {fileID: 1329643770}
   SpriteImageMain: {fileID: 1804605860}
+  InternalItemWarning: {fileID: 407028224}
   FlowerButtonRoot: {fileID: 1303594812}
   TreeButtonRoot: {fileID: 1093976983}
   SearchBlocker: {fileID: 1781277833}
