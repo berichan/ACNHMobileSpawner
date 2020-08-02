@@ -8,31 +8,24 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. Please make sure your bug is related to the functionality of ACNHSpawner, and is not already asked in a closed issue.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**To reproduce**
+Steps to reproduce the behaviour:
 
-**Expected behavior**
+**Expected behaviour**
 A clear and concise description of what you expected to happen.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**Your custom firmware version, console version, patch version and ACNHMS version**
+- My setup: [e.g. AMS 0.12.0, Console ver. 10.0.1, ACNH patch 1.3.0, ACNHMS 0.7-a.]
+Please do not use vague descriptions such as "the latest version" and instead give the actual update number.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**Device and OS (please complete the following information):**
+ - Device: [e.g. Google Pixel 4]
+ - OS: [e.g. Android 10.0]
 
 **Additional context**
 Add any other context about the problem here.
