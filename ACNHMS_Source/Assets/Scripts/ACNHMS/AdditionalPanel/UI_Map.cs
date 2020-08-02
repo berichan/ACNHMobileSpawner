@@ -5,22 +5,54 @@ using UnityEngine.UI;
 using NHSE.Core;
 using System;
 
+public enum RemovalItem
+{
+    Weed = 0,
+    TreeBranch,
+    Fence,
+    Bush,
+    Flower,
+    Tree,
+    Stone,
+    Internal
+}
+
 public class UI_Map : IUI_Additional
 {
     private const int YieldCount = 3; // yield for a frame every x loops
     private const int FieldItemLayerSize = MapGrid.MapTileCount32x32 * Item.SIZE;
-    public static string MapAddress = OffsetHelper.FieldItemStart.ToString("X"); // has storage a bit after it in ram ABA52760 
+    public static string MapAddress = OffsetHelper.FieldItemStart.ToString("X"); 
     public static uint CurrentMapAddress { get { return StringUtil.GetHexValue(MapAddress); } }
 
     public Item CurrentlyPlacingItem;
 
     public InputField RAMOffset;
+    public Dropdown RemoveItemMode;
+    public Text ButtonLabel;
+
+    private RemovalItem currentRemovalItem = RemovalItem.Weed;
 
     // Start is called before the first frame update
     void Start()
     {
         RAMOffset.text = MapAddress;
         RAMOffset.onValueChanged.AddListener(delegate { MapAddress = RAMOffset.text; });
+
+        ButtonLabel.text = $"Remove every {currentRemovalItem.ToString().ToLower()}";
+
+        RemoveItemMode.ClearOptions();
+        string[] riChoices = Enum.GetNames(typeof(RemovalItem));
+        foreach (string ri in riChoices)
+        {
+            Dropdown.OptionData newVal = new Dropdown.OptionData();
+            newVal.text = ri;
+            RemoveItemMode.options.Add(newVal);
+        }
+
+        RemoveItemMode.onValueChanged.AddListener(delegate { currentRemovalItem = (RemovalItem)RemoveItemMode.value; ButtonLabel.text = $"Remove every {currentRemovalItem.ToString().ToLower()}"; });
+        RemoveItemMode.value = 0;
+        RemoveItemMode.RefreshShownValue();
+
     }
 
     // Update is called once per frame
@@ -44,6 +76,42 @@ public class UI_Map : IUI_Additional
     }
 
     public void ClearItems()
+    {
+        Func<Item, bool> deleter = new Func<Item, bool>(x => DeleteType(x, currentRemovalItem));
+        ReferenceContainer<float> itemFunctionValue = new ReferenceContainer<float>(0f);
+        Texture2D imgToShow;
+        string progressString;
+        Vector3 rot;
+        switch (currentRemovalItem)
+        {
+            case RemovalItem.Bush:
+            case RemovalItem.Flower:
+            case RemovalItem.Weed:
+                imgToShow = SpriteBehaviour.ItemToTexture2D(338, 0, out var _); // red lawnmover
+                progressString = "Mowing lawn, please run around but don't place anything on your island...";
+                rot = Vector3.up * 180;
+                break;
+            case RemovalItem.Fence:
+            case RemovalItem.Tree:
+            case RemovalItem.Stone:
+            case RemovalItem.TreeBranch:
+                imgToShow = SpriteBehaviour.ItemToTexture2D(9617, 0, out var _); // golden axe
+                progressString = $"Chopping up every {currentRemovalItem.ToString().ToLower()}, please run around but don't place anything on your island...";
+                rot = Vector3.up * 180;
+                break;
+            default:
+                imgToShow = ResourceLoader.GetAngryIsabelle(); // \_/
+                progressString = "Isabelle is cleaning up your mess, please run around but don't place anything on your island...";
+                rot = Vector3.up * 180;
+                break;
+        }
+
+        UI_Popup.CurrentInstance.CreateProgressBar(progressString, itemFunctionValue, imgToShow, rot, null, "Cancel", () => { CancelCurrentFunction(); });
+
+        StartCoroutine(functionTiles(deleter, itemFunctionValue));
+    }
+
+    public void ClearItemsOld()
     {
         Func<Item, bool> weedDeleter = new Func<Item, bool>(DeleteWeed);
         ReferenceContainer<float> itemFunctionValue = new ReferenceContainer<float>(0f);
@@ -113,6 +181,24 @@ public class UI_Map : IUI_Additional
         progress.UpdateValue(1.01f);
     }
 
+    private bool DeleteType(Item i, RemovalItem toRemove)
+    {
+        ushort toSearch = i.ItemId;
+        if (i.ItemId == Item.EXTENSION)
+            toSearch = i.ExtensionItemId;
+        var removable = toSearch.GetRemovalItemType();
+        if (removable.HasValue)
+        {
+            if (removable.Value == toRemove)
+            {
+                i.Delete();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private bool DeleteWeed(Item i)
     {
         FieldItemList.Items.TryGetValue(i.ItemId, out var def);
@@ -147,5 +233,35 @@ public class UI_Map : IUI_Additional
             return true;
         }
         return false;
+    }
+}
+
+public static class RemovalItemExt
+{
+    public static RemovalItem? GetRemovalItemType(this ushort i)
+    {
+        if (i == 2500)
+            return RemovalItem.TreeBranch;
+        if (ItemExtensions.IsInternalItem(i))
+            return RemovalItem.Internal;
+
+        FieldItemList.Items.TryGetValue(i, out var def);
+        if (def != null)
+        {
+            if (def.Kind.IsWeed())
+                return RemovalItem.Weed;
+            if (def.Kind.IsBush())
+                return RemovalItem.Bush;
+            if (def.Kind.IsFence())
+                return RemovalItem.Fence;
+            if (def.Kind.IsFlower())
+                return RemovalItem.Flower;
+            if (def.Kind.IsStone())
+                return RemovalItem.Stone;
+            if (def.Kind.IsTree())
+                return RemovalItem.Tree;
+        }
+
+        return null;
     }
 }
