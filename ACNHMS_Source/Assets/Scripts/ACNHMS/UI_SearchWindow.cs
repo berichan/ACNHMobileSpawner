@@ -279,10 +279,10 @@ public class UI_SearchWindow : MonoBehaviour
             FlowerButtonRoot.SetActive(false);
         }
 
-        if (new Item((ushort)id).IsMoneyTree())
+        /*if (new Item((ushort)id).IsMoneyTree())
             TreeButtonRoot.gameObject.SetActive(true);
         else
-            TreeButtonRoot.gameObject.SetActive(false);
+            TreeButtonRoot.gameObject.SetActive(false);*/ //uncomment this if you want star tree editor again for whatever reason
 
         short remakeIndex = ItemRemakeUtil.GetRemakeIndex(Convert.ToUInt16(CurrentItemID));
         if (remakeIndex < 0)
