@@ -12,7 +12,7 @@ It currently supports the following in-play actions:
 * Changing amount of miles, bells in your bank and in your wallet (inventory).
 * [Changing and replacing villagers](https://www.youtube.com/watch?v=5CUUZhGtsxk) using the perfect villager database.
 * Changing the turnip buy/sell prices and fluctuations.
-* [Creating star and item trees](https://www.youtube.com/watch?v=KEYgo9ybB8o) using the built-in tree creator.
+* [Creating star and item trees](https://www.youtube.com/watch?v=KEYgo9ybB8o) using the built-in tree creator (only works up to game version 1.4.0, as it was patched out in 1.4.1).
 * [Spawning internal items*](https://www.youtube.com/watch?v=q50R6ky0hIQ) such as the donut and harvey's fence. [A list of all internal items is here.](https://github.com/berichan/ACNHMobileSpawner/wiki/List-of-internal-items)
 * Hex editing raw RAM bytes. This can be used in any Switch game, not just Animal Crossing.
 * Saving, sharing and loading certain New Horizons file types: _*.nhi (inventory), *.nhv (villager) and *.nhvh (villager house)._
