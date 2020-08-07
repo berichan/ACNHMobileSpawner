@@ -2,8 +2,9 @@ using NHSE.Core;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.EventSystems;
 
-public class UI_ACItem : MonoBehaviour
+public class UI_ACItem : MonoBehaviour, IPointerClickHandler
 {
 	public RawImage ImageComponent, TopRightImage;
 	public Button ButtonComponent;
@@ -65,10 +66,20 @@ public class UI_ACItem : MonoBehaviour
                 val.text = "";
     }
 
-    // for downloading acnh images
+    // for downloading acnh images (old/deprecated)
     public void DownloadImages()
     {
         System.IO.Compression.ZipFile.ExtractToDirectory("", "");
     }
-    
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            ItemAssigned.Delete();
+            Assign(ItemAssigned);
+        }
+        else if (eventData.button == PointerEventData.InputButton.Middle)
+            UI_ACItemGrid.LastInstanceOfItemGrid.DeleteRow(ItemAssigned);
+    }
 }

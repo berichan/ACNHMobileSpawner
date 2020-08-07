@@ -234,6 +234,24 @@ public class UI_Map : IUI_Additional
         }
         return false;
     }
+
+    //testing
+    private bool ReplaceTreeItemWithFurniture(Item i)
+    {
+        FieldItemList.Items.TryGetValue(i.ItemId, out var def);
+        if (def != null)
+        {
+            if (def.Kind == FieldItemKind.PltTreeOak)
+            {
+                //var bytes = i.ToBytesClass();
+                Debug.Log(string.Format("Found {0}, Count: {1}", i.ItemId, i.Count));
+                i.Count = 2;
+
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 public static class RemovalItemExt

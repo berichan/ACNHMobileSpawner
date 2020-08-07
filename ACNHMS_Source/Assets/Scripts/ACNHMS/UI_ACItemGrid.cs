@@ -124,9 +124,17 @@ public class UI_ACItemGrid : MonoBehaviour
         currentAnimationFuction = StartCoroutine(sendSelectorToSelected());
     }
 
-    private void Update()
+    public void DeleteRow(int row)
     {
+        int start = row * 10;
+        for (int i = start; i < start + 10; ++i)
+        {
+            Items[i].Delete();
+            uiitems[i].Assign(Items[i]);
+        }
     }
+
+    public void DeleteRow(Item indexOfItem) => DeleteRow(Items.IndexOf(indexOfItem) / 10);
 
     public void PlayHappyParticles()
     {
