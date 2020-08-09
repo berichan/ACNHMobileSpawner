@@ -359,21 +359,14 @@ public class UI_SearchWindow : MonoBehaviour
             return;
         CurrentItemID = item.ItemId;
         if (CurrentItemID == MESSAGEBOTTLEITEM)
-        {
             CurrentFilter = ItemFilter.MsgBottle;
-        }
         else if (CurrentItemID == RECIPEITEM)
-        {
             CurrentFilter = ItemFilter.Recipes;
-        }
         else if (CurrentItemID == FOSSILITEM)
-        {
             CurrentFilter = ItemFilter.Fossils;
-        }
         else
-        {
             CurrentFilter = ItemFilter.Items;
-        }
+
         List<ComboItem> list = FilterToItems(CurrentFilter);
         ComboItem comboItem = (CurrentFilter == ItemFilter.Items) ? list.Find((ComboItem x) => x.Value == item.ItemId) : list.Find((ComboItem x) => x.Value == item.Count);
         SearchField.text = comboItem.Text;
@@ -391,22 +384,27 @@ public class UI_SearchWindow : MonoBehaviour
                 array[i] = item.GetIsWateredByVisitor(i);
             }
             FlowerController.SetVisitorWatered(array);
-            return;
         }
-        SetController.FCount.text = item.Count.ToString();
-        SetController.CompileBodyFabricFromCount();
-        SetController.FUses.text = item.UseCount.ToString();
-        SetController.FFlagZero.text = item.SystemParam.ToString();
+        else
+        {
+            SetController.FCount.text = item.Count.ToString();
+            SetController.CompileBodyFabricFromCount();
+            SetController.FUses.text = item.UseCount.ToString();
+            SetController.FFlagZero.text = item.SystemParam.ToString();
+        }
+
         if (itemKind == ItemKind.Kind_MessageBottle)
         {
             SetController.FFlagOne.text = item.AdditionalParam.ToString();
-            return;
         }
-        WrapController.WrapToggle.isOn = item.WrappingType != ItemWrapping.Nothing;
-        WrapController.WrapType.value = (int)item.WrappingType;
-        WrapController.WrapColor.value = (int)item.WrappingPaper;
-        WrapController.ShowItemToggle.isOn = item.WrappingShowItem;
-        WrapController.Flag80 = item.Wrapping80;
+        else
+        {
+            WrapController.WrapToggle.isOn = item.WrappingType != ItemWrapping.Nothing;
+            WrapController.WrapType.value = (int)item.WrappingType;
+            WrapController.WrapColor.value = (int)item.WrappingPaper;
+            WrapController.ShowItemToggle.isOn = item.WrappingShowItem;
+            WrapController.Flag80 = item.Wrapping80;
+        }
 
         DropdownFilter.SetValueWithoutNotify((int)CurrentFilter);
         DropdownFilter.RefreshShownValue();
@@ -441,27 +439,29 @@ public class UI_SearchWindow : MonoBehaviour
             int value = int.Parse(SetController.FCount.text);
             int value2 = int.Parse(SetController.FUses.text);
             int value3 = int.Parse(SetController.FFlagZero.text);
-            int value4 = int.Parse(SetController.FFlagOne.text);
             item.Count = Convert.ToUInt16(value);
             item.UseCount = Convert.ToUInt16(value2);
             item.SystemParam = Convert.ToByte(value3);
-            if (itemKind == ItemKind.Kind_MessageBottle)
-            {
-                item.AdditionalParam = Convert.ToByte(value4);
-            }
-            else if (!WrapController.WrapToggle.isOn)
-            {
-                item.SetWrapping(ItemWrapping.Nothing, ItemWrappingPaper.Yellow);
-            }
-            else
-            {
-                ItemWrapping wrap = (ItemWrapping)WrapController.ItemWrap;
-                ItemWrappingPaper color = (ItemWrappingPaper)WrapController.ItemColor;
-                bool isOn = WrapController.ShowItemToggle.isOn;
-                bool flag = WrapController.Flag80;
-                item.SetWrapping(wrap, color, isOn, flag);
-            }
         }
+
+        int value4 = int.Parse(SetController.FFlagOne.text);
+        if (itemKind == ItemKind.Kind_MessageBottle)
+        {
+            item.AdditionalParam = Convert.ToByte(value4);
+        }
+        else if (!WrapController.WrapToggle.isOn)
+        {
+            item.SetWrapping(ItemWrapping.Nothing, ItemWrappingPaper.Yellow);
+        }
+        else
+        {
+            ItemWrapping wrap = (ItemWrapping)WrapController.ItemWrap;
+            ItemWrappingPaper color = (ItemWrappingPaper)WrapController.ItemColor;
+            bool isOn = WrapController.ShowItemToggle.isOn;
+            bool flag = WrapController.Flag80;
+            item.SetWrapping(wrap, color, isOn, flag);
+        }
+        
         return item;
     }
 
