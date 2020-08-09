@@ -24,7 +24,7 @@ public class UI_Villager : IUI_Additional
     public Text VillagerName, SaveVillagerLabel;
     public RawImage MainVillagerTexture;
     public InputField VillagerPhrase;
-    public Toggle MovingOutToggle, ReloadVillagerToggle;
+    public Toggle MovingOutToggle, ReloadVillagerToggle, ForceMoveOutToggle;
     public InputField VillagerRamOffset, VillagerHouseRamOffset;
     public Button DataButton;
 
@@ -60,6 +60,11 @@ public class UI_Villager : IUI_Additional
 
         VillagerPhrase.onValueChanged.AddListener(delegate { loadedVillager.CatchPhrase = VillagerPhrase.text; });
         MovingOutToggle.onValueChanged.AddListener(delegate { loadedVillager.MovingOut = MovingOutToggle.isOn; });
+        ForceMoveOutToggle.onValueChanged.AddListener(delegate {
+            ushort[] flags = loadedVillager.GetEventFlagsSave();
+            flags[24] = ForceMoveOutToggle.isOn ? (ushort)1 : (ushort)0;
+            loadedVillager.SetEventFlagsSave(flags);
+        });
 
         VillagerRamOffset.onValueChanged.AddListener(delegate { VillagerRootAddress = VillagerRamOffset.text; });
         VillagerHouseRamOffset.onValueChanged.AddListener(delegate { VillagerHouseAddress = VillagerHouseRamOffset.text; });
@@ -188,6 +193,7 @@ public class UI_Villager : IUI_Additional
         VillagerPhrase.text = v.CatchPhrase;
         MainVillagerTexture.texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, v.InternalName);
         MovingOutToggle.isOn = v.MovingOut;
+        ForceMoveOutToggle.isOn = v.GetEventFlagsSave()[24] != 0;
 
         SaveVillagerLabel.text = string.Format("Save villager ({0})", VillagerName.text);
 
