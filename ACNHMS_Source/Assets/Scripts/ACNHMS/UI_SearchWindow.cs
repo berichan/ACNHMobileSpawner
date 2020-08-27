@@ -293,7 +293,7 @@ public class UI_SearchWindow : MonoBehaviour
         else
         {
             ItemRemakeInfo itemRemakeInfo = ItemRemakeInfoData.List[remakeIndex];
-            string bodySummary = itemRemakeInfo.GetBodySummary(GameInfo.Strings, false, false);
+            string bodySummary = itemRemakeInfo.GetBodySummary(GameInfo.Strings, false);
             if (bodySummary.Length != 0)
             {
                 string[] values = bodySummary.Split(new string[3]
