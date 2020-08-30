@@ -371,7 +371,7 @@ public class UI_Villager : IUI_Additional
                 loadedVillager.SetMemories(v.GetMemories());
                 loadedVillager.SetEventFlagsSave(v.GetEventFlagsSave());
                 loadedVillager.MovingOut = v.MovingOut;
-                loadedVillager.CatchPhrase = v.CatchPhrase;
+                //loadedVillager.CatchPhrase = v.CatchPhrase;
             }
         }
 

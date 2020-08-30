@@ -68,8 +68,8 @@ namespace NHSE.Core
 
         public string CatchPhrase
         {
-            get => StringUtil.GetString(Data, 0x10014, 2 * 12);
-            set => StringUtil.GetBytes(value, 2 * 12).CopyTo(Data, 0x10014);
+            get => StringUtil.GetString(Data, 0x10014, 2 * 22);
+            set => StringUtil.GetBytes(value, 2 * 22).CopyTo(Data, 0x10014);
         }
 
         private const int WearCount = 24;
