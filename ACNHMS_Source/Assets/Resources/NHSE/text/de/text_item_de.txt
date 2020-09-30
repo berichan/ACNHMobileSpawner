@@ -3050,8 +3050,8 @@ Stechpalme
 
 
 
-
-
+Kürbis S (Spross)
+Kürbis M (Spross)
 Tupfen-Kleid (Hellblau)
 Marineshirt (Marineblau)
 Kapuzenpulli (Grau)
@@ -4081,16 +4081,16 @@ Langhantel
 Luxus-Badewanne
 Feldbett
 
+Kürbistor
+Kürbisvogelscheuche
 
+Kürbisturm
+Kürbiskutsche
+Kürbislaterne
+Kürbisstuhl
+Kürbistisch
 
-
-
-
-
-
-
-
-
+Kürbislaternenset
 Bambustrommel
 Balkonteich
 
@@ -4360,7 +4360,7 @@ Spitzpfostenzaun
 Fleece-Pyjama (Rosa)
 Kunstledermantel (Schwarz)
 Badetuch (Rosa)
-
+Kürbis L (Spross)
 Business-Jackett (Schwarz)
 Glockenhose (Orange)
 Streber-Schuljacke (Schwarz)
@@ -4523,26 +4523,26 @@ Schlupfjacke (Rot)
 Muai-Thai-Hose (Blau)
 Goldtupfen-Shorts (Schwarz)
 Tweedweste (Grün)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Orangekürbis
+Gelbkürbis
+Grünkürbis
+Weißkürbis
+Orangekürbis S (Spross)
+Orangekürbis M (Spross)
+Orangekürbis L (Spross)
+Orangekürbis (reif)
+Gelbkürbis S (Spross)
+Gelbkürbis M (Spross)
+Gelbkürbis L (Spross)
+Gelbkürbis (reif)
+Grünkürbis S (Spross)
+Grünkürbis M (Spross)
+Grünkürbis L (Spross)
+Grünkürbis (reif)
+Weißkürbis S (Spross)
+Weißkürbis M (Spross)
+Weißkürbis L (Spross)
+Weißkürbis (reif)
 Gürtel-Wickelrock (Gelb)
 Birnenbett
 Blumenstick-Rock (Grün)
@@ -5528,7 +5528,7 @@ Paar Filzpantoffeln (Grau)
 
 Sternentapete
 
-my design "PRO3DS" long sleeve one piece (internal)
+my design PRO3DS long sleeve one piece (internal)
 
 
 
@@ -5941,9 +5941,9 @@ Nashornkäfermodell
 
 Gold-Skarabäus
 
-tom nook's summer top (internal)
+timmy nook's summer top (internal)
 Schwalbenschwanzmodell
-tom nook's winter top (internal)
+timmy nook's winter top (internal)
 Neujahrszylinder (Rot)
 Neujahrszylinder (Blau)
 Neujahrszylinder (Gelb)
@@ -7543,7 +7543,7 @@ Orange-Standardmatte S
 Lila-Standardmatte S
 Schwarz-Standardmatte S
 
-
+Kürbisteppich
 Häschentag-Teppich
 
 Streber-Schuljacke (Weinrot)
@@ -12283,7 +12283,7 @@ Dreidelspiel
 
 
 
-harvey's island fence (internal)
+
 
 
 
@@ -12947,9 +12947,9 @@ Rodeo-Federwippe
 
 
 
+Kürbis-Stehlampe
 
-
-
+Kürbis-Süßigkeiten-Set
 
 
 
@@ -12985,6 +12985,10 @@ Nook-Inc.-Türkishemd (Grün)
 
 
 Streifen-Taucheranzug (Rot)
+Jakob-Gewand (Lila)
+Landstreicher-Outfit (Orange)
+Hexenkleid (Orange)
+Tierkostüm (Orange)
 
 
 
@@ -12996,6 +13000,8 @@ Streifen-Taucheranzug (Rot)
 
 
 
+Jakob-Maske (Orange)
+Zauberlehrlingskapuze (Orange)
 
 
 
@@ -13004,30 +13010,24 @@ Streifen-Taucheranzug (Rot)
 
 
 
+Streifen-Zauberhut (Orange)
+
+
+Dämonenflügel-Rucksack (Orange)
+Paar Tierkostüm-Schuhe (Orange)
+Paar Zauberschuhe (Orange)
+Tiernase (Schwarz)
+
+
+
+Dämonenhornreif (Orange)
+Spitzohren-Tierhut (Orange)
+Rundohren-Tierhut (Orange)
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Paar Ringel-Kniestrümpfe (Orange)
 
 
 
@@ -13194,8 +13194,8 @@ Nook-Inc.-Fähnchen
 
 
 
-
-
+Lolli
+Bonbon
 
 
 
@@ -13220,12 +13220,12 @@ dream-viewing aroma pot (internal)
 
 
 Serenada-Bett
+Kürbis-Girlande
+Kürbis-Tischgedeck
+Kürbistapete
+Kürbisboden
 
-
-
-
-
-
+Kürbissetzling
 Traumsterni-Coupon
 
 Feuerwerk-Tapete
@@ -13235,7 +13235,7 @@ Feuerwerk-Tapete
 
 
 
-
+Kürbisstab
 
 Orihime-Outfit (Rot)
 Hikoboshi-Outfit (Blau)
@@ -13254,6 +13254,8 @@ Hikoboshi-Outfit (Blau)
 
 
 
+Die Kunst des Bodypainting
+Augenfarben für Gewinner
 
 
 
@@ -13271,9 +13273,7 @@ Hikoboshi-Outfit (Blau)
 
 
 
-
-
-
+Kürbiszaun
 
 
 
@@ -13286,3 +13286,211 @@ Hikoboshi-Outfit (Blau)
 
 
 Mondteppich
+
+
+
+
+
+Ring-Con
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+イベントハロウィンなタワー
+Porträt von Jakob
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Paar Ringel-Kniestrümpfe (Lila)
+Paar Ringel-Kniestrümpfe (Weiß)
+Paar Ringel-Kniestrümpfe (Grün)
+Paar Ringel-Kniestrümpfe (Rot)
+Paar Ringel-Kniestrümpfe (Schwarz)
+Tierkostüm (Lila)
+Tierkostüm (Weiß)
+Tierkostüm (Grün)
+Tierkostüm (Rot)
+Tierkostüm (Schwarz)
+Hexenkleid (Lila)
+Hexenkleid (Weiß)
+Hexenkleid (Grün)
+Hexenkleid (Rot)
+Hexenkleid (Schwarz)
+Zauberlehrlingsrobe (Orange)
+Landstreicher-Outfit (Lila)
+Landstreicher-Outfit (Weiß)
+Landstreicher-Outfit (Grün)
+Landstreicher-Outfit (Rot)
+Landstreicher-Outfit (Schwarz)
+Dämonenhornreif (Lila)
+Dämonenhornreif (Weiß)
+Dämonenhornreif (Grün)
+Dämonenhornreif (Rot)
+Dämonenhornreif (Schwarz)
+Zauberlehrlingskapuze (Lila)
+Zauberlehrlingskapuze (Weiß)
+Zauberlehrlingskapuze (Grün)
+Zauberlehrlingskapuze (Rot)
+Zauberlehrlingskapuze (Schwarz)
+Streifen-Zauberhut (Lila)
+Streifen-Zauberhut (Weiß)
+Streifen-Zauberhut (Grün)
+Streifen-Zauberhut (Rot)
+Streifen-Zauberhut (Schwarz)
+Dämonenflügel-Rucksack (Lila)
+Dämonenflügel-Rucksack (Weiß)
+Dämonenflügel-Rucksack (Grün)
+Dämonenflügel-Rucksack (Rot)
+Dämonenflügel-Rucksack (Schwarz)
+Paar Tierkostüm-Schuhe (Lila)
+Paar Tierkostüm-Schuhe (Weiß)
+Paar Tierkostüm-Schuhe (Grün)
+Paar Tierkostüm-Schuhe (Rot)
+Paar Tierkostüm-Schuhe (Schwarz)
+Spitzohren-Tierhut (Lila)
+Spitzohren-Tierhut (Weiß)
+Spitzohren-Tierhut (Grün)
+Spitzohren-Tierhut (Rot)
+Spitzohren-Tierhut (Schwarz)
+Rundohren-Tierhut (Lila)
+Rundohren-Tierhut (Weiß)
+Rundohren-Tierhut (Grün)
+Rundohren-Tierhut (Rot)
+Rundohren-Tierhut (Schwarz)
+Paar Zauberschuhe (Lila)
+Paar Zauberschuhe (Weiß)
+Paar Zauberschuhe (Grün)
+Paar Zauberschuhe (Rot)
+Paar Zauberschuhe (Schwarz)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Zauberlehrlingsrobe (Lila)
+Zauberlehrlingsrobe (Weiß)
+Zauberlehrlingsrobe (Grün)
+Zauberlehrlingsrobe (Rot)
+Zauberlehrlingsrobe (Schwarz)
