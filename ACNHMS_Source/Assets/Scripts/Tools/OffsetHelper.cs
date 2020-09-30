@@ -10,12 +10,12 @@ public static class OffsetHelper
     public const ulong PlayerOtherStartPadding = 0x35E40;
 
     // player other (Personal Offsets 13)
-    public const ulong InventoryOffset = 0xABADD888; // player 0 (A)
+    public const ulong InventoryOffset = 0xABC25840; // player 0 (A)
     private const ulong playerOtherStart = InventoryOffset - 0x10; // helps to get other values, unused 
 
     public const ulong WalletAddress = InventoryOffset + 0xB8;
-    public const ulong MilesAddress = InventoryOffset - 0x24980;
-    public const ulong BankAddress = InventoryOffset + 0x34FFC;
+    public const ulong MilesAddress = InventoryOffset - 0x25590;
+    public const ulong BankAddress = InventoryOffset + 0x3517C;
 
     // main player offsets functions
     private static ulong getPlayerStart(ulong invOffset) => invOffset - 0x10 - PlayerOtherStartPadding + 0x110;
@@ -24,10 +24,10 @@ public static class OffsetHelper
 
 
     // main save offsets
-    public const ulong TurnipAddress = 0xAA8AEA70;
-    public const ulong VillagerAddress = TurnipAddress - 0x411F40;
-    public const ulong VillagerHouseAddress = VillagerAddress + 0x40E228;
-    public const ulong VillagerHouseBufferDiff = 0xB057B0;
+    public const ulong TurnipAddress = 0xAA9CB2D8;
+    public const ulong VillagerAddress = TurnipAddress - 0x41D390 + 0x10;
+    public const ulong VillagerHouseAddress = VillagerAddress + 0x40E228; // TODO
+    public const ulong VillagerHouseBufferDiff = 0xB057B0; // TODO
 
-    public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x20180C;
+    public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x20CC0C;
 }
