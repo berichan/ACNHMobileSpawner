@@ -31,7 +31,7 @@ public class UI_VillagerData : MonoBehaviour
         doFileHandlerCheck();
 
         byte[] toSave = RootUIVillager.GetCurrentlyLoadedVillager().Data;
-        string name = GameInfo.Strings.GetVillager(RootUIVillager.GetCurrentlyLoadedVillager().InternalName) + "_V_" + DateTime.Now.ToString("yyyyddMM_HHmmss") + ".nhv";
+        string name = GameInfo.Strings.GetVillager(RootUIVillager.GetCurrentlyLoadedVillager().InternalName) + "_V_" + DateTime.Now.ToString("yyyyddMM_HHmmss") + ".nhv2";
         UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile(name, toSave);
     }
 
