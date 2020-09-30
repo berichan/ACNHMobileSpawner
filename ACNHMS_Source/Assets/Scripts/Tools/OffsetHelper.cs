@@ -6,8 +6,8 @@ using UnityEngine;
 public static class OffsetHelper
 {
     // some helpers
-    public const ulong PlayerSize = 0x74420;
-    public const ulong PlayerOtherStartPadding = 0x35E40;
+    public const ulong PlayerSize = 0x76390;
+    public const ulong PlayerOtherStartPadding = 0x36A50;
 
     // player other (Personal Offsets 13)
     public const ulong InventoryOffset = 0xABC25840; // player 0 (A)
