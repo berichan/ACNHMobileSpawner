@@ -3,30 +3,21 @@ using System.Collections.Generic;
 
 namespace NHSE.Core
 {
-    public class Villager : IVillagerOrigin
+    /// <summary>
+    /// Villager object format starting from release thru update 1.4
+    /// </summary>
+    public sealed class Villager1 : IVillager
     {
         public const int SIZE = 0x12AB0;
+        public string Extension => "nhv";
 
         public readonly byte[] Data;
-        public Villager(byte[] data) => Data = data;
+        public Villager1(byte[] data) => Data = data;
+        public byte[] Write() => Data;
 
-        public byte Species
-        {
-            get => Data[0];
-            set => Data[0] = value;
-        }
-
-        public byte Variant
-        {
-            get => Data[1];
-            set => Data[1] = value;
-        }
-
-        public VillagerPersonality Personality
-        {
-            get => (VillagerPersonality)Data[2];
-            set => Data[2] = (byte)value;
-        }
+        public byte Species { get => Data[0]; set => Data[0] = value; }
+        public byte Variant { get => Data[1]; set => Data[1] = value; }
+        public VillagerPersonality Personality {  get => (VillagerPersonality)Data[2];  set => Data[2] = (byte)value; }
 
         public string TownName => GetMemory(0).TownName;
         public byte[] GetTownIdentity() => GetMemory(0).GetTownIdentity();
@@ -68,8 +59,8 @@ namespace NHSE.Core
 
         public string CatchPhrase
         {
-            get => StringUtil.GetString(Data, 0x10014, 2 * 22);
-            set => StringUtil.GetBytes(value, 2 * 22).CopyTo(Data, 0x10014);
+            get => StringUtil.GetString(Data, 0xFFE8 + 0x2C, 2 * 12);
+            set => StringUtil.GetBytes(value, 2 * 12).CopyTo(Data, 0xFFE8 + 0x2C);
         }
 
         private const int WearCount = 24;

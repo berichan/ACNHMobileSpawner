@@ -35,16 +35,16 @@ public class UI_Villager : IUI_Additional
     public UI_VillagerSelect Selector;
     public UI_VillagerData DataSelector;
 
-    private Villager loadedVillager;
+    private Villager2 loadedVillager;
     private List<VillagerHouse> loadedVillagerHouses;
-    private List<Villager> loadedVillagerShellsList;
+    private List<Villager2> loadedVillagerShellsList;
     private SpriteParser villagerSprites;
     private bool loadedVillagerShells = false;
     private int currentlyLoadedVillagerIndex = -1;
 
     public VillagerHouse GetCurrentLoadedVillagerHouse() => loadedVillagerHouses?.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex);
 
-    public Villager GetCurrentlyLoadedVillager() => loadedVillager;
+    public Villager2 GetCurrentlyLoadedVillager() => loadedVillager;
 
     void Start()
     {
@@ -79,11 +79,11 @@ public class UI_Villager : IUI_Additional
             // load all houses
             loadAllHouses();
 
-            loadedVillagerShellsList = new List<Villager>();
+            loadedVillagerShellsList = new List<Villager2>();
             for (int i = 0; i < 10; ++i)
             {
-                byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(i * Villager.SIZE), 3);
-                Villager villagerShell = new Villager(loaded);
+                byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(i * Villager2.SIZE), 3);
+                Villager2 villagerShell = new Villager2(loaded);
                 loadedVillagerShellsList.Add(villagerShell);
                 if (villagerShell.Species == (byte)VillagerSpecies.non)
                 {
@@ -131,7 +131,7 @@ public class UI_Villager : IUI_Additional
     {
         try
         {
-            byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(index * Villager.SIZE), Villager.SIZE);
+            byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(index * Villager2.SIZE), Villager2.SIZE);
 
             if (villagerIsNull(loaded))
                 return;
@@ -140,7 +140,7 @@ public class UI_Villager : IUI_Additional
             loadAllHouses();
 
             currentlyLoadedVillagerIndex = index;
-            loadedVillager = new Villager(loaded);
+            loadedVillager = new Villager2(loaded);
 
             VillagerToUI(loadedVillager);
         }
@@ -151,11 +151,11 @@ public class UI_Villager : IUI_Additional
         }
     }
 
-    private Villager loadVillagerExternal(int index, bool includeHouses)
+    private Villager2 loadVillagerExternal(int index, bool includeHouses)
     {
         try
         {
-            byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(index * Villager.SIZE), Villager.SIZE);
+            byte[] loaded = CurrentConnection.ReadBytes(CurrentVillagerAddress + (uint)(index * Villager2.SIZE), Villager2.SIZE);
 
             if (villagerIsNull(loaded))
                 return null;
@@ -164,7 +164,7 @@ public class UI_Villager : IUI_Additional
             if (includeHouses)
                 loadAllHouses();
             
-            return new Villager(loaded);
+            return new Villager2(loaded);
         }
         catch (Exception e)
         {
@@ -187,7 +187,7 @@ public class UI_Villager : IUI_Additional
             (Texture2D)TenVillagers[index].texture); 
     }
 
-    public void VillagerToUI(Villager v)
+    public void VillagerToUI(Villager2 v)
     {
         VillagerName.text = GameInfo.Strings.GetVillager(v.InternalName);
         VillagerPhrase.text = v.CatchPhrase;
@@ -208,7 +208,7 @@ public class UI_Villager : IUI_Additional
         try
         {
             byte[] villager = loadedVillager.Data;
-            CurrentConnection.WriteBytes(villager, CurrentVillagerAddress + (uint)(currentlyLoadedVillagerIndex * Villager.SIZE));
+            CurrentConnection.WriteBytes(villager, CurrentVillagerAddress + (uint)(currentlyLoadedVillagerIndex * Villager2.SIZE));
 
             if (includeHouse)
             {
@@ -298,7 +298,7 @@ public class UI_Villager : IUI_Additional
             if (villagerDump == null || villagerHouse == null)
                 throw new Exception("Villager not found: " + newVillager);
 
-            loadVillagerData(new Villager(villagerDump), new VillagerHouse(villagerHouse));
+            loadVillagerData(new Villager2(villagerDump), new VillagerHouse(villagerHouse));
         }
         catch (Exception e)
         {
@@ -307,11 +307,11 @@ public class UI_Villager : IUI_Additional
         }
     }
 
-    private void loadVillagerData(Villager v, VillagerHouse vh, bool raw = false)
+    private void loadVillagerData(Villager2 v, VillagerHouse vh, bool raw = false)
     {
         try
         {
-            Villager newV = v;
+            Villager2 newV = v;
             VillagerHouse newVH = vh;
             if (!raw)
             {
@@ -365,7 +365,7 @@ public class UI_Villager : IUI_Additional
     {
         if (ReloadVillagerToggle.isOn)
         {
-            Villager v = loadVillagerExternal(currentlyLoadedVillagerIndex, true);
+            Villager2 v = loadVillagerExternal(currentlyLoadedVillagerIndex, true);
             if (v != null)
             {
                 loadedVillager.SetMemories(v.GetMemories());
@@ -385,7 +385,7 @@ public class UI_Villager : IUI_Additional
         loadVillagerData(loadedVillager, vh, true);
     }
 
-    public void WriteVillagerDataVillager(Villager v)
+    public void WriteVillagerDataVillager(Villager2 v)
     {
         checkReloadVillager();
         VillagerHouse loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
