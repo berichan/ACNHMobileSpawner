@@ -23,7 +23,7 @@ public class UI_Villager : IUI_Additional
 
     public Text VillagerName, SaveVillagerLabel;
     public RawImage MainVillagerTexture;
-    public InputField VillagerPhrase;
+    public InputField VillagerPhrase, VillagerFriendship;
     public Toggle MovingOutToggle, ReloadVillagerToggle, ForceMoveOutToggle;
     public InputField VillagerRamOffset, VillagerHouseRamOffset;
     public Button DataButton;
@@ -59,6 +59,7 @@ public class UI_Villager : IUI_Additional
         }
 
         VillagerPhrase.onValueChanged.AddListener(delegate { loadedVillager.CatchPhrase = VillagerPhrase.text; });
+        VillagerFriendship.onValueChanged.AddListener(delegate { VillagerFriendship.text = setCurrentPlayerFriendship(int.Parse(VillagerFriendship.text)).ToString(); });
         MovingOutToggle.onValueChanged.AddListener(delegate { loadedVillager.MovingOut = MovingOutToggle.isOn; });
         ForceMoveOutToggle.onValueChanged.AddListener(delegate {
             ushort[] flags = loadedVillager.GetEventFlagsSave();
@@ -70,6 +71,16 @@ public class UI_Villager : IUI_Additional
         VillagerHouseRamOffset.onValueChanged.AddListener(delegate { VillagerHouseAddress = VillagerHouseRamOffset.text; });
 
         DataButton.interactable = false;
+    }
+
+    int setCurrentPlayerFriendship(int nVal)
+    {
+        if (nVal > byte.MaxValue)
+            nVal = byte.MaxValue;
+        var mem = loadedVillager.GetMemory(UI_Settings.GetPlayerIndex());
+        mem.Friendship = (byte)nVal;
+        loadedVillager.SetMemory(mem, UI_Settings.GetPlayerIndex());
+        return nVal;
     }
 
     private void loadAllVillagers()
@@ -191,6 +202,7 @@ public class UI_Villager : IUI_Additional
     {
         VillagerName.text = GameInfo.Strings.GetVillager(v.InternalName);
         VillagerPhrase.text = v.CatchPhrase;
+        VillagerFriendship.text = v.GetMemory(UI_Settings.GetPlayerIndex()).Friendship.ToString();
         MainVillagerTexture.texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, v.InternalName);
         MovingOutToggle.isOn = v.MovingOut;
         ForceMoveOutToggle.isOn = v.GetEventFlagsSave()[24] != 0;

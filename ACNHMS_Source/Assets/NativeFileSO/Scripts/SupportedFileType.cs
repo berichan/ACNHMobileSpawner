@@ -203,7 +203,7 @@ namespace Keiwando.NFSO {
 
         /// <summary>
 		/// The <see cref="SupportedFileType"/> preset that matches NHI (New Horizons Inventory) files
-		/// with a .pdf file extension.
+		/// with a .nhi file extension.
 		/// </summary>
 		public static readonly SupportedFileType NHI = new SupportedFileType
         {
@@ -217,7 +217,7 @@ namespace Keiwando.NFSO {
 
         /// <summary>
 		/// The <see cref="SupportedFileType"/> preset that matches NHV (New Horizons Villager) files
-		/// with a .pdf file extension.
+		/// with a .nhv file extension.
 		/// </summary>
 		public static readonly SupportedFileType NHV = new SupportedFileType
         {
@@ -230,8 +230,22 @@ namespace Keiwando.NFSO {
         };
 
         /// <summary>
+		/// The <see cref="SupportedFileType"/> preset that matches NHV2 (New Horizons Villager 1.5.0+) files
+		/// with a .nhv2 file extension.
+		/// </summary>
+		public static readonly SupportedFileType NHV2 = new SupportedFileType
+        {
+
+            Name = "NHV2",
+            Extension = "nhv2",
+            Owner = true,
+            AppleUTI = "public.data|public.content",
+            MimeType = "*/*"
+        };
+
+        /// <summary>
 		/// The <see cref="SupportedFileType"/> preset that matches NHVH (New Horizons Villager House) files
-		/// with a .pdf file extension.
+		/// with a .nhvh file extension.
 		/// </summary>
 		public static readonly SupportedFileType NHVH = new SupportedFileType
         {

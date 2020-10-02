@@ -12,6 +12,13 @@ public class UI_VillagerData : MonoBehaviour
     public Text VillagerName;
     public RawImage VillagerImg;
 
+    public void LoadLegacyVillagerData()
+    {
+        doFileHandlerCheck();
+
+        UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenFile("nhv", sendLegacyVillagerData, Villager1.SIZE);
+    }
+
     public void LoadVillagerData()
     {
         doFileHandlerCheck();
@@ -42,6 +49,12 @@ public class UI_VillagerData : MonoBehaviour
         byte[] toSave = RootUIVillager.GetCurrentLoadedVillagerHouse().Data;
         string name = GameInfo.Strings.GetVillager(RootUIVillager.GetCurrentlyLoadedVillager().InternalName) + "_H_" + DateTime.Now.ToString("yyyyddMM_HHmmss") + ".nhvh";
         UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile(name, toSave);
+    }
+
+    private void sendLegacyVillagerData(byte[] data)
+    {
+        var v2 = VillagerConverter.Convert12(data);
+        sendVillagerData(v2);
     }
 
     private void sendVillagerData(byte[] data)

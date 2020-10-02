@@ -14,6 +14,7 @@ public class UI_NFSOACNHHandler : MonoBehaviour
         SupportedFileType.Any,
         SupportedFileType.NHI,
         SupportedFileType.NHV,
+        SupportedFileType.NHV2,
         SupportedFileType.NHVH};
 
     public Toggle EmptySpacesOnly;
