@@ -14,6 +14,8 @@ public enum RemovalItem
     Flower,
     Tree,
     Stone,
+    Wood,
+    RockMaterial,
     Internal
 }
 
@@ -262,6 +264,10 @@ public static class RemovalItemExt
             return RemovalItem.TreeBranch;
         if (ItemExtensions.IsInternalItem(i))
             return RemovalItem.Internal;
+        if (i >= 2767 && i <= 2769)
+            return RemovalItem.Wood;
+        if (i == 2511 || i == 2502 || i == 3090)
+            return RemovalItem.RockMaterial;
 
         FieldItemList.Items.TryGetValue(i, out var def);
         if (def != null)
