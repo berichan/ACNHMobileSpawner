@@ -21,7 +21,7 @@ public class UI_Villager : IUI_Additional
     public static uint CurrentVillagerAddress { get { return StringUtil.GetHexValue(VillagerRootAddress); } }
     public static uint CurrentVillagerHouseAddress { get { return StringUtil.GetHexValue(VillagerHouseAddress); } }
 
-    public Text VillagerName, SaveVillagerLabel;
+    public Text VillagerName, SaveVillagerLabel, PlayerNameGSave;
     public RawImage MainVillagerTexture;
     public InputField VillagerPhrase, VillagerFriendship;
     public Toggle MovingOutToggle, ReloadVillagerToggle, ForceMoveOutToggle;
@@ -41,6 +41,8 @@ public class UI_Villager : IUI_Additional
     private SpriteParser villagerSprites;
     private bool loadedVillagerShells = false;
     private int currentlyLoadedVillagerIndex = -1;
+
+    private int currentSelectedGSaveMemory = 0;
 
     public VillagerHouse GetCurrentLoadedVillagerHouse() => loadedVillagerHouses?.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex);
 
@@ -77,9 +79,9 @@ public class UI_Villager : IUI_Additional
     {
         if (nVal > byte.MaxValue)
             nVal = byte.MaxValue;
-        var mem = loadedVillager.GetMemory(UI_Settings.GetPlayerIndex());
+        var mem = loadedVillager.GetMemory(currentSelectedGSaveMemory);
         mem.Friendship = (byte)nVal;
-        loadedVillager.SetMemory(mem, UI_Settings.GetPlayerIndex());
+        loadedVillager.SetMemory(mem, currentSelectedGSaveMemory);
         return nVal;
     }
 
@@ -121,6 +123,23 @@ public class UI_Villager : IUI_Additional
         {
             PopupHelper.CreateError(e.Message, 2f);
         }
+    }
+
+    public void IncrementCurrentVillagerMemory(bool decrement)
+    {
+        int toAdd = decrement ? -1 : 1;
+        int lastIndex = currentSelectedGSaveMemory; // bc editing text causes the onvaluechanged call
+        currentSelectedGSaveMemory = mod(currentSelectedGSaveMemory + toAdd , Villager2.PlayerMemoryCount);
+        try
+        {
+            var mem = loadedVillager.GetMemory(currentSelectedGSaveMemory);
+            PlayerNameGSave.text = mem.PlayerName;
+            VillagerFriendship.text = mem.Friendship.ToString();
+            PlayerNameGSave.color = Color.white;
+            if (PlayerNameGSave.text == "")
+                PlayerNameGSave.text = string.Format("<no-one ({0})>", currentSelectedGSaveMemory);
+        }
+        catch { PlayerNameGSave.color = Color.red; currentSelectedGSaveMemory = lastIndex; }
     }
 
     private void loadAllHouses()
@@ -200,9 +219,13 @@ public class UI_Villager : IUI_Additional
 
     public void VillagerToUI(Villager2 v)
     {
+        currentSelectedGSaveMemory = 0;
+        var mem = v.GetMemory(currentSelectedGSaveMemory);
         VillagerName.text = GameInfo.Strings.GetVillager(v.InternalName);
         VillagerPhrase.text = v.CatchPhrase;
-        VillagerFriendship.text = v.GetMemory(UI_Settings.GetPlayerIndex()).Friendship.ToString();
+        VillagerFriendship.text = mem.Friendship.ToString();
+        PlayerNameGSave.text = mem.PlayerName;
+        PlayerNameGSave.color = Color.white;
         MainVillagerTexture.texture = SpriteBehaviour.PullTextureFromParser(villagerSprites, v.InternalName);
         MovingOutToggle.isOn = v.MovingOut;
         ForceMoveOutToggle.isOn = v.GetEventFlagsSave()[24] != 0;
@@ -434,5 +457,10 @@ public class UI_Villager : IUI_Additional
             if (villager[i] != 0)
                 return false;
         return true;
+    }
+
+    private int mod(int x, int m) // negative-safe
+    {
+        return (x % m + m) % m;
     }
 }
