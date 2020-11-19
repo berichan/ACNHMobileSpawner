@@ -6,11 +6,11 @@ using UnityEngine;
 public static class OffsetHelper
 {
     // some helpers
-    public const ulong PlayerSize = 0x76390;
+    public const ulong PlayerSize = 0x133B78;
     public const ulong PlayerOtherStartPadding = 0x36A50;
 
     // player other (Personal Offsets 13)
-    public const ulong InventoryOffset = 0xABC25840; // player 0 (A)
+    public const ulong InventoryOffset = 0xAD3C7FD8; // player 0 (A)
     private const ulong playerOtherStart = InventoryOffset - 0x10; // helps to get other values, unused 
 
     public const ulong WalletAddress = InventoryOffset + 0xB8;
@@ -24,10 +24,10 @@ public static class OffsetHelper
 
 
     // main save offsets
-    public const ulong TurnipAddress = 0xAA9CB2D8;
-    public const ulong VillagerAddress = TurnipAddress - 0x41D390 + 0x10;
-    public const ulong VillagerHouseAddress = TurnipAddress - 0x41D390 + 0x419638;
-    public const ulong VillagerHouseBufferDiff = 0xB20770;
+    public const ulong TurnipAddress = 0xABE0AEE0;
+    public const ulong VillagerAddress = TurnipAddress - 0x41D460 + 0x10;
+    public const ulong VillagerHouseAddress = TurnipAddress - 0x41D460 + 0x419638;
+    public const ulong VillagerHouseBufferDiff = 0xB25900;
 
     public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x20CC0C;
 }
