@@ -16,7 +16,10 @@ public class UI_VillagerSelect : MonoBehaviour
 
     public Button VillagerAcceptButton;
     public Text VillagerAcceptText;
+    public InputField SearchField;
+    public GameObject NothingFoundText;
 
+    private List<UI_VillagerSelectionButton> spawnedButtons;
     private Action endGood, endBad;
     private SpriteParser villagerParser;
     private bool initialized = false;
@@ -39,11 +42,14 @@ public class UI_VillagerSelect : MonoBehaviour
         VillagerAcceptText.text = "Send villager (none selected)";
         VillagerAcceptButton.interactable = false;
 
+        SearchField.onValueChanged.AddListener(delegate { updateShownButtons(SearchField.text); });
+
         if (initialized)
             return;
 
         var villagerNameLang = new Dictionary<string, string>(GameInfo.Strings.VillagerMap).OrderBy(x => x.Value);
         var villagerPhraseMap = GameInfo.Strings.VillagerPhrase;
+        spawnedButtons = new List<UI_VillagerSelectionButton>();
         foreach (var villager in villagerNameLang)
         {
             if (!villagerPhraseMap.ContainsKey(villager.Key)) // make sure this is a villager we can get and not a special npc
@@ -54,8 +60,10 @@ public class UI_VillagerSelect : MonoBehaviour
             ins.transform.localScale = ButtonPrefab.transform.localScale;
             ins.InitialiseFor(villager.Key, this, villagerParser);
             ins.gameObject.SetActive(true);
+            spawnedButtons.Add(ins);
         }
-
+        
+        NothingFoundText.SetActive(false);
         initialized = true;
     }
 
@@ -74,5 +82,32 @@ public class UI_VillagerSelect : MonoBehaviour
         else
             endBad();
         gameObject.SetActive(false);
+    }
+
+    private void updateShownButtons(string searchTerm)
+    {
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            onlyShowButtons(spawnedButtons);
+            return;
+        }
+
+        List<UI_VillagerSelectionButton> toShowButtons;
+        searchTerm = searchTerm.ToLower();
+
+        if (UI_Settings.GetSearchMode() == StringSearchMode.StartsWith)
+            toShowButtons = spawnedButtons.Where(x => x.VillagerName.text.ToLower().StartsWith(searchTerm)).ToList();
+        else
+            toShowButtons = spawnedButtons.Where(x => x.VillagerName.text.ToLower().Contains(searchTerm)).ToList();
+
+        onlyShowButtons(toShowButtons);
+    }
+
+    private void onlyShowButtons(List<UI_VillagerSelectionButton> toShow)
+    {
+        foreach (var button in spawnedButtons)
+            button.gameObject.SetActive(toShow.Contains(button));
+
+        NothingFoundText.SetActive(toShow.Count == 0);
     }
 }
