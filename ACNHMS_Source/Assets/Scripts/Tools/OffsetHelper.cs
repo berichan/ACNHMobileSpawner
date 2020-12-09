@@ -21,6 +21,7 @@ public static class OffsetHelper
     private static ulong getPlayerStart(ulong invOffset) => invOffset - 0x10 - PlayerOtherStartPadding + 0x110;
     public static ulong getPlayerIdAddress(ulong invOffset) => getPlayerStart(invOffset) + 0xAFA8;
     public static ulong getPlayerProfileMainAddress(ulong invOffset) => getPlayerStart(invOffset) + 0x116A0;
+    public static ulong getManpu(ulong invOffset) => invOffset - 0x10 + 0xAF7C + 72;
 
 
     // main save offsets
