@@ -256,7 +256,7 @@ public class UI_Villager : IUI_Additional
                 foreach (VillagerHouse vh in loadedVillagerHouses)
                     linearHouseArray.AddRange(vh.Data);
                 CurrentConnection.WriteBytes(linearHouseArray.ToArray(), CurrentVillagerHouseAddress);
-                CurrentConnection.WriteBytes(linearHouseArray.ToArray(), CurrentVillagerHouseAddress + (uint)OffsetHelper.VillagerHouseBufferDiff); // there's a temporary day buffer
+                CurrentConnection.WriteBytes(linearHouseArray.ToArray(), CurrentVillagerHouseAddress + (uint)OffsetHelper.BackupSaveDiff); // there's a temporary day buffer
             }
 
 

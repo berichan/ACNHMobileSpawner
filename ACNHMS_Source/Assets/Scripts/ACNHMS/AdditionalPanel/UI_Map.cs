@@ -159,11 +159,13 @@ public class UI_Map : IUI_Additional
             {
                 byte[] nl1 = itemLayer1.SetArray(Item.SIZE);
                 CurrentConnection.WriteBytes(nl1, fieldItemsStart1 + (lastTileIndex * Item.SIZE));
+                CurrentConnection.WriteBytes(nl1, fieldItemsStart1 + (lastTileIndex * Item.SIZE) + (uint)OffsetHelper.BackupSaveDiff);
             }
             if (thisFrameL2Proc > 0)
             {
                 byte[] nl2 = itemLayer2.SetArray(Item.SIZE);
                 CurrentConnection.WriteBytes(nl2, fieldItemsStart2 + (lastTileIndex * Item.SIZE));
+                CurrentConnection.WriteBytes(nl2, fieldItemsStart2 + (lastTileIndex * Item.SIZE) + (uint)OffsetHelper.BackupSaveDiff);
             }
             byteCheckCount += bytesToCheck;
             //Debug.Log(string.Format("Currently read byte {0}/{1}.", byteCheckCount, FieldItemLayerSize));
