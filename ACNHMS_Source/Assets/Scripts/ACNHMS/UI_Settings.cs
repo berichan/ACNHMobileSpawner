@@ -25,6 +25,7 @@ public class UI_Settings : MonoBehaviour
     public const string INJMODEKEY = "INJKEY";
     public const string PLAYERINDEXKEY = "PINDKEY";
     public const string THREADSLEEPKEY = "TSLKEY";
+    public const string PREFIXKEY = "PRFXKEY";
 
     public static string[] VillagerPlayerNames;
 
@@ -36,6 +37,7 @@ public class UI_Settings : MonoBehaviour
     public Toggle ValidataData;
     public Button FetchNamesButton;
     public InputField ThreadSleepTime;
+    public InputField PrefixSBAC;
 
     public Text[] PlayerNamesToChange; // Various places that need player name
 
@@ -68,6 +70,7 @@ public class UI_Settings : MonoBehaviour
 
         Offset.text = SysBotController.CurrentOffset;
         ThreadSleepTime.text = GetThreadSleepTime().ToString();
+        PrefixSBAC.text = GetPrefix().ToString();
         ValidataData.isOn = GetValidateData();
 
 #if PLATFORM_ANDROID || UNITY_STANDALONE || UNITY_EDITOR
@@ -94,6 +97,7 @@ public class UI_Settings : MonoBehaviour
         LanguageField.onValueChanged.AddListener(delegate { SetLanguage(LanguageField.value); });
         Offset.onValueChanged.AddListener(delegate { SysBotController.CurrentOffset = Offset.text; });
         ThreadSleepTime.onValueChanged.AddListener(delegate { SetThreadSleepTime(int.Parse(ThreadSleepTime.text)); });
+        PrefixSBAC.onValueChanged.AddListener(delegate { SetPrefix(PrefixSBAC.text); });
         ValidataData.onValueChanged.AddListener(delegate { SetValidateData(ValidataData.isOn); });
 
         // player index
@@ -170,6 +174,19 @@ public class UI_Settings : MonoBehaviour
     public static void SetThreadSleepTime(int nVal)
     {
         PlayerPrefs.SetInt(THREADSLEEPKEY, nVal);
+    }
+
+    public static char GetPrefix(char def = '$')
+    {
+        return PlayerPrefs.GetString(PREFIXKEY, def.ToString()).ToCharArray()[0];
+    }
+
+    public static void SetPrefix(string nVal)
+    {
+        if (nVal.Length < 1)
+            return;
+
+        PlayerPrefs.SetString(PREFIXKEY, nVal);
     }
 
     // player index
