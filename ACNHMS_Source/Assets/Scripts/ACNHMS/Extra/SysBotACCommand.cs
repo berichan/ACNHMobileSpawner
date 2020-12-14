@@ -28,6 +28,45 @@ public class SysBotACCommand : MonoBehaviour
         UI_Popup.CurrentInstance.CreatePopupMessage(1.25f, $"Copied\r\n{toCopy}\r\nto clipboard.", () => { });
     }
 
+    public void GetCommandFromInventory()
+    {
+        var items = UI_ACItemGrid.LastInstanceOfItemGrid.Items;
+        var hexes = new List<string>();
+        int count = 0;
+        bool tooManyItems = false;
+        foreach (var item in items)
+        {
+            if (item.ItemId != Item.NONE)
+            {
+                if (count > 8)
+                {
+                    tooManyItems = true;
+                    break;
+                }
+
+                var itemAsHex = item.ToBytesClass();
+                var asString = BitConverter.ToString(itemAsHex).Replace("-", "");
+                asString = flipEndianness(asString);
+                hexes.Add(asString);
+                count++;
+            }
+        }
+
+        if (hexes.Count == 0)
+        {
+            PopupHelper.CreateError("No items in inventory squares. Search for an item and use the blue button to set it to an inventory square.", 3);
+            return;
+        }
+
+        var itemshexSet = string.Join(" ", hexes.ToArray());
+        var toCopy = $"{CommandPrefix}drop {itemshexSet}";
+        GUIUtility.systemCopyBuffer = toCopy;
+        if (!tooManyItems)
+            UI_Popup.CurrentInstance.CreatePopupMessage(1.25f, $"Copied\r\n{toCopy}\r\nto clipboard.", () => {});
+        else
+            UI_Popup.CurrentInstance.CreatePopupMessage(5f, $"<color=red>You have too many items! Only the first 9 have been transferred to the command!</color>\r\n\r\nCopied\r\n{toCopy}\r\nto clipboard.", () => { });
+    }
+
     // terrible way to flip endianness, feel free to make this better
     private static string flipEndianness(string uintArray)
     {
