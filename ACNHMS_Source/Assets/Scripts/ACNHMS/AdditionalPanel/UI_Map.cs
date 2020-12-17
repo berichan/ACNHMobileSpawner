@@ -31,8 +31,14 @@ public class UI_Map : IUI_Additional
     public InputField RAMOffset;
     public Dropdown RemoveItemMode;
     public Text ButtonLabel;
+    public Button KeepAliveButton;
 
     private RemovalItem currentRemovalItem = RemovalItem.Weed;
+
+    private bool mapFunctionRunning = false;
+
+    private Item[] layer1Dump, layer2Dump;
+    private uint indexOfItemBeingProcessed = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +81,44 @@ public class UI_Map : IUI_Additional
         UI_Popup.CurrentInstance.CreateProgressBar("Placing items, please run around but don't place anything on your island...", itemFunctionValue, itemTex, Vector3.up * 180, null, "Cancel", () => { CancelCurrentFunction(); });
 
         StartCoroutine(functionTiles(itemPlacer, itemFunctionValue));
+    }
+
+    public void KeepItemsAlive()
+    {
+        Func<Item, bool> alive1 = new Func<Item, bool>(x => CopyItemFromDumpIfRequired(x, 0));
+        Func<Item, bool> alive2 = new Func<Item, bool>(x => CopyItemFromDumpIfRequired(x, 1));
+        ReferenceContainer<float> itemFunctionValue = new ReferenceContainer<float>(0f);
+        StartCoroutine(KeepAliveLoop(alive1, itemFunctionValue, alive2));
+    }
+
+    IEnumerator KeepAliveLoop(Func<Item, bool> processItem, ReferenceContainer<float> progress, Func<Item, bool> processItemLayer2 = null)
+    {
+        bool exitToken = false;
+        int refreshRate = UI_Settings.GetThreadSleepTime();
+        UI_Popup.CurrentInstance.CreatePopupChoice($"Your map is being continuously refreshed at minimum {refreshRate}ms per acre. You may decrease this value in settings, but the tradeoff may be stability...", "Stop refreshing", () => { exitToken = true; });
+        while (!exitToken)
+        {
+            StartCoroutine(functionTiles(processItem, progress, processItemLayer2));
+            mapFunctionRunning = true;
+            while (mapFunctionRunning && !exitToken)
+                yield return new WaitForSeconds(1f);
+        }
+
+        CancelCurrentFunction();
+    }
+
+    public void DumpTwoLayers()
+    {
+        layer1Dump = new Item[MapGrid.MapTileCount32x32]; layer2Dump = new Item[MapGrid.MapTileCount32x32];
+        Func<Item, bool> dumpL1 = new Func<Item, bool>(x => DumpItemToLayer(x, 0));
+        Func<Item, bool> dumpL2 = new Func<Item, bool>(x => DumpItemToLayer(x, 1));
+        ReferenceContainer<float> itemFunctionValue = new ReferenceContainer<float>(0f);
+        Texture2D itemTex = SpriteBehaviour.ItemToTexture2D(8574, 0, out var _);
+
+        UI_Popup.CurrentInstance.CreateProgressBar("Getting item layout template, please run around but don't place anything on your island...", itemFunctionValue, itemTex, Vector3.up * 180, null, "Cancel", () => { CancelCurrentFunction(); KeepAliveButton.interactable = false; });
+
+        StartCoroutine(functionTiles(dumpL1, itemFunctionValue, dumpL2));
+        KeepAliveButton.interactable = true;
     }
 
     public void ClearItems()
@@ -128,8 +172,9 @@ public class UI_Map : IUI_Additional
         StopAllCoroutines();
     }
 
-    IEnumerator functionTiles(Func<Item,bool> processItem, ReferenceContainer<float> progress)
+    IEnumerator functionTiles(Func<Item,bool> processItem, ReferenceContainer<float> progress, Func<Item,bool> processItemLayer2 = null)
     {
+        mapFunctionRunning = true;
         int maxtransferSizeRemainder = CurrentConnection.MaximumTransferSize % Item.SIZE;
         int maxtransferSize = CurrentConnection.MaximumTransferSize - maxtransferSizeRemainder;
 
@@ -149,12 +194,28 @@ public class UI_Map : IUI_Additional
             byte[] bytesLayer2 = CurrentConnection.ReadBytes(fieldItemsStart2 + (lastTileIndex * Item.SIZE), bytesToCheck);
             Item[] itemLayer1 = Item.GetArray(bytesLayer1);
             Item[] itemLayer2 = Item.GetArray(bytesLayer2);
-            foreach (Item i in itemLayer1)
+            for (uint j = 0; j < itemLayer1.Length; ++j)
+            {
+                Item i = itemLayer1[j];
+                indexOfItemBeingProcessed = lastTileIndex + j;
                 if (processItem(i))
                     thisFrameL1Proc++;
-            foreach (Item i in itemLayer2)
-                if (processItem(i))
-                    thisFrameL2Proc++;
+            }
+            for (uint j = 0; j < itemLayer2.Length; ++j)
+            {
+                Item i = itemLayer2[j];
+                indexOfItemBeingProcessed = lastTileIndex + j;
+                if (processItemLayer2 == null)
+                {
+                    if (processItem(i))
+                        thisFrameL2Proc++;
+                }
+                else
+                {
+                    if (processItemLayer2(i))
+                        thisFrameL2Proc++;
+                }
+            }
             if (thisFrameL1Proc > 0)
             {
                 byte[] nl1 = itemLayer1.SetArray(Item.SIZE);
@@ -183,6 +244,7 @@ public class UI_Map : IUI_Additional
         progress.UpdateValue(0.99f);
         yield return null;
         progress.UpdateValue(1.01f);
+        mapFunctionRunning = false;
     }
 
     private bool DeleteType(Item i, RemovalItem toRemove)
@@ -237,6 +299,38 @@ public class UI_Map : IUI_Additional
             return true;
         }
         return false;
+    }
+
+    private bool DumpItemToLayer(Item i, byte layer)
+    {
+        if (layer == 0)
+            layer1Dump[(int)indexOfItemBeingProcessed] = i;
+        else
+            layer2Dump[(int)indexOfItemBeingProcessed] = i;
+
+        return false; // we did not edit the item
+    }
+
+    private bool CopyItemFromDumpIfRequired(Item i, byte layer, bool onlyReplaceEmpties = true)
+    {
+        if (onlyReplaceEmpties && i.ItemId != Item.NONE)
+            return false;
+
+        Item[] toUse;
+        if (layer == 0)
+            toUse = layer1Dump;
+        else
+            toUse = layer2Dump;
+
+        var templateItem = toUse[(int)indexOfItemBeingProcessed];
+        if (templateItem.ItemId != Item.EXTENSION && templateItem.ItemId >= 60_000)
+            return false;
+        if (i == templateItem)
+            return false;
+
+        i.CopyFrom(templateItem);
+        Debug.Log($"{templateItem.ItemId} copied.");
+        return true;
     }
 
     //testing
