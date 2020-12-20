@@ -95,7 +95,7 @@ public class UI_Map : IUI_Additional
     {
         bool exitToken = false;
         int refreshRate = UI_Settings.GetThreadSleepTime();
-        UI_Popup.CurrentInstance.CreatePopupChoice($"Your map is being continuously refreshed at minimum {refreshRate}ms per acre. You may decrease this value in settings, but the tradeoff may be stability...", "Stop refreshing", () => { exitToken = true; });
+        UI_Popup.CurrentInstance.CreatePopupChoice($"Your map is being continuously refreshed at minimum {refreshRate}ms per acre. You may decrease this value in settings, but the tradeoff may be stability.\r\nTo see replenished items, go in & out of a building.", "Stop refreshing", () => { exitToken = true; });
         while (!exitToken)
         {
             StartCoroutine(functionTiles(processItem, progress, processItemLayer2));
