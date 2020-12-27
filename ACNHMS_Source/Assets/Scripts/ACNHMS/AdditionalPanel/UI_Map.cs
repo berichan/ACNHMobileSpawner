@@ -242,7 +242,7 @@ public class UI_Map : IUI_Additional
             byte[] bytesLayer1 = CurrentConnection.ReadBytes(fieldItemsStart1 + (lastTileIndex * Item.SIZE), bytesToCheck);
             byte[] bytesLayer2 = Layer2Affect.isOn ? CurrentConnection.ReadBytes(fieldItemsStart2 + (lastTileIndex * Item.SIZE), bytesToCheck) : null;
             Item[] itemLayer1 = Item.GetArray(bytesLayer1);
-            Item[] itemLayer2 = Item.GetArray(bytesLayer2);
+            Item[] itemLayer2 = Layer2Affect.isOn ? Item.GetArray(bytesLayer2) : null;
             for (uint j = 0; j < itemLayer1.Length; ++j)
             {
                 Item i = itemLayer1[j];
