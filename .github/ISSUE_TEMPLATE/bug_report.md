@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of what the bug is. Please make sure your bug is related to the functionality of ACNHSpawner, and is not already asked in a closed issue.
 
 **To reproduce**
-Steps to reproduce the behaviour:
+Steps to reproduce the behaviour.
 
 **Expected behaviour**
 A clear and concise description of what you expected to happen.
@@ -28,4 +28,4 @@ Please do not use vague descriptions such as "the latest version" and instead gi
  - OS: [e.g. Android 10.0]
 
 **Additional context**
-Add any other context about the problem here. Please state the steps you have already followed at https://github.com/berichan/ACNHMobileSpawner/wiki/FAQ-and-Troubleshooting
+Add any other context about the problem here. If applicable, please state the steps you have already followed at https://github.com/berichan/ACNHMobileSpawner/wiki/FAQ-and-Troubleshooting and have not worked for you.
