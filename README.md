@@ -27,13 +27,9 @@ You run this at your own risk, I'm not responsible for anything. Please check th
 
 ### Builds
 
-The application requires an Android device running at minimum Android 4.4 (KitKat) with support for OpenGLES2.
-
-Builds are not guaranteed to be stable. You may download the [compiled builds here](https://github.com/berichan/ACNHMobileSpawner/releases).
+Each major release is built for Windows, Android, MacOSX and iOS. You may download the [compiled builds here](https://github.com/berichan/ACNHMobileSpawner/releases).
 
 iOS builds are auto-built and untested, but I've been told they work. 
-
-I sometimes build for Windows/Mac, but it takes a long time on my slow PC to switch platforms. It's easy enough to grab Unity and the source and compile yourself :)
 
 ### Screenshots
 
