@@ -133,6 +133,7 @@ public class NetworkInfoUnity : MonoBehaviour
 
     private System.Collections.IEnumerator createPinger(string ip, float timeout)
     {
+#if !UNITY_WEBGL
         if (ip != myip)
         {
             UnityEngine.Ping ping = new UnityEngine.Ping(ip);
@@ -171,6 +172,9 @@ public class NetworkInfoUnity : MonoBehaviour
 
         pingCount++;
         percentageDone.UpdateValue(pingCount / 255f);
+#else
+        yield return null;
+#endif
     }
 
     private System.Collections.IEnumerator createTimer(float time, System.Action onEnd)
