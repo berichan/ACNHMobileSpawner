@@ -30,6 +30,7 @@ public class SysBotACCommand : MonoBehaviour
 
     public void GetCommandFromInventory()
     {
+        CommandPrefix = UI_Settings.GetPrefix();
         var items = UI_ACItemGrid.LastInstanceOfItemGrid.Items;
         var hexes = new List<string>();
         int count = 0;
