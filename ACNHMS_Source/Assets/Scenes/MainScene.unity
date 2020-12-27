@@ -40688,7 +40688,7 @@ MonoBehaviour:
   RAMOffset: {fileID: 415957115}
   RemoveItemMode: {fileID: 1066078395}
   ButtonLabel: {fileID: 2025329944}
-  Layer2Affect: {fileID: 0}
+  Layer2Affect: {fileID: 647087433}
   KeepAliveButton: {fileID: 275400912}
   LastRefresherTime: {fileID: 1389054487}
   VisitorLog: {fileID: 2051714726}
@@ -54761,7 +54761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2020/12/27 03:02:41
+  LastEditorDateTime: 2020/12/27 20:24:45
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
