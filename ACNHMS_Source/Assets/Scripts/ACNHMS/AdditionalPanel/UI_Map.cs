@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using NHSE.Core;
 using System;
+using System.Text;
+using System.Linq;
 
 public enum RemovalItem
 {
@@ -19,19 +21,53 @@ public enum RemovalItem
     Internal
 }
 
+public class RefresherLogUnit
+{
+    public DateTime StartTime;
+    public Dictionary<string, int> NameJoinCountDic;
+
+    public RefresherLogUnit() { StartTime = DateTime.Now; NameJoinCountDic = new Dictionary<string, int>(); }
+
+    public void IncrementJoin(string PlayerName)
+    {
+        if (NameJoinCountDic.ContainsKey(PlayerName))
+            NameJoinCountDic[PlayerName] += 1;
+        else
+            NameJoinCountDic.Add(PlayerName, 1);
+    }
+
+    public override string ToString()
+    {
+        StringBuilder s = new StringBuilder($"[Refresher started: {StartTime.ToString("dddd, dd MMMM yyyy HH:mm:ss")}]\r\n");
+        foreach (var kvp in NameJoinCountDic)
+            s.Append($"{kvp.Key} x{kvp.Value}\r\n");
+        return s.ToString();
+    }
+}
+
 public class UI_Map : IUI_Additional
 {
     private const int YieldCount = 3; // yield for a frame every x loops
     private const int FieldItemLayerSize = MapGrid.MapTileCount32x32 * Item.SIZE;
     public static string MapAddress = OffsetHelper.FieldItemStart.ToString("X"); 
     public static uint CurrentMapAddress { get { return StringUtil.GetHexValue(MapAddress); } }
+    public static string ArriverAddress = OffsetHelper.ArriverNameLocAddress.ToString("X");
+    public static uint CurrentArriverAddress { get { return StringUtil.GetHexValue(ArriverAddress); } }
 
     public Item CurrentlyPlacingItem;
 
     public InputField RAMOffset;
     public Dropdown RemoveItemMode;
     public Text ButtonLabel;
+    public Toggle Layer2Affect;
+
+    // Map refresher
     public Button KeepAliveButton;
+    public Text LastRefresherTime;
+    public Text VisitorLog;
+
+    private List<RefresherLogUnit> Logs = new List<RefresherLogUnit>();
+    private RefresherLogUnit CurrentLog;
 
     private RemovalItem currentRemovalItem = RemovalItem.Weed;
 
@@ -39,6 +75,7 @@ public class UI_Map : IUI_Additional
 
     private Item[] layer1Dump, layer2Dump;
     private uint indexOfItemBeingProcessed = 0;
+    private string lastPlayerName = string.Empty;
 
     // Start is called before the first frame update
     void Start()
@@ -60,13 +97,6 @@ public class UI_Map : IUI_Additional
         RemoveItemMode.onValueChanged.AddListener(delegate { currentRemovalItem = (RemovalItem)RemoveItemMode.value; ButtonLabel.text = $"Remove every {currentRemovalItem.ToString().ToLower()}"; });
         RemoveItemMode.value = 0;
         RemoveItemMode.RefreshShownValue();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void PlaceNMT()
@@ -88,7 +118,24 @@ public class UI_Map : IUI_Additional
         Func<Item, bool> alive1 = new Func<Item, bool>(x => CopyItemFromDumpIfRequired(x, 0));
         Func<Item, bool> alive2 = new Func<Item, bool>(x => CopyItemFromDumpIfRequired(x, 1));
         ReferenceContainer<float> itemFunctionValue = new ReferenceContainer<float>(0f);
+        SetLastComingVisitorName(string.Empty); // refresh last arrival
+        CurrentLog = new RefresherLogUnit();
+        Logs.Add(CurrentLog);
         StartCoroutine(KeepAliveLoop(alive1, itemFunctionValue, alive2));
+    }
+
+    public void UpdateVisitationLog()
+    {
+        string s = string.Empty;
+        foreach (var log in Logs)
+            s += log.ToString() + "\r\n";
+
+        VisitorLog.text = s;
+    }
+
+    public void SaveVisitationLog()
+    {
+        UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile($"VisitorLog_{DateTime.Now:yyyyMMddHHmmss}.txt", Encoding.Unicode.GetBytes(VisitorLog.text));
     }
 
     IEnumerator KeepAliveLoop(Func<Item, bool> processItem, ReferenceContainer<float> progress, Func<Item, bool> processItemLayer2 = null)
@@ -98,7 +145,8 @@ public class UI_Map : IUI_Additional
         UI_Popup.CurrentInstance.CreatePopupChoice($"Your map is being continuously refreshed at minimum {refreshRate}ms per acre. You may decrease this value in settings, but the tradeoff may be stability.\r\nTo see replenished items, go in & out of a building.", "Stop refreshing", () => { exitToken = true; });
         while (!exitToken)
         {
-            StartCoroutine(functionTiles(processItem, progress, processItemLayer2));
+            LastRefresherTime.text = $"Last refresher run:\r\n{DateTime.Now:dddd, dd MMMM yyyy HH:mm:ss}";
+            StartCoroutine(functionTiles(processItem, progress, processItemLayer2, true));
             mapFunctionRunning = true;
             while (mapFunctionRunning && !exitToken)
                 yield return new WaitForSeconds(1f);
@@ -172,7 +220,7 @@ public class UI_Map : IUI_Additional
         StopAllCoroutines();
     }
 
-    IEnumerator functionTiles(Func<Item,bool> processItem, ReferenceContainer<float> progress, Func<Item,bool> processItemLayer2 = null)
+    IEnumerator functionTiles(Func<Item,bool> processItem, ReferenceContainer<float> progress, Func<Item,bool> processItemLayer2 = null, bool checkArrivals = false)
     {
         mapFunctionRunning = true;
         int maxtransferSizeRemainder = CurrentConnection.MaximumTransferSize % Item.SIZE;
@@ -191,7 +239,7 @@ public class UI_Map : IUI_Additional
             int thisFrameL2Proc = 0;
             int bytesToCheck = (int)Math.Min((int)itemsPerFrame * Item.SIZE, FieldItemLayerSize - (lastTileIndex * Item.SIZE));
             byte[] bytesLayer1 = CurrentConnection.ReadBytes(fieldItemsStart1 + (lastTileIndex * Item.SIZE), bytesToCheck);
-            byte[] bytesLayer2 = CurrentConnection.ReadBytes(fieldItemsStart2 + (lastTileIndex * Item.SIZE), bytesToCheck);
+            byte[] bytesLayer2 = Layer2Affect.isOn ? CurrentConnection.ReadBytes(fieldItemsStart2 + (lastTileIndex * Item.SIZE), bytesToCheck) : null;
             Item[] itemLayer1 = Item.GetArray(bytesLayer1);
             Item[] itemLayer2 = Item.GetArray(bytesLayer2);
             for (uint j = 0; j < itemLayer1.Length; ++j)
@@ -201,19 +249,34 @@ public class UI_Map : IUI_Additional
                 if (processItem(i))
                     thisFrameL1Proc++;
             }
-            for (uint j = 0; j < itemLayer2.Length; ++j)
+            if (Layer2Affect.isOn)
             {
-                Item i = itemLayer2[j];
-                indexOfItemBeingProcessed = lastTileIndex + j;
-                if (processItemLayer2 == null)
+                for (uint j = 0; j < itemLayer2.Length; ++j)
                 {
-                    if (processItem(i))
-                        thisFrameL2Proc++;
+                    Item i = itemLayer2[j];
+                    indexOfItemBeingProcessed = lastTileIndex + j;
+                    if (processItemLayer2 == null)
+                    {
+                        if (processItem(i))
+                            thisFrameL2Proc++;
+                    }
+                    else
+                    {
+                        if (processItemLayer2(i))
+                            thisFrameL2Proc++;
+                    }
                 }
-                else
+            }
+            // Check if someone is arriving
+            if (checkArrivals)
+            {
+                if (IsSomeoneArriving(out string coming))
                 {
-                    if (processItemLayer2(i))
-                        thisFrameL2Proc++;
+                    CurrentLog.IncrementJoin(coming);
+                    UI_Popup.CurrentInstance.UpdateText($"{coming} is arriving!\r\nThe auto replenisher is temporarily paused while their airplane animation occurs.");
+                    yield return new WaitForSeconds(74.5f);
+                    SetLastComingVisitorName(string.Empty);
+                    UI_Popup.CurrentInstance.ResetText();
                 }
             }
             if (thisFrameL1Proc > 0)
@@ -222,7 +285,7 @@ public class UI_Map : IUI_Additional
                 CurrentConnection.WriteBytes(nl1, fieldItemsStart1 + (lastTileIndex * Item.SIZE));
                 CurrentConnection.WriteBytes(nl1, fieldItemsStart1 + (lastTileIndex * Item.SIZE) + (uint)OffsetHelper.BackupSaveDiff);
             }
-            if (thisFrameL2Proc > 0)
+            if (thisFrameL2Proc > 0 && Layer2Affect.isOn)
             {
                 byte[] nl2 = itemLayer2.SetArray(Item.SIZE);
                 CurrentConnection.WriteBytes(nl2, fieldItemsStart2 + (lastTileIndex * Item.SIZE));
@@ -333,6 +396,37 @@ public class UI_Map : IUI_Additional
         return true;
     }
 
+    private bool IsSomeoneArriving(out string coming)
+    {
+        coming = GetLastComingVisitorName();
+        if (coming == string.Empty || string.IsNullOrWhiteSpace(coming))
+            return false;
+        bool different = coming != lastPlayerName;
+        lastPlayerName = coming;
+        return different;
+    }
+
+    private string GetLastComingVisitorName()
+    {
+        var nameBytes = CurrentConnection.ReadBytes(CurrentArriverAddress, 0xC);
+        var nameBuf = Encoding.Unicode.GetString(nameBytes).TrimEnd('\0');
+        return nameBuf;
+    }
+
+    private void SetLastComingVisitorName(string val)
+    {
+        byte[] toSendBytes = new byte[0xC];
+        var bytes = Encoding.Unicode.GetBytes(val);
+        if (bytes.Length > 0xC)
+        {
+            throw new Exception("Username limit reached!");
+        }
+        for (int i = 0; i < bytes.Length; ++i)
+            toSendBytes[i] = bytes[i];
+        CurrentConnection.WriteBytes(toSendBytes, CurrentArriverAddress);
+        lastPlayerName = val;
+    }
+
     //testing
     private bool ReplaceTreeItemWithFurniture(Item i)
     {
@@ -349,6 +443,20 @@ public class UI_Map : IUI_Additional
             }
         }
         return false;
+    }
+
+    private void checkNames()
+    {
+        StartCoroutine(doThing(0.5f, int.MaxValue, () => { }));
+    }
+
+    IEnumerator doThing(float seconds, int numLoops, Action toDo)
+    {
+        for (int i = 0; i < numLoops; ++i)
+        {
+            toDo();
+            yield return new WaitForSeconds(seconds);
+        }
     }
 }
 

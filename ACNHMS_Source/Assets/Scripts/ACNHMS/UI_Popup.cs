@@ -18,6 +18,7 @@ public class UI_Popup : MonoBehaviour
 
     Color originalTextColor = new Color(1,1,1,1);
     Action currentB1Action, currentB2Action;
+    string lastText = string.Empty;
 
     void Start()
     {
@@ -33,6 +34,17 @@ public class UI_Popup : MonoBehaviour
         Choice2.onClick.RemoveAllListeners();
         Choice1.gameObject.SetActive(false);
         Choice2.gameObject.SetActive(false);
+    }
+
+    public void UpdateText(string txt)
+    {
+        lastText = ToWriteTo.text;
+        ToWriteTo.text = txt;
+    }
+
+    public void ResetText()
+    {
+        ToWriteTo.text = lastText;
     }
 
     public void CreateProgressBar(string message, ReferenceContainer<float> progress, Texture2D progressMovingTexture = null, Vector3? pmtRot = null, Texture2D imgTexture = null, string buttonLabel1 = null, Action onButton1 = null, Color? c = null)
