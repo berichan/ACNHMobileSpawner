@@ -18,6 +18,7 @@ public enum RemovalItem
     Stone,
     Wood,
     RockMaterial,
+    SpoiledTurnip,
     Internal
 }
 
@@ -472,6 +473,8 @@ public static class RemovalItemExt
             return RemovalItem.Wood;
         if (i == 2511 || i == 2502 || i == 3090)
             return RemovalItem.RockMaterial;
+        if (i == 2642)
+            return RemovalItem.SpoiledTurnip;
 
         FieldItemList.Items.TryGetValue(i, out var def);
         if (def != null)
