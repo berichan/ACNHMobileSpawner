@@ -274,7 +274,7 @@ public class UI_Map : IUI_Additional
                 if (IsSomeoneArriving(out string coming))
                 {
                     CurrentLog.IncrementJoin(coming);
-                    UI_Popup.CurrentInstance.UpdateText($"{coming} is arriving!\r\nThe auto replenisher is temporarily paused while their airplane animation occurs.");
+                    UI_Popup.CurrentInstance.UpdateText($"{coming} is arriving!\r\nThe auto-refresher is temporarily paused while their airplane animation occurs.");
                     yield return new WaitForSeconds(74.5f);
                     SetLastComingVisitorName(string.Empty);
                     UI_Popup.CurrentInstance.ResetText();
