@@ -8283,7 +8283,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &204734901
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35913,7 +35913,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 51, y: 51}
+  m_CellSize: {x: 47.8, y: 47.8}
   m_Spacing: {x: 3, y: 3}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -35930,8 +35930,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefabCell: {fileID: 1589337877}
-  NumHorizontal: 15
-  NumVertical: 15
+  NumHorizontal: 16
+  NumVertical: 16
 --- !u!1 &844197669
 GameObject:
   m_ObjectHideFlags: 0
@@ -55304,7 +55304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2021/01/02 01:11:37
+  LastEditorDateTime: 2021/01/02 14:42:04
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -63413,10 +63413,10 @@ RectTransform:
   m_Father: {fileID: 837124894}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25.5, y: -25.5}
-  m_SizeDelta: {x: 51, y: 51}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1589337875
 MonoBehaviour:

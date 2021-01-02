@@ -153,6 +153,14 @@ namespace NHSE.Core
 
         public System.Drawing.Color GetTileColorRGB(int x, int y)
         {
+            var acre = GetTileAcre(x, y);
+            if (acre != 0)
+            {
+                var c = AcreTileColor.GetAcreTileColorRGB(acre, x % 16, y % 16);
+                if (c.ToArgb() != -0x1000000) // transparent
+                    return c;
+            }
+
             var tile = GetTile(x, y);
             return TerrainTileColor.GetTileColor(tile);
         }

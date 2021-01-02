@@ -17,11 +17,13 @@ public class UI_MapTerrain : MonoBehaviour
     private const int AcreHeight = 6 + (2 * 1); // 1 on each side cannot be traversed
     private const int AcreMax = AcreWidth * AcreHeight;
     private const int AcreSizeAll = AcreMax * 2;
+    private const int AcrePlusAdditionalParams = AcreSizeAll + 2 + 4 + 8 + sizeof(uint); // MainFieldParamUniqueID + EventPlazaLeftUpX + EventPlazaLeftUpZ
 
-    private const int FieldSize = MapGrid.MapTileCount32x32 * 2;
+    private const int FieldSize = MapGrid.MapTileCount32x32 * 2 * Item.SIZE;
     private const int TerrainSize = MapGrid.MapTileCount16x16 * TerrainTile.SIZE;
 
-    private byte[] field, terrain, acre;
+    private byte[] field, terrain, acre_plaza;
+    private uint plazaX, plazaY;
 
     private FieldItemManager fieldManager;
     private NHSE.Core.TerrainLayer terrainLayer;
@@ -39,11 +41,15 @@ public class UI_MapTerrain : MonoBehaviour
 
     void generateAll()
     {
-        Item[] itemLayer1 = Item.GetArray(field.Take(MapGrid.MapTileCount32x32).ToArray());
-        Item[] itemLayer2 = Item.GetArray(field.Slice(MapGrid.MapTileCount32x32, MapGrid.MapTileCount32x32).ToArray());
+        Item[] itemLayer1 = Item.GetArray(field.Take(MapGrid.MapTileCount32x32 * Item.SIZE).ToArray());
+        Item[] itemLayer2 = Item.GetArray(field.Slice(MapGrid.MapTileCount32x32 * Item.SIZE, MapGrid.MapTileCount32x32 * Item.SIZE).ToArray());
         fieldManager = new FieldItemManager(itemLayer1, itemLayer2);
-        terrainLayer = new NHSE.Core.TerrainLayer(TerrainTile.GetArray(terrain), acre);
-        graphicGenerator = new MapGraphicGenerator(fieldManager, terrainLayer);
+        terrainLayer = new NHSE.Core.TerrainLayer(TerrainTile.GetArray(terrain), acre_plaza.Slice(0, AcreSizeAll));
+
+        plazaX = BitConverter.ToUInt32(acre_plaza, AcreSizeAll + 4);
+        plazaY = BitConverter.ToUInt32(acre_plaza, AcreSizeAll + 8);
+
+        graphicGenerator = new MapGraphicGenerator(fieldManager, terrainLayer, (ushort)plazaX, (ushort)plazaY);
         MapImage.texture = graphicGenerator.MapBackgroundImage;
         MapImage.color = Color.white;
     }
@@ -60,7 +66,7 @@ public class UI_MapTerrain : MonoBehaviour
                 createFetchPopup("Fetching terrain (2 of 3)...", 1, (uint)OffsetHelper.LandMakingMapStart, TerrainSize, () => { fetchIndex(2); });
                 break;
             case 2:
-                createFetchPopup("Fetching acre and generating map (3 of 3)...", 2, (uint)OffsetHelper.OutsideFieldStart, AcreSizeAll, () => { fetchIndex(3); });
+                createFetchPopup("Fetching acre and generating map (3 of 3)...", 2, (uint)OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams, () => { fetchIndex(3); });
                 break;
             default:
                 generateAll();
@@ -85,7 +91,7 @@ public class UI_MapTerrain : MonoBehaviour
                 terrain = pop;
                 break;
             case 2:
-                acre = pop;
+                acre_plaza = pop;
                 break;
         }
     }
