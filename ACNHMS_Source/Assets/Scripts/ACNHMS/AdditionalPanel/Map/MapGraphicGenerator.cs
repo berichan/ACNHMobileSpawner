@@ -9,6 +9,7 @@ public class MapGraphicGenerator
 {
     private const int PlazaWidth = 6 * 2;
     private const int PlazaHeight = 5 * 2;
+    private readonly Color32 Alpha = new Color32(0, 0, 0, 0);
 
     // No scaling required, let GPU handle it
     private readonly int[] PixelsItemMap;
@@ -44,12 +45,17 @@ public class MapGraphicGenerator
         // draw plaza
         terrain.GetBuildingCoordinate(plazaX, plazaY, 1, out var xp, out var yp);
         FillRect(MapBackgroundImage, xp, yp, PlazaWidth, PlazaHeight, new Color32(188, 143, 143, 255));
-        
+
+        background = new Texture2D(MapBackgroundImage.width, MapBackgroundImage.height);
+        Graphics.CopyTexture(MapBackgroundImage, background);
+
+        layerItems[0] = CreateItemLayerTexture(items.Layer1.Tiles, items.Layer1.MaxWidth, items.Layer1.MaxHeight);
+        layerItems[1] = CreateItemLayerTexture(items.Layer2.Tiles, items.Layer2.MaxWidth, items.Layer2.MaxHeight);
+
+        OverlayImage(MapBackgroundImage, layerItems[0]);
         MapBackgroundImage = FlipTexture(MapBackgroundImage);
         MapBackgroundImage.filterMode = FilterMode.Point;
         MapBackgroundImage.minimumMipmapLevel = 0;
-        Graphics.CopyTexture(MapBackgroundImage, background);
-
 
         MapBackgroundImage.Apply();
     }
@@ -59,6 +65,40 @@ public class MapGraphicGenerator
         for (int i = x; i < x + width; ++i)
             for (int j = y; j < y + height; ++j)
                 pixels.SetPixel(i, j, fillColor);
+    }
+
+    private Texture2D CreateItemLayerTexture(Item[] items, int width, int height)
+    {
+        Texture2D toRet = new Texture2D(width, height);
+        for (int x = 0; x < width; x++)
+        {
+            var ix = x * height;
+            for (int y = 0; y < height; y++)
+            {
+                var index = ix + y;
+                var tile = items[index];
+                var pxl = FieldItemColor.GetItemColor(tile);
+                toRet.SetPixel(x, y, new Color32(pxl.R, pxl.G, pxl.B, pxl.A));
+            }
+        }
+
+        toRet.filterMode = FilterMode.Point;
+        toRet.Apply();
+        toRet = Resize(toRet, width / 2, height / 2);
+        return toRet;
+    }
+
+    private void OverlayImage(Texture2D main, Texture2D overlay)
+    {
+        for (int i = 0; i < main.width; ++i)
+        {
+            for (int j = 0; j < main.height; ++j)
+            {
+                Color overlayCol = overlay.GetPixel(i, j);
+                if (overlayCol.a > 0)
+                    main.SetPixel(i, j, overlayCol);
+            }
+        }
     }
 
     Texture2D FlipTexture(Texture2D texture)
@@ -76,5 +116,17 @@ public class MapGraphicGenerator
 
         snap.SetPixels(pixelsFlipped);
         return snap;
+    }
+
+    Texture2D Resize(Texture2D texture2D, int targetX, int targetY)
+    {
+        RenderTexture rt = new RenderTexture(targetX, targetY, 24);
+        RenderTexture.active = rt;
+        Graphics.Blit(texture2D, rt);
+        Texture2D result = new Texture2D(targetX, targetY);
+        result.ReadPixels(new Rect(0, 0, targetX, targetY), 0, 0);
+        result.filterMode = FilterMode.Point;
+        result.Apply();
+        return result;
     }
 }
