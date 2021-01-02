@@ -151,6 +151,12 @@ namespace NHSE.Core
             return TerrainTileColor.GetTileColor(tile).ToArgb();
         }
 
+        public System.Drawing.Color GetTileColorRGB(int x, int y)
+        {
+            var tile = GetTile(x, y);
+            return TerrainTileColor.GetTileColor(tile);
+        }
+
         private byte GetTileAcre(int x, int y)
         {
             var acreX = 1 + (x / 16);
