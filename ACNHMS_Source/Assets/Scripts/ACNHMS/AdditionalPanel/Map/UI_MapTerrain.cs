@@ -23,8 +23,10 @@ public class UI_MapTerrain : MonoBehaviour
     private const int AcreSizeAll = AcreMax * 2;
     private const int AcrePlusAdditionalParams = AcreSizeAll + 2 + 4 + 8 + sizeof(uint); // MainFieldParamUniqueID + EventPlazaLeftUpX + EventPlazaLeftUpZ
     private const int MapItemCount = MapGrid.MapTileCount32x32 / 4; // Ignore extensions
-    private const int MapEndX = (MapGrid.AcreWidth * 32) - 32; // End of selectable 8x8 corner
-    private const int MapEndY = (MapGrid.AcreHeight * 32) - 32; // End of selectable 8x8 corner
+    private const int MapItemsWidthMax = MapGrid.AcreWidth * 32;
+    private const int MapItemsHeightMax = MapGrid.AcreHeight * 32;
+    private const int MapEndX = (MapGrid.AcreWidth * 32) - 16; // End of selectable 8x8 corner
+    private const int MapEndY = (MapGrid.AcreHeight * 32) - 16; // End of selectable 8x8 corner
 
     private const int FieldSize = MapGrid.MapTileCount32x32 * 2 * Item.SIZE;
     private const int TerrainSize = MapGrid.MapTileCount16x16 * TerrainTile.SIZE;
@@ -62,15 +64,26 @@ public class UI_MapTerrain : MonoBehaviour
 
     void updateGrid(int startX, int startY)
     {
+        // Go up 1 if these are odd nums (ext tiles)
+        if (startX % 2 != 0)
+            startX--;
+        if (startY % 2 != 0)
+            startY--;
+        
+        var tiles = fieldManager.Layer1.Tiles;
         int index = 0;
-        for (int i = startY; i < startY + 32; i += 2)
+        for (int i = startX; i < startX + 16; i += 2)
         {
-            for (int j = startX; j < startX + 32; j += 2)
+            var ix = i * MapItemsHeightMax;
+            for (int j = startY; j < startY + 16; j += 2)
             {
-                itemTiles[index].SetItem(fieldManager.Layer1.Tiles[i + j], 
-                    fieldManager.Layer1.Tiles[i + j + 1], 
-                    fieldManager.Layer1.Tiles[i + j + 1 + (MapGrid.AcreWidth * 32)], 
-                    fieldManager.Layer1.Tiles[i + j + (MapGrid.AcreWidth * 32)]);
+                /*itemTiles[index].SetItem(fieldManager.Layer1.Tiles[j + (i * MapItemsPerLine)], 
+                    fieldManager.Layer1.Tiles[j + (i * MapItemsPerLine) + 1], 
+                    fieldManager.Layer1.Tiles[j + (i * MapItemsPerLine) + 1 + MapItemsPerLine], 
+                    fieldManager.Layer1.Tiles[j + (i * MapItemsPerLine) + MapItemsPerLine]);*/
+                var indexItem = ix + j;
+                var indexTile = ((index * 8) % 64) + Mathf.FloorToInt(index / 8f);
+                itemTiles[indexTile].SetItem(tiles[indexItem], tiles[indexTile + 1], tiles[indexTile + 1 + MapItemsWidthMax], tiles[indexTile + MapItemsWidthMax]);
                 index++;
             }
         }
