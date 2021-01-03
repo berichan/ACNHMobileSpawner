@@ -48,6 +48,7 @@ public class MapGraphicGenerator
 
         background = new Texture2D(MapBackgroundImage.width, MapBackgroundImage.height);
         Graphics.CopyTexture(MapBackgroundImage, background);
+        //background = FlipTexture(background); // no need to flip for backgroud pixels of acre
 
         layerItems[0] = CreateItemLayerTexture(items.Layer1.Tiles, items.Layer1.MaxWidth, items.Layer1.MaxHeight);
         layerItems[1] = CreateItemLayerTexture(items.Layer2.Tiles, items.Layer2.MaxWidth, items.Layer2.MaxHeight);
@@ -59,6 +60,8 @@ public class MapGraphicGenerator
 
         MapBackgroundImage.Apply();
     }
+
+    public Color GetBackgroudPixel(int x, int y) => background.GetPixel(x, y);
 
     private void FillRect(Texture2D pixels, int x, int y, int width, int height, Color32 fillColor)
     {

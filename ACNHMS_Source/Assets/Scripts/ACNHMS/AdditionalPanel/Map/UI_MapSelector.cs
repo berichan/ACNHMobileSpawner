@@ -46,7 +46,7 @@ public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
         absPos.y = pos.y / SelectionBounds.y;
         absPos.x = 1 - ((absPos.x + 1) / 2);
         absPos.y = 1 - ((absPos.y + 1) / 2);
-        Debug.Log($"{absPos.x},{absPos.y}");
+        //Debug.Log($"{absPos.x},{absPos.y}");
         OnSelectorChanged(absPos);
     }
 

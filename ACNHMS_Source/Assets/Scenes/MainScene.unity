@@ -5259,6 +5259,7 @@ GameObject:
   - component: {fileID: 115523910}
   - component: {fileID: 115523912}
   - component: {fileID: 115523911}
+  - component: {fileID: 115523913}
   m_Layer: 5
   m_Name: Image_Selection
   m_TagString: Untagged
@@ -5322,6 +5323,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115523909}
   m_CullTransparentMesh: 0
+--- !u!114 &115523913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115523909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &121413341
 GameObject:
   m_ObjectHideFlags: 0
@@ -55396,7 +55412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2021/01/03 19:27:59
+  LastEditorDateTime: 2021/01/03 20:39:59
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:

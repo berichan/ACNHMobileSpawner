@@ -14,7 +14,7 @@ public class UI_MapItemTile : MonoBehaviour
     public RawImage Image;
     public RawImage Background;
 
-    public void SetItem(Item main, Item right, Item diag, Item down)
+    public void SetItem(Item main, Item right, Item diag, Item down, Color bg)
     {
         mainItem = main;
         extRightItem = right;
@@ -22,7 +22,8 @@ public class UI_MapItemTile : MonoBehaviour
         extDownItem = down;
         var tex = SpriteBehaviour.ItemToTexture2D(main, out var c);
         Image.texture = tex;
-        Background.color = c;
+        Background.color = main.ItemId == Item.NONE ? bg : c;
+        Image.gameObject.SetActive(main.ItemId != Item.NONE);
     }
 
     // Start is called before the first frame update

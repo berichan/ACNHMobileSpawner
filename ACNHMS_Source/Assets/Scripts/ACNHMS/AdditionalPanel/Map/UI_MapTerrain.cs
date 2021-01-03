@@ -77,13 +77,10 @@ public class UI_MapTerrain : MonoBehaviour
             var ix = i * MapItemsHeightMax;
             for (int j = startY; j < startY + 16; j += 2)
             {
-                /*itemTiles[index].SetItem(fieldManager.Layer1.Tiles[j + (i * MapItemsPerLine)], 
-                    fieldManager.Layer1.Tiles[j + (i * MapItemsPerLine) + 1], 
-                    fieldManager.Layer1.Tiles[j + (i * MapItemsPerLine) + 1 + MapItemsPerLine], 
-                    fieldManager.Layer1.Tiles[j + (i * MapItemsPerLine) + MapItemsPerLine]);*/
                 var indexItem = ix + j;
                 var indexTile = ((index * 8) % 64) + Mathf.FloorToInt(index / 8f);
-                itemTiles[indexTile].SetItem(tiles[indexItem], tiles[indexTile + 1], tiles[indexTile + 1 + MapItemsWidthMax], tiles[indexTile + MapItemsWidthMax]);
+                var bgColor = graphicGenerator.GetBackgroudPixel(i/2, j/2);
+                itemTiles[indexTile].SetItem(tiles[indexItem], tiles[indexTile + 1], tiles[indexTile + 1 + MapItemsWidthMax], tiles[indexTile + MapItemsWidthMax], bgColor);
                 index++;
             }
         }
