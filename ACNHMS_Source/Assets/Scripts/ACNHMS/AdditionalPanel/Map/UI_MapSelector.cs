@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_MapSelector : MonoBehaviour, IPointerClickHandler, IDragHandler
+public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
     private readonly Vector4 SelectionBounds = new Vector4(-((32 * 7 * 4) / 2) + 64,
                                                  ((32 * 6 * 4) / 2) - 64,
@@ -14,34 +14,45 @@ public class UI_MapSelector : MonoBehaviour, IPointerClickHandler, IDragHandler
     // Start is called before the first frame update
     void Start()
     {
-        
+        EventSystem.current.pixelDragThreshold = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    private void updatePosition(Vector2 nPos)
+    private void updatePositionWorldSpace(Vector2 nPos)
     {
-        nPos *= 1f/Selector.canvas.scaleFactor;
-        nPos.x += SelectionBounds.x - (SelectorQuarter.x * 1f/Selector.canvas.scaleFactor);
-        nPos.y += SelectionBounds.w - (SelectorQuarter.y * 1f/Selector.canvas.scaleFactor) - (SelectorQuarter.y*Selector.transform.localScale.y);
-        var pos = Selector.rectTransform.anchoredPosition;
-        pos.x = Mathf.Clamp(nPos.x, SelectionBounds.x, SelectionBounds.z);
-        pos.y = Mathf.Clamp(nPos.y, SelectionBounds.w, SelectionBounds.y);
+        // set in world space, keep z
+        Vector2 pos = Selector.transform.position;
+        pos.x = nPos.x;
+        pos.y = nPos.y;
+        Selector.transform.position = pos;
+
+        // clamp in canvas space
+        pos = Selector.rectTransform.anchoredPosition;
+        pos.x = Mathf.Clamp(pos.x, SelectionBounds.x, SelectionBounds.z);
+        pos.y = Mathf.Clamp(pos.y, SelectionBounds.w, SelectionBounds.y);
         Selector.rectTransform.anchoredPosition = pos;
+
+        Vector2 absPos = new Vector2();
+        absPos.x = (pos.x / SelectionBounds.z) * -1;
+        absPos.y = pos.y / SelectionBounds.y;
+        absPos.x = 1 - ((absPos.x + 1) / 2);
+        absPos.y = 1 - ((absPos.y + 1) / 2);
+        Debug.Log($"{absPos.x},{absPos.y}");
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (eventData.dragging)
-            updatePosition(eventData.position);
+            updatePositionWorldSpace(eventData.position);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
-        updatePosition(eventData.position);
+        updatePositionWorldSpace(eventData.position);
     }
 }
