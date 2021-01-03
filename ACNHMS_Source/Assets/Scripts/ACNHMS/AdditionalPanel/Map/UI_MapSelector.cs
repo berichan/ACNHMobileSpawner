@@ -6,11 +6,11 @@ public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
     public delegate void onSelectorValueChanged(Vector2 absPosition);
 
-    public readonly Vector4 SelectionBounds = new Vector4(-((32 * 7 * 4) / 2) + 64,
-                                                 ((32 * 6 * 4) / 2) - 64,
-                                                 ((32 * 7 * 4) / 2) - 64,
-                                                 -((32 * 6 * 4) / 2) + 64);
-    public Vector2 SelectorQuarter = new Vector2(32, 32);
+    public readonly Vector4 SelectionBounds = new Vector4(-((32 * 7 * 4) / 2) + 32,
+                                                 ((32 * 6 * 4) / 2) - 32,
+                                                 ((32 * 7 * 4) / 2) - 32,
+                                                 -((32 * 6 * 4) / 2) + 32);
+    public Vector2 SelectorQuarter = new Vector2(16, 16);
     public MaskableGraphic Selector;
 
     public onSelectorValueChanged OnSelectorChanged;
@@ -46,6 +46,7 @@ public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
         absPos.y = pos.y / SelectionBounds.y;
         absPos.x = 1 - ((absPos.x + 1) / 2);
         absPos.y = 1 - ((absPos.y + 1) / 2);
+        Debug.Log($"{absPos.x},{absPos.y}");
         OnSelectorChanged(absPos);
     }
 
