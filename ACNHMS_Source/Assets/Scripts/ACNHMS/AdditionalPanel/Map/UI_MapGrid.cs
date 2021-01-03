@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,16 +35,5 @@ public class UI_MapGrid : MonoBehaviour
             var cellComponent = newCell.GetComponent<UI_MapCell>();
             SpawnedCells.Add(cellComponent);
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        PopulateGrid();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {  
     }
 }

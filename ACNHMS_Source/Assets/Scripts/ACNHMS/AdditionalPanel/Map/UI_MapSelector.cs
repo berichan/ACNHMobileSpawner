@@ -4,12 +4,16 @@ using UnityEngine.EventSystems;
 
 public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
-    private readonly Vector4 SelectionBounds = new Vector4(-((32 * 7 * 4) / 2) + 64,
+    public delegate void onSelectorValueChanged(Vector2 absPosition);
+
+    public readonly Vector4 SelectionBounds = new Vector4(-((32 * 7 * 4) / 2) + 64,
                                                  ((32 * 6 * 4) / 2) - 64,
                                                  ((32 * 7 * 4) / 2) - 64,
                                                  -((32 * 6 * 4) / 2) + 64);
     public Vector2 SelectorQuarter = new Vector2(32, 32);
     public MaskableGraphic Selector;
+
+    public onSelectorValueChanged OnSelectorChanged;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +46,7 @@ public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
         absPos.y = pos.y / SelectionBounds.y;
         absPos.x = 1 - ((absPos.x + 1) / 2);
         absPos.y = 1 - ((absPos.y + 1) / 2);
-        Debug.Log($"{absPos.x},{absPos.y}");
+        OnSelectorChanged(absPos);
     }
 
     public void OnDrag(PointerEventData eventData)
