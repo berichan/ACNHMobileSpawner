@@ -10,9 +10,12 @@ public class UI_MapTerrain : MonoBehaviour
     public UI_Map MapParent;
 
     public RawImage MapImage;
+    public Button RefetchItemsButton;
 
     public UI_MapSelector GridSelector;
     public UI_MapGrid AcreTileMap;
+
+    public GameObject UnfetchedBlocker;
 
     private MapGraphicGenerator graphicGenerator;
 
@@ -47,12 +50,11 @@ public class UI_MapTerrain : MonoBehaviour
         foreach (var cell in AcreTileMap.SpawnedCells)
             itemTiles.Add(cell.GetComponent<UI_MapItemTile>());
         GridSelector.OnSelectorChanged += updateAcreGrid;
+        UnfetchedBlocker.gameObject.SetActive(true);
     }
 
-    public void GenerateMap()
-    {
-        fetchIndex(0);
-    }
+    public void GenerateMap() => fetchIndex(0);
+    public void RefetchItems() => fetchIndex(0, true);
 
     void updateAcreGrid(Vector2 selectorPos)
     {
@@ -100,21 +102,25 @@ public class UI_MapTerrain : MonoBehaviour
         MapImage.texture = graphicGenerator.MapBackgroundImage;
         MapImage.color = Color.white;
         fetched = true;
+
+        GridSelector.ResetPosition();
+        UnfetchedBlocker.gameObject.SetActive(false);
+        RefetchItemsButton.interactable = true;
     }
 
     // loops between map layers to fetch everything
-    void fetchIndex(int index)
+    void fetchIndex(int index, bool refetch = false)
     {
         switch (index)
         {
             case 0:
-                createFetchPopup("Fetching field (1 of 3)...", 0, (uint)OffsetHelper.FieldItemStart, FieldSize, () => { fetchIndex(1); });
+                createFetchPopup($"Fetching field{(refetch ? string.Empty : " (1 of 3)")}...\r\nThis may take a long time if your thread sleep time is above 20ms", 0, (uint)OffsetHelper.FieldItemStart, FieldSize, () => { fetchIndex(1, refetch); });
                 break;
-            case 1:
-                createFetchPopup("Fetching terrain (2 of 3)...", 1, (uint)OffsetHelper.LandMakingMapStart, TerrainSize, () => { fetchIndex(2); });
+            case 1 when !refetch:
+                createFetchPopup("Fetching terrain (2 of 3)...", 1, (uint)OffsetHelper.LandMakingMapStart, TerrainSize, () => { fetchIndex(2, refetch); });
                 break;
-            case 2:
-                createFetchPopup("Fetching acre and generating map (3 of 3)...", 2, (uint)OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams, () => { fetchIndex(3); });
+            case 2 when !refetch:
+                createFetchPopup("Fetching acre and generating map (3 of 3)...", 2, (uint)OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams, () => { fetchIndex(3, refetch); });
                 break;
             default:
                 generateAll();

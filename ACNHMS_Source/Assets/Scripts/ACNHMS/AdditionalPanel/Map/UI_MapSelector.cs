@@ -27,6 +27,11 @@ public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     }
 
+    public void ResetPosition()
+    {
+        updatePositionWorldSpace(Vector2.zero);
+    }
+
     private void updatePositionWorldSpace(Vector2 nPos)
     {
         // set in world space, keep z
