@@ -81,7 +81,7 @@ public class UI_MapItemTile : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     {
         switch (callback.CurrentSelectMode)
         {
-            case TerrainSelectMode.Place: item.UpdateItem(UI_MapEditor.ReferenceItem); SetItem(item, Background.color, callback); break;
+            case TerrainSelectMode.Place: item.UpdateItem(UI_MapTerrain.ReferenceItem); SetItem(item, Background.color, callback); break;
             case TerrainSelectMode.Delete: item.UpdateItem(Item.NO_ITEM); break;
             case TerrainSelectMode.Load: UI_SearchWindow.LastLoadedSearchWindow.LoadItem(item.SelectedItem); break;
         }

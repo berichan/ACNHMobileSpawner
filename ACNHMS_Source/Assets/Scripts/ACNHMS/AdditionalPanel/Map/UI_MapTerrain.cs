@@ -51,6 +51,13 @@ public class UI_MapTerrain : MonoBehaviour
 
     public Dropdown SelectMode;
 
+    private static UI_SearchWindow SearchWindow => UI_SearchWindow.LastLoadedSearchWindow;
+
+    private static Item refItem = Item.NO_ITEM;
+    public static Item ReferenceItem { get => SearchWindow.GetAsItem(null); }
+    
+    public Text CurrentLoadedItemName;
+
     [HideInInspector]
     public TerrainSelectMode CurrentSelectMode { get; private set; } = TerrainSelectMode.Place;
 
@@ -75,6 +82,15 @@ public class UI_MapTerrain : MonoBehaviour
             itemTiles.Add(cell.GetComponent<UI_MapItemTile>());
         GridSelector.OnSelectorChanged += updateAcreGrid;
         UnfetchedBlocker.gameObject.SetActive(true);
+
+        SearchWindow.OnNewItemSelected += updateItem;
+    }
+
+    public void BringSearchWindowToFront() => SearchWindow.SetAtFront(true, false);
+
+    private void updateItem(ushort id, string itemName)
+    {
+        CurrentLoadedItemName.text = itemName;
     }
 
     public void GenerateMap() => fetchIndex(0);

@@ -8751,7 +8751,6 @@ GameObject:
   m_Component:
   - component: {fileID: 204734901}
   - component: {fileID: 204734902}
-  - component: {fileID: 204734903}
   m_Layer: 5
   m_Name: Map_Debugger
   m_TagString: Untagged
@@ -8804,19 +8803,6 @@ MonoBehaviour:
   AcreTileMap: {fileID: 837124896}
   UnfetchedBlocker: {fileID: 1459584850}
   SelectMode: {fileID: 1821534242}
---- !u!114 &204734903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204734900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3964da0c80cff884299a975022f550f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TerrainControl: {fileID: 204734902}
   CurrentLoadedItemName: {fileID: 491565483}
 --- !u!1 &214430352
 GameObject:
@@ -51515,7 +51501,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 204734903}
+      - m_Target: {fileID: 204734902}
         m_MethodName: BringSearchWindowToFront
         m_Mode: 1
         m_Arguments:
@@ -56719,7 +56705,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 765}
+  m_AnchoredPosition: {x: 0, y: 113}
   m_SizeDelta: {x: 3181.6802, y: 3181.6802}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1374183329
@@ -57182,7 +57168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2021/01/05 02:31:38
+  LastEditorDateTime: 2021/01/05 15:29:13
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
