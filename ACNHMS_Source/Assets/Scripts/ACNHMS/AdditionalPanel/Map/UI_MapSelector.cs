@@ -52,7 +52,7 @@ public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
         absPos.x = 1 - ((absPos.x + 1) / 2);
         absPos.y = 1 - ((absPos.y + 1) / 2);
         //Debug.Log($"{absPos.x},{absPos.y}");
-        OnSelectorChanged(absPos);
+        OnSelectorChanged?.Invoke(absPos);
     }
 
     public void OnDrag(PointerEventData eventData)

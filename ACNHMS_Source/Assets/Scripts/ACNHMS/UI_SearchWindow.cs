@@ -24,6 +24,9 @@ public class UI_SearchWindow : MonoBehaviour
 
     public static UI_SearchWindow LastLoadedSearchWindow;
 
+    public delegate void NewItemSelected(ushort itemId, string itemNameCurrentLanguage); // Load the item if you need the NHSE.Core.Item
+    public NewItemSelected OnNewItemSelected;
+
     //editor vars
     public RectTransform SelectionOverlay;
     public Text ItemSelectedName;
@@ -39,6 +42,8 @@ public class UI_SearchWindow : MonoBehaviour
     public GameObject SpriteImageRoot;
     public RawImage SpriteImageMain;
     public PShowOnInternalItem InternalItemWarning;
+    public Button UnfrontButton;
+    public GameObject FrontBlocker;
 
     public GameObject FlowerButtonRoot;
     public GameObject TreeButtonRoot;
@@ -66,6 +71,9 @@ public class UI_SearchWindow : MonoBehaviour
     private List<UI_SearchItem> spawnedObjects;
 
     private Coroutine currentAnimationFuction;
+
+    private bool isAtFront = false;
+    private int siblingIndexLast = 0;
 
     private void Start()
     {
@@ -125,9 +133,21 @@ public class UI_SearchWindow : MonoBehaviour
         SetController.FCount.text = i.Count.ToString();
     }
 
-    private void Update()
+    public void UnsetFront() => SetAtFront(false, true);
+    public void SetAtFront(bool front, bool showSet = true)
     {
+        if (front && !isAtFront)
+            siblingIndexLast = transform.GetSiblingIndex();
 
+        if (front)
+            transform.SetAsLastSibling();
+        else
+            transform.SetSiblingIndex(siblingIndexLast);
+
+        UI_ACItemGrid.LastInstanceOfItemGrid.Filler.gameObject.SetActive(showSet);
+        UnfrontButton.gameObject.SetActive(front);
+        FrontBlocker.SetActive(front);
+        isAtFront = front;
     }
 
     public void UpdateFilter(Dropdown filt)
@@ -330,6 +350,7 @@ public class UI_SearchWindow : MonoBehaviour
         }
         currentAnimationFuction = StartCoroutine(sendSelectorToSelected());
 
+        OnNewItemSelected?.Invoke((ushort)id, sItem.RawValue);
         UpdateSprite();
     }
 

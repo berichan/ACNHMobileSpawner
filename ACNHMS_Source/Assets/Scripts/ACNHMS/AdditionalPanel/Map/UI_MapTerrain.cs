@@ -5,6 +5,13 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
+public enum TerrainSelectMode
+{
+    Place,
+    Delete,
+    Load
+}
+
 public class UI_MapTerrain : MonoBehaviour
 {
     public UI_Map MapParent;
@@ -42,9 +49,26 @@ public class UI_MapTerrain : MonoBehaviour
     private NHSE.Core.TerrainLayer terrainLayer;
     private List<UI_MapItemTile> itemTiles;
 
+    public Dropdown SelectMode;
+
+    [HideInInspector]
+    public TerrainSelectMode CurrentSelectMode { get; private set; } = TerrainSelectMode.Place;
+
     // Start is called before the first frame update
     void Start()
     {
+        SelectMode.ClearOptions();
+        string[] smChoices = Enum.GetNames(typeof(TerrainSelectMode));
+        foreach (string sm in smChoices)
+        {
+            Dropdown.OptionData newVal = new Dropdown.OptionData();
+            newVal.text = sm;
+            SelectMode.options.Add(newVal);
+        }
+        SelectMode.value = 0;
+        SelectMode.RefreshShownValue();
+        SelectMode.onValueChanged.AddListener(delegate { CurrentSelectMode = (TerrainSelectMode)SelectMode.value; });
+
         AcreTileMap.PopulateGrid();
         itemTiles = new List<UI_MapItemTile>();
         foreach (var cell in AcreTileMap.SpawnedCells)
@@ -82,7 +106,7 @@ public class UI_MapTerrain : MonoBehaviour
                 var indexItem = ix + j;
                 var indexTile = ((index * 8) % 64) + Mathf.FloorToInt(index / 8f);
                 var bgColor = graphicGenerator.GetBackgroudPixel(i/2, j/2);
-                itemTiles[indexTile].SetItem(tiles[indexItem], tiles[indexTile + 1], tiles[indexTile + 1 + MapItemsWidthMax], tiles[indexTile + MapItemsWidthMax], bgColor);
+                itemTiles[indexTile].SetItem(new FieldItemBlock(fieldManager.Layer1, i, j), bgColor, this);
                 index++;
             }
         }
