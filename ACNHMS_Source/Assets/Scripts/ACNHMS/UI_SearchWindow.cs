@@ -376,7 +376,7 @@ public class UI_SearchWindow : MonoBehaviour
 
     public void LoadItem(Item item)
     {
-        if (stopSearch)
+        if (stopSearch || item.ItemId == Item.NONE)
             return;
         CurrentItemID = item.ItemId;
         if (CurrentItemID == MESSAGEBOTTLEITEM)
