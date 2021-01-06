@@ -17,6 +17,8 @@ public class FieldItemBlock
 
     public void UpdateItem(Item refItem)
     {
+        if (refItem == null)
+            return;
         if (!refItem.IsNone)
         {
             SelectedItem.CopyFrom(refItem);
