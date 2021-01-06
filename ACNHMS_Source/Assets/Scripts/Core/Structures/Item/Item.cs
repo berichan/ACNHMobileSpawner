@@ -237,5 +237,19 @@ namespace NHSE.Core
             }
             return returnValue;
         }
+
+        public bool IsDifferentTo(Item i) // doesn't look like it, but fastest for map acre comparison for writes
+        {
+            if (ItemId != i.ItemId)
+                return true;
+            if (SystemParam != i.SystemParam)
+                return true;
+            if (AdditionalParam != i.AdditionalParam)
+                return true;
+            if (FreeParam != i.FreeParam)
+                return true;
+
+            return false;
+        }
     }
 }
