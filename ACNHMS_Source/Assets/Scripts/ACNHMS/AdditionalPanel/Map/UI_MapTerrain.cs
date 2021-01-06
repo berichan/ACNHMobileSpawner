@@ -4,12 +4,28 @@ using NHSE.Core;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 public enum TerrainSelectMode
 {
+    Custom,
+    Drop,
     Place,
     Delete,
     Load
+}
+
+public enum AffectMode // maybe terrain/map tiles eventually
+{
+    Layer1,
+    Layer2
+}
+
+public class OffsetData
+{
+    public uint Offset;
+    public byte[] ToSend;
+    public OffsetData(uint os, byte[] data) { Offset = os; ToSend = data; }
 }
 
 public class UI_MapTerrain : MonoBehaviour
@@ -45,21 +61,28 @@ public class UI_MapTerrain : MonoBehaviour
     private uint plazaX, plazaY;
     private bool fetched = false;
 
+    private Item[] layerTemplate1, layerTemplate2;
+
     private FieldItemManager fieldManager;
     private NHSE.Core.TerrainLayer terrainLayer;
     private List<UI_MapItemTile> itemTiles;
 
     public Dropdown SelectMode;
+    public Dropdown AffectingMode;
+    public Button WriteButton;
 
     private static UI_SearchWindow SearchWindow => UI_SearchWindow.LastLoadedSearchWindow;
 
     private static Item refItem = Item.NO_ITEM;
-    public static Item ReferenceItem { get => SearchWindow.GetAsItem(null); }
+    public static Item ReferenceItem(int flag0 = -1) { var ret = SearchWindow.GetAsItem(null); if (flag0 > 0) ret.SystemParam = Convert.ToByte(flag0); return ret; }
     
     public Text CurrentLoadedItemName;
 
     [HideInInspector]
-    public TerrainSelectMode CurrentSelectMode { get; private set; } = TerrainSelectMode.Place;
+    public TerrainSelectMode CurrentSelectMode { get; private set; } = TerrainSelectMode.Custom;
+
+    [HideInInspector]
+    public AffectMode CurrentAffectMode { get; private set; } = AffectMode.Layer1;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +98,18 @@ public class UI_MapTerrain : MonoBehaviour
         SelectMode.value = 0;
         SelectMode.RefreshShownValue();
         SelectMode.onValueChanged.AddListener(delegate { CurrentSelectMode = (TerrainSelectMode)SelectMode.value; });
+
+        AffectingMode.ClearOptions();
+        string[] amChoices = Enum.GetNames(typeof(AffectMode));
+        foreach (string am in amChoices)
+        {
+            Dropdown.OptionData newVal = new Dropdown.OptionData();
+            newVal.text = am;
+            AffectingMode.options.Add(newVal);
+        }
+        AffectingMode.value = 0;
+        AffectingMode.RefreshShownValue();
+        AffectingMode.onValueChanged.AddListener(delegate { CurrentAffectMode = (AffectMode)AffectingMode.value; UpdateLayerImage(); });
 
         AcreTileMap.PopulateGrid();
         itemTiles = new List<UI_MapItemTile>();
@@ -95,6 +130,7 @@ public class UI_MapTerrain : MonoBehaviour
 
     public void GenerateMap() => fetchIndex(0);
     public void RefetchItems() => fetchIndex(0, true);
+    public void WriteChanges() => sendNewBytes();
 
     void updateAcreGrid(Vector2 selectorPos)
     {
@@ -111,7 +147,8 @@ public class UI_MapTerrain : MonoBehaviour
             startX--;
         if (startY % 2 != 0)
             startY--;
-        
+
+        var layer = CurrentAffectMode == AffectMode.Layer1 ? fieldManager.Layer1 : fieldManager.Layer2;
         var tiles = fieldManager.Layer1.Tiles;
         int index = 0;
         for (int i = startX; i < startX + 16; i += 2)
@@ -122,22 +159,34 @@ public class UI_MapTerrain : MonoBehaviour
                 var indexItem = ix + j;
                 var indexTile = ((index * 8) % 64) + Mathf.FloorToInt(index / 8f);
                 var bgColor = graphicGenerator.GetBackgroudPixel(i/2, j/2);
-                itemTiles[indexTile].SetItem(new FieldItemBlock(fieldManager.Layer1, i, j), bgColor, this);
+                itemTiles[indexTile].SetItem(new FieldItemBlock(layer, i, j), bgColor, this);
                 index++;
             }
         }
+    }
+
+    public void UpdateLayerImage()
+    {
+        if (graphicGenerator == null)
+            return;
+
+        int layer = (int)CurrentAffectMode;
+        graphicGenerator.UpdateImageForLayer(layer);
+        MapImage.texture = graphicGenerator.MapBackgroundImage;
     }
 
     void generateAll()
     {
         Item[] itemLayer1 = Item.GetArray(field.Take(MapGrid.MapTileCount32x32 * Item.SIZE).ToArray());
         Item[] itemLayer2 = Item.GetArray(field.Slice(MapGrid.MapTileCount32x32 * Item.SIZE, MapGrid.MapTileCount32x32 * Item.SIZE).ToArray());
+
         fieldManager = new FieldItemManager(itemLayer1, itemLayer2);
         terrainLayer = new NHSE.Core.TerrainLayer(TerrainTile.GetArray(terrain), acre_plaza.Slice(0, AcreSizeAll));
 
         plazaX = BitConverter.ToUInt32(acre_plaza, AcreSizeAll + 4);
         plazaY = BitConverter.ToUInt32(acre_plaza, AcreSizeAll + 8);
 
+        if (graphicGenerator != null) graphicGenerator.ReleaseAllResources();
         graphicGenerator = new MapGraphicGenerator(fieldManager, terrainLayer, (ushort)plazaX, (ushort)plazaY);
         MapImage.texture = graphicGenerator.MapBackgroundImage;
         MapImage.color = Color.white;
@@ -145,7 +194,19 @@ public class UI_MapTerrain : MonoBehaviour
 
         GridSelector.ResetPosition();
         UnfetchedBlocker.gameObject.SetActive(false);
+        AffectingMode.interactable = true;
         RefetchItemsButton.interactable = true;
+        WriteButton.interactable = true;
+
+        // create templates for pushing bytes back
+        layerTemplate1 = cloneItemArray(fieldManager.Layer1.Tiles);
+        layerTemplate2 = cloneItemArray(fieldManager.Layer2.Tiles);
+
+        for (int i = 0; i < layerTemplate1.Length; ++i)
+        {
+            if (layerTemplate1[i].ItemId != fieldManager.Layer1.Tiles[i].ItemId)
+                Debug.Log("Flipped: " + i.ToString());
+        }
     }
 
     // loops between map layers to fetch everything
@@ -188,5 +249,103 @@ public class UI_MapTerrain : MonoBehaviour
                 acre_plaza = pop;
                 break;
         }
+    }
+
+    void sendNewBytes()
+    {
+        const int acreSizeItems = 32 * 32;
+        const uint acreSizeBytes = acreSizeItems * Item.SIZE;
+
+        // convert all to lists
+        var listLayer1 = new List<Item>(fieldManager.Layer1.Tiles);
+        var listLayer2 = new List<Item>(fieldManager.Layer2.Tiles);
+        var templateLayer1 = new List<Item>(layerTemplate1);
+        var templateLayer2 = new List<Item>(layerTemplate2);
+
+        // split everything into acres
+        var splitl1 = listLayer1.ChunkBy(acreSizeItems);
+        var splitl2 = listLayer2.ChunkBy(acreSizeItems);
+        var splitlt1 = templateLayer1.ChunkBy(acreSizeItems);
+        var splitlt2 = templateLayer2.ChunkBy(acreSizeItems);
+
+        var offset = (uint)OffsetHelper.FieldItemStart;
+        var offsetl2 = offset + (MapGrid.MapTileCount32x32 * Item.SIZE);
+        var dataSendList = new List<OffsetData>();
+
+        // layer 1
+        for (uint i = 0; i < splitl1.Count; ++i)
+        {
+            int ix = (int)i;
+            if (splitl1[ix].IsDifferent(splitlt1[ix]))
+                dataSendList.Add(new OffsetData(offset + (i * acreSizeBytes), splitl1[ix].SetArray(Item.SIZE)));
+        }
+
+        // layer 2
+        for (uint i = 0; i < splitl2.Count; ++i)
+        {
+            int ix = (int)i;
+            if (splitl2[ix].IsDifferent(splitlt2[ix]))
+                dataSendList.Add(new OffsetData(offsetl2 + (i * acreSizeBytes), splitl2[ix].SetArray(Item.SIZE)));
+        }
+
+        var layerBytes = new List<byte>(listLayer1.SetArray(Item.SIZE));
+        layerBytes.AddRange(listLayer2.SetArray(Item.SIZE));
+
+        ReferenceContainer<float> progressValue = new ReferenceContainer<float>(0f);
+        Texture2D itemTex = SpriteBehaviour.ItemToTexture2D(5984, 0, out var _); // large star fragment
+        UI_Popup.CurrentInstance.CreateProgressBar("Placing new acres... Go in then out of a building to view changes.", progressValue, itemTex, Vector3.up * 180, null, "Cancel", () => { StopAllCoroutines(); });
+        StartCoroutine(writeData(dataSendList.ToArray(), progressValue, () => { field = layerBytes.ToArray(); generateAll(); }));
+    }
+
+    IEnumerator writeData(OffsetData[] toSend, ReferenceContainer<float> progress, Action onEnd)
+    {
+        for (int i = 0; i < toSend.Length; ++i)
+        {
+            var chunk = toSend[i];
+            MapParent.CurrentConnection.WriteBytes(chunk.ToSend, chunk.Offset);
+            MapParent.CurrentConnection.WriteBytes(chunk.ToSend, chunk.Offset + (uint)OffsetHelper.BackupSaveDiff);
+            float currentProgress = (i + 1) / (float)toSend.Length;
+            progress.UpdateValue(currentProgress);
+            yield return null;
+        }
+
+
+        onEnd?.Invoke();
+        yield return null;
+        progress.UpdateValue(1.01f);
+    }
+
+    Item[] cloneItemArray(Item[] source)
+    {
+        Item[] items = new Item[source.Length];
+        for (int i = 0; i < source.Length; ++i)
+        {
+            items[i] = Item.NO_ITEM;
+            items[i].CopyFrom(source[i]);
+        }
+        return items;
+    }
+}
+
+public static class ItemListExtensions
+{
+    public static List<List<T>> ChunkBy<T>(this List<T> source, int chunkSize)
+    {
+        return source
+            .Select((x, i) => new { Index = i, Value = x })
+            .GroupBy(x => x.Index / chunkSize)
+            .Select(x => x.Select(v => v.Value).ToList())
+            .ToList();
+    }
+
+    public static bool IsDifferent(this List<Item> items, List<Item> toCompare)
+    {
+        for(int i = 0; i < items.Count; ++i)
+        {
+            if (items[i].IsDifferentTo(toCompare[i]))
+                return true;
+        }
+
+        return false;
     }
 }

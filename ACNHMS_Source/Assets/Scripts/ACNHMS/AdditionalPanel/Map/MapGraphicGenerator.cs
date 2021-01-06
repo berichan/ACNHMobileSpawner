@@ -15,6 +15,7 @@ public class MapGraphicGenerator
     private readonly int[] PixelsItemMap;
     private readonly int[] PixelsBackgroundMap1;
     private readonly int[] PixelsBackgroundMapX;
+    private readonly FieldItemManager ItemManager;
 
     public Texture2D MapBackgroundImage { get; private set; }
 
@@ -26,6 +27,7 @@ public class MapGraphicGenerator
         PixelsItemMap = new int[items.Layer1.MaxWidth * items.Layer2.MaxHeight];
         PixelsBackgroundMap1 = new int[PixelsItemMap.Length / 4];
         PixelsBackgroundMapX = new int[PixelsItemMap.Length];
+        ItemManager = items;
 
         System.Drawing.Color[] pixels = new System.Drawing.Color[PixelsBackgroundMap1.Length];
         MapBackgroundImage = new Texture2D(terrain.MaxWidth, terrain.MaxHeight);
@@ -50,10 +52,18 @@ public class MapGraphicGenerator
         Graphics.CopyTexture(MapBackgroundImage, background);
         //background = FlipTexture(background); // no need to flip for backgroud pixels of acre
 
-        layerItems[0] = CreateItemLayerTexture(items.Layer1.Tiles, items.Layer1.MaxWidth, items.Layer1.MaxHeight);
-        layerItems[1] = CreateItemLayerTexture(items.Layer2.Tiles, items.Layer2.MaxWidth, items.Layer2.MaxHeight);
+        UpdateImageForLayer(0);
+    }
 
-        OverlayImage(MapBackgroundImage, layerItems[0]);
+    public Color GetBackgroudPixel(int x, int y) => background.GetPixel(x, y);
+
+    public void UpdateImageForLayer(int layer)
+    {
+        var fil = layer == 0 ? ItemManager.Layer1 : ItemManager.Layer2;
+        layerItems[layer] = CreateItemLayerTexture(fil.Tiles, fil.MaxWidth, fil.MaxHeight);
+
+        Graphics.CopyTexture(background, MapBackgroundImage);
+        OverlayImage(MapBackgroundImage, layerItems[layer]);
         MapBackgroundImage = FlipTexture(MapBackgroundImage);
         MapBackgroundImage.filterMode = FilterMode.Point;
         MapBackgroundImage.minimumMipmapLevel = 0;
@@ -61,7 +71,17 @@ public class MapGraphicGenerator
         MapBackgroundImage.Apply();
     }
 
-    public Color GetBackgroudPixel(int x, int y) => background.GetPixel(x, y);
+    public void ReleaseAllResources()
+    {
+        if (background != null)
+            UnityEngine.Object.Destroy(background);
+        if (MapBackgroundImage != null)
+            UnityEngine.Object.Destroy(MapBackgroundImage);
+        if (layerItems[0] != null)
+            UnityEngine.Object.Destroy(layerItems[0]);
+        if (layerItems[1] != null)
+            UnityEngine.Object.Destroy(layerItems[1]);
+    }
 
     private void FillRect(Texture2D pixels, int x, int y, int width, int height, Color32 fillColor)
     {
@@ -130,6 +150,7 @@ public class MapGraphicGenerator
         result.ReadPixels(new Rect(0, 0, targetX, targetY), 0, 0);
         result.filterMode = FilterMode.Point;
         result.Apply();
+        UnityEngine.Object.Destroy(rt);
         return result;
     }
 }
