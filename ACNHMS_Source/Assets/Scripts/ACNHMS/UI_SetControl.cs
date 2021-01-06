@@ -18,6 +18,8 @@ public class UI_SetControl : MonoBehaviour
 	public Dropdown BCount;
 	public Dropdown BUses;
 
+    private bool inited = false;
+
 	private void Start()
 	{
 		BCount.onValueChanged.AddListener(delegate
@@ -34,6 +36,8 @@ public class UI_SetControl : MonoBehaviour
         });
 		BCount.gameObject.SetActive(false);
 		BUses.gameObject.SetActive(false);
+
+        inited = true;
 	}
 
 	private void Update()
@@ -56,7 +60,7 @@ public class UI_SetControl : MonoBehaviour
 
 	public void CompileBodyFabricFromCount() // probably unreadable now due to il rebuild, refactor (not a simple modulo function because some item bodies/fabrics are invalid, so need to be built from string)
 	{
-		if (!BCount.gameObject.activeSelf && !BUses.gameObject.activeSelf)
+		if (!BCount.gameObject.activeInHierarchy && !BUses.gameObject.activeInHierarchy)
 		{
 			return;
 		}
@@ -64,15 +68,18 @@ public class UI_SetControl : MonoBehaviour
 		int num2 = -1;
 		int num3 = -1;
 		List<int> list = new List<int>();
-		for (int i = 0; i < BCount.options.Count; i++)
-		{
-			int num4 = int.Parse(GetUntilOrEmpty(BCount.options[i].text));
-			list.Add(num4);
-			if (num4 == num)
-			{
-				num2 = i;
-			}
-		}
+        if (BCount.gameObject.activeInHierarchy) // if off, this doesn't have any body values
+        {
+            for (int i = 0; i < BCount.options.Count; i++)
+            {
+                int num4 = int.Parse(GetUntilOrEmpty(BCount.options[i].text));
+                list.Add(num4);
+                if (num4 == num)
+                {
+                    num2 = i;
+                }
+            }
+        }
 		if (num2 != -1)
 		{
 			BCount.value=(num2);
