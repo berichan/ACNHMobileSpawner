@@ -12,6 +12,22 @@ public class FieldItemBlock
     public FieldItemBlock(FieldItemLayer layer, int x, int y)
     {
         Layer = layer;
+        if (!layer.GetTile(x, y).IsNone)
+        {
+            if (!layer.GetTile(x, y).IsRoot)
+                x--;
+            if (!layer.GetTile(x, y).IsRoot)
+            {
+                x++;
+                y--;
+            }
+            if (!layer.GetTile(x, y).IsRoot)
+                x--;
+            if (!layer.GetTile(x, y).IsRoot)
+            {
+                x++; y++;
+            }
+        }
         X = x; Y = y;
     }
 

@@ -8,6 +8,11 @@ namespace NHSE.Core
         {
             if (item.DisplayItemId >= Item.FieldItemMin)
                 return GetItemColor60000(item);
+            if (item.DisplayItemId > 13930)
+            {
+                UnityEngine.Debug.Log(item.DisplayItemId);
+                return Color.White;
+            }
             var kind = ItemInfo.GetItemKind(item);
             return ColorUtil.Colors[(int)kind];
         }

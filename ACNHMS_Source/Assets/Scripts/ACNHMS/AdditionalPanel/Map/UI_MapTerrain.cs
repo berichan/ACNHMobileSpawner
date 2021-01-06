@@ -156,7 +156,6 @@ public class UI_MapTerrain : MonoBehaviour
             var ix = i * MapItemsHeightMax;
             for (int j = startY; j < startY + 16; j += 2)
             {
-                var indexItem = ix + j;
                 var indexTile = ((index * 8) % 64) + Mathf.FloorToInt(index / 8f);
                 var bgColor = graphicGenerator.GetBackgroudPixel(i/2, j/2);
                 itemTiles[indexTile].SetItem(new FieldItemBlock(layer, i, j), bgColor, this);
@@ -180,6 +179,10 @@ public class UI_MapTerrain : MonoBehaviour
         Item[] itemLayer1 = Item.GetArray(field.Take(MapGrid.MapTileCount32x32 * Item.SIZE).ToArray());
         Item[] itemLayer2 = Item.GetArray(field.Slice(MapGrid.MapTileCount32x32 * Item.SIZE, MapGrid.MapTileCount32x32 * Item.SIZE).ToArray());
 
+        // create templates for pushing bytes back
+        layerTemplate1 = cloneItemArray(itemLayer1);
+        layerTemplate2 = cloneItemArray(itemLayer2);
+
         fieldManager = new FieldItemManager(itemLayer1, itemLayer2);
         terrainLayer = new NHSE.Core.TerrainLayer(TerrainTile.GetArray(terrain), acre_plaza.Slice(0, AcreSizeAll));
 
@@ -197,16 +200,6 @@ public class UI_MapTerrain : MonoBehaviour
         AffectingMode.interactable = true;
         RefetchItemsButton.interactable = true;
         WriteButton.interactable = true;
-
-        // create templates for pushing bytes back
-        layerTemplate1 = cloneItemArray(fieldManager.Layer1.Tiles);
-        layerTemplate2 = cloneItemArray(fieldManager.Layer2.Tiles);
-
-        for (int i = 0; i < layerTemplate1.Length; ++i)
-        {
-            if (layerTemplate1[i].ItemId != fieldManager.Layer1.Tiles[i].ItemId)
-                Debug.Log("Flipped: " + i.ToString());
-        }
     }
 
     // loops between map layers to fetch everything
@@ -320,8 +313,8 @@ public class UI_MapTerrain : MonoBehaviour
         Item[] items = new Item[source.Length];
         for (int i = 0; i < source.Length; ++i)
         {
-            items[i] = Item.NO_ITEM;
-            items[i].CopyFrom(source[i]);
+            var bytes = source[i].ToBytesClass();
+            items[i] = bytes.ToClass<Item>();
         }
         return items;
     }
