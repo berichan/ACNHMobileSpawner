@@ -349,6 +349,7 @@ public class UI_SearchWindow : MonoBehaviour
             StopCoroutine(currentAnimationFuction);
         }
         currentAnimationFuction = StartCoroutine(sendSelectorToSelected());
+        SetController.FFlagOne.gameObject.SetActive(CurrentItemID >= 60_000);
 
         OnNewItemSelected?.Invoke((ushort)id, sItem.RawValue);
         UpdateSprite();
@@ -414,9 +415,10 @@ public class UI_SearchWindow : MonoBehaviour
             SetController.FFlagZero.text = item.SystemParam.ToString();
         }
 
-        if (itemKind == ItemKind.Kind_MessageBottle)
+        if (itemKind == ItemKind.Kind_MessageBottle || CurrentItemID >= 60_000)
         {
             SetController.FFlagOne.text = item.AdditionalParam.ToString();
+            SetController.FFlagOne.gameObject.SetActive(true);
         }
         else
         {
@@ -491,7 +493,10 @@ public class UI_SearchWindow : MonoBehaviour
         switch (filter)
         {
             case ItemFilter.Items:
-                return GameInfo.Strings.ItemDataSource.ToList();
+                var data = GameInfo.Strings.ItemDataSource.ToList();
+                var field = FieldItemList.Items.Select(z => z.Value).ToList();
+                data.Add(field, GameInfo.Strings.InternalNameTranslation);
+                return data;
             case ItemFilter.MsgBottle:
                 return GameInfo.Strings.CreateItemDataSource(RecipeList.Recipes, false);
             case ItemFilter.Recipes:

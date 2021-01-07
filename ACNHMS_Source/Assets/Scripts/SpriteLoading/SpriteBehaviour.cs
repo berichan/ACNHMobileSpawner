@@ -232,14 +232,27 @@ public class SpriteBehaviour : MonoBehaviour
         return ItemToTexture2D(tempItem, out c);
     }
 
-    public static Texture2D ItemToTexture2D(Item t, out Color c)
+    public static Texture2D ItemToTexture2D(Item tr, out Color c)
     {
-        if (t.IsNone)
+        if (tr.IsNone)
         {
             c = Color.white;
             return null;
         }
-        
+
+        Item t = new Item();
+        t.CopyFrom(tr);
+        if (t.ItemId >= 60_000)
+        {
+            if (FieldItemList.Items.TryGetValue(t.ItemId, out var def))
+            {
+                if (def.Dig != Item.NONE)
+                    t.ItemId = def.Dig;
+                else if (def.Pick != Item.NONE)
+                    t.ItemId = def.Pick;
+            }
+        }
+
         Texture2D toAssignImage = ResourceLoader.GetLeafImage();
         System.Drawing.Color itemColor = FieldItemColor.GetItemColor(t);
         c = new Color(itemColor.R / 255f, itemColor.G / 255f, itemColor.B / 255f, itemColor.A / 255f);

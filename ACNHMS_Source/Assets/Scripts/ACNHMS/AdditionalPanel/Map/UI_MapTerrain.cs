@@ -57,14 +57,18 @@ public class UI_MapTerrain : MonoBehaviour
     private const int FieldSize = MapGrid.MapTileCount32x32 * 2 * Item.SIZE;
     private const int TerrainSize = MapGrid.MapTileCount16x16 * TerrainTile.SIZE;
 
-    private byte[] field, terrain, acre_plaza;
+    private const int BuildingSize = 46 * Building.SIZE;
+
+    private byte[] field, terrain, acre_plaza, structure;
     private uint plazaX, plazaY;
     private bool fetched = false;
+    private int lastCursorX, lastCursorY;
 
     private Item[] layerTemplate1, layerTemplate2;
 
     private FieldItemManager fieldManager;
     private NHSE.Core.TerrainLayer terrainLayer;
+    private List<Building> buildings;
     private List<UI_MapItemTile> itemTiles;
 
     public Dropdown SelectMode;
@@ -158,10 +162,14 @@ public class UI_MapTerrain : MonoBehaviour
             {
                 var indexTile = ((index * 8) % 64) + Mathf.FloorToInt(index / 8f);
                 var bgColor = graphicGenerator.GetBackgroudPixel(i/2, j/2);
-                itemTiles[indexTile].SetItem(new FieldItemBlock(layer, i, j), bgColor, this);
+                var block = new FieldItemBlock(layer, i, j);
+                itemTiles[indexTile].SetItem(block, bgColor, this);
                 index++;
             }
         }
+
+        lastCursorX = startX;
+        lastCursorY = startY;
     }
 
     public void UpdateLayerImage()
@@ -185,17 +193,18 @@ public class UI_MapTerrain : MonoBehaviour
 
         fieldManager = new FieldItemManager(itemLayer1, itemLayer2);
         terrainLayer = new NHSE.Core.TerrainLayer(TerrainTile.GetArray(terrain), acre_plaza.Slice(0, AcreSizeAll));
+        buildings = new List<Building>(Building.GetArray(structure));
 
         plazaX = BitConverter.ToUInt32(acre_plaza, AcreSizeAll + 4);
         plazaY = BitConverter.ToUInt32(acre_plaza, AcreSizeAll + 8);
 
         if (graphicGenerator != null) graphicGenerator.ReleaseAllResources();
-        graphicGenerator = new MapGraphicGenerator(fieldManager, terrainLayer, (ushort)plazaX, (ushort)plazaY);
+        graphicGenerator = new MapGraphicGenerator(fieldManager, terrainLayer, (ushort)plazaX, (ushort)plazaY, buildings.ToArray());
         MapImage.texture = graphicGenerator.MapBackgroundImage;
         MapImage.color = Color.white;
         fetched = true;
 
-        GridSelector.ResetPosition();
+        updateGrid(lastCursorX, lastCursorY);
         UnfetchedBlocker.gameObject.SetActive(false);
         AffectingMode.interactable = true;
         RefetchItemsButton.interactable = true;
@@ -214,7 +223,10 @@ public class UI_MapTerrain : MonoBehaviour
                 createFetchPopup("Fetching terrain (2 of 3)...", 1, (uint)OffsetHelper.LandMakingMapStart, TerrainSize, () => { fetchIndex(2, refetch); });
                 break;
             case 2 when !refetch:
-                createFetchPopup("Fetching acre and generating map (3 of 3)...", 2, (uint)OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams, () => { fetchIndex(3, refetch); });
+                createFetchPopup("Fetching acre (3 of 3)...", 2, (uint)OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams, () => { fetchIndex(3, refetch); });
+                break;
+            case 3 when !refetch:
+                createFetchPopup("Placing buildings and generating map...", 3, (uint)OffsetHelper.MainFieldStructurStart, BuildingSize, () => { fetchIndex(4, refetch); });
                 break;
             default:
                 generateAll();
@@ -232,15 +244,10 @@ public class UI_MapTerrain : MonoBehaviour
     {
         switch (index)
         {
-            case 0:
-                field = pop;
-                break;
-            case 1:
-                terrain = pop;
-                break;
-            case 2:
-                acre_plaza = pop;
-                break;
+            case 0: field = pop; break;
+            case 1: terrain = pop; break;
+            case 2: acre_plaza = pop; break;
+            case 3: structure = pop; break;
         }
     }
 

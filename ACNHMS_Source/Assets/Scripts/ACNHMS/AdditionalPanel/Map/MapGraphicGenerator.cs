@@ -22,7 +22,7 @@ public class MapGraphicGenerator
     private Texture2D background;
     private Texture2D[] layerItems = new Texture2D[2];
 
-    public MapGraphicGenerator(FieldItemManager items, NHSE.Core.TerrainLayer terrain, ushort plazaX, ushort plazaY)
+    public MapGraphicGenerator(FieldItemManager items, NHSE.Core.TerrainLayer terrain, ushort plazaX, ushort plazaY, Building[] buildings)
     {
         PixelsItemMap = new int[items.Layer1.MaxWidth * items.Layer2.MaxHeight];
         PixelsBackgroundMap1 = new int[PixelsItemMap.Length / 4];
@@ -43,6 +43,9 @@ public class MapGraphicGenerator
                 pixels[i] = pxl;
             }
         }
+
+        // draw buildings
+        PlaceBuildings(terrain, MapBackgroundImage, buildings);
         
         // draw plaza
         terrain.GetBuildingCoordinate(plazaX, plazaY, 1, out var xp, out var yp);
@@ -109,6 +112,21 @@ public class MapGraphicGenerator
         toRet.Apply();
         toRet = Resize(toRet, width / 2, height / 2);
         return toRet;
+    }
+
+    private Texture2D PlaceBuildings(NHSE.Core.TerrainLayer terrain, Texture2D tex, Building[] buildings)
+    {
+        for (int i = 0; i < buildings.Length; i++)
+        {
+            var b = buildings[i];
+            if (b.BuildingType == 0)
+                continue;
+            terrain.GetBuildingCoordinate(b.X, b.Y, 1, out var x, out var y);
+
+            var pen = Color.yellow;
+            FillRect(tex, x - 2, y - 2, 4, 4, pen);
+        }
+        return tex;
     }
 
     private void OverlayImage(Texture2D main, Texture2D overlay)

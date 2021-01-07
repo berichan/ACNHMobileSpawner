@@ -36,4 +36,5 @@ public static class OffsetHelper
     public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x20CC0C;
     public const ulong LandMakingMapStart = FieldItemStart + 0xAAA00;
     public const ulong OutsideFieldStart = FieldItemStart + 0xCF998;
+    public const ulong MainFieldStructurStart = FieldItemStart + 0xCF600;
 }

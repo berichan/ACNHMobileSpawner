@@ -16,6 +16,8 @@ public class UI_MapItemTile : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     public RawImage Background;
     public Text OverlayText;
 
+    public int ViewId;
+
     private UI_MapTerrain callback;
     private bool currentTextureGenerated;
 
@@ -30,10 +32,24 @@ public class UI_MapItemTile : MonoBehaviour, IPointerEnterHandler, IPointerDownH
                 Destroy(Image.texture);
 
         callback = editorCallback;
-        var isNone = block.SelectedItem.IsNone;
+        var rootItem = block.SelectedItem;
+        var isNone = rootItem.IsNone;
         OverlayText.text = string.Empty;
         item = block;
-        var tex = SpriteBehaviour.ItemToTexture2D(block.SelectedItem, out var c);
+
+        Texture2D tex;
+        Color c = Color.white;
+        if (rootItem.SystemParam == 0x20)
+        {
+            // use menuicon for fish/bugs that are "placed"
+            var kind = ItemInfo.GetItemKind(rootItem);
+            if (kind == ItemKind.Kind_Insect || ItemKindExtensions.IsFish(kind))
+                tex = MenuSpriteHelper.CurrentInstance.GetIconTexture(rootItem.ItemId);
+            else
+                tex = SpriteBehaviour.ItemToTexture2D(rootItem, out c);
+        }
+        else
+            tex = SpriteBehaviour.ItemToTexture2D(rootItem, out c);
         Image.texture = tex;
         Background.color = isNone ? bg : c;
         Image.gameObject.SetActive(!isNone);
@@ -42,11 +58,18 @@ public class UI_MapItemTile : MonoBehaviour, IPointerEnterHandler, IPointerDownH
         {
             if (tex.name.StartsWith("leaf")) // all defaults are "leaf"
             {
-                // default image/no sprites loaded
-                OverlayText.text = GetName(block.SelectedItem.DisplayItemId);
+                // default image/no sprites loaded/field item
+                OverlayText.text = GetName(rootItem.DisplayItemId);
                 Image.gameObject.SetActive(false);
             }
         }
+
+        if (rootItem.ItemId >= 60_000 && !isNone)
+        {
+            OverlayText.text = GetName(rootItem.DisplayItemId);
+            
+        }
+        ViewId = rootItem.ItemId;
     }
 
     string GetName(ushort id)
