@@ -44,6 +44,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
     public int Multiplier => int.Parse(ItemMultiplier.text);
     public int RectWidthDimension => int.Parse(RectWidth.text);
     public int RectHeightDimension => int.Parse(RectHeight.text);
+    public bool OverwriteTiles => OverwriteItemsToggle.isOn;
 
     private static IReadOnlyList<ushort> allItems = null;
     public static IReadOnlyList<ushort> GetAllItems()

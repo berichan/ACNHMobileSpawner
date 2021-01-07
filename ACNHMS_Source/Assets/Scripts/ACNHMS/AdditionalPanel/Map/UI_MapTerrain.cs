@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
+using static UI_MapBulkSpawn.SpawnDirection;
 
 public enum TerrainSelectMode
 {
@@ -74,6 +75,8 @@ public class UI_MapTerrain : MonoBehaviour
     public Dropdown SelectMode;
     public Dropdown AffectingMode;
     public Button WriteButton;
+
+    public UI_MapBulkSpawn BulkSpawner;
 
     private static UI_SearchWindow SearchWindow => UI_SearchWindow.LastLoadedSearchWindow;
 
@@ -170,6 +173,101 @@ public class UI_MapTerrain : MonoBehaviour
 
         lastCursorX = startX;
         lastCursorY = startY;
+    }
+
+    public void BulkSpawn()
+    {
+        try
+        {
+            bulkSpawn();
+        }
+        catch (Exception e)
+        {
+            UI_Popup.CurrentInstance.CreatePopupChoice($"Error: {e.Message}", "OK", () => { }, Color.red);
+        }
+    }
+
+    private void bulkSpawn()
+    {
+        var itemsToSpawn = BulkSpawner.GetItemsOfCurrentPreset();
+        if (itemsToSpawn.Length < 1)
+            return;
+
+        int x = lastCursorX;
+        int y = lastCursorY;
+        int widthMultiplier = Mathf.CeilToInt(BulkSpawner.RectWidthDimension / BulkSpawner.RectWidthDimension);
+        int mWidth = Mathf.CeilToInt(Mathf.Sqrt(itemsToSpawn.Length)) * widthMultiplier;
+        if (mWidth % 2 != 0)
+            mWidth++; // ensure only root tiles are processed 
+        var spawnDir = BulkSpawner.CurrentSpawnDirection;
+        int dirX = (spawnDir == SouthEast || spawnDir == NorthEast) ? 2 : -2;
+        int dirY = (spawnDir == NorthWest || spawnDir == NorthEast) ? -2 : 2;
+        int xLimit = x + (dirX * mWidth);
+        var layer = CurrentAffectMode == AffectMode.Layer1 ? fieldManager.Layer1 : fieldManager.Layer2;
+
+        bool spawnComplete = false;
+        int currentItemIndex = 0;
+
+        while (!spawnComplete)
+        {
+            if (x >= layer.MaxWidth || x < 0 || y >= layer.MaxHeight || y < 0)
+            {
+                spawnComplete = true;
+                throw new Exception("Reached the bounds of your map without enough space. Some items did not spawn.");
+            }
+
+            Item currentTile = layer.GetTile(x, y);
+            Item[] extTiles = new Item[3] { layer.GetTile(x + 1, y), layer.GetTile(x, y + 1), layer.GetTile(x + 1, y + 1) };
+            var isClear = currentTile.IsNone && extTiles[0].IsNone && extTiles[1].IsNone && extTiles[2].IsNone;
+            // auto set to root tiles thanks to updateGrid
+            if (!BulkSpawner.OverwriteTiles && !isClear)
+            {
+                // do nothing
+            }
+            else 
+            {
+                if (!isClear) // may break but try/catch should catch it outside of bounds
+                {
+                    // delete current item (square only)
+                    var tileToDelete = currentTile;
+                    if (tileToDelete.IsExtension)
+                    {
+                        var l = layer;
+                        var rx = Math.Max(0, Math.Min(l.MaxWidth - 1, x - tileToDelete.ExtensionX));
+                        var ry = Math.Max(0, Math.Min(l.MaxHeight - 1, y - tileToDelete.ExtensionY));
+                        var redir = l.GetTile(rx, ry);
+                        if (redir.IsRoot && redir.ItemId == tileToDelete.ExtensionItemId)
+                            tileToDelete = redir;
+
+                        layer.DeleteExtensionTiles(tileToDelete, rx, ry);
+                    }
+                    layer.DeleteExtensionTiles(tileToDelete, x, y);
+                }
+
+                // place item
+                var itemToPlace = itemsToSpawn[currentItemIndex];
+                if (itemToPlace.IsNone)
+                {
+                    layer.DeleteExtensionTiles(currentTile, x, y);
+                }
+                else
+                {
+                    currentTile.CopyFrom(itemToPlace);
+                    layer.SetExtensionTiles(currentTile, x, y);
+                }
+                currentItemIndex++;
+            }
+
+            x += dirX;
+            if (x == xLimit)
+            {
+                x = lastCursorX;
+                y += dirY;
+            }
+
+            if (currentItemIndex >= itemsToSpawn.Length)
+                spawnComplete = true;
+        }
     }
 
     public void UpdateLayerImage()
