@@ -97,7 +97,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
         return GetItemsOfPreset(CurrentSpawnPreset);
     }
 
-    public Item[] GetItemsOfPreset(BulkSpawnPreset preset)
+    public Item[] GetItemsOfPreset(BulkSpawnPreset preset, byte flag0 = 0x20)
     {
         List<Item> toRet = new List<Item>();
         switch(preset)
@@ -134,6 +134,17 @@ public class UI_MapBulkSpawn : MonoBehaviour
                 toRet.Add(new Item(0x09C4)); // tree branch
                 break;
 
+        }
+
+        foreach (Item i in toRet)
+        {
+            i.SystemParam = flag0;
+
+            // try stacking to max
+            var kind = ItemInfo.GetItemKind(i);
+            if (kind != Kind_DIYRecipe && kind != Kind_MessageBottle && kind != Kind_Fossil)
+                if (ItemInfo.TryGetMaxStackCount(i, out var max))
+                    i.Count = --max;
         }
 
         int mul = Multiplier;
