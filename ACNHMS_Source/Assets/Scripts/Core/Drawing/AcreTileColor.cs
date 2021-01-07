@@ -19,8 +19,9 @@ namespace NHSE.Core
             return CollisionUtil.Dict[tile].ToArgb();
         }
 
-        public static Color GetAcreTileColorRGB(byte acre, int x, int y)
+        public static Color GetAcreTileColorRGB(byte acre, int x, int y, out byte tile)
         {
+            tile = byte.MaxValue;
             if (acre > (byte)OutsideAcre.FldOutSBridge01)
                 return Color.Transparent;
             var baseOfs = acre * 32 * 32 * 4;
@@ -28,7 +29,7 @@ namespace NHSE.Core
             // 64x64
             var shift = (4 * ((y * 64) + x));
             var ofs = baseOfs + shift;
-            var tile = AcreTiles[ofs];
+            tile = AcreTiles[ofs];
             return CollisionUtil.Dict[tile];
         }
     }

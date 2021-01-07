@@ -12,18 +12,15 @@ public class MapGraphicGenerator
     private const int PlazaWidth = 6 * 2;
     private const int PlazaHeight = 5 * 2;
     private readonly Color32 Alpha = new Color32(0, 0, 0, 0);
-    private IReadOnlyList<System.Drawing.Color> PlacementSafeColors = new System.Drawing.Color[6] { System.Drawing.Color.ForestGreen,
-                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 2),
-                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 3),
-                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 4),
-                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 5),
-                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 6)};
+    private readonly Color32 PlazaCol = new Color32(188, 143, 143, 255);
+    private readonly Color32 BuildingCol = Color.yellow;
 
     // No scaling required, let GPU handle it
     private readonly int[] PixelsItemMap;
     private readonly int[] PixelsBackgroundMap1;
     private readonly int[] PixelsBackgroundMapX;
     private readonly FieldItemManager ItemManager;
+    private readonly NHSE.Core.TerrainLayer Terrain;
 
     public Texture2D MapBackgroundImage { get; private set; }
 
@@ -36,28 +33,29 @@ public class MapGraphicGenerator
         PixelsBackgroundMap1 = new int[PixelsItemMap.Length / 4];
         PixelsBackgroundMapX = new int[PixelsItemMap.Length];
         ItemManager = items;
+        Terrain = terrain;
 
         System.Drawing.Color[] pixels = new System.Drawing.Color[PixelsBackgroundMap1.Length];
-        MapBackgroundImage = new Texture2D(terrain.MaxWidth, terrain.MaxHeight);
+        MapBackgroundImage = new Texture2D(Terrain.MaxWidth, Terrain.MaxHeight);
 
         // draw rivers + height
         int i = 0;
-        for (int y = 0; y < terrain.MaxHeight; y++)
+        for (int y = 0; y < Terrain.MaxHeight; y++)
         {
-            for (int x = 0; x < terrain.MaxWidth; x++, i++)
+            for (int x = 0; x < Terrain.MaxWidth; x++, i++)
             {
-                var pxl = terrain.GetTileColorRGB(x, y);
+                var pxl = Terrain.GetTileColorRGB(x, y);
                 MapBackgroundImage.SetPixel(x, y, new Color32(pxl.R, pxl.G, pxl.B, pxl.A));
                 pixels[i] = pxl;
             }
         }
 
         // draw buildings
-        PlaceBuildings(terrain, MapBackgroundImage, buildings);
-        
+        PlaceBuildings(Terrain, MapBackgroundImage, buildings);
+
         // draw plaza
-        terrain.GetBuildingCoordinate(plazaX, plazaY, 1, out var xp, out var yp);
-        FillRect(MapBackgroundImage, xp, yp, PlazaWidth, PlazaHeight, new Color32(188, 143, 143, 255));
+        Terrain.GetBuildingCoordinate(plazaX, plazaY, 1, out var xp, out var yp);
+        FillRect(MapBackgroundImage, xp, yp, PlazaWidth, PlazaHeight, PlazaCol);
 
         background = new Texture2D(MapBackgroundImage.width, MapBackgroundImage.height);
         Graphics.CopyTexture(MapBackgroundImage, background);
@@ -68,9 +66,19 @@ public class MapGraphicGenerator
 
     public Color GetBackgroudPixel(int x, int y) => background.GetPixel(x, y);
     public System.Drawing.Color UnityColorToSystemColor(Color32 c) => System.Drawing.Color.FromArgb(c.a, c.r, c.g, c.b);
-    public bool IsGroundTile(int x, int y) => PlacementSafeColors.Contains(UnityColorToSystemColor(GetBackgroudPixel(x, y)));
+    public bool CompareUnityColorToSystemColor(Color32 c, System.Drawing.Color cs)
+    {
+        return c.a == cs.A && c.r == cs.R && c.g == cs.G && c.b == cs.B;
+    }
+    public bool IsGroundTile(int x, int y)
+    {
+        Color pixelCol = GetBackgroudPixel(x, y);
+        if (pixelCol == PlazaCol || pixelCol == BuildingCol)
+            return false;
+        return Terrain.IsTileColorSafe(x, y);
+    }
     
-
+    
     public void UpdateImageForLayer(int layer)
     {
         var fil = layer == 0 ? ItemManager.Layer1 : ItemManager.Layer2;
@@ -134,7 +142,7 @@ public class MapGraphicGenerator
                 continue;
             terrain.GetBuildingCoordinate(b.X, b.Y, 1, out var x, out var y);
 
-            var pen = Color.yellow;
+            var pen = BuildingCol;
             FillRect(tex, x - 2, y - 2, 4, 4, pen);
         }
         return tex;

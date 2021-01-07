@@ -185,6 +185,11 @@ public class UI_MapTerrain : MonoBehaviour
         {
             UI_Popup.CurrentInstance.CreatePopupChoice($"Error: {e.Message}", "OK", () => { }, Color.red);
         }
+        finally
+        {
+            UpdateLayerImage();
+            updateGrid(lastCursorX, lastCursorY);
+        }
     }
 
     private void bulkSpawn()
@@ -207,6 +212,7 @@ public class UI_MapTerrain : MonoBehaviour
 
         bool spawnComplete = false;
         int currentItemIndex = 0;
+        int skipCount = 0;
 
         while (!spawnComplete)
         {
@@ -222,6 +228,8 @@ public class UI_MapTerrain : MonoBehaviour
             if ((!BulkSpawner.OverwriteTiles && !isClear) || !graphicGenerator.IsGroundTile(x/2,y/2))
             {
                 // do nothing
+                skipCount++;
+                Debug.Log(skipCount);
             }
             else 
             {

@@ -19,6 +19,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
         Bugs,
         Fish,
         BugsAndFish,
+        CustomFile,
     }
 
     public enum SpawnDirection
@@ -40,8 +41,15 @@ public class UI_MapBulkSpawn : MonoBehaviour
     public Toggle OverwriteItemsToggle;
     public InputField RectWidth, RectHeight;
     public InputField ItemMultiplier;
+    public Text ItemCount;
 
-    public int Multiplier => int.Parse(ItemMultiplier.text);
+    public int Multiplier { get 
+    {
+            if (int.TryParse(ItemMultiplier.text, out var val))
+                return val;
+            else
+                return 1;
+    } }
     public int RectWidthDimension => int.Parse(RectWidth.text);
     public int RectHeightDimension => int.Parse(RectHeight.text);
     public bool OverwriteTiles => OverwriteItemsToggle.isOn;
@@ -64,6 +72,8 @@ public class UI_MapBulkSpawn : MonoBehaviour
         return allItems;
     }
 
+    private Item[] fileLoadedItems = new Item[1] { new Item(0x09C4) };
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,9 +85,9 @@ public class UI_MapBulkSpawn : MonoBehaviour
             newVal.text = UI_MapItemTile.AddNewlinesAfterCapitals(sm, ' ');
             BulkSpawnPresetMode.options.Add(newVal);
         }
+        BulkSpawnPresetMode.onValueChanged.AddListener(delegate { CurrentSpawnPreset = (BulkSpawnPreset)BulkSpawnPresetMode.value; updateItemCount(); });
         BulkSpawnPresetMode.value = 0;
         BulkSpawnPresetMode.RefreshShownValue();
-        BulkSpawnPresetMode.onValueChanged.AddListener(delegate { CurrentSpawnPreset = (BulkSpawnPreset)BulkSpawnPresetMode.value; });
 
         SpawnDir.ClearOptions();
         smChoices = new string[4] { "South-east ↘", "South-west ↙", "North-west ↖", "North-east ↗" };
@@ -87,9 +97,37 @@ public class UI_MapBulkSpawn : MonoBehaviour
             newVal.text = sm;
             SpawnDir.options.Add(newVal);
         }
+        SpawnDir.onValueChanged.AddListener(delegate { CurrentSpawnDirection = (SpawnDirection)SpawnDir.value; });
         SpawnDir.value = 0;
         SpawnDir.RefreshShownValue();
-        SpawnDir.onValueChanged.AddListener(delegate { CurrentSpawnDirection = (SpawnDirection)SpawnDir.value; });
+
+        ItemMultiplier.onValueChanged.AddListener(delegate { updateItemCount(); });
+        updateItemCount();
+    }
+
+    private void updateItemCount()
+    {
+        ItemCount.text = GetItemsOfCurrentPreset().Length.ToString();
+    }
+
+    public void LoadItems()
+    {
+        UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenAnyFile(setLoadedItems);
+    }
+
+    private void setLoadedItems(byte[] bytes)
+    {
+        try
+        {
+            fileLoadedItems = Item.GetArray(bytes);
+            UI_Popup.CurrentInstance.CreatePopupMessage(1f, "File loaded successfully!", () => { });
+            CurrentSpawnPreset = BulkSpawnPreset.CustomFile;
+            updateItemCount();
+        }
+        catch (Exception e)
+        {
+            PopupHelper.CreateError(e.Message, 3f);
+        }
     }
 
     public Item[] GetItemsOfCurrentPreset()
@@ -130,21 +168,27 @@ public class UI_MapBulkSpawn : MonoBehaviour
                 toRet.AddRange(GetItemsOfKind(Kind_Fish, Kind_ShellFish, Kind_DiveFish));
                 toRet.AddRange(GetItemsOfKind(Kind_Insect));
                 break;
+            case BulkSpawnPreset.CustomFile:
+                toRet.AddRange(fileLoadedItems);
+                break;
             default:
                 toRet.Add(new Item(0x09C4)); // tree branch
                 break;
 
         }
 
-        foreach (Item i in toRet)
+        if (preset != BulkSpawnPreset.CustomFile)
         {
-            i.SystemParam = flag0;
+            foreach (Item i in toRet)
+            {
+                i.SystemParam = flag0;
 
-            // try stacking to max
-            var kind = ItemInfo.GetItemKind(i);
-            if (kind != Kind_DIYRecipe && kind != Kind_MessageBottle && kind != Kind_Fossil)
-                if (ItemInfo.TryGetMaxStackCount(i, out var max))
-                    i.Count = --max;
+                // try stacking to max
+                var kind = ItemInfo.GetItemKind(i);
+                if (kind != Kind_DIYRecipe && kind != Kind_MessageBottle && kind != Kind_Fossil)
+                    if (ItemInfo.TryGetMaxStackCount(i, out var max))
+                        i.Count = --max;
+            }
         }
 
         int mul = Multiplier;
@@ -165,7 +209,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
         var toRet = new List<ushort>();
         foreach (var kind in ik)
         {
-            toRet.AddRange(allItems.Where(x => ItemInfo.GetItemKind(x) == kind));
+            toRet.AddRange(GetAllItems().Where(x => ItemInfo.GetItemKind(x) == kind));
         }
 
         var asItems = new Item[toRet.Count];
@@ -185,7 +229,8 @@ public class UI_MapBulkSpawn : MonoBehaviour
             itemRecipe.Count = recipe.Key;
             retRecipes.Add(itemRecipe);
         }
-        retRecipes.OrderBy(x => getRecipeName(x.ItemId, recipes)[0]);
+        var ordered = retRecipes.OrderBy(x => getRecipeName(x.Count, recipes)[0]);
+        retRecipes = ordered.ToList();
         return retRecipes.ToArray();
     }
 

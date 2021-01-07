@@ -58,6 +58,18 @@ public class UI_NFSOACNHHandler : MonoBehaviour
         }
     }
 
+    public void OpenAnyFile(Action<byte[]> handleFile, int expectedFileSize = -1)
+    {
+        try
+        {
+            openFileAnyType(handleFile, expectedFileSize);
+        }
+        catch (Exception e)
+        {
+            PopupHelper.CreateError(e.Message, 2f, true);
+        }
+    }
+
     public void SaveInventoryNHI()
     {
         try
@@ -119,6 +131,26 @@ public class UI_NFSOACNHHandler : MonoBehaviour
                       PopupHelper.CreateError(string.Format("Not a *.{0} file.", aType), 2f, true);
                   else if (file.Data.Length != expectedFileSize && expectedFileSize != -1)
                       PopupHelper.CreateError(string.Format("Selected file is not the correct size for a *.{0} file.", aType), 2f, true);
+                  else
+                      handleFile(file.Data);
+              }
+              else
+              {
+                  // The file selection was cancelled.	
+              }
+          });
+    }
+
+    private void openFileAnyType(Action<byte[]> handleFile, int expectedFileSize = -1)
+    {
+        NativeFileSO.shared.OpenFile(supportedFileTypes,
+          delegate (bool fileWasOpened, OpenedFile file)
+          {
+              if (fileWasOpened)
+              {
+                  // Process the loaded contents of "file"
+                  if (file.Data.Length != expectedFileSize && expectedFileSize != -1)
+                      PopupHelper.CreateError(string.Format("Selected file is not the expected size."), 2f, true);
                   else
                       handleFile(file.Data);
               }

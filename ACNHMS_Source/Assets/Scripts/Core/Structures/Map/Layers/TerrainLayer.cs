@@ -156,13 +156,34 @@ namespace NHSE.Core
             var acre = GetTileAcre(x, y);
             if (acre != 0)
             {
-                var c = AcreTileColor.GetAcreTileColorRGB(acre, x % 16, y % 16);
+                var c = AcreTileColor.GetAcreTileColorRGB(acre, x % 16, y % 16, out _);
                 if (c.ToArgb() != -0x1000000) // transparent
                     return c;
             }
 
             var tile = GetTile(x, y);
             return TerrainTileColor.GetTileColor(tile);
+        }
+
+        public bool IsTileColorSafe(int x, int y)
+        {
+            var acre = GetTileAcre(x, y);
+            if (acre != 0)
+            {
+                var c = AcreTileColor.GetAcreTileColorRGB(acre, x % 16, y % 16, out var s);
+                if (s == 04)
+                    return true;
+                if (c.ToArgb() != -0x1000000) // transparent
+                    return false;
+            }
+
+            var tile = GetTile(x, y);
+            if (tile.UnitModelRoad.IsRoad())
+                return true;
+            if (tile.UnitModel.IsCliff() || tile.UnitModel.IsRiver() || tile.UnitModel.IsFall())
+                return false;
+
+            return true;
         }
 
         private byte GetTileAcre(int x, int y)

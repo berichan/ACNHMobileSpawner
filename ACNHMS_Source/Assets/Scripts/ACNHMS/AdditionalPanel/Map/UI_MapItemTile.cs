@@ -24,8 +24,16 @@ public class UI_MapItemTile : MonoBehaviour, IPointerEnterHandler, IPointerDownH
     private static bool touchingThisFrame = false;
     private static bool touchingCheckedThisFrame = false;
 
+    private static List<ComboItem> Recipes = null;
+    private static List<ComboItem> Fossils;
+
     public void SetItem(FieldItemBlock block, Color bg, UI_MapTerrain editorCallback)
     {
+        if (Recipes == null)
+        {
+            Recipes = GameInfo.Strings.CreateItemDataSource(RecipeList.Recipes, false);
+            Fossils = GameInfo.Strings.CreateItemDataSource(GameLists.Fossils, false);
+        }
         // Manually destroy any cached images
         if (Image.texture)
             if (Image.texture != ResourceLoader.GetLeafImage())
@@ -65,10 +73,12 @@ public class UI_MapItemTile : MonoBehaviour, IPointerEnterHandler, IPointerDownH
         }
 
         if (rootItem.ItemId >= 60_000 && !isNone)
-        {
             OverlayText.text = GetName(rootItem.DisplayItemId);
-            
-        }
+        if (rootItem.ItemId == Item.MessageBottle || rootItem.ItemId == Item.DIYRecipe || rootItem.ItemId == Item.MessageBottleEgg)
+            OverlayText.text = Recipes.Find(x => x.Value == rootItem.Count).Text;
+        if (rootItem.ItemId == UI_SearchWindow.FOSSILITEM)
+            OverlayText.text = Fossils.Find(x => x.Value == rootItem.Count).Text;
+
         ViewId = rootItem.ItemId;
     }
 
