@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NHSE.Core;
 
@@ -42,8 +43,23 @@ public class FieldItemBlock
         }
         else
         {
-            SelectedItem.Delete();
-            Layer.DeleteExtensionTiles(SelectedItem, X, Y);
+            if (SelectedItem.IsExtension)
+            {
+                var tileToDelete = SelectedItem;
+                var l = Layer;
+                var rx = Math.Max(0, Math.Min(l.MaxWidth - 1, X - tileToDelete.ExtensionX));
+                var ry = Math.Max(0, Math.Min(l.MaxHeight - 1, Y - tileToDelete.ExtensionY));
+                var redir = l.GetTile(rx, ry);
+                if (redir.IsRoot && redir.ItemId == tileToDelete.ExtensionItemId)
+                    tileToDelete = redir;
+
+                l.DeleteExtensionTiles(tileToDelete, rx, ry);
+            }
+            else
+            {
+                SelectedItem.Delete();
+                Layer.DeleteExtensionTiles(SelectedItem, X, Y);
+            }
         }
     }
 }
