@@ -7,7 +7,10 @@ using UnityEngine.UI;
 
 public class UI_SetControl : MonoBehaviour
 {
-	public InputField FCount;
+    private int MAXSTACKSTAPSNEEDED = 4;
+    private float MAXSTACKSECONDSALIVE = 1f;
+
+    public InputField FCount;
 	public InputField FUses;
 	public InputField FFlagZero;
 	public InputField FFlagOne;
@@ -18,9 +21,14 @@ public class UI_SetControl : MonoBehaviour
 	public Dropdown BCount;
 	public Dropdown BUses;
 
+    public Text MaxCountTapsText;
+
     private bool inited = false;
 
-	private void Start()
+    private float maxStackIntervalTimer = -1;
+    private int maxStackTapCount = 0;
+
+    private void Start()
 	{
 		BCount.onValueChanged.AddListener(delegate
 		{
@@ -40,9 +48,48 @@ public class UI_SetControl : MonoBehaviour
         inited = true;
 	}
 
+    public void IncrementTapCount()
+    {
+        Item refItem = Item.NO_ITEM;
+        refItem = UI_SearchWindow.LastLoadedSearchWindow.GetAsItem(refItem);
+        if (refItem.ItemId == Item.DIYRecipe)
+            return;
+        if (ItemInfo.TryGetMaxStackCount(refItem, out _))
+        {
+            maxStackIntervalTimer = MAXSTACKSECONDSALIVE;
+            maxStackTapCount++;
+        }
+    }
+
 	private void Update()
 	{
-	}
+        if (maxStackIntervalTimer > 0)
+        {
+            maxStackIntervalTimer -= Time.deltaTime;
+            MaxCountTapsText.gameObject.SetActive(true);
+            MaxCountTapsText.text = string.Format("Max stack: {0} taps", MAXSTACKSTAPSNEEDED - maxStackTapCount);
+            if (maxStackTapCount >= MAXSTACKSTAPSNEEDED)
+            {
+                MaxStack();
+                maxStackIntervalTimer = -1;
+                maxStackTapCount = 0;
+            }
+        }
+        else
+        {
+            MaxCountTapsText.gameObject.SetActive(false);
+            maxStackIntervalTimer = -1;
+            maxStackTapCount = 0;
+        }
+    }
+
+    private void MaxStack()
+    {
+        Item refItem = Item.NO_ITEM;
+        refItem = UI_SearchWindow.LastLoadedSearchWindow.GetAsItem(refItem);
+        if (ItemInfo.TryGetMaxStackCount(refItem, out var max))
+            FCount.text = (max - 1).ToString();
+    }
 
 	public void InitNumbers()
 	{
