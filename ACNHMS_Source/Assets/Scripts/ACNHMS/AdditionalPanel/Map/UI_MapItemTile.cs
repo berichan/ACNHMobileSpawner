@@ -89,12 +89,12 @@ public class UI_MapItemTile : MonoBehaviour, IPointerEnterHandler, IPointerDownH
         return toRet;
     }
 
-    string AddNewlinesAfterCapitals(string theString)
+    public static string AddNewlinesAfterCapitals(string theString, char newLineChar = '\n')
     {
         StringBuilder builder = new StringBuilder();
         foreach (char c in theString)
         {
-            if (Char.IsUpper(c) && builder.Length > 0) builder.Append('\n');
+            if (Char.IsUpper(c) && builder.Length > 0) builder.Append(newLineChar);
             builder.Append(c);
         }
         return builder.ToString();
