@@ -217,10 +217,9 @@ public class UI_MapTerrain : MonoBehaviour
             }
 
             Item currentTile = layer.GetTile(x, y);
-            Item[] extTiles = new Item[3] { layer.GetTile(x + 1, y), layer.GetTile(x, y + 1), layer.GetTile(x + 1, y + 1) };
-            var isClear = currentTile.IsNone && extTiles[0].IsNone && extTiles[1].IsNone && extTiles[2].IsNone;
+            var isClear = layer.IsOccupied(currentTile, x, y) == PlacedItemPermission.NoCollision;
             // auto set to root tiles thanks to updateGrid
-            if (!BulkSpawner.OverwriteTiles && !isClear)
+            if ((!BulkSpawner.OverwriteTiles && !isClear) || !graphicGenerator.IsGroundTile(x/2,y/2))
             {
                 // do nothing
             }

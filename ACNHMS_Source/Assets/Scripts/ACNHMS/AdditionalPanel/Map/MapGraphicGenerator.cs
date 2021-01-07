@@ -1,5 +1,7 @@
 ﻿using NHSE.Core;
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -10,6 +12,12 @@ public class MapGraphicGenerator
     private const int PlazaWidth = 6 * 2;
     private const int PlazaHeight = 5 * 2;
     private readonly Color32 Alpha = new Color32(0, 0, 0, 0);
+    private IReadOnlyList<System.Drawing.Color> PlacementSafeColors = new System.Drawing.Color[6] { System.Drawing.Color.ForestGreen,
+                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 2),
+                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 3),
+                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 4),
+                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 5),
+                                                                                                    ColorUtil.Blend(System.Drawing.Color.ForestGreen, System.Drawing.Color.White, 1.4d / 6)};
 
     // No scaling required, let GPU handle it
     private readonly int[] PixelsItemMap;
@@ -59,6 +67,9 @@ public class MapGraphicGenerator
     }
 
     public Color GetBackgroudPixel(int x, int y) => background.GetPixel(x, y);
+    public System.Drawing.Color UnityColorToSystemColor(Color32 c) => System.Drawing.Color.FromArgb(c.a, c.r, c.g, c.b);
+    public bool IsGroundTile(int x, int y) => PlacementSafeColors.Contains(UnityColorToSystemColor(GetBackgroudPixel(x, y)));
+    
 
     public void UpdateImageForLayer(int layer)
     {
