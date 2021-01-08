@@ -12,6 +12,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
     {
         Music,
         DIYRecipes,
+        Fossils,
         GenericMaterials,
         SeasonalMaterials,
         RealArt,
@@ -153,6 +154,9 @@ public class UI_MapBulkSpawn : MonoBehaviour
                 break;
             case BulkSpawnPreset.DIYRecipes:
                 toRet.AddRange(GetDIYRecipes());
+                break;
+            case BulkSpawnPreset.Fossils:
+                toRet.AddRange(GetItemsOfKind(Kind_Fossil));
                 break;
             case BulkSpawnPreset.GenericMaterials:
                 toRet.AddRange(GetItemsOfKind(Kind_Ore, Kind_CraftMaterial));
