@@ -162,10 +162,12 @@ public class UI_Map : IUI_Additional
         {
             var bytes = layer1Dump.SetArray(Item.SIZE);
             CurrentConnection.WriteBytes(bytes, CurrentMapAddress);
+            CurrentConnection.WriteBytes(bytes, CurrentMapAddress + (uint)OffsetHelper.BackupSaveDiff);
             if (Layer2Affect.isOn && layer2Dump != null)
             {
                 bytes = layer2Dump.SetArray(Item.SIZE);
                 CurrentConnection.WriteBytes(bytes, CurrentMapAddress + FieldItemLayerSize);
+                CurrentConnection.WriteBytes(bytes, CurrentMapAddress + FieldItemLayerSize + (uint)OffsetHelper.BackupSaveDiff);
             }
         });
     }
