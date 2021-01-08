@@ -304,6 +304,7 @@ public class UI_SearchWindow : MonoBehaviour
         else
             TreeButtonRoot.gameObject.SetActive(false);*/ //uncomment this if you want star tree editor again for whatever reason
 
+        SetController.SpawnVariationsButton.gameObject.SetActive(false);
         short remakeIndex = ItemRemakeUtil.GetRemakeIndex(Convert.ToUInt16(CurrentItemID));
         if (remakeIndex < 0)
         {

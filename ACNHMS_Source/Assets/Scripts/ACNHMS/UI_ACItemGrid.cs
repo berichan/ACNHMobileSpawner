@@ -44,7 +44,7 @@ public class UI_ACItemGrid : MonoBehaviour
 
     private List<UI_ACItem> uiitems;
 
-    private int currentSelected;
+    public int CurrentSelected { get; private set; }
 
     private Coroutine currentAnimationFuction;
 
@@ -110,8 +110,8 @@ public class UI_ACItemGrid : MonoBehaviour
 
     public void SetSelection(int itemIndex)
     {
-        currentSelected = itemIndex;
-        Item itemAssigned = uiitems[currentSelected].ItemAssigned;
+        CurrentSelected = itemIndex;
+        Item itemAssigned = uiitems[CurrentSelected].ItemAssigned;
         Filler.UpdateSelected(itemIndex, itemAssigned);
         if (!itemAssigned.IsNone)
         {
@@ -148,7 +148,7 @@ public class UI_ACItemGrid : MonoBehaviour
         float i = 0f;
         float rate = 1f / time;
         Vector3 startPos = SelectionOverlay.transform.position;
-        Vector3 endPos = uiitems[currentSelected].transform.position;
+        Vector3 endPos = uiitems[CurrentSelected].transform.position;
         while (i < 1f)
         {
             i += Time.deltaTime * rate;

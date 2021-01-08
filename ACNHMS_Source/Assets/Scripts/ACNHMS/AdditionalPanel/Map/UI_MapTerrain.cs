@@ -503,6 +503,7 @@ public class UI_MapTerrain : MonoBehaviour
         onEnd?.Invoke();
         yield return null;
         progress.UpdateValue(1.01f);
+        UI_ACItemGrid.LastInstanceOfItemGrid.PlayHappyParticles();
     }
 
     public static Item[] CloneItemArray(Item[] source)

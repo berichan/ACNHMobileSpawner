@@ -22,11 +22,14 @@ public class UI_SetControl : MonoBehaviour
 	public Dropdown BUses;
 
     public Text MaxCountTapsText;
+    public Button SpawnVariationsButton;
 
     private bool inited = false;
 
     private float maxStackIntervalTimer = -1;
     private int maxStackTapCount = 0;
+
+    public static int CurrentVariationCount = 0;
 
     private void Start()
 	{
@@ -211,6 +214,9 @@ public class UI_SetControl : MonoBehaviour
 		}
 		BCount.RefreshShownValue();
 		CompileCountFromBodyFabric();
+
+        CurrentVariationCount = BCount.options.Count;
+        SpawnVariationsButton.gameObject.SetActive(true);
 	}
 
 	public void CreateFabric(string[] values)
