@@ -63,13 +63,17 @@ public class UI_Villager : IUI_Additional
         VillagerPhrase.onValueChanged.AddListener(delegate { loadedVillager.CatchPhrase = VillagerPhrase.text; });
         VillagerFriendship.onValueChanged.AddListener(delegate { VillagerFriendship.text = setCurrentPlayerFriendship(int.Parse(VillagerFriendship.text)).ToString(); });
         MovingOutToggle.onValueChanged.AddListener(delegate {
-            loadedVillager.MovingOut = MovingOutToggle.isOn;
             ushort[] flags = loadedVillager.GetEventFlagsSave();
-            flags[5] = (ushort)1; // flag 5 = MoveInCompletion
+            flags[5] = ForceMoveOutToggle.isOn ? (ushort)0 : (ushort)1; // flag 5 = MoveInCompletion
+            loadedVillager.SetEventFlagsSave(flags);
+            loadedVillager.MovingOut = MovingOutToggle.isOn;
         });
         ForceMoveOutToggle.onValueChanged.AddListener(delegate {
+            if (ForceMoveOutToggle.isOn)
+                loadedVillager.MovingOut = true;
             ushort[] flags = loadedVillager.GetEventFlagsSave();
             flags[24] = ForceMoveOutToggle.isOn ? (ushort)1 : (ushort)0; // flag 24 = ForceMoveOut
+            flags[5] = ForceMoveOutToggle.isOn ? (ushort)0 : (ushort)1; // flag 5 = MoveInCompletion
             loadedVillager.SetEventFlagsSave(flags);
         });
 
