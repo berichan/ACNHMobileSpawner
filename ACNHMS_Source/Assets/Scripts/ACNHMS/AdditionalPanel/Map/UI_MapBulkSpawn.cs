@@ -120,14 +120,22 @@ public class UI_MapBulkSpawn : MonoBehaviour
         try
         {
             fileLoadedItems = Item.GetArray(bytes);
-            UI_Popup.CurrentInstance.CreatePopupMessage(1f, "File loaded successfully!", () => { });
+            TrimTrailingNoItems(ref fileLoadedItems, Item.NONE); // remove trailing empties
+            UI_Popup.CurrentInstance.CreatePopupChoice("File loaded successfully! \r\nWould you like to set the flag0 of these items to 0x20, so that they will be able to be picked up by you and other players?", "Yes", () => { Flag20LoadedItems(); }, null, "No", () => { });
             CurrentSpawnPreset = BulkSpawnPreset.CustomFile;
+            BulkSpawnPresetMode.value = (int)BulkSpawnPreset.CustomFile;
             updateItemCount();
         }
         catch (Exception e)
         {
             PopupHelper.CreateError(e.Message, 3f);
         }
+    }
+
+    private void Flag20LoadedItems()
+    {
+        foreach (Item i in fileLoadedItems)
+            i.SystemParam = 0x20;
     }
 
     public Item[] GetItemsOfCurrentPreset()
@@ -238,5 +246,16 @@ public class UI_MapBulkSpawn : MonoBehaviour
     {
         var currentRecipeItem = recipes[count];
         return GameInfo.Strings.itemlistdisplay[currentRecipeItem];
+    }
+
+    public static void TrimTrailingNoItems(ref Item[] buffer, ushort trimValue)
+    {
+        int i = buffer.Length;
+        while (i > 0 && buffer[--i].ItemId == trimValue)
+        {
+            ; // no-op by design
+        }
+        Array.Resize(ref buffer, i + 1);
+        return;
     }
 }

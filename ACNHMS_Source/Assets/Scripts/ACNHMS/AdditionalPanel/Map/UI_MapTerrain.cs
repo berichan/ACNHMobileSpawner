@@ -301,6 +301,7 @@ public class UI_MapTerrain : MonoBehaviour
             if (x >= layer.MaxWidth || x < 0 || y >= layer.MaxHeight || y < 0)
             {
                 spawnComplete = true;
+                Debug.Log($"Skipped {skipCount} times.");
                 throw new Exception("Reached the bounds of your map without enough space. Some items did not spawn.");
             }
 
@@ -311,7 +312,6 @@ public class UI_MapTerrain : MonoBehaviour
             {
                 // do nothing
                 skipCount++;
-                Debug.Log(skipCount);
             }
             else 
             {
@@ -338,6 +338,7 @@ public class UI_MapTerrain : MonoBehaviour
                 if (itemToPlace.IsNone)
                 {
                     layer.DeleteExtensionTiles(currentTile, x, y);
+                    currentTile.Delete();
                 }
                 else
                 {

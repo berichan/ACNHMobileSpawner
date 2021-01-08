@@ -52,13 +52,14 @@ public class FieldItemBlock
                 var redir = l.GetTile(rx, ry);
                 if (redir.IsRoot && redir.ItemId == tileToDelete.ExtensionItemId)
                     tileToDelete = redir;
-
+                
                 l.DeleteExtensionTiles(tileToDelete, rx, ry);
+                tileToDelete.Delete();
             }
             else
             {
-                SelectedItem.Delete();
                 Layer.DeleteExtensionTiles(SelectedItem, X, Y);
+                SelectedItem.Delete();
             }
         }
     }
