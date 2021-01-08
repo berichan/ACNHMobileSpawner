@@ -9,11 +9,11 @@ using static UI_MapBulkSpawn.SpawnDirection;
 
 public enum TerrainSelectMode
 {
-    Custom,
     Drop,
-    Place,
     Delete,
-    Load
+    Load,
+    Custom,
+    Place
 }
 
 public enum AffectMode // maybe terrain/map tiles eventually
@@ -86,7 +86,7 @@ public class UI_MapTerrain : MonoBehaviour
     public Text CurrentLoadedItemName;
 
     [HideInInspector]
-    public TerrainSelectMode CurrentSelectMode { get; private set; } = TerrainSelectMode.Custom;
+    public TerrainSelectMode CurrentSelectMode { get; private set; } = 0;
 
     [HideInInspector]
     public AffectMode CurrentAffectMode { get; private set; } = AffectMode.Layer1;
@@ -102,9 +102,9 @@ public class UI_MapTerrain : MonoBehaviour
             newVal.text = sm;
             SelectMode.options.Add(newVal);
         }
+        SelectMode.onValueChanged.AddListener(delegate { CurrentSelectMode = (TerrainSelectMode)SelectMode.value; });
         SelectMode.value = 0;
         SelectMode.RefreshShownValue();
-        SelectMode.onValueChanged.AddListener(delegate { CurrentSelectMode = (TerrainSelectMode)SelectMode.value; });
 
         AffectingMode.ClearOptions();
         string[] amChoices = Enum.GetNames(typeof(AffectMode));
@@ -114,9 +114,9 @@ public class UI_MapTerrain : MonoBehaviour
             newVal.text = am;
             AffectingMode.options.Add(newVal);
         }
+        AffectingMode.onValueChanged.AddListener(delegate { CurrentAffectMode = (AffectMode)AffectingMode.value; UpdateLayerImage(); });
         AffectingMode.value = 0;
         AffectingMode.RefreshShownValue();
-        AffectingMode.onValueChanged.AddListener(delegate { CurrentAffectMode = (AffectMode)AffectingMode.value; UpdateLayerImage(); });
 
         AcreTileMap.PopulateGrid();
         itemTiles = new List<UI_MapItemTile>();

@@ -50,7 +50,7 @@ public class UI_SetControl : MonoBehaviour
 
     public void IncrementTapCount()
     {
-        Item refItem = Item.NO_ITEM;
+        Item refItem = new Item();
         refItem = UI_SearchWindow.LastLoadedSearchWindow.GetAsItem(refItem);
         if (refItem.ItemId == Item.DIYRecipe)
             return;
@@ -85,7 +85,7 @@ public class UI_SetControl : MonoBehaviour
 
     private void MaxStack()
     {
-        Item refItem = Item.NO_ITEM;
+        Item refItem = new Item();
         refItem = UI_SearchWindow.LastLoadedSearchWindow.GetAsItem(refItem);
         if (ItemInfo.TryGetMaxStackCount(refItem, out var max))
             FCount.text = (max - 1).ToString();
