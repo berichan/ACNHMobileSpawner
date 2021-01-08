@@ -282,7 +282,7 @@ public class UI_MapTerrain : MonoBehaviour
 
         int x = lastCursorX;
         int y = lastCursorY;
-        float widthMultiplier = Mathf.CeilToInt(BulkSpawner.RectWidthDimension / BulkSpawner.RectHeightDimension);
+        float widthMultiplier = BulkSpawner.RectWidthDimension / BulkSpawner.RectHeightDimension;
         int mWidth = Mathf.CeilToInt(Mathf.Sqrt(itemsToSpawn.Length) * widthMultiplier);
         if (mWidth % 2 != 0)
             mWidth++; // ensure only root tiles are processed 
