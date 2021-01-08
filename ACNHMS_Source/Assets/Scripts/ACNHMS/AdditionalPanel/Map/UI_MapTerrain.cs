@@ -378,8 +378,8 @@ public class UI_MapTerrain : MonoBehaviour
         Item[] itemLayer2 = Item.GetArray(field.Slice(MapGrid.MapTileCount32x32 * Item.SIZE, MapGrid.MapTileCount32x32 * Item.SIZE).ToArray());
 
         // create templates for pushing bytes back
-        layerTemplate1 = cloneItemArray(itemLayer1);
-        layerTemplate2 = cloneItemArray(itemLayer2);
+        layerTemplate1 = CloneItemArray(itemLayer1);
+        layerTemplate2 = CloneItemArray(itemLayer2);
 
         fieldManager = new FieldItemManager(itemLayer1, itemLayer2);
         terrainLayer = new NHSE.Core.TerrainLayer(TerrainTile.GetArray(terrain), acre_plaza.Slice(0, AcreSizeAll));
@@ -505,7 +505,7 @@ public class UI_MapTerrain : MonoBehaviour
         progress.UpdateValue(1.01f);
     }
 
-    Item[] cloneItemArray(Item[] source)
+    public static Item[] CloneItemArray(Item[] source)
     {
         Item[] items = new Item[source.Length];
         for (int i = 0; i < source.Length; ++i)

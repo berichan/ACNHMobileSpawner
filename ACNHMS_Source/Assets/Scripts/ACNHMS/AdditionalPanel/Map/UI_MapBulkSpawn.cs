@@ -20,6 +20,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
         Bugs,
         Fish,
         BugsAndFish,
+        InventoryOfApp,
         CustomFile,
     }
 
@@ -165,10 +166,10 @@ public class UI_MapBulkSpawn : MonoBehaviour
                 toRet.AddRange(GetItemsOfKind(Kind_Vegetable, Kind_Sakurapetal, Kind_ShellDrift, Kind_TreeSeedling, Kind_CraftMaterial, Kind_Mushroom, Kind_AutumnLeaf, Kind_SnowCrystal));
                 break;
             case BulkSpawnPreset.RealArt:
-                toRet.AddRange(GetItemsOfKind(Kind_Picture));
+                toRet.AddRange(GetItemsOfKind(Kind_Picture, Kind_Sculpture));
                 break;
             case BulkSpawnPreset.FakeArt:
-                toRet.AddRange(GetItemsOfKind(Kind_PictureFake));
+                toRet.AddRange(GetItemsOfKind(Kind_PictureFake, Kind_SculptureFake));
                 break;
             case BulkSpawnPreset.Bugs:
                 toRet.AddRange(GetItemsOfKind(Kind_Insect));
@@ -179,6 +180,9 @@ public class UI_MapBulkSpawn : MonoBehaviour
             case BulkSpawnPreset.BugsAndFish:
                 toRet.AddRange(GetItemsOfKind(Kind_Fish, Kind_ShellFish, Kind_DiveFish));
                 toRet.AddRange(GetItemsOfKind(Kind_Insect));
+                break;
+            case BulkSpawnPreset.InventoryOfApp:
+                toRet.AddRange(GetInventoryClone());
                 break;
             case BulkSpawnPreset.CustomFile:
                 toRet.AddRange(fileLoadedItems);
@@ -244,6 +248,14 @@ public class UI_MapBulkSpawn : MonoBehaviour
         var ordered = retRecipes.OrderBy(x => getRecipeName(x.Count, recipes)[0]);
         retRecipes = ordered.ToList();
         return retRecipes.ToArray();
+    }
+
+    private Item[] GetInventoryClone()
+    {
+        var invItems = UI_ACItemGrid.LastInstanceOfItemGrid.Items.ToArray();
+        var cloneArray = UI_MapTerrain.CloneItemArray(invItems);
+        TrimTrailingNoItems(ref cloneArray, Item.NONE);
+        return cloneArray;
     }
 
     private string getRecipeName(ushort count, IReadOnlyDictionary<ushort, ushort> recipes)
