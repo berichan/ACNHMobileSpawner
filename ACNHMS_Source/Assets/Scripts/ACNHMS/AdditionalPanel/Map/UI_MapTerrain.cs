@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using static UI_MapBulkSpawn.SpawnDirection;
+using System.IO;
 
 public enum TerrainSelectMode
 {
@@ -31,6 +32,9 @@ public class OffsetData
 
 public class UI_MapTerrain : MonoBehaviour
 {
+    public const string ByteDumpName = "InternalMapBackup";
+    public string FilePathDump => Application.persistentDataPath + Path.DirectorySeparatorChar + ByteDumpName + Path.DirectorySeparatorChar;
+
     public UI_Map MapParent;
 
     public RawImage MapImage;
@@ -65,6 +69,11 @@ public class UI_MapTerrain : MonoBehaviour
     private bool fetched = false;
     private int lastCursorX, lastCursorY;
 
+    private string fieldFile => FilePathDump + nameof(field) + ".bin";
+    private string terrainFile => FilePathDump + nameof(terrain) + ".bin";
+    private string acre_plazaFile => FilePathDump + nameof(acre_plaza) + ".bin";
+    private string structureFile => FilePathDump + nameof(structure) + ".bin";
+
     private Item[] layerTemplate1, layerTemplate2;
 
     private FieldItemManager fieldManager;
@@ -75,6 +84,7 @@ public class UI_MapTerrain : MonoBehaviour
     public Dropdown SelectMode;
     public Dropdown AffectingMode;
     public Button WriteButton;
+    public Button LoadLastButton;
 
     public UI_MapBulkSpawn BulkSpawner;
 
@@ -84,6 +94,8 @@ public class UI_MapTerrain : MonoBehaviour
     public static Item ReferenceItem(int flag0 = -1) { var ret = SearchWindow.GetAsItem(null); if (flag0 > 0) ret.SystemParam = Convert.ToByte(flag0); return ret; }
     
     public Text CurrentLoadedItemName;
+
+    private float timer = 0f;
 
     [HideInInspector]
     public TerrainSelectMode CurrentSelectMode { get; private set; } = 0;
@@ -126,6 +138,76 @@ public class UI_MapTerrain : MonoBehaviour
         UnfetchedBlocker.gameObject.SetActive(true);
 
         SearchWindow.OnNewItemSelected += updateItem;
+
+        LoadLastButton.gameObject.SetActive(checkAndLoadForExistingFiles());
+    }
+
+    private bool checkAndLoadForExistingFiles()
+    {
+        if (!File.Exists(fieldFile))
+            return false;
+        else
+            field = File.ReadAllBytes(fieldFile);
+
+        if (!File.Exists(terrainFile))
+            return false;
+        else
+            terrain = File.ReadAllBytes(terrainFile);
+
+        if (!File.Exists(acre_plazaFile))
+            return false;
+        else
+            acre_plaza = File.ReadAllBytes(acre_plazaFile);
+
+        if (!File.Exists(structureFile))
+            return false;
+        else
+            structure = File.ReadAllBytes(structureFile);
+
+        return true;
+    }
+
+    private void saveAll()
+    {
+        if (!Directory.Exists(FilePathDump))
+            Directory.CreateDirectory(FilePathDump);
+        if (field != null)
+        {
+            if (File.Exists(fieldFile))
+                File.Delete(fieldFile);
+            var listLayer1 = fieldManager.Layer1.Tiles.SetArray(Item.SIZE);
+            var listLayer2 = fieldManager.Layer2.Tiles.SetArray(Item.SIZE);
+            var allField = listLayer1.Concat(listLayer2).ToArray();
+            File.WriteAllBytes(fieldFile, allField);
+        }
+        if (terrain != null)
+        {
+            if (File.Exists(terrainFile))
+                File.Delete(terrainFile);
+            File.WriteAllBytes(terrainFile, terrain);
+        }
+        if (acre_plaza != null)
+        {
+            if (File.Exists(acre_plazaFile))
+                File.Delete(acre_plazaFile);
+            File.WriteAllBytes(acre_plazaFile, acre_plaza);
+        }
+        if (structure != null)
+        {
+            if (File.Exists(structureFile))
+                File.Delete(structureFile);
+            File.WriteAllBytes(structureFile, structure);
+        }
+    }
+
+    private void Update() // periodically save everything
+    {
+        timer += Time.deltaTime;
+        if (timer > 60f)
+        {
+            timer = 0f;
+            saveAll();
+        }
     }
 
     public void BringSearchWindowToFront() => SearchWindow.SetAtFront(true, false);
@@ -287,6 +369,8 @@ public class UI_MapTerrain : MonoBehaviour
         MapImage.texture = graphicGenerator.MapBackgroundImage;
     }
 
+    public void GenAllWithLoadedBytes() => generateAll();
+
     void generateAll()
     {
         Item[] itemLayer1 = Item.GetArray(field.Take(MapGrid.MapTileCount32x32 * Item.SIZE).ToArray());
@@ -331,7 +415,7 @@ public class UI_MapTerrain : MonoBehaviour
                 createFetchPopup("Fetching acre (3 of 3)...", 2, (uint)OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams, () => { fetchIndex(3, refetch); });
                 break;
             case 3 when !refetch:
-                createFetchPopup("Placing buildings and generating map...", 3, (uint)OffsetHelper.MainFieldStructurStart, BuildingSize, () => { fetchIndex(4, refetch); });
+                createFetchPopup("Placing buildings and generating map...", 3, (uint)OffsetHelper.MainFieldStructurStart, BuildingSize, () => { fetchIndex(4, refetch); saveAll(); });
                 break;
             default:
                 generateAll();
