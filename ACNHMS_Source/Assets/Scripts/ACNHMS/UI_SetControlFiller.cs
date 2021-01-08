@@ -86,7 +86,7 @@ public class UI_SetControlFiller : MonoBehaviour
             return;
 
         Item asItem = SearchWindow.GetAsItem(lastItem);
-        if (nCount != byte.MaxValue) asItem.Count = nCount;
+        if (nCount != ushort.MaxValue) asItem.Count = nCount;
 		ItemGrid.SetItemAt(asItem, index, setFocus: true);
 	}
 
