@@ -50,8 +50,8 @@ public class UI_MapBulkSpawn : MonoBehaviour
             else
                 return 1;
     } }
-    public int RectWidthDimension => int.Parse(RectWidth.text);
-    public int RectHeightDimension => int.Parse(RectHeight.text);
+    public float RectWidthDimension => float.Parse(RectWidth.text);
+    public float RectHeightDimension => float.Parse(RectHeight.text);
     public bool OverwriteTiles => OverwriteItemsToggle.isOn;
 
     private static IReadOnlyList<ushort> allItems = null;
