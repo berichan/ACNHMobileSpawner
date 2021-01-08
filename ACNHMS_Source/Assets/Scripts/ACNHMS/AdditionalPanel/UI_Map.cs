@@ -63,7 +63,7 @@ public class UI_Map : IUI_Additional
     public Toggle Layer2Affect;
 
     // Map refresher
-    public Button KeepAliveButton;
+    public Button KeepAliveButton, ResendButton;
     public Text LastRefresherTime;
     public Text VisitorLog;
 
@@ -156,6 +156,20 @@ public class UI_Map : IUI_Additional
         CancelCurrentFunction();
     }
 
+    public void ResendOriginalLayerBytes()
+    {
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Resending original items, this may help if the items on your floor have shifted. This may take a few minutes... \r\nPlease disconnect from the internet, enter a building and stay in there for the duration of this function.", () =>
+        {
+            var bytes = layer1Dump.SetArray(Item.SIZE);
+            CurrentConnection.WriteBytes(bytes, CurrentMapAddress);
+            if (Layer2Affect.isOn && layer2Dump != null)
+            {
+                bytes = layer2Dump.SetArray(Item.SIZE);
+                CurrentConnection.WriteBytes(bytes, CurrentMapAddress + FieldItemLayerSize);
+            }
+        });
+    }
+
     public void DumpTwoLayers()
     {
         layer1Dump = new Item[MapGrid.MapTileCount32x32]; layer2Dump = new Item[MapGrid.MapTileCount32x32];
@@ -164,10 +178,11 @@ public class UI_Map : IUI_Additional
         ReferenceContainer<float> itemFunctionValue = new ReferenceContainer<float>(0f);
         Texture2D itemTex = SpriteBehaviour.ItemToTexture2D(8574, 0, out var _);
 
-        UI_Popup.CurrentInstance.CreateProgressBar("Getting item layout template, please run around but don't place anything on your island...", itemFunctionValue, itemTex, Vector3.up * 180, null, "Cancel", () => { CancelCurrentFunction(); KeepAliveButton.interactable = false; });
+        UI_Popup.CurrentInstance.CreateProgressBar("Getting item layout template, please run around but don't place anything on your island...", itemFunctionValue, itemTex, Vector3.up * 180, null, "Cancel", () => { CancelCurrentFunction(); KeepAliveButton.interactable = ResendButton.interactable = false; });
 
         StartCoroutine(functionTiles(dumpL1, itemFunctionValue, dumpL2));
         KeepAliveButton.interactable = true;
+        ResendButton.interactable = true;
     }
 
     public void ClearItems()
