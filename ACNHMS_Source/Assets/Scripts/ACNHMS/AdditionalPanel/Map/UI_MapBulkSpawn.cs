@@ -11,7 +11,8 @@ public class UI_MapBulkSpawn : MonoBehaviour
     public enum BulkSpawnPreset
     {
         Music,
-        DIYRecipes,
+        DIYRecipesAlphabetical,
+        DIYRecipesSequential,
         Fossils,
         GenericMaterials,
         SeasonalMaterials,
@@ -153,8 +154,11 @@ public class UI_MapBulkSpawn : MonoBehaviour
             case BulkSpawnPreset.Music:
                 toRet.AddRange(GetItemsOfKind(Kind_Music));
                 break;
-            case BulkSpawnPreset.DIYRecipes:
+            case BulkSpawnPreset.DIYRecipesAlphabetical:
                 toRet.AddRange(GetDIYRecipes());
+                break;
+            case BulkSpawnPreset.DIYRecipesSequential:
+                toRet.AddRange(GetDIYRecipes(false));
                 break;
             case BulkSpawnPreset.Fossils:
                 toRet.AddRange(GetItemsOfKind(Kind_Fossil));
@@ -235,7 +239,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
         return asItems;
     }
 
-    private Item[] GetDIYRecipes()
+    private Item[] GetDIYRecipes(bool alphabetical = true)
     {
         var recipes = RecipeList.Recipes;
         var retRecipes = new List<Item>();
@@ -245,8 +249,11 @@ public class UI_MapBulkSpawn : MonoBehaviour
             itemRecipe.Count = recipe.Key;
             retRecipes.Add(itemRecipe);
         }
-        var ordered = retRecipes.OrderBy(x => getRecipeName(x.Count, recipes)[0]);
-        retRecipes = ordered.ToList();
+        if (alphabetical)
+        {
+            var ordered = retRecipes.OrderBy(x => getRecipeName(x.Count, recipes)[0]);
+            retRecipes = ordered.ToList();
+        }
         return retRecipes.ToArray();
     }
 
@@ -261,7 +268,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
     private string getRecipeName(ushort count, IReadOnlyDictionary<ushort, ushort> recipes)
     {
         var currentRecipeItem = recipes[count];
-        return GameInfo.Strings.itemlistdisplay[currentRecipeItem];
+        return GameInfo.Strings.itemlistdisplay[currentRecipeItem].ToLower();
     }
 
     public static void TrimTrailingNoItems(ref Item[] buffer, ushort trimValue)
