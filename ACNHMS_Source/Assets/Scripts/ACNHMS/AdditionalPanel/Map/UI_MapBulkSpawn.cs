@@ -251,7 +251,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
         }
         if (alphabetical)
         {
-            var ordered = retRecipes.OrderBy(x => getRecipeName(x.Count, recipes)[0]);
+            var ordered = retRecipes.OrderBy(x => getRecipeName(x.Count, recipes));
             retRecipes = ordered.ToList();
         }
         return retRecipes.ToArray();
