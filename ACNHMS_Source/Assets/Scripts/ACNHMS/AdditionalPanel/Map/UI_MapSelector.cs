@@ -18,7 +18,9 @@ public class UI_MapSelector : MonoBehaviour, IPointerDownHandler, IDragHandler
     // Start is called before the first frame update
     void Start()
     {
+#if !UNITY_ANDROID && !UNITY_IOS
         EventSystem.current.pixelDragThreshold = 1;
+#endif
     }
 
     // Update is called once per frame
