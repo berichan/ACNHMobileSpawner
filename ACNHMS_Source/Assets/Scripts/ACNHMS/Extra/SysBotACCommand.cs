@@ -9,6 +9,8 @@ public class SysBotACCommand : MonoBehaviour
 {
     private char CommandPrefix = '$';
 
+    public void GetCommandOrder() => GetCommandFromInventory("order");
+
     public void GetCommandFromLoadedItem()
     {
         CommandPrefix = UI_Settings.GetPrefix();
@@ -28,7 +30,7 @@ public class SysBotACCommand : MonoBehaviour
         UI_Popup.CurrentInstance.CreatePopupMessage(1.25f, $"Copied\r\n{toCopy}\r\nto clipboard.", () => { });
     }
 
-    public void GetCommandFromInventory()
+    public void GetCommandFromInventory(string commandName = "")
     {
         CommandPrefix = UI_Settings.GetPrefix();
         var items = UI_ACItemGrid.LastInstanceOfItemGrid.Items;
@@ -39,7 +41,7 @@ public class SysBotACCommand : MonoBehaviour
         {
             if (item.ItemId != Item.NONE)
             {
-                if (count > 8)
+                if (count > 8 && commandName == "")
                 {
                     tooManyItems = true;
                     break;
@@ -60,9 +62,9 @@ public class SysBotACCommand : MonoBehaviour
         }
 
         var itemshexSet = string.Join(" ", hexes.ToArray());
-        var toCopy = $"{CommandPrefix}drop {itemshexSet}";
+        var toCopy = $"{CommandPrefix}{(commandName == "" ? "drop" : commandName)} {itemshexSet}";
         GUIUtility.systemCopyBuffer = toCopy;
-        if (!tooManyItems)
+        if (!tooManyItems || commandName != "") 
             UI_Popup.CurrentInstance.CreatePopupMessage(1.25f, $"Copied\r\n{toCopy}\r\nto clipboard.", () => {});
         else
             UI_Popup.CurrentInstance.CreatePopupMessage(5f, $"<color=red>You have too many items! Only the first 9 have been transferred to the command!</color>\r\n\r\nCopied\r\n{toCopy}\r\nto clipboard.", () => { });

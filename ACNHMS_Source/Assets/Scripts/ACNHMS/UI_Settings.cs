@@ -26,6 +26,7 @@ public class UI_Settings : MonoBehaviour
     public const string PLAYERINDEXKEY = "PINDKEY";
     public const string THREADSLEEPKEY = "TSLKEY";
     public const string PREFIXKEY = "PRFXKEY";
+    public const string CATALOGKEY = "CTLOGUERKEY";
 
     public static string[] VillagerPlayerNames;
 
@@ -38,6 +39,7 @@ public class UI_Settings : MonoBehaviour
     public Button FetchNamesButton;
     public InputField ThreadSleepTime;
     public InputField PrefixSBAC;
+    public Toggle CatalogueToggle;
 
     public Text[] PlayerNamesToChange; // Various places that need player name
 
@@ -72,6 +74,7 @@ public class UI_Settings : MonoBehaviour
         ThreadSleepTime.text = GetThreadSleepTime().ToString();
         PrefixSBAC.text = GetPrefix().ToString();
         ValidataData.isOn = GetValidateData();
+        CatalogueToggle.isOn = GetCatalogueMode();
 
 #if PLATFORM_ANDROID || UNITY_STANDALONE || UNITY_EDITOR
         InjectionMode.ClearOptions();
@@ -99,6 +102,7 @@ public class UI_Settings : MonoBehaviour
         ThreadSleepTime.onValueChanged.AddListener(delegate { SetThreadSleepTime(int.Parse(ThreadSleepTime.text)); });
         PrefixSBAC.onValueChanged.AddListener(delegate { SetPrefix(PrefixSBAC.text); });
         ValidataData.onValueChanged.AddListener(delegate { SetValidateData(ValidataData.isOn); });
+        CatalogueToggle.onValueChanged.AddListener(delegate { SetCatalogueMode(CatalogueToggle.isOn); });
 
         // player index
         string[] choices = new string[8];
@@ -187,6 +191,20 @@ public class UI_Settings : MonoBehaviour
             return;
 
         PlayerPrefs.SetString(PREFIXKEY, nVal);
+    }
+
+    public static bool GetCatalogueMode(bool defVal = false)
+    {
+        int ret = PlayerPrefs.GetInt(CATALOGKEY, defVal ? 1 : 0);
+        bool toRet = ret == 1 ? true : false;
+        return toRet;
+    }
+
+    public static void SetCatalogueMode(bool nVal)
+    {
+        PlayerPrefs.SetInt(CATALOGKEY, nVal ? 1 : 0);
+        if (SysBotACOrderMode.CurrentInstance != null)
+            SysBotACOrderMode.CurrentInstance.Execute(!nVal);
     }
 
     // player index

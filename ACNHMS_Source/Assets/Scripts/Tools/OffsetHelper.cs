@@ -32,6 +32,10 @@ public static class OffsetHelper
 
     public const ulong ArriverNameListAddress = 0xA97CC3C;
     public const ulong ArriverNameLocAddress = 0xB694A4A8;
+    public const ulong LeaverNameListAddress = 0x4D09B608;
+    public const ulong LeaverNameLocAddress = 0xB6A7E420;
+
+    public const ulong DodoAddress = 0xA97D0F4;
 
     public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x20CC0C;
     public const ulong LandMakingMapStart = FieldItemStart + 0xAAA00;
