@@ -9,7 +9,7 @@ public class SysBotACCommand : MonoBehaviour
 {
     private char CommandPrefix = '$';
 
-    public void GetCommandOrder() => GetCommandFromInventory("order");
+    public void GetCommandOrder() => GetCommandFromInventory("ordercat");
 
     public void GetCommandFromLoadedItem()
     {
