@@ -85,6 +85,7 @@ public class UI_MapTerrain : MonoBehaviour
     public Dropdown AffectingMode;
     public Button WriteButton;
     public Button LoadLastButton;
+    public Text MapCoords;
 
     public UI_MapBulkSpawn BulkSpawner;
 
@@ -140,6 +141,12 @@ public class UI_MapTerrain : MonoBehaviour
         SearchWindow.OnNewItemSelected += updateItem;
 
         LoadLastButton.gameObject.SetActive(checkAndLoadForExistingFiles());
+        updatePositionText();
+    }
+
+    private void updatePositionText()
+    {
+        MapCoords.text = $"X:{lastCursorX:000}, Y:{lastCursorY:000}";
     }
 
     private bool checkAndLoadForExistingFiles()
@@ -255,6 +262,7 @@ public class UI_MapTerrain : MonoBehaviour
 
         lastCursorX = startX;
         lastCursorY = startY;
+        updatePositionText();
     }
 
     public void BulkSpawn()
