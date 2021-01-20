@@ -63115,7 +63115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b314fe2ff09544092d888e73f07217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LastEditorDateTime: 2021/01/17 03:04:34
+  LastEditorDateTime: 2021/01/20 17:01:37
   TextToSet: {fileID: 1900255556}
 --- !u!1 &1387983482
 GameObject:
@@ -101060,7 +101060,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2134282922}
         m_MethodName: GetCommandFromInventory
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

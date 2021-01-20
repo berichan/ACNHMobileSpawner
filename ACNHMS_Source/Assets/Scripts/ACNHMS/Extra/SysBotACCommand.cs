@@ -34,6 +34,13 @@ public class SysBotACCommand : MonoBehaviour
     {
         CommandPrefix = UI_Settings.GetPrefix();
         var items = UI_ACItemGrid.LastInstanceOfItemGrid.Items;
+        if (!IsItemArrayInventorySafe(items.ToArray(), out var fail))
+        {
+            int failIndex = items.IndexOf(fail);
+            PopupHelper.CreateError($"Item {failIndex} is a field item, these items cannot be in an inventory.", 3);
+            return;
+        }
+
         var hexes = new List<string>();
         int count = 0;
         bool tooManyItems = false;
@@ -118,5 +125,20 @@ public class SysBotACCommand : MonoBehaviour
             Array.Copy(source, index * maxResultElements, target[index], 0, elementsInThisArray);
         }
         return target;
+    }
+
+    public static bool IsItemArrayInventorySafe(Item[] items, out Item failed)
+    {
+        foreach (Item i in items)
+        {
+            if (i.ItemId >= 60_000 && !i.IsNone)
+            {
+                failed = i;
+                return false;
+            }
+        }
+
+        failed = null;
+        return true;
     }
 }

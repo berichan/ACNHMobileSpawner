@@ -107,11 +107,13 @@ public class UI_SetControlFiller : MonoBehaviour
     {
         if (SearchWindow.IsNoItemMode)
             return;
+        bool isCatalogueMode = UI_Settings.GetCatalogueMode();
 
         for (int i = 0; i < 40; ++i)
         {
             lastItem = ItemGrid.GetItemAt(i);
-            FillSelected(i);
+            if (!(isCatalogueMode && !lastItem.IsNone))
+                FillSelected(i);
         }
     }
 
