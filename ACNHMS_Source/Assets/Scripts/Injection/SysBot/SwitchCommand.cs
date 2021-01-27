@@ -97,5 +97,17 @@ namespace NHSE.Injection
         /// <param name="offset">Address of the data</param>
         /// <returns>Encoded command bytes</returns>
         public static byte[] UnFreeze(uint offset) => Encode($"unFreeze 0x{offset:X8}");
+
+        /// <summary>
+        /// Requests the Bot to send the current count of frozen offsets.
+        /// </summary>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] FreezeCount() => Encode("freezeCount");
+
+        /// <summary>
+        /// Requests the Bot to clear all current frozen values
+        /// </summary>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] FreezeClear() => Encode("freezeClear");
     }
 }

@@ -105,6 +105,33 @@ namespace NHSE.Injection
             }
         }
 
+        public byte GetFreezeCount()
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.FreezeCount();
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+                var buffer = new byte[3];
+                var _ = ReadInternal(buffer);
+                return Decoder.ConvertHexByteStringToBytes(buffer)[0];
+            }
+        }
+
+        public void UnfreezeAll()
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.FreezeClear();
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+            }
+        }
+
         private void WriteBytesLarge(byte[] data, uint offset)
         {
             int byteCount = data.Length;

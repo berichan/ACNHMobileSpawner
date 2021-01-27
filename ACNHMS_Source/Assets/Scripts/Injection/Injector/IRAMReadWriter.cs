@@ -8,5 +8,7 @@
         void WriteBytes(byte[] data, uint offset);
         void FreezeBytes(byte[] data, uint offset);
         void UnFreezeBytes(uint offset);
+        byte GetFreezeCount();
+        void UnfreezeAll();
     }
 }

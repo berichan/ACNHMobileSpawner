@@ -84,5 +84,15 @@ namespace NHSE.Injection
         {
             throw new NotImplementedException();
         }
+
+        public byte GetFreezeCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnfreezeAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
