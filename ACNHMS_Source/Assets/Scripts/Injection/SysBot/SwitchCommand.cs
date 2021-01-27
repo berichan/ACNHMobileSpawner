@@ -82,5 +82,20 @@ namespace NHSE.Injection
         /// <param name="data">Data to write</param>
         /// <returns>Encoded command bytes</returns>
         public static byte[] PokeRaw(uint offset, byte[] data) => Encode($"poke 0x{offset:X8} 0x{string.Concat(data.Select(z => $"{z:X2}"))}", false);
+
+        /// <summary>
+        /// Sends the Bot <see cref="data"/> to be constantly written to <see cref="offset"/>.
+        /// </summary>
+        /// <param name="offset">Address of the data</param>
+        /// <param name="data">Data to write</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] Freeze(uint offset, byte[] data) => Encode($"freeze 0x{offset:X8} 0x{string.Concat(data.Select(z => $"{z:X2}"))}");
+
+        /// <summary>
+        /// Sends the Bot a command to unfreeze <see cref="offset"/>.
+        /// </summary>
+        /// <param name="offset">Address of the data</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] UnFreeze(uint offset) => Encode($"unFreeze 0x{offset:X8}");
     }
 }

@@ -215,5 +215,14 @@ namespace NHSE.Injection
             return result;
         }
 
+        public void FreezeBytes(byte[] data, uint offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UnFreezeBytes(uint offset)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -108,6 +108,10 @@ public class UI_Sysbot : MonoBehaviour
 		ConnectedText.text=("Connected successfully");
 		PlayerPrefs.SetString(IPKEY, IP.text);
 		PlayerPrefs.SetString(SOCKETKEY, Socket.text);
+
+        //byte[] maxSpeed = new byte[4] { 0, 0, 0, 3 };
+        //sysBot.Bot.UnFreezeBytes((uint)OffsetHelper.TextSpeedAddress);
+        //sysBot.Bot.FreezeBytes(maxSpeed, (uint)OffsetHelper.TextSpeedAddress);
 	}
 
     public void TryConnectUSBa()
