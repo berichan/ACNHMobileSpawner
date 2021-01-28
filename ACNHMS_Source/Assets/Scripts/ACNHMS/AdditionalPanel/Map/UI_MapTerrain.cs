@@ -85,6 +85,7 @@ public class UI_MapTerrain : MonoBehaviour
     public Dropdown AffectingMode;
     public Button WriteButton;
     public Button LoadLastButton;
+    public Button SaveButton;
     public Text MapCoords;
 
     public UI_MapBulkSpawn BulkSpawner;
@@ -405,6 +406,7 @@ public class UI_MapTerrain : MonoBehaviour
         AffectingMode.interactable = true;
         RefetchItemsButton.interactable = true;
         WriteButton.interactable = true;
+        SaveButton.interactable = true;
     }
 
     // loops between map layers to fetch everything
@@ -445,6 +447,21 @@ public class UI_MapTerrain : MonoBehaviour
             case 2: acre_plaza = pop; break;
             case 3: structure = pop; break;
         }
+    }
+
+    public void SaveLayer(int l)
+    {
+        Item[] tiles = l == 0 ? fieldManager.Layer1.Tiles : fieldManager.Layer2.Tiles;
+        var bytes = tiles.SetArray(Item.SIZE);
+        UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile($"{DateTime.Now.ToString("yyyyddMM_HHmmss")}_Layer{l + 1}.nhl", bytes);
+    }
+
+    public void LoadLayer(int l) => UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenFile("nhl", (x) => { loadBytes(l, x); });
+
+    private void loadBytes(int l, byte[] data)
+    {
+        Array.Copy(data, 0, field, l * MapGrid.MapTileCount32x32 * Item.SIZE, MapGrid.MapTileCount32x32 * Item.SIZE);
+        generateAll();
     }
 
     void sendNewBytes()
