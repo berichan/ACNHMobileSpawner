@@ -27,7 +27,7 @@ public static class OffsetHelper
     public const ulong TurnipAddress = 0xABE151EC;
     public const ulong VillagerAddress = TurnipAddress - 0x2cb0 - 0x41887c + 0x10;
     public const ulong VillagerHouseAddress = TurnipAddress - 0x2cb0 - 0x41887c + 0x417634;
-    public const ulong BackupSaveDiff = 0xB25900; // TODO
+    public const ulong BackupSaveDiff = 0x849C50;
 
     public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x20ac08;
     public const ulong LandMakingMapStart = FieldItemStart + 0xAAA00;
