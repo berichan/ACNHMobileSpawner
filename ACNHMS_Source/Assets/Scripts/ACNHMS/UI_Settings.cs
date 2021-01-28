@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using NHSE.Core;
+using System.IO;
 
 public enum StringSearchMode 
 {
@@ -248,5 +249,18 @@ public class UI_Settings : MonoBehaviour
         if (PlayerNamesToChange != null)
             foreach (var pn in PlayerNamesToChange)
                 pn.text = VillagerPlayerNames[GetPlayerIndex()];
+    }
+
+    //clear all
+    public void AskDeleteEverything()
+    {
+        UI_Popup.CurrentInstance.CreatePopupChoice("Are you sure you want to clear all cached data and settings? This action is irreversible.", "No", () => { }, Color.red, "Yes, delete it!", () => { deleteAll(); });
+    }
+
+    private void deleteAll()
+    {
+        PlayerPrefs.DeleteAll();
+        Directory.Delete(Application.persistentDataPath, true);
+        UI_Popup.CurrentInstance.CreatePopupChoice("All cached data deleted. Please restart ACNHMS", "OK", () => { Environment.Exit(-1); });
     }
 }
