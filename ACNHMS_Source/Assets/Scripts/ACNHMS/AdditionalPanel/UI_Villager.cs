@@ -65,6 +65,7 @@ public class UI_Villager : IUI_Additional
         MovingOutToggle.onValueChanged.AddListener(delegate {
             ushort[] flags = loadedVillager.GetEventFlagsSave();
             flags[5] = 1; // flag 5 = MoveInCompletion
+            flags[9] = 0; // flag 9 = AbandonedHouse
             loadedVillager.SetEventFlagsSave(flags);
             loadedVillager.MovingOut = MovingOutToggle.isOn;
         });
@@ -74,6 +75,7 @@ public class UI_Villager : IUI_Additional
             ushort[] flags = loadedVillager.GetEventFlagsSave();
             flags[24] = ForceMoveOutToggle.isOn ? (ushort)1 : (ushort)0; // flag 24 = ForceMoveOut
             flags[5] = 1; // flag 5 = MoveInCompletion
+            flags[9] = 0; // flag 9 = AbandonedHouse
             loadedVillager.SetEventFlagsSave(flags);
         });
 
