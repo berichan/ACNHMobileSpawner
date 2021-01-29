@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Drawing;
+using Beri.Drawing;
 
 namespace NHSE.Core
 {
@@ -21,13 +21,13 @@ namespace NHSE.Core
         private static Color GetRoadColor(TerrainUnitModel mdl)
         {
             if (mdl.IsRoadBrick())
-                return Color.Firebrick;
+                return Color.FireBrick;
             if (mdl.IsRoadDarkSoil())
                 return Color.SaddleBrown;
             if (mdl.IsRoadSoil())
                 return Color.Peru;
             if (mdl.IsRoadStone())
-                return Color.DarkGray;
+                return Color.DarkGrey;
             if (mdl.IsRoadPattern())
                 return Color.Ivory;
             if (mdl.IsRoadTile())

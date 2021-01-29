@@ -35,7 +35,7 @@ public class MapGraphicGenerator
         ItemManager = items;
         Terrain = terrain;
 
-        System.Drawing.Color[] pixels = new System.Drawing.Color[PixelsBackgroundMap1.Length];
+        Beri.Drawing.Color[] pixels = new Beri.Drawing.Color[PixelsBackgroundMap1.Length];
         MapBackgroundImage = new Texture2D(Terrain.MaxWidth, Terrain.MaxHeight);
 
         // draw rivers + height
@@ -65,8 +65,8 @@ public class MapGraphicGenerator
     }
 
     public Color GetBackgroudPixel(int x, int y) => background.GetPixel(x, y);
-    public System.Drawing.Color UnityColorToSystemColor(Color32 c) => System.Drawing.Color.FromArgb(c.a, c.r, c.g, c.b);
-    public bool CompareUnityColorToSystemColor(Color32 c, System.Drawing.Color cs)
+    public Beri.Drawing.Color UnityColorToSystemColor(Color32 c) => Beri.Drawing.Color.FromArgb(c.a, c.r, c.g, c.b);
+    public bool CompareUnityColorToSystemColor(Color32 c, Beri.Drawing.Color cs)
     {
         return c.a == cs.A && c.r == cs.R && c.g == cs.G && c.b == cs.B;
     }

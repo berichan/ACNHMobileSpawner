@@ -254,7 +254,7 @@ public class SpriteBehaviour : MonoBehaviour
         }
 
         Texture2D toAssignImage = ResourceLoader.GetLeafImage();
-        System.Drawing.Color itemColor = FieldItemColor.GetItemColor(t);
+        Beri.Drawing.Color itemColor = FieldItemColor.GetItemColor(t);
         c = new Color(itemColor.R / 255f, itemColor.G / 255f, itemColor.B / 255f, itemColor.A / 255f);
 
         if (SpritesExist())

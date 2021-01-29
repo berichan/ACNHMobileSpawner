@@ -151,7 +151,7 @@ namespace NHSE.Core
             return TerrainTileColor.GetTileColor(tile).ToArgb();
         }
 
-        public System.Drawing.Color GetTileColorRGB(int x, int y)
+        public Beri.Drawing.Color GetTileColorRGB(int x, int y)
         {
             var acre = GetTileAcre(x, y);
             if (acre != 0)
