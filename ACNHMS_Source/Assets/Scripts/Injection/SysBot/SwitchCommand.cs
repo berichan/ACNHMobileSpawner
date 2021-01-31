@@ -84,6 +84,12 @@ namespace NHSE.Injection
         public static byte[] PokeRaw(uint offset, byte[] data) => Encode($"poke 0x{offset:X8} 0x{string.Concat(data.Select(z => $"{z:X2}"))}", false);
 
         /// <summary>
+        /// Requests the Bot to send the current count of frozen offsets.
+        /// </summary>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] Version() => Encode("getVersion");
+
+        /// <summary>
         /// Sends the Bot <see cref="data"/> to be constantly written to <see cref="offset"/>.
         /// </summary>
         /// <param name="offset">Address of the data</param>

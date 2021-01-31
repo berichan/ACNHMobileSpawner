@@ -191,6 +191,21 @@ namespace NHSE.Injection
             }
         }
 
+        public byte[] GetVersion()
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.Version();
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+                var buffer = new byte[9];
+                var _ = ReadInternal(buffer);
+                return buffer;
+            }
+        }
+
         private void WriteBytesLarge(byte[] data, uint offset)
         {
             int byteCount = data.Length;

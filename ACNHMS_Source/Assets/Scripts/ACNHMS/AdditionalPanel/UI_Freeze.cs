@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using NHSE.Core;
 using NHSE.Injection;
+using System;
 
 public class UI_Freeze : IUI_Additional
 {
@@ -17,10 +18,30 @@ public class UI_Freeze : IUI_Additional
     const string villagerString = "villager flags";
     const string invString = "inventory";
     const string mapString = "map";
+    const string moneyString = "wallet";
 
     public Text CountLabel;
+    public Text VersionLabel;
+
+    public GameObject Blocker;
     
     public void GoToDownloadPage() => Application.OpenURL(SBBUrl);
+
+    public void CheckUsability()
+    {
+        var ver = getVersion().TrimEnd('\0').TrimEnd('\n');
+        VersionLabel.text = ver;
+        var verLower = ver.ToLower();
+        if (verLower.EndsWith("beri"))
+        {
+            Blocker.SetActive(false);
+        }
+        else
+        {
+            PopupHelper.CreateError("Installed version of botbase is not freeze compatible!", 3f);
+        }
+        UpdateFreezeCount();
+    }
 
     public void UpdateFreezeCount()
     {
@@ -52,6 +73,11 @@ public class UI_Freeze : IUI_Additional
         StartCoroutine(createFreezes(offsets, chunkSize, mapString));
     }
 
+    public void SendMoneyFreeze()
+    {
+        StartCoroutine(createFreezes(new uint[1] { (uint)OffsetHelper.WalletAddress }, UI_MoneyMiles.ENCRYPTIONSIZE, moneyString));
+    }
+
     public void ClearVillagerFreezes()
     {
         uint[] offsets = getOffsets((uint)OffsetHelper.VillagerAddress, villagerFlagStart, Villager2.SIZE, 10);
@@ -71,6 +97,12 @@ public class UI_Freeze : IUI_Additional
         uint[] offsets = getUnsafeOffsetsByChunkCount((uint)OffsetHelper.FieldItemStart, mapSizeBytes, mapChunkCount);
         foreach (var o in offsets)
             CurrentConnection.UnFreezeBytes(o);
+        UpdateFreezeCount();
+    }
+
+    public void ClearMoneyFreeze()
+    {
+        CurrentConnection.UnFreezeBytes((uint)OffsetHelper.WalletAddress);
         UpdateFreezeCount();
     }
 
@@ -109,4 +141,7 @@ public class UI_Freeze : IUI_Additional
             offsets[i] = startOffset + (i * chunkSize);
         return offsets;
     }
+
+    private string getVersion() => System.Text.Encoding.UTF8.GetString(CurrentConnection.GetVersion());
+    
 }

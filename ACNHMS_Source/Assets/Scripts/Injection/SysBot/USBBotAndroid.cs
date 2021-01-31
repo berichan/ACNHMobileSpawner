@@ -51,6 +51,20 @@ namespace NHSE.Injection
                 }
         }
 
+        public byte[] GetVersion()
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.Version();
+                AndroidUSBUtils.CurrentInstance.WriteToEndpoint(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+                var buffer = AndroidUSBUtils.CurrentInstance.ReadEndpoint(9);
+                return Decoder.ConvertHexByteStringToBytes(buffer);
+            }
+        }
+
         private void WriteBytesLarge(byte[] data, uint offset)
         {
             int byteCount = data.Length;

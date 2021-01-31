@@ -460,8 +460,13 @@ public class UI_MapTerrain : MonoBehaviour
 
     private void loadBytes(int l, byte[] data)
     {
-        Array.Copy(data, 0, field, l * MapGrid.MapTileCount32x32 * Item.SIZE, MapGrid.MapTileCount32x32 * Item.SIZE);
-        generateAll();
+        //Array.Copy(data, 0, field, l * MapGrid.MapTileCount32x32 * Item.SIZE, MapGrid.MapTileCount32x32 * Item.SIZE);
+        //generateAll();
+        Item[] itemLayer = Item.GetArray(data);
+        FieldItemLayer toOverwrite = l == 0 ? fieldManager.Layer1 : fieldManager.Layer2;
+        for (int i = 0; i < toOverwrite.Tiles.Length; ++i)
+            toOverwrite.Tiles[i].CopyFrom(itemLayer[i]);
+        UpdateLayerImage();
     }
 
     void sendNewBytes()
