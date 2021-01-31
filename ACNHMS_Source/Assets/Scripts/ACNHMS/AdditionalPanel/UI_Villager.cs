@@ -16,7 +16,7 @@ public class UI_Villager : IUI_Additional
     public static string VillagerPath { get { return SpriteBehaviour.UsableImagePath + Path.DirectorySeparatorChar + VillagerFilename; } }
     public static string VillagerHeaderPath { get { return SpriteBehaviour.UsableImagePath + Path.DirectorySeparatorChar + VillagerFilenameHeader; } }
 
-    public static string VillagerRootAddress = OffsetHelper.VillagerAddress.ToString("X"); // ABA86BC4
+    public static string VillagerRootAddress = OffsetHelper.VillagerAddress.ToString("X"); 
     public static string VillagerHouseAddress = OffsetHelper.VillagerHouseAddress.ToString("X");
     public static uint CurrentVillagerAddress { get { return StringUtil.GetHexValue(VillagerRootAddress); } }
     public static uint CurrentVillagerHouseAddress { get { return StringUtil.GetHexValue(VillagerHouseAddress); } }

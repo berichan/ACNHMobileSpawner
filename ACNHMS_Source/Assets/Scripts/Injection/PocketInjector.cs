@@ -20,9 +20,9 @@ namespace NHSE.Injection
             Bot = bot;
         }
 
-        private const int pocket = Item.SIZE * 20;
-        private const int size = (pocket + 0x18) * 2;
-        private const int shift = -0x18 - (Item.SIZE * 20);
+        public const int pocket = Item.SIZE * 20;
+        public const int size = (pocket + 0x18) * 2;
+        public const int shift = -0x18 - (Item.SIZE * 20);
 
         private uint DataOffset => (uint)(WriteOffset + shift);
 
