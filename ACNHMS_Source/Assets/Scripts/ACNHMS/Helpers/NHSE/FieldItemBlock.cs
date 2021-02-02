@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NHSE.Core;
+using UnityEngine;
 
 public class FieldItemBlock
 {
@@ -16,14 +17,14 @@ public class FieldItemBlock
         if (!layer.GetTile(x, y).IsNone)
         {
             if (!layer.GetTile(x, y).IsRoot)
-                x--;
+                x = Mathf.Max(0, x-1);
             if (!layer.GetTile(x, y).IsRoot)
             {
                 x++;
-                y--;
+                y = Mathf.Max(0, y - 1);
             }
             if (!layer.GetTile(x, y).IsRoot)
-                x--;
+                x = Mathf.Max(0, x - 1);
             if (!layer.GetTile(x, y).IsRoot)
             {
                 x++; y++;
