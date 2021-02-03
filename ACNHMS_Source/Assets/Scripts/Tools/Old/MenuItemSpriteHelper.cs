@@ -48,12 +48,10 @@ public class MenuItemSpriteHelper
     public static Texture2D GetIconTexture(ushort itemId)
     {
         Initialize();
-        byte[] bytes = sp.GetPng(itemId, 0);
-        if (bytes == null) bytes = sp.GetPng(2, 0);
-        Texture2D toAssignImage = new Texture2D(2, 2);
-        toAssignImage.LoadImage(bytes);
+        var tex = sp.GetTexture(itemId, 0);
+        if (tex == null) tex = sp.GetTexture(2, 0);
 
-        return toAssignImage;
+        return tex;
     }
 
     private static string getIdedPath(string inPath) => inPath + menumapid;

@@ -260,11 +260,10 @@ public class SpriteBehaviour : MonoBehaviour
         if (SpritesExist())
         {
             InitParser();
-            byte[] bytes = SpriteParser.CurrentInstance.GetPng(t.ItemId, t.Count);
-            if (bytes != null)
+            var tx = SpriteParser.CurrentInstance.GetTexture(t.ItemId, t.Count);
+            if (tx != null)
             {
-                toAssignImage = new Texture2D(2, 2);
-                toAssignImage.LoadImage(bytes);
+                toAssignImage = tx;
                 c = Color.white;
             }
         }
@@ -283,13 +282,9 @@ public class SpriteBehaviour : MonoBehaviour
 
     public static Texture2D PullTextureFromParser(SpriteParser parser, string itemName)
     {
-        byte[] items = parser.GetPng(itemName);
+        var items = parser.GetTexture(itemName);
         if (items != null)
-        {
-            Texture2D toRet = new Texture2D(2, 2);
-            toRet.LoadImage(items);
-            return toRet;
-        }
+            return items;
         return null;
     }
 

@@ -35,9 +35,9 @@ public class UI_MapItemTile : MonoBehaviour, IPointerEnterHandler, IPointerDownH
             Fossils = GameInfo.Strings.CreateItemDataSource(GameLists.Fossils, false);
         }
         // Manually destroy any cached images
-        if (Image.texture)
-            if (Image.texture != ResourceLoader.GetLeafImage())
-                Destroy(Image.texture);
+        //if (Image.texture)
+            //if (Image.texture != ResourceLoader.GetLeafImage())
+                //Destroy(Image.texture);
 
         callback = editorCallback;
         var rootItem = block.SelectedItem;

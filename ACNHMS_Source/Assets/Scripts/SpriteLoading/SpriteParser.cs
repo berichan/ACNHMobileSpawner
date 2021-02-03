@@ -1,12 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
+using System.Linq;
 
 namespace NH_CreationEngine
 {
     // You don't need to use this, this just makes my life with Unity slighty better when loading Images
+    public class CachedTextureEntry
+    {
+        public string ID { get; set; }
+        public Texture2D Tex { get; set; }
+
+        public CachedTextureEntry(string id, Texture2D tx)
+        {
+            ID = id; Tex = tx;
+            Tex.hideFlags = HideFlags.HideAndDontSave;
+        }
+
+        public void Clean()
+        {
+            // IDisposable is terrible for this
+            UnityEngine.Object.Destroy(Tex);
+        }
+    }
+
     public class SpriteParser
     {
+        private const int MaxTextures = 500;
+
         private string filePathSprites;
         private IDictionary<string, ByteBoundary> spritePointerHeader;
         private IDictionary<string, string> spritePointerTable = null;
@@ -15,6 +37,10 @@ namespace NH_CreationEngine
         public IDictionary<string, string> SpritePointerTable { get => spritePointerTable; }
 
         public static SpriteParser CurrentInstance = null;
+
+        private SortedList<long, CachedTextureEntry> cachedIdTextureMap = new SortedList<long, CachedTextureEntry>();
+
+        private long lastLong = 0;
 
         public SpriteParser(string filePathDmp, string filePathHeader)
         {
@@ -37,7 +63,65 @@ namespace NH_CreationEngine
                     spritePointerTable.Add(processPointerLine(line));
         }
 
-        public byte[] GetPng(string itemId, ushort count)
+        private void updateEntry(long id, CachedTextureEntry cte)
+        {
+            cachedIdTextureMap.Remove(id);
+            initEntry(cte);
+        }
+
+        private void initEntry(CachedTextureEntry cte)
+        {
+            lastLong++;
+            cachedIdTextureMap.Add(lastLong, cte);
+        }
+
+        private void initEntry(string id, Texture2D tx)
+        {
+            var ncte = new CachedTextureEntry(id, tx);
+            initEntry(ncte);
+        }
+
+        private Texture2D tryGetViaID(string id)
+        {
+            var ctePair = cachedIdTextureMap.FirstOrDefault(x => x.Value.ID == id);
+            if (!ctePair.Equals(default(KeyValuePair<long, CachedTextureEntry>)))
+            {
+                updateEntry(ctePair.Key, ctePair.Value);
+                return ctePair.Value.Tex;
+            }
+
+            return null;
+        }
+
+        private Texture2D getAndUpdateMap(string id, byte[] bytes)
+        {
+            if (bytes == null)
+                return null;
+            var toAssignImage = new Texture2D(2, 2);
+            toAssignImage.LoadImage(bytes);
+            initEntry(id, toAssignImage);
+
+            while (cachedIdTextureMap.Count > MaxTextures)
+            {
+                cachedIdTextureMap.ElementAt(0).Value.Clean();
+                cachedIdTextureMap.RemoveAt(0);
+            }
+
+            return toAssignImage;
+        }
+
+        public Texture2D GetTexture(string itemId, ushort count)
+        {
+            string id = $"{itemId}-{count}";
+            Texture2D exists = tryGetViaID(id);
+            if (exists != null)
+                return exists;
+
+            var bytes = GetPng(itemId, count);
+            return getAndUpdateMap(id, bytes);
+        }
+
+        private byte[] GetPng(string itemId, ushort count)
         {
             if (spritePointerTable == null)
                 throw new Exception("Not pointer table loaded.");
@@ -71,7 +155,18 @@ namespace NH_CreationEngine
             return readlist.ToArray();
         }
 
-        public byte[] GetPng(ushort itemId, ushort count)
+        public Texture2D GetTexture(ushort itemId, ushort count)
+        {
+            string id = $"{itemId}-{count}";
+            Texture2D exists = tryGetViaID(id);
+            if (exists != null)
+                return exists;
+
+            var bytes = GetPng(itemId, count);
+            return getAndUpdateMap(id, bytes);
+        }
+
+        private byte[] GetPng(ushort itemId, ushort count)
         {
             if (spritePointerTable == null)
                 throw new Exception("Not pointer table loaded.");
@@ -103,7 +198,18 @@ namespace NH_CreationEngine
             return readlist.ToArray();
         }
 
-        public byte[] GetPng(string itemName)
+        public Texture2D GetTexture(string itemName)
+        {
+            string id = $"itemName";
+            Texture2D exists = tryGetViaID(id);
+            if (exists != null)
+                return exists;
+
+            var bytes = GetPng(itemName);
+            return getAndUpdateMap(id, bytes);
+        }
+
+        private byte[] GetPng(string itemName)
         {
             if (!spritePointerHeader.ContainsKey(itemName))
                 return null;
