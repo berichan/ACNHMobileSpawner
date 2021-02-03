@@ -5,12 +5,13 @@ using UnityEngine.UI;
 using NHSE.Core;
 using NHSE.Injection;
 using System;
+using System.Globalization;
 
 public class UI_Freeze : IUI_Additional
 {
     private const string SBBUrl = "https://github.com/berichan/sys-botbase/releases";
 
-    const uint invOffset = (uint)((uint)OffsetHelper.InventoryOffset + PocketInjector.shift);
+    uint invOffset => (uint)(SysBotController.CurrentOffsetFirstPlayerUInt + PocketInjector.shift + ((uint)OffsetHelper.PlayerSize * UI_Settings.GetPlayerIndex()));
 
     const int villagerFlagStart = 0x1267c;
     const int mapChunkCount = 64;
@@ -22,6 +23,8 @@ public class UI_Freeze : IUI_Additional
 
     public Text CountLabel;
     public Text VersionLabel;
+    public InputField OffsetField;
+    public InputField SizeField;
 
     public GameObject Blocker;
     
@@ -41,6 +44,8 @@ public class UI_Freeze : IUI_Additional
             PopupHelper.CreateError("Installed version of botbase is not freeze compatible!", 3f);
         }
         UpdateFreezeCount();
+        OffsetField.text = $"{invOffset:X8}";
+        SizeField.text = PocketInjector.size.ToString();
     }
 
     public void UpdateFreezeCount()
@@ -78,6 +83,23 @@ public class UI_Freeze : IUI_Additional
         StartCoroutine(createFreezes(new uint[1] { (uint)OffsetHelper.WalletAddress }, UI_MoneyMiles.ENCRYPTIONSIZE, moneyString));
     }
 
+    public void SendCustomFreeze()
+    {
+        bool success = uint.TryParse(OffsetField.text, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out var res);
+        if (!success)
+        {
+            PopupHelper.CreateError($"Cannot parse {OffsetField.text} as a hexadecimal value.", 3f);
+            return;
+        }
+        success = int.TryParse(SizeField.text, out var size);
+        if (!success)
+        {
+            PopupHelper.CreateError($"Cannot parse {SizeField.text}.", 3f);
+            return;
+        }
+        StartCoroutine(createFreezes(new uint[1] { res }, size, $"Custom: {SizeField.text}@{OffsetField.text}"));
+    }
+
     public void ClearVillagerFreezes()
     {
         uint[] offsets = getOffsets((uint)OffsetHelper.VillagerAddress, villagerFlagStart, Villager2.SIZE, 10);
@@ -103,6 +125,18 @@ public class UI_Freeze : IUI_Additional
     public void ClearMoneyFreeze()
     {
         CurrentConnection.UnFreezeBytes((uint)OffsetHelper.WalletAddress);
+        UpdateFreezeCount();
+    }
+
+    public void ClearCustomFreeze()
+    {
+        bool success = uint.TryParse(OffsetField.text, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out var res);
+        if (!success)
+        {
+            PopupHelper.CreateError($"Cannot parse {OffsetField.text} as a hexadecimal value.", 3f);
+            return;
+        }
+        CurrentConnection.UnFreezeBytes(res);
         UpdateFreezeCount();
     }
 
