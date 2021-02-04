@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NHSE.Core;
 using System;
+using System.Runtime.CompilerServices;
 
 public static class ItemExtensions
 {
@@ -29,5 +30,25 @@ public static class ItemExtensions
             foreach (string h in hexes)
                 itemsInternal.Add(ushort.Parse(h, System.Globalization.NumberStyles.HexNumber));
         }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool ItemIdsMatch(this Item i, Item compare)
+    {
+        return i.ItemId == compare.ItemId;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool ItemVariationsMatch(this Item i, Item compare)
+    {
+        return i.ItemId == compare.ItemId &&
+            i.Count == compare.Count &&
+            i.UseCount == i.UseCount;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool ItemsAreSame(this Item i, Item compare)
+    {
+        return !i.IsDifferentTo(compare);
     }
 }

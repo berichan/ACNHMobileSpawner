@@ -24,8 +24,10 @@ public class UI_SearchWindow : MonoBehaviour
 
     public static UI_SearchWindow LastLoadedSearchWindow;
 
-    public delegate void NewItemSelected(ushort itemId, string itemNameCurrentLanguage); // Load the item if you need the NHSE.Core.Item
+    public delegate void NewItemSelected(ushort itemId, string itemNameCurrentLanguage); // Load the item if you need the NHSE.Core.Item. This should only be used to get the string
     public NewItemSelected OnNewItemSelected;
+    public delegate void ReturnSearchWindow();
+    public ReturnSearchWindow OnReturnSearchWindow;
 
     //editor vars
     public RectTransform SelectionOverlay;
@@ -148,6 +150,9 @@ public class UI_SearchWindow : MonoBehaviour
         UnfrontButton.gameObject.SetActive(front);
         FrontBlocker.SetActive(front);
         isAtFront = front;
+
+        if (!front)
+            OnReturnSearchWindow?.Invoke();
     }
 
     public void UpdateFilter(Dropdown filt)

@@ -89,10 +89,10 @@ public class UI_MapTerrain : MonoBehaviour
     public Text MapCoords;
 
     public UI_MapBulkSpawn BulkSpawner;
+    public UI_MapFindAndReplace FindAndReplacer;
 
     private static UI_SearchWindow SearchWindow => UI_SearchWindow.LastLoadedSearchWindow;
-
-    private static Item refItem = Item.NO_ITEM;
+    
     public static Item ReferenceItem(int flag0 = -1) { var ret = SearchWindow.GetAsItem(null); if (flag0 > 0) ret.SystemParam = Convert.ToByte(flag0); return ret; }
     
     public Text CurrentLoadedItemName;
@@ -367,6 +367,35 @@ public class UI_MapTerrain : MonoBehaviour
         }
     }
 
+    public void FindAndReplace() => findAndReplace(FindAndReplacer.ReplaceItem, FindAndReplacer.NewItem, FindAndReplacer.CurrentOption, CurrentAffectMode == AffectMode.Layer1 ? 0 : 1);
+    
+
+    private void findAndReplace(Item toReplace, Item newItem, FindAndReplaceOptions options, int layer)
+    {
+        Func<Item, Item, bool> compareFunc = GetComparer(options);
+        FieldItemLayer fil = layer == 0 ? fieldManager.Layer1 : fieldManager.Layer2;
+        int replaceCount = 0;
+        for (int i = 0; i < MapItemsWidthMax; ++i)
+        {
+            for (int j = 0; j < MapItemsHeightMax; ++j)
+            {
+                Item item = fil.GetTile(i, j);
+                if (compareFunc(toReplace, item))
+                {
+                    item.CopyFrom(newItem);
+                    fil.SetExtensionTiles(item, i, j);
+                    replaceCount++;
+                }
+            }
+        }
+        if (replaceCount > 0)
+            UI_Popup.CurrentInstance.CreatePopupMessage(2f, $"Replaced {replaceCount} items.", () => { });
+        else
+            UI_Popup.CurrentInstance.CreatePopupMessage(3f, "Unable to find any items that match desired replacement type.", () => { }, Color.red);
+        UpdateLayerImage();
+        updateGrid(lastCursorX, lastCursorY);
+    }
+
     public void UpdateLayerImage()
     {
         if (graphicGenerator == null)
@@ -543,6 +572,31 @@ public class UI_MapTerrain : MonoBehaviour
             items[i] = bytes.ToClass<Item>();
         }
         return items;
+    }
+
+    // delegate
+    public bool ItemIdsMatch(Item i, Item compare) => ItemExtensions.ItemIdsMatch(i, compare);
+    public bool ItemVariationsMatch(Item i, Item compare) => ItemExtensions.ItemVariationsMatch(i, compare);
+    public bool ItemsAreSame(Item i, Item compare) => ItemExtensions.ItemsAreSame(i, compare);
+    public Func<Item, Item, bool> GetComparer(FindAndReplaceOptions options)
+    {
+        Func<Item, Item, bool> retFunc;
+        switch (options)
+        {
+            case FindAndReplaceOptions.MatchItemId:
+                retFunc = ItemIdsMatch;
+                break;
+            case FindAndReplaceOptions.MatchItemAndVariation:
+                retFunc = ItemVariationsMatch;
+                break;
+            case FindAndReplaceOptions.MatchFully:
+                retFunc = ItemsAreSame;
+                break;
+            default:
+                retFunc = ItemIdsMatch;
+                break;
+        }
+        return retFunc;
     }
 }
 

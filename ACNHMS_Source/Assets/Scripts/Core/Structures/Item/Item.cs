@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace NHSE.Core
@@ -238,6 +239,7 @@ namespace NHSE.Core
             return returnValue;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsDifferentTo(Item i) // doesn't look like it, but fastest for map acre comparison for writes
         {
             if (ItemId != i.ItemId)
