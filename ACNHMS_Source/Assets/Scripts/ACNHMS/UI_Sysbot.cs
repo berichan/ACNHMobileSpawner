@@ -97,21 +97,24 @@ public class UI_Sysbot : MonoBehaviour
 
 	public void TryConnect()
 	{
-		string error = "";
-		if (!sysBot.Connect(IP.text, Socket.text, out error))
-		{
-			SetConnected(val: false);
-			ConnectedText.text=("Connection failed: " + error);
-			return;
-		}
-		SetConnected(true);
+        if (!sysBot.Connect(IP.text, Socket.text, out string error))
+        {
+            SetConnected(val: false);
+            ConnectedText.text = ("Connection failed: " + error);
+            return;
+        }
+        SetConnected(true);
 		ConnectedText.text=("Connected successfully");
 		PlayerPrefs.SetString(IPKEY, IP.text);
 		PlayerPrefs.SetString(SOCKETKEY, Socket.text);
 
+        // who needs to write tests when you can just write this garbage
         //byte[] maxSpeed = new byte[4] { 0, 0, 0, 3 };
         //sysBot.Bot.UnFreezeBytes((uint)OffsetHelper.TextSpeedAddress);
         //sysBot.Bot.FreezeBytes(maxSpeed, (uint)OffsetHelper.TextSpeedAddress);
+        
+        //ulong addr = sysBot.Bot.FollowMainPointer(new int[4] { 0x396F5A0, 0x18, 0x178, 0xD0 }) + 0xDA;
+        //Debug.Log($"addr: {addr}");
 	}
 
     public void TryConnectUSBa()

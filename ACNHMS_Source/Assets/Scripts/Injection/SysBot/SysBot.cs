@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace NHSE.Injection
 {
@@ -98,13 +99,29 @@ namespace NHSE.Injection
             }
         }
 
+        public ulong FollowMainPointer(int[] jumps)
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.FollowMainPointer(jumps);
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+                var buffer = new byte[17];
+                var _ = ReadInternal(buffer);
+                var bytes = Decoder.ConvertHexByteStringToBytes(buffer);
+                return BitConverter.ToUInt64(bytes, 0);
+            }
+        }
+
         public void FreezeBytes(byte[] data, uint offset)
         {
             lock (_sync)
             {
                 SendInternal(SwitchCommand.Freeze(offset, data));
 
-                // give it time to push data back
+                // wait for it to create freezers
                 Thread.Sleep((data.Length / 256) + UI_Settings.GetThreadSleepTime());
             }
         }
@@ -115,7 +132,7 @@ namespace NHSE.Injection
             {
                 SendInternal(SwitchCommand.UnFreeze(offset));
 
-                // give it time to push data back
+                // wait for freezes to clear and poll again
                 Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
             }
         }

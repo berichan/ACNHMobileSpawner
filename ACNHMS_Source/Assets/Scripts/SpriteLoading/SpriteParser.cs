@@ -200,7 +200,7 @@ namespace NH_CreationEngine
 
         public Texture2D GetTexture(string itemName)
         {
-            string id = $"itemName";
+            string id = $"{itemName}-0"; // map 0 to fix issues with unloaded maps 
             Texture2D exists = tryGetViaID(id);
             if (exists != null)
                 return exists;

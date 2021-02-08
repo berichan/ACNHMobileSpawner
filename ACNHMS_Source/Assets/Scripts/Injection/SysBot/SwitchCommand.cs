@@ -90,6 +90,12 @@ namespace NHSE.Injection
         public static byte[] Version() => Encode("getVersion");
 
         /// <summary>
+        /// Requests the Bot to follow the main pointer and return the (absolute) offset at the end. The first value should be the main+jump
+        /// </summary>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] FollowMainPointer(int[] jumps) => Encode($"pointer{string.Concat(jumps.Select(z => $" {z}"))}");
+
+        /// <summary>
         /// Sends the Bot <see cref="data"/> to be constantly written to <see cref="offset"/>.
         /// </summary>
         /// <param name="offset">Address of the data</param>

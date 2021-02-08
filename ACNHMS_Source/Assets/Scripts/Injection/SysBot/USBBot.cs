@@ -249,5 +249,10 @@ namespace NHSE.Injection
         {
             throw new NotImplementedException();
         }
+
+        public ulong FollowMainPointer(int[] jumps)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
