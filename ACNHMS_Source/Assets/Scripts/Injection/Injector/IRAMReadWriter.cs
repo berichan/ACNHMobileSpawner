@@ -11,8 +11,8 @@
     {
         int MaximumTransferSize { get; }
         bool Connected { get; }
-        byte[] ReadBytes(uint offset, int length, RWMethod method = RWMethod.Heap);
-        void WriteBytes(byte[] data, uint offset, RWMethod method = RWMethod.Heap);
+        byte[] ReadBytes(ulong offset, int length, RWMethod method = RWMethod.Heap);
+        void WriteBytes(byte[] data, ulong offset, RWMethod method = RWMethod.Heap);
         byte[] GetVersion();
         ulong FollowMainPointer(long[] jumps);
         void FreezeBytes(byte[] data, uint offset);

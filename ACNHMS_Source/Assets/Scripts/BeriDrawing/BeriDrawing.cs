@@ -178,7 +178,6 @@ namespace Beri.Drawing
         public static Color SlateGrey => ColorFromHex("708090");
         public static Color DarkSlateGrey => ColorFromHex("2F4F4F");
         public static Color Black => ColorFromHex("000000");
-
     }
 
     public class BeriDrawing

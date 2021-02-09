@@ -20,6 +20,7 @@ public class UI_Freeze : IUI_Additional
     const string invString = "inventory";
     const string mapString = "map";
     const string moneyString = "wallet";
+    const string turnipString = "turnip prices";
 
     public Text CountLabel;
     public Text VersionLabel;
@@ -42,6 +43,7 @@ public class UI_Freeze : IUI_Additional
         else
         {
             PopupHelper.CreateError("Installed version of botbase is not freeze compatible!", 3f);
+            return;
         }
         UpdateFreezeCount();
         OffsetField.text = $"{invOffset:X8}";
@@ -81,6 +83,11 @@ public class UI_Freeze : IUI_Additional
     public void SendMoneyFreeze()
     {
         StartCoroutine(createFreezes(new uint[1] { (uint)OffsetHelper.WalletAddress }, UI_MoneyMiles.ENCRYPTIONSIZE, moneyString));
+    }
+
+    public void SendTurnipFreeze()
+    {
+        StartCoroutine(createFreezes(new uint[1] { (uint)OffsetHelper.TurnipAddress }, TurnipStonk.SIZE, moneyString));
     }
 
     public void SendCustomFreeze()
@@ -125,6 +132,12 @@ public class UI_Freeze : IUI_Additional
     public void ClearMoneyFreeze()
     {
         CurrentConnection.UnFreezeBytes((uint)OffsetHelper.WalletAddress);
+        UpdateFreezeCount();
+    }
+
+    public void ClearTurnipFreeze()
+    {
+        CurrentConnection.UnFreezeBytes((uint)OffsetHelper.TurnipAddress);
         UpdateFreezeCount();
     }
 

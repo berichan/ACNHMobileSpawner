@@ -48,6 +48,13 @@ public class UI_Player : MonoBehaviour
         return toRet.ToArray();
     }
 
+    public static string GetFirstPlayerTownName(IRAMReadWriter rw)
+    {
+        ulong address = OffsetHelper.getPlayerIdAddress(SysBotController.CurrentOffsetFirstPlayerUInt) - 0xB8 + 0x04;
+        byte[] tName = rw.ReadBytes(address, 20);
+        return StringUtil.GetString(tName, 0, 10);
+    }
+
     private static bool isZeroArray(byte[] bytes) 
     {
         for (int i = 0; i < bytes.Length; ++i)

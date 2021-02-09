@@ -20,7 +20,7 @@ namespace NHSE.Injection
             }
         }
 
-        public byte[] ReadBytes(uint offset, int length, RWMethod method = RWMethod.Heap)
+        public byte[] ReadBytes(ulong offset, int length, RWMethod method = RWMethod.Heap)
         {
             if (length > MaximumTransferSize)
                 return ReadBytesLarge(offset, length, method);
@@ -37,7 +37,7 @@ namespace NHSE.Injection
             }
         }
 
-        public void WriteBytes(byte[] data, uint offset, RWMethod method = RWMethod.Heap)
+        public void WriteBytes(byte[] data, ulong offset, RWMethod method = RWMethod.Heap)
         {
             if (data.Length > MaximumTransferSize)
                 WriteBytesLarge(data, offset, method);
@@ -65,14 +65,14 @@ namespace NHSE.Injection
             }
         }
 
-        private void WriteBytesLarge(byte[] data, uint offset, RWMethod method)
+        private void WriteBytesLarge(byte[] data, ulong offset, RWMethod method)
         {
             int byteCount = data.Length;
             for (int i = 0; i < byteCount; i += MaximumTransferSize)
                 WriteBytes(SubArray(data, i, MaximumTransferSize), offset + (uint)i, method);
         }
 
-        private byte[] ReadBytesLarge(uint offset, int length, RWMethod method)
+        private byte[] ReadBytesLarge(ulong offset, int length, RWMethod method)
         {
             List<byte> read = new List<byte>();
             for (int i = 0; i < length; i += MaximumTransferSize)

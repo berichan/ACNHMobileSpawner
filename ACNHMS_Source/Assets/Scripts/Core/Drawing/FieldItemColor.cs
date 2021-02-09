@@ -10,7 +10,7 @@ namespace NHSE.Core
                 return GetItemColor60000(item);
             if (item.DisplayItemId > 13930)
             {
-                UnityEngine.Debug.Log(item.DisplayItemId);
+                //UnityEngine.Debug.Log(item.DisplayItemId);
                 return Color.White;
             }
             var kind = ItemInfo.GetItemKind(item);
