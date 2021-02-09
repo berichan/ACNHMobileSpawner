@@ -273,7 +273,7 @@ public class SpriteController : MonoBehaviour
             hexToUse = itemidAsHex;
 
 
-        if (ItemInfo.GetItemKind(t).IsFlower()) // nhse and poker handle flowers differently
+        if (ItemInfo.GetItemKind(t).IsFlower()) 
         {
             pathRet = GetImagePathFromID(hexToUse, flowerSource);
             if (pathRet == "")
