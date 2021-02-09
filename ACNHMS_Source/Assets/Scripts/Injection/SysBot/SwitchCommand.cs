@@ -84,6 +84,38 @@ namespace NHSE.Injection
         public static byte[] PokeRaw(uint offset, byte[] data) => Encode($"poke 0x{offset:X8} 0x{string.Concat(data.Select(z => $"{z:X2}"))}", false);
 
         /// <summary>
+        /// Requests the Bot to send <see cref="count"/> bytes from absolute <see cref="offset"/>.
+        /// </summary>
+        /// <param name="offset">Absolute address of the data</param>
+        /// <param name="count">Amount of bytes</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] PeekAbsolute(ulong offset, int count) => Encode($"peekAbsolute 0x{offset:X16} {count}");
+
+        /// <summary>
+        /// Sends the Bot <see cref="data"/> to be written to absolute <see cref="offset"/>.
+        /// </summary>
+        /// <param name="offset">Absolute address of the data</param>
+        /// <param name="data">Data to write</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] PokeAbsolute(ulong offset, byte[] data) => Encode($"pokeAbsolute 0x{offset:X16} 0x{string.Concat(data.Select(z => $"{z:X2}"))}");
+
+        /// <summary>
+        /// Requests the Bot to send <see cref="count"/> bytes from main <see cref="offset"/>.
+        /// </summary>
+        /// <param name="offset">Address of the data relative to main</param>
+        /// <param name="count">Amount of bytes</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] PeekMain(ulong offset, int count) => Encode($"peekMain 0x{offset:X16} {count}");
+
+        /// <summary>
+        /// Sends the Bot <see cref="data"/> to be written to main <see cref="offset"/>.
+        /// </summary>
+        /// <param name="offset">Address of the data relative to main</param>
+        /// <param name="data">Data to write</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] PokeMain(ulong offset, byte[] data) => Encode($"pokeMain 0x{offset:X16} 0x{string.Concat(data.Select(z => $"{z:X2}"))}");
+
+        /// <summary>
         /// Requests the Bot to send the current count of frozen offsets.
         /// </summary>
         /// <returns>Encoded command bytes</returns>
@@ -93,7 +125,7 @@ namespace NHSE.Injection
         /// Requests the Bot to follow the main pointer and return the (absolute) offset at the end. The first value should be the main+jump
         /// </summary>
         /// <returns>Encoded command bytes</returns>
-        public static byte[] FollowMainPointer(int[] jumps) => Encode($"pointer{string.Concat(jumps.Select(z => $" {z}"))}");
+        public static byte[] FollowMainPointer(long[] jumps) => Encode($"pointer{string.Concat(jumps.Select(z => $" {z}"))}");
 
         /// <summary>
         /// Sends the Bot <see cref="data"/> to be constantly written to <see cref="offset"/>.
@@ -121,5 +153,32 @@ namespace NHSE.Injection
         /// </summary>
         /// <returns>Encoded command bytes</returns>
         public static byte[] FreezeClear() => Encode("freezeClear");
+    }
+
+    public static class SwitchCommandMethodHelper
+    {
+        public static byte[] GetPeekCommand(ulong offset, int count, RWMethod method, bool usb)
+        {
+            switch (method)
+            {
+                case RWMethod.Heap when !usb: return SwitchCommand.Peek((uint)offset, count);
+                case RWMethod.Heap when usb: return SwitchCommand.PeekRaw((uint)offset, count);
+                case RWMethod.Main: return SwitchCommand.PeekMain(offset, count);
+                case RWMethod.Absolute: return SwitchCommand.PeekAbsolute(offset, count);
+                default: return SwitchCommand.Peek((uint)offset, count);
+            }
+        }
+
+        public static byte[] GetPokeCommand(ulong offset, byte[] data, RWMethod method, bool usb)
+        {
+            switch (method)
+            {
+                case RWMethod.Heap when !usb: return SwitchCommand.Poke((uint)offset, data);
+                case RWMethod.Heap when usb: return SwitchCommand.PokeRaw((uint)offset, data);
+                case RWMethod.Main: return SwitchCommand.PokeMain(offset, data);
+                case RWMethod.Absolute: return SwitchCommand.PokeAbsolute(offset, data);
+                default: return SwitchCommand.Poke((uint)offset, data);
+            }
+        }
     }
 }

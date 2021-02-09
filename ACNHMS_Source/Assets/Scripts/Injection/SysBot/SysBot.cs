@@ -53,13 +53,13 @@ namespace NHSE.Injection
                 return ReadInternal(buffer);
         }
 
-        public byte[] ReadBytes(uint offset, int length)
+        public byte[] ReadBytes(uint offset, int length, RWMethod method = RWMethod.Heap)
         {
             if (length > MaximumTransferSize)
-                return ReadBytesLarge(offset, length);
+                return ReadBytesLarge(offset, length, method);
             lock (_sync)
             {
-                var cmd = SwitchCommand.Peek(offset, length);
+                var cmd = SwitchCommandMethodHelper.GetPeekCommand(offset, length, method, false);
                 SendInternal(cmd);
 
                 // give it time to push data back
@@ -70,17 +70,17 @@ namespace NHSE.Injection
             }
         }
 
-        public void WriteBytes(byte[] data, uint offset)
+        public void WriteBytes(byte[] data, uint offset, RWMethod method = RWMethod.Heap)
         {
             if (data.Length > MaximumTransferSize)
-                WriteBytesLarge(data, offset);
+                WriteBytesLarge(data, offset, method);
             else
                 lock (_sync)
                 {
-                SendInternal(SwitchCommand.Poke(offset, data));
+                    SendInternal(SwitchCommandMethodHelper.GetPokeCommand(offset, data, method, false));
 
-                // give it time to push data back
-                Thread.Sleep((data.Length / 256) + UI_Settings.GetThreadSleepTime());
+                    // give it time to push data back
+                    Thread.Sleep((data.Length / 256) + UI_Settings.GetThreadSleepTime());
                 }
         }
 
@@ -99,7 +99,7 @@ namespace NHSE.Injection
             }
         }
 
-        public ulong FollowMainPointer(int[] jumps)
+        public ulong FollowMainPointer(long[] jumps)
         {
             lock (_sync)
             {
@@ -164,18 +164,18 @@ namespace NHSE.Injection
             }
         }
 
-        private void WriteBytesLarge(byte[] data, uint offset)
+        private void WriteBytesLarge(byte[] data, uint offset, RWMethod method)
         {
             int byteCount = data.Length;
             for (int i = 0; i < byteCount; i += MaximumTransferSize)
-                WriteBytes(SubArray(data, i, MaximumTransferSize), offset + (uint)i);
+                WriteBytes(SubArray(data, i, MaximumTransferSize), offset + (uint)i, method);
         }
 
-        private byte[] ReadBytesLarge(uint offset, int length)
+        private byte[] ReadBytesLarge(uint offset, int length, RWMethod method)
         {
             List<byte> read = new List<byte>();
             for (int i = 0; i < length; i += MaximumTransferSize)
-                read.AddRange(ReadBytes(offset + (uint)i, Math.Min(MaximumTransferSize, length - i)));
+                read.AddRange(ReadBytes(offset + (uint)i, Math.Min(MaximumTransferSize, length - i), method));
             return read.ToArray();
         }
 
