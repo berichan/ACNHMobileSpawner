@@ -161,7 +161,7 @@ public class MapGraphicGenerator
         }
     }
 
-    Texture2D FlipTexture(Texture2D texture)
+    public static Texture2D FlipTexture(Texture2D texture)
     {
         int width = texture.width;
         int height = texture.height;
@@ -178,7 +178,7 @@ public class MapGraphicGenerator
         return snap;
     }
 
-    Texture2D Resize(Texture2D texture2D, int targetX, int targetY)
+    public static Texture2D Resize(Texture2D texture2D, int targetX, int targetY)
     {
         RenderTexture rt = new RenderTexture(targetX, targetY, 24);
         RenderTexture.active = rt;

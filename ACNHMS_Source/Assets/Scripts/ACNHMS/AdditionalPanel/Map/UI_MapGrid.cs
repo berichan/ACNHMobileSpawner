@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Helper class to populate a grid
 /// </summary>
+[RequireComponent(typeof(GridLayoutGroup))]
 public class UI_MapGrid : MonoBehaviour
 {
     public UI_MapCell PrefabCell;
@@ -14,6 +16,8 @@ public class UI_MapGrid : MonoBehaviour
     public int NumVertical = 1;
 
     public List<UI_MapCell> SpawnedCells { get; private set; } = new List<UI_MapCell>();
+
+    public GridLayoutGroup Layout => GetComponent<GridLayoutGroup>();
 
     public void PopulateGrid()
     {

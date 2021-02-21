@@ -123,8 +123,22 @@ public class UI_MapBulkSpawn : MonoBehaviour
         try
         {
             fileLoadedItems = Item.GetArray(bytes);
-            TrimTrailingNoItems(ref fileLoadedItems, Item.NONE); // remove trailing empties
-            UI_Popup.CurrentInstance.CreatePopupChoice("File loaded successfully! \r\nWould you like to set the flag0 of these items to 0x20, so that they will be able to be picked up by you and other players?", "Yes", () => { Flag20LoadedItems(); }, null, "No", () => { });
+            SetLoadedItems(fileLoadedItems);
+        }
+        catch (Exception e)
+        {
+            PopupHelper.CreateError(e.Message, 3f);
+        }
+    }
+
+    public void SetLoadedItems(Item[] items, bool promptf20 = true)
+    {
+        try
+        {
+            fileLoadedItems = items;
+            TrimTrailingNoItems(ref items, Item.NONE); // remove trailing empties
+            if (promptf20)
+                UI_Popup.CurrentInstance.CreatePopupChoice("File loaded successfully! \r\nWould you like to set the flag0 of these items to 0x20, so that they will be able to be picked up by you and other players?", "Yes", () => { Flag20LoadedItems(); }, null, "No", () => { });
             CurrentSpawnPreset = BulkSpawnPreset.CustomFile;
             BulkSpawnPresetMode.value = (int)BulkSpawnPreset.CustomFile;
             updateItemCount();
