@@ -41,6 +41,7 @@ public static class OffsetHelper
 
     public const ulong DodoAddress = 0xA97E15C;
     public const ulong OnlineSessionAddress = 0x91FD740;
+
     // pointers
-    public static readonly long[] PlayerCoordJumps = new long[5] { 0x396F5A0L, 0x18L, 0x178L, 0xD0L, 0xDAL };
+    public static readonly long[] PlayerCoordJumps = new long[5] { 0x396F5A0L, 0x18L, 0x178L, 0xD0L, 0xD8L };
 }

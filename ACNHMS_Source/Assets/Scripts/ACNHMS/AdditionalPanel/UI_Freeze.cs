@@ -9,13 +9,13 @@ using System.Globalization;
 
 public class UI_Freeze : IUI_Additional
 {
-    private const string SBBUrl = "https://github.com/berichan/sys-botbase/releases";
+    private const string SBBUrl = "https://github.com/olliz0r/sys-botbase/releases";
 
     uint invOffset => (uint)(SysBotController.CurrentOffsetFirstPlayerUInt + PocketInjector.shift + ((uint)OffsetHelper.PlayerSize * UI_Settings.GetPlayerIndex()));
 
     const int villagerFlagStart = 0x1267c;
     const int mapChunkCount = 64;
-    const int mapSizeBytes = (MapGrid.MapTileCount32x32 * Item.SIZE);
+    const int mapSizeBytes = MapGrid.MapTileCount32x32 * Item.SIZE;
     const string villagerString = "villager flags";
     const string invString = "inventory";
     const string mapString = "map";
@@ -24,25 +24,33 @@ public class UI_Freeze : IUI_Additional
 
     public Text CountLabel;
     public Text VersionLabel;
+    public Text FreezeMillisecondLabel;
     public InputField OffsetField;
     public InputField SizeField;
+    public Slider FreezeRateSlider;
 
     public GameObject Blocker;
     
     public void GoToDownloadPage() => Application.OpenURL(SBBUrl);
+
+    private void Start()
+    {
+        FreezeRateSlider.onValueChanged.AddListener(delegate { FreezeMillisecondLabel.text = FreezeRateSlider.value.ToString(); });
+    }
 
     public void CheckUsability()
     {
         var ver = getVersion().TrimEnd('\0').TrimEnd('\n');
         VersionLabel.text = ver;
         var verLower = ver.ToLower();
-        if (verLower.EndsWith("beri"))
+        var verDouble = double.TryParse(verLower, out var version);
+        if (verDouble && version > 1.699)
         {
             Blocker.SetActive(false);
         }
         else
         {
-            PopupHelper.CreateError("Installed version of botbase is not freeze compatible!", 3f);
+            PopupHelper.CreateError("Installed version of botbase is outdated. Please use a later version.", 3f);
             return;
         }
         UpdateFreezeCount();
@@ -60,6 +68,14 @@ public class UI_Freeze : IUI_Additional
     {
         CurrentConnection.UnfreezeAll();
         UpdateFreezeCount();
+    }
+
+    public void PauseAll() => CurrentConnection.FreezePause();
+    public void UnpauseAll() => CurrentConnection.FreezeUnpause();
+
+    public void SetFreezerate()
+    {
+        CurrentConnection.Configure("freezeRate", ((int)FreezeRateSlider.value).ToString());
     }
 
     public void SendVillagerFlagFreezes()

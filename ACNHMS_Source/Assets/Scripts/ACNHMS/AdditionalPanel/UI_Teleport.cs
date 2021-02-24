@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class UI_Teleport : IUI_Additional
 {
-    private string TeleportPath => Path.Combine(Application.persistentDataPath, "teleports.bin");
+    private string TeleportPath => Path.Combine(Application.persistentDataPath, "teleports2.bin");
 
     public UI_TeleportButton TeleportButtonPrefab;
     public GameObject NoTeleports;
@@ -27,7 +27,8 @@ public class UI_Teleport : IUI_Additional
         loadAnchors();
         var ver = getVersion().TrimEnd('\0').TrimEnd('\n');
         var verLower = ver.ToLower();
-        beriBase = verLower.EndsWith("beri");
+        double.TryParse(verLower, out var version);
+        beriBase = version > 1.699;
     }
 
     // Update is called once per frame
@@ -40,7 +41,7 @@ public class UI_Teleport : IUI_Additional
     {
         var offset = PointerSolver.FollowMainPointer(CurrentConnection, OffsetHelper.PlayerCoordJumps, beriBase);
         CurrentConnection.WriteBytes(pra.Anchor1, offset, NHSE.Injection.RWMethod.Absolute);
-        CurrentConnection.WriteBytes(pra.Anchor2, offset + 0x3A, NHSE.Injection.RWMethod.Absolute);
+        CurrentConnection.WriteBytes(pra.Anchor2, offset + 0x3C, NHSE.Injection.RWMethod.Absolute);
     }
 
     public void LoadAnchorFromGameAndSave()
@@ -56,9 +57,14 @@ public class UI_Teleport : IUI_Additional
     public PosRotAnchor GetCurrentPlayerPositionalData(string name)
     {
         var offset = PointerSolver.FollowMainPointer(CurrentConnection, OffsetHelper.PlayerCoordJumps, beriBase);
-        var bytesA = CurrentConnection.ReadBytes(offset, 0xA, NHSE.Injection.RWMethod.Absolute);
-        var bytesB = CurrentConnection.ReadBytes(offset + 0x3A, 0x4, NHSE.Injection.RWMethod.Absolute);
+        var bytesA = CurrentConnection.ReadBytes(offset, 0xC, NHSE.Injection.RWMethod.Absolute);
+        var bytesB = CurrentConnection.ReadBytes(offset + 0x3C, 0x4, NHSE.Injection.RWMethod.Absolute);
         var sequentinalAnchor = bytesA.Concat(bytesB).ToArray();
+
+        //testing
+        //var bytesAAlt = CurrentConnection.PeekMainPointer(OffsetHelper.PlayerCoordJumps, 0xC);
+        //Debug.Log($"Match: {bytesA.SequenceEqual(bytesAAlt)}");
+
         return new PosRotAnchor(sequentinalAnchor, name);
     }
 
@@ -112,9 +118,6 @@ public class UI_Teleport : IUI_Additional
 
     private void saveAnchors()
     {
-        if (teleports.Count < 1)
-            return;
-
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(TeleportPath, FileMode.OpenOrCreate);
         bf.Serialize(file, teleports.ToArray());
