@@ -65,6 +65,17 @@ namespace NHSE.Injection
             }
         }
 
+        public void Configure(string name, string value)
+        {
+            lock (_sync)
+            {
+                AndroidUSBUtils.CurrentInstance.WriteToEndpoint(SwitchCommand.Configure(name, value));
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+            }
+        }
+
         private void WriteBytesLarge(byte[] data, ulong offset, RWMethod method)
         {
             int byteCount = data.Length;
@@ -110,6 +121,21 @@ namespace NHSE.Injection
         }
 
         public ulong FollowMainPointer(long[] jumps)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] PeekMainPointer(long[] jumps, int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FreezePause()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FreezeUnpause()
         {
             throw new NotImplementedException();
         }

@@ -111,7 +111,23 @@ namespace NHSE.Injection
                 var buffer = new byte[17];
                 var _ = ReadInternal(buffer);
                 var bytes = Decoder.ConvertHexByteStringToBytes(buffer);
+                bytes = bytes.Reverse().ToArray();
                 return BitConverter.ToUInt64(bytes, 0);
+            }
+        }
+
+        public byte[] PeekMainPointer(long[] jumps, int length)
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.PeekMainPointer(jumps, length);
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep((length / 256) + UI_Settings.GetThreadSleepTime());
+                var buffer = new byte[(length * 2) + 1];
+                var _ = ReadInternal(buffer);
+                return Decoder.ConvertHexByteStringToBytes(buffer);
             }
         }
 
@@ -157,6 +173,42 @@ namespace NHSE.Injection
             lock (_sync)
             {
                 var cmd = SwitchCommand.FreezeClear();
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+            }
+        }
+
+        public void FreezePause()
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.FreezePause();
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+            }
+        }
+    
+        public void FreezeUnpause()
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.FreezeUnpause();
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+            }
+        }
+
+        public void Configure(string name, string value)
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.Configure(name, value);
                 SendInternal(cmd);
 
                 // give it time to push data back

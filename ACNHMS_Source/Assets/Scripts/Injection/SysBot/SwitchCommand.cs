@@ -128,6 +128,12 @@ namespace NHSE.Injection
         public static byte[] FollowMainPointer(long[] jumps) => Encode($"pointer{string.Concat(jumps.Select(z => $" {z}"))}");
 
         /// <summary>
+        /// Requests the Bot to follow the main pointer and return the bytes read at the end. The first value should be the main+jump
+        /// </summary>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] PeekMainPointer(long[] jumps, int count) => Encode($"pointerPeek {count}{string.Concat(jumps.Select(z => $" {z}"))}");
+
+        /// <summary>
         /// Sends the Bot <see cref="data"/> to be constantly written to <see cref="offset"/>.
         /// </summary>
         /// <param name="offset">Address of the data</param>
@@ -153,6 +159,24 @@ namespace NHSE.Injection
         /// </summary>
         /// <returns>Encoded command bytes</returns>
         public static byte[] FreezeClear() => Encode("freezeClear");
+
+        /// <summary>
+        /// Requests the Bot to pause all freezes.
+        /// </summary>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] FreezePause() => Encode("freezePause");
+
+        /// <summary>
+        /// Requests the Bot to unpause freezes
+        /// </summary>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] FreezeUnpause() => Encode("freezeUnpause");
+
+        /// <summary>
+        /// Requests the Bot to clear all current frozen values
+        /// </summary>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] Configure(string name, string value) => Encode($"configure {name} {value}");
     }
 
     public static class SwitchCommandMethodHelper
