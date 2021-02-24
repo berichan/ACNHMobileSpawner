@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using NHSE.Core;
-using NHSE.Injection;
-using System.IO;
 using NH_CreationEngine;
-using System;
+
 
 public class UI_Villager : IUI_Additional
 {
+    const int VillagersSize = Villager2.SIZE * 10;
+    const int VillagerHousesSize = VillagerHouse.SIZE * 10;
+
     // sprites
     public static string VillagerFilename = "villagerdump";
     public static string VillagerFilenameHeader = VillagerFilename + "header";
@@ -307,7 +310,7 @@ public class UI_Villager : IUI_Additional
 
     public void ShowSelector()
     {
-        Selector.Init(() => { loadVillagerFromResource(); }, () => { resetVillagerSelection(); }, villagerSprites);
+        Selector.Init(() => { loadVillagerFromResource(); }, () => { }, villagerSprites);
     }
 
     public void ShowDataSelector()
@@ -401,11 +404,6 @@ public class UI_Villager : IUI_Additional
         return vTmp;
     }
 
-    private void resetVillagerSelection()
-    {
-
-    }
-
     private void checkReloadVillager()
     {
         if (ReloadVillagerToggle.isOn)
@@ -416,7 +414,6 @@ public class UI_Villager : IUI_Additional
                 loadedVillager.SetMemories(v.GetMemories());
                 loadedVillager.SetEventFlagsSave(v.GetEventFlagsSave());
                 loadedVillager.MovingOut = v.MovingOut;
-                //loadedVillager.CatchPhrase = v.CatchPhrase;
             }
         }
 
@@ -439,6 +436,50 @@ public class UI_Villager : IUI_Additional
             throw new Exception("The villager having their house replaced doesn't have a house on your island."); // not sure why but it can get unloaded during the check
 
         loadVillagerData(v, loadedVillagerHouse, true);
+    }
+
+    public void DumpVillagerArray()
+    {
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Fetching all villager data, this may take a long time...", () =>
+        {
+            var villagerBytes = CurrentConnection.ReadBytes(CurrentVillagerAddress, VillagersSize);
+            var villagerHouseBytes = CurrentConnection.ReadBytes(CurrentVillagerHouseAddress, VillagerHousesSize);
+            var combined = villagerBytes.Concat(villagerHouseBytes).ToArray();
+
+            string names = string.Empty;
+            // get names
+            for (int i = 0; i < 10; ++i)
+            {
+                var species = (VillagerSpecies)villagerBytes[i * Villager2.SIZE];
+                if (species != VillagerSpecies.non)
+                {
+                    var variant = villagerBytes[(i * Villager2.SIZE) + 1];
+                    var intern = VillagerUtil.GetInternalVillagerName(species, variant);
+                    names += $"_{GameInfo.Strings.GetVillager(intern)}";
+                }
+                else
+                    names += $"_EMPTY";
+            }
+
+            UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile($"{names}.bin", combined);
+        });
+    }
+
+    public void LoadVillagerArray()
+    {
+        var sizeExpected = VillagersSize + VillagerHousesSize;
+        UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenAnyFile(loadVillagerBytes, sizeExpected);
+    }
+
+    private void loadVillagerBytes(byte[] bytes)
+    {
+        var villagerBytes = bytes.Take(VillagersSize).ToArray();
+        var villagerHouseBytes = bytes.Skip(VillagersSize).ToArray();
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Sending all villager data, this may take a long time...", () =>
+        {
+            CurrentConnection.WriteBytes(villagerBytes, CurrentVillagerAddress);
+            CurrentConnection.WriteBytes(villagerHouseBytes, CurrentVillagerHouseAddress);
+        });
     }
 
     // tools
