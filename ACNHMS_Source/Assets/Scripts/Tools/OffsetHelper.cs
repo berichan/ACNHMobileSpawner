@@ -28,7 +28,7 @@ public static class OffsetHelper
     public const ulong TurnipAddress = 0xABE181EC;
     public const ulong VillagerAddress = TurnipAddress - 0x2cb0 - 0x41887c + 0x10;
     public const ulong VillagerHouseAddress = TurnipAddress - 0x2cb0 - 0x41887c + 0x417634;
-    public const ulong BackupSaveDiff = 0xB25900;
+    public const ulong BackupSaveDiff = 0x849C50;
 
     public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x20ac08;
     public const ulong LandMakingMapStart = FieldItemStart + 0xAAA00;
@@ -36,14 +36,14 @@ public static class OffsetHelper
     public const ulong MainFieldStructurStart = FieldItemStart + 0xCF600;
 
     // other addresses
-    public const ulong ArriverNameLocAddress = 0xB66F7EE0; // done
+    public const ulong ArriverNameLocAddress = 0xB66F8208; 
     public const ulong ArriverVillageLocAddress = ArriverNameLocAddress - 0x1C;
 
     public const ulong TextSpeedAddress = 0xBA21BB8;
 
-    public const ulong DodoAddress = 0xA98115C; // done
-    public const ulong OnlineSessionAddress = 0x9200740; // done
-    public const ulong OnlineSessionVisitorAddress = 0x9D2FB68;
+    public const ulong DodoAddress = 0xA98115C; 
+    public const ulong OnlineSessionAddress = 0x9200740; 
+    public const ulong OnlineSessionVisitorAddress = 0x9D2FFB0;
     public const ulong OnlineSessionVisitorSize = 0x448; // reverse order
 
     // pointers
