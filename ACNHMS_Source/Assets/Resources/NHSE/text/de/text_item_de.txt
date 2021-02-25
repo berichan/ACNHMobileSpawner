@@ -865,7 +865,7 @@ Billardtisch
 Zahlenkugel-Maschine
 Vogelkäfig
 
-
+Blütenlampe
 
 
 Buchstütze
@@ -986,7 +986,7 @@ Go-Brett
 
 
 Harfe
-
+Puppenset
 
 
 
@@ -7545,7 +7545,7 @@ Schwarz-Standardmatte S
 Festtagsteppich
 Kürbisteppich
 Häschentag-Teppich
-
+Kleeblatttag-Teppich
 Streber-Schuljacke (Weinrot)
 Streber-Schuljacke (Grün)
 Streber-Schuljacke (Weiß)
@@ -7728,7 +7728,7 @@ Jodelpulli (Offwhite)
 
 
 
-Münze
+Sterni-Münze
 Sterni-Sack
 Klappmuschel
 Spiralmuschel
@@ -13544,25 +13544,25 @@ Schlemmfest-Teppich
 2021-Festtagsbogen
 
 
+Mario-Mütze (Rot)
+Luigi-Mütze (Grün)
+Wario-Mütze (Gelb)
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Mario-Outfit (Blau)
+Luigi-Outfit (Marineblau)
+Wario-Outfit (Lila)
+Mario-Schnauzer (Schwarz)
+Luigi-Schnauzer (Schwarz)
+Wario-Schnauzer (Schwarz)
+Paar Mario-Schuhe (Braun)
+Paar Wario-Latschen (Grün)
+Peach-Krone (Gold)
+Peach-Kleid (Rosa)
 
 
 
@@ -13600,7 +13600,7 @@ Sonnenblumenteppich
 
 
 
-
+Paar Peach-Pumps (Rot)
 Schneefall-Tapete
 
 
@@ -13802,8 +13802,8 @@ Olivier-Salat
 パンプキンパイHaPu
 サカナのムニエルHaPu
 グラタンHaPu
-
-
+Block-Boden
+Pilztapete
 
 
 
@@ -13819,19 +13819,19 @@ Olivier-Salat
 Schlemmfest-Bräter
 Schlemmfest-Getreidedeko
 Schlemmfest-Tischgedeck
-
-
-
-
-
-
-
-
-
-
-
-
-
+?-Block
+Block
+Röhre
+Zielpfahl
+Superstern
+Feuerblume
+Superpilz
+1-Up-Pilz
+Koopa-Panzer
+Münze
+Pilzplattform (L)
+Pilzplattform (S)
+Steinblock
 
 Apfelschorle
 Geschenkesack
@@ -13870,8 +13870,8 @@ Resetti-Figur
 Geschenk (unbekannt)
 
 
-
-
+Yoshi-Ei-Teppich
+Lakitus-Wolke-Teppich
 
 
 
@@ -14018,6 +14018,7 @@ Karnevalstracht (Blau)
 
 
 
+Pi-Kuchen
 
 
 
@@ -14025,11 +14026,10 @@ Karnevalstracht (Blau)
 
 
 
-
-
+Kleeblatt-Smoothie
 Herz-Bouquet
 Viva-Karneval-Emotionen
-
+Kleeblatttürschild
 Mondneujahr-Dekoration
 
 
@@ -14233,14 +14233,15 @@ Sebaetdon
 
 
 
-
-
-
-
-
+Kleehut (Grün)
+Kleeblatt-Outfit (Grün)
+Paar Kleeblattschuhe (Grün)
+Kleeblattsonnenbrille (Grün)
+Kleeblattstab
 Karnevalstracht (Rot)
 Karnevalstracht (Lila)
 Karnevalstracht (Grün)
+Paar Luigi-Schuhe (Braun)
 
 
 
@@ -14263,8 +14264,7 @@ Karnevalstracht (Grün)
 
 
 
-
-
+Schwebeblock
 
 
 
@@ -14277,3 +14277,64 @@ Karnevalstracht (Grün)
 
 
 Nixenzaun
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+きゅうりのうま
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+つきみだんご
+なすびのうし
