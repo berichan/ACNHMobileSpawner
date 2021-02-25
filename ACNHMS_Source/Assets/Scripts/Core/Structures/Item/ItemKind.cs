@@ -158,6 +158,7 @@ namespace NHSE.Core
         Kind_Windmill,
         Kind_WoodenStickTool,
         Kind_WrappingPaper,
+        Kind_XmasDeco,
         Kind_YutaroWisp,
         Onepiece_Dress,
         Onepiece_Long,

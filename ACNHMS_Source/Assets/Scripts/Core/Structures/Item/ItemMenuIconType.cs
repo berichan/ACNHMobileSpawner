@@ -277,6 +277,7 @@ namespace NHSE.Core
         Itotonbo,
         JohnnyQuestDust1,
         JohnyParts,
+        JuiceShamrock,
         Kabu,
         Kabutogani,
         Kairoudouketsu,
