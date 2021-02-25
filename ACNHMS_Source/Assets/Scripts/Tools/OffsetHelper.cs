@@ -47,5 +47,5 @@ public static class OffsetHelper
     public const ulong OnlineSessionVisitorSize = 0x448; // reverse order
 
     // pointers
-    public static readonly long[] PlayerCoordJumps = new long[5] { 0x396F5A0L, 0x18L, 0x178L, 0xD0L, 0xD8L };
+    public static readonly long[] PlayerCoordJumps = new long[5] { 0x398C380L, 0x18L, 0x178L, 0xD0L, 0xD8L };
 }
