@@ -103,7 +103,7 @@ public class UI_Freeze : IUI_Additional
 
     public void SendTurnipFreeze()
     {
-        StartCoroutine(createFreezes(new uint[1] { (uint)OffsetHelper.TurnipAddress }, TurnipStonk.SIZE, moneyString));
+        StartCoroutine(createFreezes(new uint[1] { (uint)OffsetHelper.TurnipAddress }, TurnipStonk.SIZE, turnipString));
     }
 
     public void SendCustomFreeze()
