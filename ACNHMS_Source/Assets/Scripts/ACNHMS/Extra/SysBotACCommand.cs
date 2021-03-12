@@ -56,7 +56,7 @@ public class SysBotACCommand : MonoBehaviour
 
                 var itemAsHex = item.ToBytesClass();
                 var asString = BitConverter.ToString(itemAsHex).Replace("-", "");
-                asString = flipEndianness(asString);
+                asString = flipEndianness(asString).TrimStart('0');
                 hexes.Add(asString);
                 count++;
             }
