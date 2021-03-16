@@ -598,6 +598,40 @@ public class UI_MapTerrain : MonoBehaviour
         }
         return retFunc;
     }
+
+    // dumping/loading
+    public void DumpAllMapdata()
+    {
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Fetching all map data. Please wait, this may take up to 2 minutes.", () =>
+        {
+            var field = MapParent.CurrentConnection.ReadBytes(OffsetHelper.FieldItemStart, FieldSize);
+            var terrain = MapParent.CurrentConnection.ReadBytes(OffsetHelper.LandMakingMapStart, TerrainSize);
+            var outside = MapParent.CurrentConnection.ReadBytes(OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams);
+            var structure = MapParent.CurrentConnection.ReadBytes(OffsetHelper.MainFieldStructurStart, BuildingSize);
+
+            var sequentialData = field.Concat(terrain).Concat(outside).Concat(structure);
+
+            UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile($"MapData_{DateTime.Now.ToString("yyyyddMM_HHmmss")}.bin", sequentialData.ToArray());
+        });
+    }
+
+    public void LoadMapdata() => UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenAnyFile(SendMapdata, FieldSize + TerrainSize + AcrePlusAdditionalParams + BuildingSize);
+    
+    private void SendMapdata(byte[] data)
+    {
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Sending all map data. Please wait, this may take up to 2 minutes.", () =>
+        {
+            var field = data.Take(FieldSize);
+            var terrain = data.Skip(FieldSize).Take(TerrainSize);
+            var outside = data.Skip(FieldSize + TerrainSize).Take(AcrePlusAdditionalParams);
+            var structure = data.Skip(FieldSize + TerrainSize + AcrePlusAdditionalParams);
+
+            MapParent.CurrentConnection.WriteBytes(field.ToArray(), OffsetHelper.FieldItemStart);
+            MapParent.CurrentConnection.WriteBytes(terrain.ToArray(), OffsetHelper.LandMakingMapStart);
+            MapParent.CurrentConnection.WriteBytes(outside.ToArray(), OffsetHelper.OutsideFieldStart);
+            MapParent.CurrentConnection.WriteBytes(structure.ToArray(), OffsetHelper.MainFieldStructurStart);
+        });
+    }
 }
 
 public static class ItemListExtensions
