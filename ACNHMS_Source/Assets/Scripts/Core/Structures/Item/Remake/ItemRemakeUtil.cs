@@ -531,7 +531,7 @@ namespace NHSE.Core
             {05310, 0841}, // spider doorplate
             {05337, 0606}, // three-tiered snowperson
             {05338, 0607}, // simple panel
-            {05397, 0784}, // player's smartphone (internal)
+            {05397, 0784}, // 
             {05543, 0628}, // wooden-block stool
             {05635, 0643}, // tiny library
             {05636, 0642}, // wooden-plank sign
@@ -1068,6 +1068,12 @@ namespace NHSE.Core
             {10244, 0880}, // fragrance sticks
             {10742, 0883}, // bamboo stool
             {10743, 0884}, // bamboo speaker
+            {11115, 0652}, // Rilla's photo
+            {11116, 0652}, // Marty's photo
+            {11117, 0652}, // Étoile's photo
+            {11118, 0652}, // Chai's photo
+            {11119, 0652}, // Chelsea's photo
+            {11120, 0652}, // Toby's photo
             {11941, 0889}, // stone arch
             {11942, 0897}, // street piano
             {11943, 0890}, // stone tablet
@@ -1103,7 +1109,7 @@ namespace NHSE.Core
             {13250, 1210}, // mini circuit
             {13251, 1200}, // dinosaur toy
             {13252, 1205}, // dollhouse
-            {13352, 1157}, // イベントハロウィンなタワー
+            {13352, 1157}, // spooky tower
             {13447, 1295}, // Turkey Day garden stand
             {13448, 1296}, // Turkey Day hearth
             {13449, 1293}, // Turkey Day decorations
@@ -1126,8 +1132,13 @@ namespace NHSE.Core
             {13831, 1522}, // large Mushroom Platform
             {13832, 1523}, // small Mushroom Platform
             {13862, 0652}, // Jingle's photo
+            {13927, 1521}, // Nintendo Switch Lite
             {13930, 1524}, // set of stockings
             {14029, 1546}, // heart-shaped bouquet
+            {14254, 0652}, // Tom Nook's photo
+            {14255, 0652}, // Timmy and Tommy's photo
+            {14256, 0652}, // Isabelle's photo
+            {14340, 1615}, // whoopee cushion
         };
     }
 }
