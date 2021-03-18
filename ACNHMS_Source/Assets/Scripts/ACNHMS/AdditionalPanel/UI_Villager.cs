@@ -14,7 +14,7 @@ public class UI_Villager : IUI_Additional
     const int VillagerHousesSize = VillagerHouse.SIZE * 10;
 
     // sprites
-    public static string VillagerFilename = "villagerdump";
+    public static string VillagerFilename = "villagerdump2";
     public static string VillagerFilenameHeader = VillagerFilename + "header";
     public static string VillagerPath { get { return SpriteBehaviour.UsableImagePath + Path.DirectorySeparatorChar + VillagerFilename; } }
     public static string VillagerHeaderPath { get { return SpriteBehaviour.UsableImagePath + Path.DirectorySeparatorChar + VillagerFilenameHeader; } }
