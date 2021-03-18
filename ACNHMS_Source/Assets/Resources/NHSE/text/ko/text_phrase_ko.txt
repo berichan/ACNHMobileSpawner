@@ -77,6 +77,7 @@ cbr14	띵호아
 cbr15	부끄
 cbr16	아니그냥
 cbr17	차라리
+cbr18	폼폼
 cbr19	어머머
 chn00	키득
 chn01	우힛
@@ -108,6 +109,7 @@ der06	핑크크
 der07	우왕
 der08	라니까
 der09	뚜비뚜바
+der10	하트하트
 dog00	왈왈
 dog01	아니
 dog02	그렇대
@@ -151,6 +153,7 @@ elp06	히힛
 elp07	트랄라
 elp09	뿌뿌
 elp10	따끈따끈
+elp11	롤롤
 elp12	피스
 flg00	그래요
 flg01	오버
@@ -187,6 +190,7 @@ gor07	에그머닛
 gor08	부락
 gor09	끼얍
 gor10	알만하다
+gor11	헬로
 ham00	햄햄
 ham01	큐룽
 ham02	그렇다고
@@ -334,6 +338,7 @@ rbt16	진짜진짜
 rbt17	어뜨케
 rbt18	나도나도
 rbt19	거봐라
+rbt20	케로케로
 rhn00	아뿔소
 rhn01	훗
 rhn02	빠직
@@ -352,6 +357,7 @@ shp10	달려
 shp11	포테토
 shp12	수고
 shp13	므흐흐
+shp14	폭신폭신
 shp15	뿜뿜
 squ00	거얌
 squ01	헤헤헤

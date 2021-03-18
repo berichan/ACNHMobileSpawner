@@ -77,6 +77,7 @@ cbr14	bud
 cbr15	rookie
 cbr16	cubby
 cbr17	ya heard
+cbr18	pompom
 cbr19	myohmy
 chn00	buh-kay
 chn01	uh-hoo
@@ -108,6 +109,7 @@ der06	precious
 der07	saltlick
 der08	no doy
 der09	chow down
+der10	pound cake
 dog00	woof
 dog01	ROOOOOWF
 dog02	rrr-owch
@@ -151,6 +153,7 @@ elp06	WHONK
 elp07	li'l one
 elp09	fuzzers
 elp10	teacup
+elp11	flap flap
 elp12	rockin'
 flg00	toady
 flg01	zzrrbbitt
@@ -187,6 +190,7 @@ gor07	sweetie
 gor08	ayyyeee
 gor09	vroom
 gor10	groovy
+gor11	hello
 ham00	hammie
 ham01	cheekers
 ham02	indeed
@@ -334,6 +338,7 @@ rbt16	nougat
 rbt17	deelish
 rbt18	coooooool
 rbt19	cottontail
+rbt20	ribbit
 rhn00	kerPOW
 rhn01	bigfoot
 rhn02	punk
@@ -352,6 +357,7 @@ shp10	pine nut
 shp11	oh ewe
 shp12	nightshade
 shp13	honk honk
+shp14	fuzzy
 shp15	indeedaroo
 squ00	slacker
 squ01	nutlet

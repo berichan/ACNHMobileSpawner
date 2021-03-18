@@ -77,6 +77,7 @@ cbr14	flüster
 cbr15	baaambus
 cbr16	mwuuu
 cbr17	bossi
+cbr18	pompudding
 cbr19	träum
 chn00	buaa-ka-ka
 chn01	putputtt
@@ -108,6 +109,7 @@ der06	zick
 der07	knospel
 der08	kitz
 der09	hirschl
+der10	denkpink
 dog00	wuff
 dog01	GRRUFF
 dog02	rrr-awau
@@ -151,6 +153,7 @@ elp06	TUUUUT
 elp07	polter
 elp09	puuuuuh
 elp10	huiuiui
+elp11	zimtroll
 elp12	hau
 flg00	kröti
 flg01	quarrrk
@@ -187,6 +190,7 @@ gor07	auauauu
 gor08	uga-uga
 gor09	brahaha
 gor10	kongkong
+gor11	kittykong
 ham00	twirps
 ham01	fiep
 ham02	hähäm
@@ -334,6 +338,7 @@ rbt16	langohr
 rbt17	hüppi
 rbt18	mümml
 rbt19	jahopp
+rbt20	kerokero
 rhn00	rumpel
 rhn01	stampf
 rhn02	punk
@@ -352,6 +357,7 @@ shp10	bwäääh
 shp11	knuddel
 shp12	knuffi
 shp13	helau
+shp14	kikilala
 shp15	jau
 squ00	faulenzer
 squ01	knack

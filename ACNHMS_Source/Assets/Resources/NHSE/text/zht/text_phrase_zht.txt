@@ -77,6 +77,7 @@ cbr14	佳佳
 cbr15	竹子
 cbr16	算了
 cbr17	竟然說
+cbr18	布丁
 cbr19	哎呀
 chn00	咕咕
 chn01	好棒
@@ -108,6 +109,7 @@ der06	西卡
 der07	怎麼辦
 der08	是吧
 der09	鹿鹿
+der10	喜喜
 dog00	汪
 dog01	儂
 dog02	大概
@@ -151,6 +153,7 @@ elp06	嘻嘻
 elp07	啦啷
 elp09	毛毛
 elp10	呼
+elp11	大耳
 elp12	搖滾
 flg00	雨雨
 flg01	機器
@@ -187,6 +190,7 @@ gor07	唉呀
 gor08	嗚呼
 gor09	煞啊
 gor10	同意
+gor11	哈囉
 ham00	火腿
 ham01	轉轉
 ham02	就是這樣
@@ -334,6 +338,7 @@ rbt16	真的
 rbt17	不妙
 rbt18	就是如此
 rbt19	月球
+rbt20	蛙蛙
 rhn00	犀犀
 rhn01	嗯噗
 rhn02	混混
@@ -352,6 +357,7 @@ shp10	等啊
 shp11	薯薯
 shp12	辛苦了
 shp13	丑丑
+shp14	毛茸茸
 shp15	哇耶
 squ00	就是唷
 squ01	哼哼
