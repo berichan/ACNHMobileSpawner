@@ -13,7 +13,7 @@ public class UI_Freeze : IUI_Additional
 
     uint invOffset => (uint)(SysBotController.CurrentOffsetFirstPlayerUInt + PocketInjector.shift + ((uint)OffsetHelper.PlayerSize * UI_Settings.GetPlayerIndex()));
 
-    const int villagerFlagStart = 0x1267c;
+    const int villagerFlagStart = 0x12678;
     const int mapChunkCount = 64;
     const int mapSizeBytes = MapGrid.MapTileCount32x32 * Item.SIZE;
     const string villagerString = "villager flags";
