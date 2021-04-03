@@ -88,6 +88,8 @@ public class UI_MapTerrain : MonoBehaviour
     public Button SaveButton;
     public Text MapCoords;
 
+    public InputField PlazaX, PlazaY;
+
     public UI_MapBulkSpawn BulkSpawner;
     public UI_MapFindAndReplace FindAndReplacer;
 
@@ -424,6 +426,9 @@ public class UI_MapTerrain : MonoBehaviour
         plazaX = BitConverter.ToUInt32(acre_plaza, AcreSizeAll + 4);
         plazaY = BitConverter.ToUInt32(acre_plaza, AcreSizeAll + 8);
 
+        PlazaX.text = plazaX.ToString();
+        PlazaY.text = plazaY.ToString();
+
         if (graphicGenerator != null) graphicGenerator.ReleaseAllResources();
         graphicGenerator = new MapGraphicGenerator(fieldManager, terrainLayer, (ushort)plazaX, (ushort)plazaY, buildings.ToArray());
         MapImage.texture = graphicGenerator.MapBackgroundImage;
@@ -631,6 +636,64 @@ public class UI_MapTerrain : MonoBehaviour
             MapParent.CurrentConnection.WriteBytes(outside.ToArray(), OffsetHelper.OutsideFieldStart);
             MapParent.CurrentConnection.WriteBytes(structure.ToArray(), OffsetHelper.MainFieldStructurStart);
         });
+    }
+
+    public void DumpBuildings() => UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile($"MapBuildings_{DateTime.Now.ToString("yyyyddMM_HHmmss")}.nhb", structure);
+    public void LoadBuildings() => UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenAnyFile(SendBuildings, BuildingSize);
+    private void SendBuildings(byte[] data)
+    {
+        structure = data;
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Sending buildings.", () =>
+        {
+            MapParent.CurrentConnection.WriteBytes(structure, OffsetHelper.MainFieldStructurStart);
+            generateAll();
+        });
+    }
+
+    public void DumpTerrain() => UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile($"MapTerrain_{DateTime.Now.ToString("yyyyddMM_HHmmss")}.nht", terrain);
+    public void LoadTerrain() => UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenAnyFile(SendTerrain, TerrainSize);
+    private void SendTerrain(byte[] data)
+    {
+        terrain = data;
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Sending terrain.", () =>
+        {
+            MapParent.CurrentConnection.WriteBytes(terrain, OffsetHelper.LandMakingMapStart);
+            generateAll();
+        });
+    }
+
+    public void DumpAcre() => UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile($"MapAcre_{DateTime.Now.ToString("yyyyddMM_HHmmss")}.nha", acre_plaza.Take(AcreSizeAll).ToArray());
+    public void LoadAcre() => UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenAnyFile(SendAcre, AcreSizeAll);
+    private void SendAcre(byte[] data)
+    {
+        Array.Copy(data, 0, acre_plaza, 0, AcreSizeAll);
+        UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Sending outside acres.", () =>
+        {
+            MapParent.CurrentConnection.WriteBytes(acre_plaza, OffsetHelper.OutsideFieldStart);
+            generateAll();
+        });
+    }
+
+    public void SetPlaza()
+    {
+        if (uint.TryParse(PlazaX.text, out var plX))
+        {
+            if (uint.TryParse(PlazaY.text, out var plY))
+            {
+                var xb = BitConverter.GetBytes(plX);
+                var yb = BitConverter.GetBytes(plY);
+                Array.Copy(xb, 0, acre_plaza, AcreSizeAll + 4, xb.Length);
+                Array.Copy(yb, 0, acre_plaza, AcreSizeAll + 8, yb.Length);
+                UI_Popup.CurrentInstance.CreatePopupMessage(1f, "Updating plaza.", () =>
+                {
+                    MapParent.CurrentConnection.WriteBytes(acre_plaza, OffsetHelper.OutsideFieldStart);
+                    generateAll();
+                });
+                return;
+            }
+        }
+
+        UI_Popup.CurrentInstance.CreatePopupMessage(1f, "Unable to parse plaza values as u32.", () => {});
     }
 }
 
