@@ -17,6 +17,8 @@ public class UI_TurnipStonk : IUI_Additional
     public InputField BuyPrice;
     //sell
     public InputField MonAM, MonPM, TueAM, TuePM, WedAM, WedPM, ThuAM, ThuPM, FriAM, FriPM, SatAM, SatPM, SunAM, SunPM;
+    //setall
+    public InputField SetAll;
 
     //other
     public InputField RAMOffset;
@@ -101,6 +103,15 @@ public class UI_TurnipStonk : IUI_Additional
             Debug.LogError(e.Message);
             PopupHelper.CreateError(e.Message, 2f);
         }
+    }
+
+    public void SetAllTurnipValues()
+    {
+        string nVal = SetAll.text;
+        if (string.IsNullOrWhiteSpace(nVal))
+            return;
+
+        MonAM.text = MonPM.text = TueAM.text = TuePM.text = WedAM.text = WedPM.text = ThuAM.text = ThuPM.text = FriAM.text = FriPM.text = SatAM.text = SatPM.text = nVal;
     }
 
     void stonkToUI()
