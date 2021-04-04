@@ -47,7 +47,15 @@ public static class OffsetHelper
     public const ulong OnlineSessionVisitorAddress = 0x9D3BFB0;
     public const ulong OnlineSessionVisitorSize = 0x448; // reverse order
 
+    public const ulong TimeAddress = 0x0BA7FCF8;
+
     // pointers
     public static readonly long[] PlayerCoordJumps = new long[5] { 0x39DC030L, 0x18L, 0x178L, 0xD0L, 0xD8L };
     public static readonly long[] ChatCoordJumps = new long[2] { 0x03C3EED0L, 0x40L };
+
+    // exefs (main). Thanks to Arch9sk7 for these
+    public const ulong AnimationSpeedOffset = 0x037A41E8;
+    public const ulong WalkSpeedOffset = 0x01115CE0;
+    public const ulong CollisionOffset = 0x01084140;
+    public const ulong TimeStateAddress = 0x002704C0;
 }
