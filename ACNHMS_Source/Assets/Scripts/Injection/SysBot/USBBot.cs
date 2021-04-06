@@ -191,6 +191,14 @@ namespace NHSE.Injection
             }
         }
 
+        public void SendBytes(byte[] encodeData)
+        {
+            lock (_sync)
+            {
+                SendInternal(encodeData);
+            }
+        }
+
         public byte[] GetVersion()
         {
             lock (_sync)

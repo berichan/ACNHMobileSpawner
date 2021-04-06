@@ -177,6 +177,31 @@ namespace NHSE.Injection
         /// </summary>
         /// <returns>Encoded command bytes</returns>
         public static byte[] Configure(string name, string value) => Encode($"configure {name} {value}");
+
+        /// <summary>
+        /// Presses and releases a <see cref="SwitchButton"/> for 50ms.
+        /// </summary>
+        /// <remarks>Press &amp; Release timing is performed by the console automatically.</remarks>
+        /// <param name="button">Button to click.</param>
+        /// <param name="crlf">Line terminator (unused by USB's protocol)</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] Click(SwitchButton button, bool crlf = true) => Encode($"click {button}", crlf);
+
+        /// <summary>
+        /// Presses and does NOT release a <see cref="SwitchButton"/>.
+        /// </summary>
+        /// <param name="button">Button to hold.</param>
+        /// <param name="crlf">Line terminator (unused by USB's protocol)</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] Hold(SwitchButton button, bool crlf = true) => Encode($"press {button}", crlf);
+
+        /// <summary>
+        /// Releases the held <see cref="SwitchButton"/>.
+        /// </summary>
+        /// <param name="button">Button to release.</param>
+        /// <param name="crlf">Line terminator (unused by USB's protocol)</param>
+        /// <returns>Encoded command bytes</returns>
+        public static byte[] Release(SwitchButton button, bool crlf = true) => Encode($"release {button}", crlf);
     }
 
     public static class SwitchCommandMethodHelper
