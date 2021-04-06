@@ -202,6 +202,8 @@ namespace NHSE.Injection
         /// <param name="crlf">Line terminator (unused by USB's protocol)</param>
         /// <returns>Encoded command bytes</returns>
         public static byte[] Release(SwitchButton button, bool crlf = true) => Encode($"release {button}", crlf);
+
+        public static byte[] SetScreen(bool on, bool crlf = true) => Encode($"screen{(on ? "On" : "Off")}", crlf);
     }
 
     public static class SwitchCommandMethodHelper
