@@ -288,5 +288,10 @@ namespace NHSE.Injection
         {
             throw new NotImplementedException();
         }
+
+        public byte[] GetBattery()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

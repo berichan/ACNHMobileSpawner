@@ -204,6 +204,8 @@ namespace NHSE.Injection
         public static byte[] Release(SwitchButton button, bool crlf = true) => Encode($"release {button}", crlf);
 
         public static byte[] SetScreen(bool on, bool crlf = true) => Encode($"screen{(on ? "On" : "Off")}", crlf);
+
+        public static byte[] BatteryCharge() => Encode("charge");
     }
 
     public static class SwitchCommandMethodHelper

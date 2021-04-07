@@ -107,6 +107,21 @@ namespace NHSE.Injection
             }
         }
 
+        public byte[] GetBattery()
+        {
+            lock (_sync)
+            {
+                var cmd = SwitchCommand.BatteryCharge();
+                SendInternal(cmd);
+
+                // give it time to push data back
+                Thread.Sleep(1 + UI_Settings.GetThreadSleepTime());
+                var buffer = new byte[5];
+                var _ = ReadInternal(buffer);
+                return buffer;
+            }
+        }
+
         public ulong FollowMainPointer(long[] jumps)
         {
             lock (_sync)

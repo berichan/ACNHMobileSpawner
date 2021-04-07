@@ -15,6 +15,7 @@
         void WriteBytes(byte[] data, ulong offset, RWMethod method = RWMethod.Heap);
         void SendBytes(byte[] encodeData);
         byte[] GetVersion();
+        byte[] GetBattery();
         ulong FollowMainPointer(long[] jumps);
         byte[] PeekMainPointer(long[] jumps, int length);
         void FreezeBytes(byte[] data, uint offset);
