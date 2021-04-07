@@ -44,6 +44,18 @@ public class UI_BatteryCheck : MonoBehaviour
 
     public void CheckBattery()
     {
+        try
+        {
+            doBatteryCheckAndUpdateUI();
+        }
+        catch (Exception e)
+        {
+            PopupHelper.CreateError($"Unable to check battery percentage: {e.Message}", 3f);
+        }
+    }
+
+    private void doBatteryCheckAndUpdateUI()
+    {
         if (!CanCheckBattery.HasValue)
             CheckVersion();
 
