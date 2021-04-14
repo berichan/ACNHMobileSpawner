@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using NHSE.Injection;
 using System;
 using UnityEngine.UI;
@@ -13,18 +11,6 @@ public class UI_BatteryCheck : MonoBehaviour
 
     private IRAMReadWriter Connection => UI_ACItemGrid.LastInstanceOfItemGrid.GetCurrentlyActiveReadWriter();
     private bool? CanCheckBattery = null;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void CheckVersion()
     {
