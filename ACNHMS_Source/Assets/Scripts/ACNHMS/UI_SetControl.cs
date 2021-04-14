@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UI_SetControl : MonoBehaviour
 {
-    private int MAXSTACKSTAPSNEEDED = 4;
+    private int MAXSTACKSTAPSNEEDED = 2;
     private float MAXSTACKSECONDSALIVE = 1f;
 
     public InputField FCount;
@@ -70,7 +70,12 @@ public class UI_SetControl : MonoBehaviour
         {
             maxStackIntervalTimer -= Time.deltaTime;
             MaxCountTapsText.gameObject.SetActive(true);
-            MaxCountTapsText.text = string.Format("Max stack: {0} taps", MAXSTACKSTAPSNEEDED - maxStackTapCount);
+#if UNITY_STANDALONE
+            var gesture = "clicks";
+#else
+            var gesture = "swipes";
+#endif
+            MaxCountTapsText.text = string.Format("Max stack: {0} {1}", MAXSTACKSTAPSNEEDED - maxStackTapCount, gesture);
             if (maxStackTapCount >= MAXSTACKSTAPSNEEDED)
             {
                 MaxStack();
