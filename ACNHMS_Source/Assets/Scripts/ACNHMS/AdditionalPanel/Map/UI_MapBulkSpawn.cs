@@ -21,6 +21,8 @@ public class UI_MapBulkSpawn : MonoBehaviour
         Bugs,
         Fish,
         BugsAndFish,
+        AllPosters,
+        VillagerPhotos,
         InventoryOfApp,
         CustomFile,
     }
@@ -198,6 +200,12 @@ public class UI_MapBulkSpawn : MonoBehaviour
             case BulkSpawnPreset.BugsAndFish:
                 toRet.AddRange(GetItemsOfKind(Kind_Fish, Kind_ShellFish, Kind_DiveFish));
                 toRet.AddRange(GetItemsOfKind(Kind_Insect));
+                break;
+            case BulkSpawnPreset.AllPosters:
+                toRet.AddRange(GetItemsOfKind(Kind_Poster));
+                break;
+            case BulkSpawnPreset.VillagerPhotos:
+                toRet.AddRange(GetItemsOfKind(Kind_Bromide));
                 break;
             case BulkSpawnPreset.InventoryOfApp:
                 toRet.AddRange(GetInventoryClone());
