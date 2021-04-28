@@ -11,6 +11,7 @@ public class UI_HexEdit : IUI_Additional
 
     public HexEditorBeri HexEdit;
     public InputField RamOffset, ByteLength;
+    public Toggle IsMain;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,7 @@ public class UI_HexEdit : IUI_Additional
         try
         {
             int byteLengthToGet = int.Parse(ByteLength.text);
-            byte[] bytesFetched = CurrentConnection.ReadBytes(CurrentAddress, byteLengthToGet);
+            byte[] bytesFetched = CurrentConnection.ReadBytes(CurrentAddress, byteLengthToGet, IsMain.isOn ? NHSE.Injection.RWMethod.Main : NHSE.Injection.RWMethod.Heap);
             setAddress(ValueAddress);
             UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Bytes received. Initilializing hex editor...", () => {
                 HexEdit.InitialiseWithBytes(bytesFetched, "Send bytes", PushBytes);
@@ -46,7 +47,7 @@ public class UI_HexEdit : IUI_Additional
     {
         try
         {
-            CurrentConnection.WriteBytes(bytes, CurrentAddress);
+            CurrentConnection.WriteBytes(bytes, CurrentAddress, IsMain.isOn ? NHSE.Injection.RWMethod.Main : NHSE.Injection.RWMethod.Heap);
 
             if (UI_ACItemGrid.LastInstanceOfItemGrid != null)
                 UI_ACItemGrid.LastInstanceOfItemGrid.PlayHappyParticles();
@@ -68,7 +69,7 @@ public class UI_HexEdit : IUI_Additional
     {
         try
         {
-            int nVal = Math.Min(0, (int)CurrentAddress + addsub);
+            int nVal = Math.Max(0, (int)CurrentAddress + addsub);
             string nValStr = nVal.ToString("X");
             setAddress(nValStr);
             RamOffset.text = ValueAddress = nValStr;
