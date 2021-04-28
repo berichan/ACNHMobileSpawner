@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MenuSpriteHelper : StaticSpriteHelperBase
 {
-    public override string menumapid { get => "9"; } // change when there's a new one
+    public override string menumapid { get => "A"; } // change when there's a new one
     public override string resourceroot { get => "SpriteLoading"; }
     public override string imgdumpin { get => "imagedump_menu"; }
     public override string imgheaderin { get => "imagedump_menuheader"; }
