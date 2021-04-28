@@ -564,7 +564,7 @@ namespace NHSE.Core
             {0779, new ItemRemakeInfo(0779, 07802,  2, new byte[] {08, 09, 12, 14, 14, 14, 14, 14}, new byte[] {08, 09, 12, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {12, 06, 05, 01, 06, 14, 14, 14}, false)}, // pet bed
             {0780, new ItemRemakeInfo(0780, 07804,  2, new byte[] {08, 11, 10, 14, 14, 14, 14, 14}, new byte[] {10, 10, 09, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // knife block
             {0782, new ItemRemakeInfo(0782, 07390,  3, new byte[] {09, 01, 07, 06, 14, 14, 14, 14}, new byte[] {08, 08, 09, 08, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // leaf stool
-            {0784, new ItemRemakeInfo(0784, 05397, -1, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // player's smartphone (internal)
+            {0784, new ItemRemakeInfo(0784, 05397, -1, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // 
             {0785, new ItemRemakeInfo(0785, 07845,  3, new byte[] {10, 01, 07, 04, 14, 14, 14, 14}, new byte[] {11, 10, 10, 10, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // pull-up-bar stand
             {0787, new ItemRemakeInfo(0787, 07865,  4, new byte[] {01, 05, 03, 02, 06, 14, 14, 14}, new byte[] {10, 12, 10, 12, 10, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // elaborate kimono stand
             {0789, new ItemRemakeInfo(0789, 07867,  7, new byte[] {08, 08, 08, 08, 08, 08, 08, 08}, new byte[] {09, 09, 09, 09, 09, 09, 09, 09}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // angled signpost
@@ -725,6 +725,9 @@ namespace NHSE.Core
             {1524, new ItemRemakeInfo(1524, 13930,  5, new byte[] {13, 02, 04, 11, 01, 11, 14, 14}, new byte[] {13, 12, 05, 04, 12, 08, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // set of stockings
             {1546, new ItemRemakeInfo(1546, 14029,  5, new byte[] {01, 02, 07, 03, 12, 10, 14, 14}, new byte[] {12, 12, 00, 12, 06, 11, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // heart-shaped bouquet
             {1615, new ItemRemakeInfo(1615, 14340,  2, new byte[] {01, 06, 07, 14, 14, 14, 14, 14}, new byte[] {11, 11, 11, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // whoopee cushion
+            {1640, new ItemRemakeInfo(1640, 14476,  2, new byte[] {12, 04, 09, 14, 14, 14, 14, 14}, new byte[] {02, 05, 01, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // nuptial bell
+            {1641, new ItemRemakeInfo(1641, 14477,  2, new byte[] {12, 05, 01, 14, 14, 14, 14, 14}, new byte[] {02, 04, 12, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, false)}, // nuptial ring pillow
+            {1642, new ItemRemakeInfo(1642, 14475,  2, new byte[] {02, 05, 01, 14, 14, 14, 14, 14}, new byte[] {12, 04, 12, 14, 14, 14, 14, 14}, new byte[] {14, 14, 14, 14, 14, 14, 14, 14}, new byte[] {12, 12, 12, 14, 14, 14, 14, 14}, false)}, // nuptial doorplate
         };
     }
 }
