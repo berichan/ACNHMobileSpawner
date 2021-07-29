@@ -76,3 +76,4 @@ DebugBuilds/
 # Hex checking
 *.hdrrmdmp
 *.addrsrmdmp
+*.vsconfig
