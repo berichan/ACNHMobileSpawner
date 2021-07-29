@@ -14,7 +14,7 @@ namespace NHSE.Core
                 return Color.White;
             }
             var kind = ItemInfo.GetItemKind(item);
-            return ColorUtil.Colors[(int)kind];
+            return ColorUtil.GetColor((int)kind);
         }
 
         private static Color GetItemColor60000(Item item)
