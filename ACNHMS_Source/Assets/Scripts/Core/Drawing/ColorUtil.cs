@@ -5,6 +5,18 @@ namespace NHSE.Core
 {
     public static class ColorUtil
     {
+        public static Color GetColor(int index)
+        {
+            var arr = Colors;
+            if ((uint)index < arr.Length)
+                return arr[index];
+
+            // loop back and blend with something else
+            index %= arr.Length;
+            var c = arr[index];
+            return Blend(Color.Red, c, 0.2f);
+        }
+
         public static readonly Color[] Colors = new[]
         {
             0xD9D9D9, 0xCCD9E8, 0x7F7F7F, 0xD5D5D5, 0xF7F7F7, 0xCFCFCF, 0xB4B4B4, 0xF1F1F1,
