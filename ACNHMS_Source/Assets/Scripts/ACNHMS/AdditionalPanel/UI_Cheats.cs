@@ -69,7 +69,7 @@ public class UI_Cheats : IUI_Additional
                 while (loadedItems.Count < 40)
                     loadedItems.Add(Item.NO_ITEM.ToBytesClass());
 
-                allItemBytes = new byte[Item.SIZE * 40];
+                allItemBytes = new byte[loadedItems.Count * Item.SIZE];
                 for (int i = 0; i < loadedItems.Count; ++i)
                     Array.Copy(loadedItems[i], 0, allItemBytes, i * Item.SIZE, Item.SIZE);
 
@@ -83,7 +83,7 @@ public class UI_Cheats : IUI_Additional
             if (UI_ACItemGrid.LastInstanceOfItemGrid == null)
                 return;
 
-            for (int i = 0; i < ItemArray.Items.Count; ++i)
+            for (int i = 0; i < 40; ++i)
             {
                 UI_ACItemGrid.LastInstanceOfItemGrid.SetItemAt(ItemArray.Items[i], i, i == (ItemArray.Items.Count - 1));
             }
@@ -101,7 +101,7 @@ public class UI_Cheats : IUI_Additional
 
     private static byte[] GetBytesFromString(string text)
     {
-        if (!ulong.TryParse(text, NumberStyles.AllowHexSpecifier, CultureInfo.CurrentCulture, out var val))
+        if (!ulong.TryParse(text, Input.GetKey(KeyCode.LeftShift) ? NumberStyles.Integer : NumberStyles.AllowHexSpecifier, CultureInfo.CurrentCulture, out var val))
             return Item.NONE.ToBytes();
         return BitConverter.GetBytes(val);
     }
