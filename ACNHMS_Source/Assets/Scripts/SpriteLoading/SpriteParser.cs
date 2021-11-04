@@ -27,7 +27,7 @@ namespace NH_CreationEngine
 
     public class SpriteParser
     {
-        private const int MaxTextures = 1000;
+        private const int MaxTextures = 2000;
 
         private string filePathSprites;
         private IDictionary<string, ByteBoundary> spritePointerHeader;
