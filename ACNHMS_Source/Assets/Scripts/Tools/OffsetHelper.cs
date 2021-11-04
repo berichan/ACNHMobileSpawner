@@ -6,16 +6,16 @@ using UnityEngine;
 public static class OffsetHelper
 {
     // some helpers
-    public const ulong PlayerSize = 0x10E500;
+    public const ulong PlayerSize = 0x11B968;
     public const ulong PlayerOtherStartPadding = 0x36A50;
 
     // player other 
-    public const ulong InventoryOffset = 0xAED22840; // player 0 (A) 
+    public const ulong InventoryOffset = 0xAF70D6E0; // player 0 (A) 
     private const ulong playerOtherStart = InventoryOffset - 0x10; // helps to get other values, unused 
 
     public const ulong WalletAddress = InventoryOffset + 0xB8;
     public const ulong MilesAddress = InventoryOffset - 0x25590;
-    public const ulong BankAddress = InventoryOffset + 0x224CC;
+    public const ulong BankAddress = InventoryOffset + 0x24A34;
 
     // main player offsets functions
     private static ulong getPlayerStart(ulong invOffset) => invOffset - 0x10 - PlayerOtherStartPadding + 0x110;
@@ -25,12 +25,12 @@ public static class OffsetHelper
     public static ulong getTownNameAddress(ulong invOffset) => getPlayerIdAddress(invOffset) - 0xB8 + 0x04;
 
     // main save offsets
-    public const ulong TurnipAddress = 0xADD1BB84;
-    public const ulong VillagerAddress = TurnipAddress - 0x2d40 - 0x43be2c + 0x10;
-    public const ulong VillagerHouseAddress = TurnipAddress - 0x2d40 - 0x43be2c + 0x43abe4;
-    public const ulong BackupSaveDiff = 0x86D590;
+    public const ulong TurnipAddress = 0xAE6030F4;
+    public const ulong VillagerAddress = TurnipAddress - 0x2d40 - 0x45b50c + 0x10;
+    public const ulong VillagerHouseAddress = TurnipAddress - 0x2d40 - 0x45b50c + 0x44f7fc;
+    public const ulong BackupSaveDiff = 0x8F1BD0;
 
-    public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x22e1b8;
+    public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x22f3f0;
     public const ulong LandMakingMapStart = FieldItemStart + 0xAAA00;
     public const ulong OutsideFieldStart = FieldItemStart + 0xCF998;
     public const ulong MainFieldStructurStart = FieldItemStart + 0xCF600;
@@ -39,7 +39,7 @@ public static class OffsetHelper
     public const ulong ArriverNameLocAddress = 0xB67D67B8; 
     public const ulong ArriverVillageLocAddress = ArriverNameLocAddress - 0x1C; 
 
-    public const ulong TextSpeedAddress = 0xBACF20C; 
+    public const ulong TextSpeedAddress = 0xBD32084; 
     public const ulong ChatBufferSize = 0x1E;
 
     public const ulong DodoAddress = 0xA99015C;
