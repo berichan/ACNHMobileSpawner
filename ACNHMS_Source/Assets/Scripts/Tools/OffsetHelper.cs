@@ -36,25 +36,25 @@ public static class OffsetHelper
     public const ulong MainFieldStructurStart = FieldItemStart + 0xCF600;
 
     // other addresses
-    public const ulong ArriverNameLocAddress = 0xB67D67B8; 
+    public const ulong ArriverNameLocAddress = 0xB68B93C8; 
     public const ulong ArriverVillageLocAddress = ArriverNameLocAddress - 0x1C; 
 
     public const ulong TextSpeedAddress = 0xBD32084; 
     public const ulong ChatBufferSize = 0x1E;
 
-    public const ulong DodoAddress = 0xA99015C;
-    public const ulong OnlineSessionAddress = 0x920F740;
-    public const ulong OnlineSessionVisitorAddress = 0x9D3EFB0;
+    public const ulong DodoAddress = 0xABCF15C;
+    public const ulong OnlineSessionAddress = 0x944E740;
+    public const ulong OnlineSessionVisitorAddress = 0x9F7DFB0;
     public const ulong OnlineSessionVisitorSize = 0x448; // reverse order
 
-    public const ulong TimeAddress = 0x0BAC6338; 
+    public const ulong TimeAddress = 0x0BD29188; 
 
     // pointers
-    public static readonly long[] PlayerCoordJumps = new long[5] { 0x3A33980L, 0x18L, 0x178L, 0xD0L, 0xD8L };
-    public static readonly long[] ChatCoordJumps = new long[2] { 0x3CFDC60L, 0x40L };
+    public static readonly long[] PlayerCoordJumps = new long[5] { 0x460ED68L, 0x18L, 0x178L, 0xD0L, 0xD8L };
+    public static readonly long[] ChatCoordJumps = new long[2] { 0x4A3E938L, 0x40L };
 
     // exefs (main)
-    public const ulong AnimationSpeedOffset = 0x037FA200;
+    public const ulong AnimationSpeedOffset = 0x043A4B30;
     public const ulong WalkSpeedOffset = 0x0114A670;
-    public const ulong TimeStateAddress = 0x0027DD60;
+    public const ulong TimeStateAddress = 0x00328530;
 }
