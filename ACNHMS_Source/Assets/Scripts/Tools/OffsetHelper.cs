@@ -36,7 +36,7 @@ public static class OffsetHelper
     public const ulong MainFieldStructurStart = FieldItemStart + 0xCF600;
 
     // other addresses
-    public const ulong ArriverNameLocAddress = 0xB68B93C8; 
+    public const ulong ArriverNameLocAddress = 0xB70FDD30; 
     public const ulong ArriverVillageLocAddress = ArriverNameLocAddress - 0x1C; 
 
     public const ulong TextSpeedAddress = 0xBD32084; 
@@ -55,6 +55,6 @@ public static class OffsetHelper
 
     // exefs (main)
     public const ulong AnimationSpeedOffset = 0x043A4B30;
-    public const ulong WalkSpeedOffset = 0x0114A670;
+    public const ulong WalkSpeedOffset = 0x01605DF0;
     public const ulong TimeStateAddress = 0x00328530;
 }
