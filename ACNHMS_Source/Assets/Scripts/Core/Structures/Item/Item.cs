@@ -19,6 +19,8 @@ namespace NHSE.Core
         public const ushort MessageBottleEgg = 0x3100;
         public const int SIZE = 8;
 
+        [field: FieldOffset(0)] public ulong RawValue { get; set; }
+
         [field: FieldOffset(0)] public ushort ItemId { get; set; }
         [field: FieldOffset(2)] public byte SystemParam { get; set; }
         [field: FieldOffset(3)] public byte AdditionalParam { get; set; }
@@ -196,6 +198,11 @@ namespace NHSE.Core
         public Item(ushort itemId = NONE)
         {
             ItemId = itemId;
+        }
+
+        public Item(ulong raw)
+        {
+            RawValue = raw;
         }
 
         public void Delete()

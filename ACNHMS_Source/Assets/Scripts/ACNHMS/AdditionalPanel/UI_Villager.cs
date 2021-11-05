@@ -11,10 +11,10 @@ using NH_CreationEngine;
 public class UI_Villager : IUI_Additional
 {
     const int VillagersSize = Villager2.SIZE * 10;
-    const int VillagerHousesSize = VillagerHouse.SIZE * 10;
+    const int VillagerHousesSize = VillagerHouse2.SIZE * 10;
 
     // sprites
-    public static string VillagerFilename = "villagerdump2";
+    public static string VillagerFilename = "villagerdump3";
     public static string VillagerFilenameHeader = VillagerFilename + "header";
     public static string VillagerPath { get { return SpriteBehaviour.UsableImagePath + Path.DirectorySeparatorChar + VillagerFilename; } }
     public static string VillagerHeaderPath { get { return SpriteBehaviour.UsableImagePath + Path.DirectorySeparatorChar + VillagerFilenameHeader; } }
@@ -39,7 +39,7 @@ public class UI_Villager : IUI_Additional
     public UI_VillagerData DataSelector;
 
     private Villager2 loadedVillager;
-    private List<VillagerHouse> loadedVillagerHouses;
+    private List<VillagerHouse2> loadedVillagerHouses;
     private List<Villager2> loadedVillagerShellsList;
     private SpriteParser villagerSprites;
     private bool loadedVillagerShells = false;
@@ -47,7 +47,7 @@ public class UI_Villager : IUI_Additional
 
     private int currentSelectedGSaveMemory = 0;
 
-    public VillagerHouse GetCurrentLoadedVillagerHouse() => loadedVillagerHouses?.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex);
+    public VillagerHouse2 GetCurrentLoadedVillagerHouse() => loadedVillagerHouses?.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex);
 
     public Villager2 GetCurrentlyLoadedVillager() => loadedVillager;
 
@@ -152,11 +152,11 @@ public class UI_Villager : IUI_Additional
 
     private void loadAllHouses()
     {
-        loadedVillagerHouses = new List<VillagerHouse>();
-        byte[] houses = CurrentConnection.ReadBytes(CurrentVillagerHouseAddress, VillagerHouse.SIZE * 10);
+        loadedVillagerHouses = new List<VillagerHouse2>();
+        byte[] houses = CurrentConnection.ReadBytes(CurrentVillagerHouseAddress, VillagerHouse2.SIZE * 10);
         for (int i = 0; i < 10; ++i)
         {
-            loadedVillagerHouses.Add(new VillagerHouse(houses.Slice(i * VillagerHouse.SIZE, VillagerHouse.SIZE)));
+            loadedVillagerHouses.Add(new VillagerHouse2(houses.Slice(i * VillagerHouse2.SIZE, VillagerHouse2.SIZE)));
         }
     }
 
@@ -257,7 +257,7 @@ public class UI_Villager : IUI_Additional
             {
                 // send all houses
                 List<byte> linearHouseArray = new List<byte>();
-                foreach (VillagerHouse vh in loadedVillagerHouses)
+                foreach (VillagerHouse2 vh in loadedVillagerHouses)
                     linearHouseArray.AddRange(vh.Data);
                 CurrentConnection.WriteBytes(linearHouseArray.ToArray(), CurrentVillagerHouseAddress);
                 CurrentConnection.WriteBytes(linearHouseArray.ToArray(), CurrentVillagerHouseAddress + (uint)OffsetHelper.BackupSaveDiff); // there's a temporary day buffer
@@ -341,7 +341,7 @@ public class UI_Villager : IUI_Additional
             if (villagerDump == null || villagerHouse == null)
                 throw new Exception("Villager not found: " + newVillager);
 
-            loadVillagerData(new Villager2(villagerDump), new VillagerHouse(villagerHouse));
+            loadVillagerData(new Villager2(villagerDump), new VillagerHouse2(villagerHouse));
         }
         catch (Exception e)
         {
@@ -350,13 +350,13 @@ public class UI_Villager : IUI_Additional
         }
     }
 
-    private void loadVillagerData(Villager2 v, VillagerHouse vh, bool raw = false)
+    private void loadVillagerData(Villager2 v, VillagerHouse2 vh, bool raw = false)
     {
         try
         {
             Villager2 newV = v;
-            VillagerHouse newVH = vh;
-            VillagerHouse loadedVillagerHouse = GetCurrentLoadedVillagerHouse(); // non indexed so search for the correct one
+            VillagerHouse2 newVH = vh;
+            VillagerHouse2 loadedVillagerHouse = GetCurrentLoadedVillagerHouse(); // non indexed so search for the correct one
             int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
             if (!raw && index != -1)
             {
@@ -405,11 +405,11 @@ public class UI_Villager : IUI_Additional
         }
     }
 
-    private bool checkIfMovingIn(VillagerHouse vOld) => vOld.WallUniqueID == WallType.HouseWallNSoldOut;
+    private bool checkIfMovingIn(VillagerHouse2 vOld) => vOld.WallUniqueID == WallType.HouseWallNSoldOut;
 
-    private VillagerHouse combineHouseOrders(VillagerHouse vNew, VillagerHouse vOld)
+    private VillagerHouse2 combineHouseOrders(VillagerHouse2 vNew, VillagerHouse2 vOld)
     {
-        VillagerHouse vTmp = new VillagerHouse(vOld.Data);
+        VillagerHouse2 vTmp = new VillagerHouse2(vOld.Data);
         vTmp.OrderWallUniqueID = vNew.OrderWallUniqueID;
         vTmp.OrderRoofUniqueID = vNew.OrderRoofUniqueID;
         vTmp.OrderDoorUniqueID = vNew.OrderDoorUniqueID;
@@ -433,7 +433,7 @@ public class UI_Villager : IUI_Additional
 
     // villager data
 
-    public void WriteVillagerDataHouse(VillagerHouse vh)
+    public void WriteVillagerDataHouse(VillagerHouse2 vh)
     {
         checkReloadVillager();
         loadVillagerData(loadedVillager, vh, true);
@@ -442,7 +442,7 @@ public class UI_Villager : IUI_Additional
     public void WriteVillagerDataVillager(Villager2 v)
     {
         checkReloadVillager();
-        VillagerHouse loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
+        VillagerHouse2 loadedVillagerHouse = loadedVillagerHouses.Find(x => x.NPC1 == (sbyte)currentlyLoadedVillagerIndex); // non indexed so search for the correct one
         int index = loadedVillagerHouses.IndexOf(loadedVillagerHouse);
         if (index == -1)
             throw new Exception("The villager having their house replaced doesn't have a house on your island."); // not sure why but it can get unloaded during the check

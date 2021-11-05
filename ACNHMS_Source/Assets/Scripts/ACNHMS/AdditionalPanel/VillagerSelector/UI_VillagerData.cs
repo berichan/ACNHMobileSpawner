@@ -30,7 +30,7 @@ public class UI_VillagerData : MonoBehaviour
     {
         doFileHandlerCheck();
 
-        UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenFile("nhvh", sendVillagerHouseData, VillagerHouse.SIZE);
+        UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenFile("nhvh", sendVillagerHouseData, VillagerHouse2.SIZE);
     }
 
     public void SaveCurrentVillager()
@@ -65,7 +65,7 @@ public class UI_VillagerData : MonoBehaviour
 
     private void sendVillagerHouseData(byte[] data)
     {
-        RootUIVillager.WriteVillagerDataHouse(new VillagerHouse(data));
+        RootUIVillager.WriteVillagerDataHouse(new VillagerHouse2(data));
         gameObject.SetActive(false);
     }
 
