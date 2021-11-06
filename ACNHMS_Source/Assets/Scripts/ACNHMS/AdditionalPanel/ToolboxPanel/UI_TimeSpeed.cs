@@ -10,7 +10,7 @@ public class UI_TimeSpeed : IUI_Additional
 {
     public readonly Dictionary<int, uint> WalkSteps = new Dictionary<int, uint>()
     {
-        { 0, 0xBD530E61 },
+        { 0, 0xBD578661 },
         { 1, 0x1E201001 },
         { 2, 0x1E211001 },
         { 3, 0x1E221001 },
