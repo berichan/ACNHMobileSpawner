@@ -18,6 +18,7 @@ public class UI_MapBulkSpawn : MonoBehaviour
         SeasonalMaterials,
         RealArt,
         FakeArt,
+        Gyroid,
         Bugs,
         Fish,
         BugsAndFish,
@@ -191,6 +192,9 @@ public class UI_MapBulkSpawn : MonoBehaviour
             case BulkSpawnPreset.FakeArt:
                 toRet.AddRange(GetItemsOfKind(Kind_PictureFake, Kind_SculptureFake));
                 break;
+            case BulkSpawnPreset.Gyroid:
+                toRet.AddRange(GetItemsOfKind(Kind_Gyroid));
+                break;
             case BulkSpawnPreset.Bugs:
                 toRet.AddRange(GetItemsOfKind(Kind_Insect));
                 break;
@@ -242,6 +246,10 @@ public class UI_MapBulkSpawn : MonoBehaviour
                     multipliedItemList.Add(item); // references are fine, should be copied from
             toRet = multipliedItemList;
         }
+
+#if UNITY_EDITOR
+        System.IO.File.WriteAllBytes("tempdump.nhi", new ItemArrayEditor<Item>(toRet).Write());
+#endif
 
         return toRet.ToArray();
     }
