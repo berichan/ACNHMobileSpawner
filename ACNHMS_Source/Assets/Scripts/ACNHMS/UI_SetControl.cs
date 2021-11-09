@@ -220,7 +220,10 @@ public class UI_SetControl : MonoBehaviour
 		if (!fenceMode)
 			FCount.gameObject.SetActive(false);
 		else
+		{
+			FCount.gameObject.SetActive(true);
 			FUses.gameObject.SetActive(false);
+		}
 		
 		BCount.gameObject.SetActive(true);
 		BCount.ClearOptions();
