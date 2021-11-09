@@ -104,7 +104,10 @@ public class UI_SearchWindow : MonoBehaviour
     {
         if (CurrentItemID < 0)
             return;
-        Texture2D toSet = SpriteBehaviour.ItemToTexture2D(Convert.ToUInt16(CurrentItemID), Convert.ToUInt16(SetController.FCount.text), out var col);
+
+        var toUseVariation = ItemInfo.GetItemKind(Convert.ToUInt16(CurrentItemID)) == ItemKind.Kind_Fence ? SetController.FUses.text : SetController.FCount.text;
+        Debug.Log(toUseVariation);
+        Texture2D toSet = SpriteBehaviour.ItemToTexture2D(Convert.ToUInt16(CurrentItemID), Convert.ToUInt16(toUseVariation), out var col);
         SpriteImageMain.texture = toSet;
         col.a = toSet == null ? 0.0f : 0.75f;
         SpriteImageMain.color = col;
@@ -294,7 +297,8 @@ public class UI_SearchWindow : MonoBehaviour
         }
 
         CurrentSelectedIndex = spawnedObjects.IndexOf(sItem);
-        if (ItemInfo.GetItemKind(Convert.ToUInt16(CurrentItemID)).IsFlowerGene())
+        var itemKind = ItemInfo.GetItemKind(Convert.ToUInt16(CurrentItemID));
+        if (itemKind.IsFlowerGene())
         {
             FlowerButtonRoot.SetActive(true);
         }
@@ -309,11 +313,13 @@ public class UI_SearchWindow : MonoBehaviour
         else
             TreeButtonRoot.gameObject.SetActive(false);*/ //uncomment this if you want star tree editor again for whatever reason
 
+
+
         SetController.SpawnVariationsButton.gameObject.SetActive(false);
         short remakeIndex = ItemRemakeUtil.GetRemakeIndex(Convert.ToUInt16(CurrentItemID));
         if (remakeIndex < 0)
         {
-            SetController.CreateBody(new string[0]);
+            SetController.CreateBody(new string[0], false);
             SetController.CreateFabric(new string[0]);
         }
         else
@@ -328,11 +334,11 @@ public class UI_SearchWindow : MonoBehaviour
                     "\r",
                     "\n"
                 }, StringSplitOptions.None);
-                SetController.CreateBody(values);
+                SetController.CreateBody(values, itemKind == ItemKind.Kind_Fence);
             }
             else
             {
-                SetController.CreateBody(new string[0]);
+                SetController.CreateBody(new string[0], itemKind == ItemKind.Kind_Fence);
             }
             string fabricSummary = itemRemakeInfo.GetFabricSummary(GameInfo.Strings, false, false);
             if (fabricSummary.Length != 0)
@@ -416,6 +422,10 @@ public class UI_SearchWindow : MonoBehaviour
         else
         {
             SetController.FCount.text = item.Count.ToString();
+
+            if (itemKind == ItemKind.Kind_Fence)
+                SetController.FUses.text = item.UseCount.ToString();
+
             SetController.CompileBodyFabricFromCount();
             SetController.FUses.text = item.UseCount.ToString();
             SetController.FFlagZero.text = item.SystemParam.ToString();

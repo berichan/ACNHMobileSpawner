@@ -227,8 +227,12 @@ public class SpriteBehaviour : MonoBehaviour
 
     public static Texture2D ItemToTexture2D(ushort itemId, ushort count, out Color c)
     {
+        var isFence = ItemInfo.GetItemKind(Convert.ToUInt16(itemId)) == ItemKind.Kind_Fence;
         Item tempItem = new Item(itemId);
-        tempItem.Count = count;
+        if (!isFence)
+            tempItem.Count = count;
+        else
+            tempItem.UseCount = count;
         return ItemToTexture2D(tempItem, out c);
     }
 
@@ -260,7 +264,8 @@ public class SpriteBehaviour : MonoBehaviour
         if (SpritesExist())
         {
             InitParser();
-            var tx = SpriteParser.CurrentInstance.GetTexture(t.ItemId, t.Count);
+            ItemKind itemKind = ItemInfo.GetItemKind(Convert.ToUInt16(t.ItemId));
+            var tx = SpriteParser.CurrentInstance.GetTexture(t.ItemId, itemKind == ItemKind.Kind_Fence ? t.UseCount : t.Count);
             if (tx != null)
             {
                 toAssignImage = tx;

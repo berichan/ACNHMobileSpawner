@@ -29,10 +29,16 @@ public class UI_SetControl : MonoBehaviour
     private float maxStackIntervalTimer = -1;
     private int maxStackTapCount = 0;
 
+	private Vector3 bCountStartPos;
+	private Vector3 bCountFencePos;
+	private bool fenceMode = false;
+
     public static int CurrentVariationCount = 0;
 
     private void Start()
 	{
+		bCountStartPos = BCount.transform.position;
+		bCountFencePos = BUses.transform.position;
 		BCount.onValueChanged.AddListener(delegate
 		{
 			CompileCountFromBodyFabric();
@@ -119,9 +125,9 @@ public class UI_SetControl : MonoBehaviour
 		{
 			return;
 		}
-		int num = int.Parse(FCount.text);
-		int num2 = -1;
-		int num3 = -1;
+		int variation = fenceMode ? int.Parse(FUses.text) : int.Parse(FCount.text);
+		int selectedVariation = -1;
+		int selectedFabricVariation = -1;
 		List<int> list = new List<int>();
         if (BCount.gameObject.activeInHierarchy) // if off, this doesn't have any body values
         {
@@ -129,15 +135,15 @@ public class UI_SetControl : MonoBehaviour
             {
                 int num4 = int.Parse(GetUntilOrEmpty(BCount.options[i].text));
                 list.Add(num4);
-                if (num4 == num)
+                if (num4 == variation)
                 {
-                    num2 = i;
-                }
+                    selectedVariation = i;
+				}
             }
         }
-		if (num2 != -1)
+		if (selectedVariation != -1)
 		{
-			BCount.value=(num2);
+			BCount.value=selectedVariation;
 			BCount.RefreshShownValue();
 		}
 		if (!BUses.gameObject.activeSelf)
@@ -149,23 +155,23 @@ public class UI_SetControl : MonoBehaviour
 		{
 			int num5 = int.Parse(GetUntilOrEmpty(BUses.options[j].text));
 			list2.Add(num5);
-			if (num5 == num)
+			if (num5 == variation)
 			{
-				num3 = j;
+				selectedFabricVariation = j;
 			}
 		}
-		if (num3 != -1)
+		if (selectedFabricVariation != -1)
 		{
-			BCount.value=(0);
+			BCount.value=0;
 			BCount.RefreshShownValue();
-			BUses.value=(num3);
+			BUses.value=(selectedFabricVariation);
 			BUses.RefreshShownValue();
 			return;
 		}
 		int num6 = 0;
 		for (int k = 0; k < list2.Count; k++)
 		{
-			if (list2[k] > num6 && list2[k] < num)
+			if (list2[k] > num6 && list2[k] < variation)
 			{
 				num6 = list2[k];
 			}
@@ -173,9 +179,9 @@ public class UI_SetControl : MonoBehaviour
 		BUses.value=list2.IndexOf(num6);
 		BUses.RefreshShownValue();
         if (num6 == 0)
-            BCount.value = num;
+            BCount.value = variation;
         else
-		    BCount.value=(num % num6);
+		    BCount.value=(variation % num6);
 		BCount.RefreshShownValue();
 	}
 
@@ -191,13 +197,18 @@ public class UI_SetControl : MonoBehaviour
 		{
 			num += result;
 		}
-		FCount.text=(num.ToString());
+
+		if (!fenceMode)
+			FCount.text = num.ToString();
+		else
+			FUses.text = num.ToString();
 	}
 
-	public void CreateBody(string[] values)
+	public void CreateBody(string[] values, bool fence)
 	{
 		//IL_0066: Unknown result type (might be due to invalid IL or missing references)
 		//IL_006c: Expected O, but got Unknown
+		fenceMode = fence;
 		if (values.Length == 0)
 		{
 			FCount.gameObject.SetActive(true);
@@ -205,7 +216,12 @@ public class UI_SetControl : MonoBehaviour
 			return;
 		}
         values = values.TruncateEndInvalidValues();
-        FCount.gameObject.SetActive(false);
+
+		if (!fenceMode)
+			FCount.gameObject.SetActive(false);
+		else
+			FUses.gameObject.SetActive(false);
+		
 		BCount.gameObject.SetActive(true);
 		BCount.ClearOptions();
 		foreach (string text in values)
@@ -222,6 +238,8 @@ public class UI_SetControl : MonoBehaviour
 
         CurrentVariationCount = BCount.options.Count;
         SpawnVariationsButton.gameObject.SetActive(true);
+
+		BCount.transform.position = fenceMode ? bCountFencePos : bCountStartPos;
 	}
 
 	public void CreateFabric(string[] values)
@@ -230,7 +248,8 @@ public class UI_SetControl : MonoBehaviour
 		//IL_006c: Expected O, but got Unknown
 		if (values.Length == 0 || values.IsInvalidFabricArray())
 		{
-			FUses.gameObject.SetActive(true);
+			if (!fenceMode)
+				FUses.gameObject.SetActive(true);
 			BUses.gameObject.SetActive(false);
 			return;
 		}
