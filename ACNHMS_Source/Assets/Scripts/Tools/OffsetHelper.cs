@@ -55,6 +55,6 @@ public static class OffsetHelper
 
     // exefs (main)
     public const ulong AnimationSpeedOffset = 0x043A4B30;
-    public const ulong WalkSpeedOffset = 0x01605DF0;
+    public const ulong WalkSpeedOffset = 0x01605E20;
     public const ulong TimeStateAddress = 0x00328530;
 }
