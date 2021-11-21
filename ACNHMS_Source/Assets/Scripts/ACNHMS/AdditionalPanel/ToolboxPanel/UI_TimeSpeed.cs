@@ -27,6 +27,9 @@ public class UI_TimeSpeed : IUI_Additional
     public const uint FreezeTimeValue = 0xD503201F;
     public const uint UnFreezeTimeValue = 0xF9203260;
 
+    public const uint CollisionOnValue = 0xB95BA014;
+    public const uint CollisionOffValue = 0x12800014;
+
     public InputField Year, Month, Day, Hour, Minute;
     public GameObject Blocker;
 
@@ -51,6 +54,16 @@ public class UI_TimeSpeed : IUI_Additional
             Blocker.SetActive(!CurrentConnection.Connected);
             FetchTime();
         }
+    }
+
+    public void SetCollision(bool on)
+    {
+        try
+        {
+            var nVal = on ? CollisionOnValue : CollisionOffValue;
+            CurrentConnection.WriteBytes(BitConverter.GetBytes(nVal), OffsetHelper.CollisionStateOffset, NHSE.Injection.RWMethod.Main);
+        }
+        catch (Exception e) { PopupHelper.CreateError("Setting collision state failed: " + e.Message, 3f); }
     }
 
     public void SetWalkSpeed(int step)
