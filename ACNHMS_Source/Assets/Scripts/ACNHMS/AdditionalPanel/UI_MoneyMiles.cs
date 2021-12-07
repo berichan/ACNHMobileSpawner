@@ -14,7 +14,7 @@ public class UI_MoneyMiles : IUI_Additional
     public static uint CurrentMilesAddress { get { return StringUtil.GetHexValue(MilesAddress) + (uint)(UI_Settings.GetPlayerIndex() * (uint)OffsetHelper.PlayerSize); ; } }
     public static uint CurrentWalletAddress { get { return StringUtil.GetHexValue(WalletAddress) + (uint)(UI_Settings.GetPlayerIndex() * (uint)OffsetHelper.PlayerSize); ; } }
 
-    public InputField BankInput, PouchInput, MilesInput, MilesTotalInput;
+    public InputField BankInput, PouchInput, MilesInput, MilesTotalInput, PokiInput;
     public InputField MoneyAddressInput, PouchAddressInput, MilesAddressInput;
     public Text CurrentlyEditingVillagerName;
 
@@ -30,6 +30,7 @@ public class UI_MoneyMiles : IUI_Additional
         PouchInput.onValueChanged.AddListener(delegate { currentUtil.Pouch.Value = Convert.ToUInt32(PouchInput.text); });
         MilesInput.onValueChanged.AddListener(delegate { currentUtil.MilesNow.Value = Convert.ToUInt32(MilesInput.text); });
         MilesTotalInput.onValueChanged.AddListener(delegate { currentUtil.MilesTotal.Value = Convert.ToUInt32(MilesTotalInput.text); });
+        PokiInput.onValueChanged.AddListener(delegate { currentUtil.Poki.Value = Convert.ToUInt32(PokiInput.text); });
 
         //ram offsets
         MoneyAddressInput.text = MoneyValueAddress;
@@ -65,6 +66,10 @@ public class UI_MoneyMiles : IUI_Additional
             bytes = CurrentConnection.ReadBytes(CurrentWalletAddress, ENCRYPTIONSIZE);
             currentUtil.LoadPouch(bytes);
 
+            //poki
+            bytes = CurrentConnection.ReadBytes(OffsetHelper.PokiAddress, ENCRYPTIONSIZE);
+            currentUtil.LoadPoki(bytes);
+
             moneyToUI();
         }
         catch (Exception e)
@@ -95,6 +100,12 @@ public class UI_MoneyMiles : IUI_Additional
             currentUtil.Pouch.Write(bytes, 0);
             CurrentConnection.WriteBytes(bytes, CurrentWalletAddress);
 
+            //poki
+            bytes = new byte[ENCRYPTIONSIZE];
+            currentUtil.Poki.Write(bytes, 0);
+            CurrentConnection.WriteBytes(bytes, OffsetHelper.PokiAddress);
+
+
             if (UI_ACItemGrid.LastInstanceOfItemGrid != null)
                 UI_ACItemGrid.LastInstanceOfItemGrid.PlayHappyParticles();
         }
@@ -111,13 +122,14 @@ public class UI_MoneyMiles : IUI_Additional
         PouchInput.text = currentUtil.Pouch.Value.ToString();
         MilesInput.text = currentUtil.MilesNow.Value.ToString();
         MilesTotalInput.text = currentUtil.MilesTotal.Value.ToString();
+        PokiInput.text = currentUtil.Poki.Value.ToString();
     }
 
 }
 
 public class MoneyMilesUtility
 {
-    public EncryptedInt32 Bank, Pouch, MilesNow, MilesTotal;
+    public EncryptedInt32 Bank, Pouch, MilesNow, MilesTotal, Poki;
 
     public MoneyMilesUtility() { }
 
@@ -125,4 +137,5 @@ public class MoneyMilesUtility
     public void LoadPouch(byte[] bytes) => Pouch = EncryptedInt32.ReadVerify(bytes, 0);
     public void LoadMilesNow(byte[] bytes) => MilesNow = EncryptedInt32.ReadVerify(bytes, 0);
     public void LoadMilesForever(byte[] bytes) => MilesTotal = EncryptedInt32.ReadVerify(bytes, UI_MoneyMiles.ENCRYPTIONSIZE);
+    public void LoadPoki(byte[] bytes) => Poki = EncryptedInt32.ReadVerify(bytes, 0);
 }
