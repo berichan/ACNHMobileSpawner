@@ -10,7 +10,7 @@ public static class OffsetHelper
     public const ulong PlayerOtherStartPadding = 0x36A50;
 
     // player other 
-    public const ulong InventoryOffset = 0xAF70D6E0; // player 0 (A) 
+    public const ulong InventoryOffset = 0xAF71E6E0; // player 0 (A) 
     private const ulong playerOtherStart = InventoryOffset - 0x10; // helps to get other values, unused 
 
     public const ulong WalletAddress = InventoryOffset + 0xB8;
@@ -25,10 +25,10 @@ public static class OffsetHelper
     public static ulong getTownNameAddress(ulong invOffset) => getPlayerIdAddress(invOffset) - 0xB8 + 0x04;
 
     // main save offsets
-    public const ulong TurnipAddress = 0xAE6030F4;
+    public const ulong TurnipAddress = 0xAE6140F4;
     public const ulong VillagerAddress = TurnipAddress - 0x2d40 - 0x45b50c + 0x10;
     public const ulong VillagerHouseAddress = TurnipAddress - 0x2d40 - 0x45b50c + 0x44f7fc;
-    public const ulong BackupSaveDiff = 0x8F1BD0;
+    public const ulong BackupSaveDiff = 0x8F1BD0; // ?
 
     public const ulong FieldItemStart = VillagerAddress - 0x10 + 0x22f3f0;
     public const ulong LandMakingMapStart = FieldItemStart + 0xAAA00;
@@ -36,29 +36,32 @@ public static class OffsetHelper
     public const ulong MainFieldStructurStart = FieldItemStart + 0xCF600;
 
     // other addresses
-    public const ulong ArriverNameLocAddress = 0xB70FDD30; 
-    public const ulong ArriverVillageLocAddress = ArriverNameLocAddress - 0x1C; 
+    public const ulong ArriverNameLocAddress = 0xB710ED78;
+    public const ulong ArriverVillageLocAddress = ArriverNameLocAddress - 0x1C;
 
-    public const ulong TextSpeedAddress = 0xBD32084; 
+    public const ulong TextSpeedAddress = 0xBD43084;
     public const ulong ChatBufferSize = 0x1E;
 
-    public const ulong DodoAddress = 0xABCF15C;
-    public const ulong OnlineSessionAddress = 0x944E740;
-    public const ulong OnlineSessionVisitorAddress = 0x9F7DFB0;
+    public const ulong DodoAddress = 0xABE015C;
+    public const ulong OnlineSessionAddress = 0x945F740;
+    public const ulong OnlineSessionVisitorAddress = 0x9F8EFB0;
     public const ulong OnlineSessionVisitorSize = 0x448; // reverse order
 
-    public const ulong TimeAddress = 0x0BD29188;
-
-    // dlc
-    public const ulong PokiAddress = 0xB1330910;
+    public const ulong TimeAddress = 0x0BD3A188;
 
     // pointers
-    public static readonly long[] PlayerCoordJumps = new long[5] { 0x460ED68L, 0x18L, 0x178L, 0xD0L, 0xD8L };
-    public static readonly long[] ChatCoordJumps = new long[2] { 0x4A3E938L, 0x40L };
+    public static readonly long[] PlayerCoordJumps = new long[5] { 0x4627088L, 0x18L, 0x178L, 0xD0L, 0xD8L };
+    public static readonly long[] ChatCoordJumps = new long[2] { 0x4AA9CD8L, 0x40L };
 
     // exefs (main)
-    public const ulong AnimationSpeedOffset = 0x043A4B30;
-    public const ulong WalkSpeedOffset = 0x01605EB0;
-    public const ulong CollisionStateOffset = 0x01554E10;
-    public const ulong TimeStateAddress = 0x00328530;
+    public const ulong AnimationSpeedOffset = 0x043BC3C0;
+    public const ulong WalkSpeedOffset = 0x01612720;
+    public const ulong CollisionStateOffset = 0x0155FD40;
+    public const ulong TimeStateAddress = 0x00328BB0;
+
+    public const ulong ArriverVillageId = ArriverVillageLocAddress - 0x4;
+    public const ulong ArriverNID = ArriverNameLocAddress - 0x3E8;
+
+    // dlc
+    public const ulong PokiAddress = 0xB1341910;
 }
