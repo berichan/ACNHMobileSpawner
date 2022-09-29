@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class GraphicSetter : MonoBehaviour
 {
-    private float lastWidth;
-    private float lastHeight;
-
+    public float lastWidth;
+    public float lastHeight;
+    public bool scaleWindow;
     private string configPath = Path.Combine(Directory.GetCurrentDirectory(), "config.txt");
 
     // Start is called before the first frame update
@@ -15,7 +15,9 @@ public class GraphicSetter : MonoBehaviour
     {
         Application.runInBackground = true;
 #if UNITY_STANDALONE
-        var screenPercent = 0.75f;
+        float screenPercent = 1.0f;
+        if (scaleWindow) screenPercent = 0.75f;
+
         if (File.Exists(configPath))
         {
             try
@@ -29,15 +31,9 @@ public class GraphicSetter : MonoBehaviour
             catch { }
         }
 
-        int height = (int) (Screen.currentResolution.height * screenPercent);
-        int width = (int)(height * (9f / 16f));
+        int height = (int) (lastHeight * screenPercent);
+        int width = (int)(lastWidth * screenPercent);
         Screen.SetResolution(width, height, false, 60);
 #endif
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
