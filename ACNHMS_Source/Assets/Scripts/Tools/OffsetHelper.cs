@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,8 +55,8 @@ public static class OffsetHelper
 
     // exefs (main)
     public const ulong AnimationSpeedOffset = 0x043BC3C0;
-    public const ulong WalkSpeedOffset = 0x01612740;
-    public const ulong CollisionStateOffset = 0x0155FD60;
+    public const ulong WalkSpeedOffset = 0x016127A0;
+    public const ulong CollisionStateOffset = 0x0155FDC0;
     public const ulong TimeStateAddress = 0x00328BD0;
 
     public const ulong ArriverVillageId = ArriverVillageLocAddress - 0x4;
