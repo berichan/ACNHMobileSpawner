@@ -50,6 +50,8 @@ namespace NHSE.Core
                 if (s.Length == 0)
                     continue;
                 var index = s.IndexOf(split);
+                if (index < 0)
+                    continue;
                 var key = s.Substring(0, index);
                 var value = s.Substring(index + 1);
                 result.Add(key, value);
