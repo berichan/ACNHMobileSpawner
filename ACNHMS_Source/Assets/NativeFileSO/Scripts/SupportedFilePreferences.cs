@@ -28,7 +28,7 @@ namespace Keiwando.NFSO {
 			//SupportedFileType.PDF,
 			//SupportedFileType.JPEG,
 			//SupportedFileType.PlainText
-			//SupportedFileType.Any
+			SupportedFileType.Any
 		};
 	}
 }
