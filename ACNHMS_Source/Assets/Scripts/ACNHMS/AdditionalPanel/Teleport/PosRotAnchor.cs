@@ -11,7 +11,7 @@ public class PosRotAnchor
     [SerializeField]
     public string Name = string.Empty;
     [SerializeField]
-    public byte[] AnchorBytes { get; private set; } = new byte[SIZE];
+    public byte[] AnchorBytes = new byte[SIZE];
 
     public byte[] AssignableBytes
     {
