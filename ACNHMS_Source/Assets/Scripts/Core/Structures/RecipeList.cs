@@ -738,7 +738,7 @@ namespace NHSE.Core
             {0x36A, 13965}, // seafood salad
             {0x36B, 13966}, // fruit salad
             {0x36C, 13967}, // orange jelly
-            {0x36D, 13968}, // salade de carottes r‚pÈes
+            {0x36D, 13968}, // salade de carottes r√¢p√©es
             {0x36E, 13969}, // poke
             {0x36F, 13970}, // turnip salad
             {0x370, 13971}, // apple jelly
@@ -776,7 +776,7 @@ namespace NHSE.Core
             {0x390, 14003}, // sea-bass pie
             {0x391, 14010}, // salad
             {0x392, 14048}, // mushroom potage
-            {0x393, 14104}, // fish and chips
+            {0x393, 14104}, // fish-and-chips
             {0x394, 14105}, // french fries
             {0x395, 14109}, // plain scones
             {0x396, 14110}, // veggie cupcakes
@@ -805,7 +805,7 @@ namespace NHSE.Core
             {0x3AD, 14161}, // pesce all'acqua pazza
             {0x3AE, 14162}, // karei no nitsuke
             {0x3AF, 14163}, // aji fry
-            {0x3B0, 14164}, // sautÈed olive flounder
+            {0x3B0, 14164}, // saut√©ed olive flounder
             {0x3B1, 14165}, // grilled sea bass with herbs
             {0x3B2, 14166}, // carpaccio di salmone
             {0x3B3, 14167}, // carpaccio di marlin blu
@@ -821,7 +821,7 @@ namespace NHSE.Core
             {0x3BD, 14177}, // coconut oil
             {0x3BE, 14178}, // anchoas al ajillo
             {0x3BF, 14179}, // tomates al ajillo
-            {0x3C0, 14180}, // champiÒones al ajillo
+            {0x3C0, 14180}, // champi√±ones al ajillo
             {0x3C1, 14181}, // sardines in oil
             {0x3C2, 14182}, // pull-apart bread
             {0x3C3, 14183}, // seafood ajillo
@@ -835,7 +835,7 @@ namespace NHSE.Core
             {0x3CB, 13327}, // gratin
             {0x3CC, 13328}, // clam chowder
             {0x3CD, 13329}, // pumpkin pie
-            {0x3CE, 13330}, // olive-flounder meuniËre
+            {0x3CE, 13330}, // olive-flounder meuni√®re
             {0x3CF, 12822}, // bread
             {0x3D0, 12823}, // organic bread
             {0x3D1, 12824}, // snack bread
@@ -879,7 +879,7 @@ namespace NHSE.Core
             {0x3F7, 14591}, // ornament table lamp
             {0x3F8, 14552}, // spooky cookies
             {0x3F9, 14613}, // ornament crown (No Variations)
-            {0x3FA, 14565}, // Roost sablÈ cookie
+            {0x3FA, 14565}, // Roost sabl√© cookie
             {0x3FB, 14478}, // golden plate armor
             {0x3FC, 14479}, // golden piggy bank
             {0x3FD, 14484}, // golden meter and pipes
@@ -899,7 +899,7 @@ namespace NHSE.Core
             {0x40B, 12835}, // squid-ink spaghetti
             {0x40C, 14645}, // foxtail
             {0x40D, 14644}, // nice branch
-            {0x40E, 14716}, // cake salÈ
+            {0x40E, 14716}, // cake sal√©
             {0x40F, 14714}, // donation box
             {0x410, 13496}, // stonework kitchen
             {0x411, 14831}, // wooden storage shed
