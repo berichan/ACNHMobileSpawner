@@ -1,35 +1,35 @@
-(Nessuna)
+(Niente)
 
 quadro invernale
 
 
-quadro armonioso (falsificazione)
+quadro armonioso (falso)
 quadro armonioso
 
 
-quadro buffo (falsificazione)
+quadro buffo (falso)
 quadro buffo
 
 
-quadro semplice (falsificazione)
+quadro semplice (falso)
 quadro semplice
 
 
-quadro famoso (falsificazione)
+quadro famoso (falso)
 quadro famoso
 
 quadro perfetto
 
 
-quadro simbolico (falsificazione)
+quadro simbolico (falso)
 quadro simbolico
 
 
-quadro realista (falsificazione)
+quadro realista (falso)
 quadro realista
 
 
-quadro colorato (falsificazione)
+quadro colorato (falso)
 quadro colorato
 
 quadro classico
@@ -39,7 +39,7 @@ quadro classico
 quadro marino
 
 
-quadro organico (falsificazione)
+quadro organico (falso)
 quadro organico
 
 quadro povero
@@ -53,7 +53,7 @@ quadro fiorito
 quadro possente
 
 
-quadro stupendo (falsificazione)
+quadro stupendo (falso)
 quadro stupendo
 
 
@@ -63,17 +63,17 @@ quadro stupendo
 
 
 
-quadro spaventoso (falsificazione)
+quadro spaventoso (falso)
 quadro spaventoso
 
 quadro prezioso
 
 
-quadro solenne (falsificazione)
+quadro solenne (falso)
 quadro solenne
 
 
-quadro intenso (metà dx) (falsificazione)
+quadro intenso (metà dx) (falso)
 quadro intenso (metà dx)
 
 quadro riposante
@@ -745,8 +745,8 @@ minipupazzo iceberg
 cucina compatta
 
 
-
-
+コミューンとうのふうしゃ
+コミューンとうのATM
 
 schema trappola
 kit fissa-scala
@@ -880,9 +880,9 @@ quadro interruttori
 
 secchio di legno
 
-
-
-
+土産袋・モモ
+土産袋・リンゴ
+土産袋・オレンジ
 
 
 
@@ -893,13 +893,13 @@ candela centrotavola
 
 
 
-
+土産袋・ナシ
 torre per gatti
 
 
 
 
-
+土産袋・さくらんぼ
 
 
 tavolo tubolare
@@ -1083,7 +1083,7 @@ piano verticale
 cestino da picnic
 gagliardetto dell'hotel
 globo di neve dell'hotel
-
+ホテルのとうめいソファ
 testa di Octoling (Nessuna variazione)
 flipper
 lampada concettuale
@@ -1094,9 +1094,9 @@ macchina per pop-corn
 
 
 
-
+冷たいきゅうり(NPC用)
 Nintendo Switch 2
-
+ゆめみのアロマポット
 divisorio bimbi
 portasciugamani dell'hotel
 letto concettuale
@@ -1111,15 +1111,15 @@ paio di stivali élite replica (Nessuna variazione)
 mortaio da mochi
 bagno termale
 ruota colorata
-
-
+バインダー（ホテル）
+ゲコのゆのみ
 maglione CalamaX (Nessuna variazione)
 recinto per sabbia
 castello di sabbia
 cala-shirt strappata (Nessuna variazione)
 
 spaventapasseri
-
+きっさてんのイス
 paio di runner rosa (Nessuna variazione)
 
 boccia acquario
@@ -1135,8 +1135,8 @@ carrello della spesa
 paio di stivali Reboot (Nessuna variazione)
 
 
-
-
+ホテルのちんれつだいS
+ホテルのちんれつだいM
 
 muro Sobborgo Siluriano
 portasci da parete
@@ -1305,7 +1305,7 @@ cardigan dell'hotel arancio (Nessuna variazione)
 maglietta dell'hotel blu (Nessuna variazione)
 maglietta dell'hotel bianca (Nessuna variazione)
 bandana dell'hotel (Nessuna variazione)
-
+ククのクレヨン
 sedia da scuola
 
 
@@ -1330,21 +1330,21 @@ banco di scuola
 cattedra antica
 cattedra da professore
 statua leggendaria
-statua leggendaria (falsificazione)
+statua leggendaria (falso)
 statua maestosa
-statua maestosa (falsificazione)
+statua maestosa (falso)
 statua atletica
-statua atletica (falsificazione)
+statua atletica (falso)
 statua antica
-statua antica (falsificazione)
+statua antica (falso)
 statua trionfante
 
 statua aggraziata
-statua aggraziata (falsificazione)
+statua aggraziata (falso)
 statua enigmatica
-statua enigmatica (falsificazione)
+statua enigmatica (falso)
 statua eroica
-statua eroica (falsificazione)
+statua eroica (falso)
 
 gabbia per criceti
 
@@ -2300,8 +2300,8 @@ ciuccio (Viola pastello)
 
 
 
-
-
+default tops (internal)
+default bottoms (internal)
 cosmea rossa
 cosmea bianca
 
@@ -2561,7 +2561,7 @@ vaso
 comò di legno
 lampada a stelo
 candela
-
+my design texture (internal)
 
 
 
@@ -2620,8 +2620,8 @@ scala a pioli
 
 alga wakame
 
-
-
+shop stand S (internal)
+shop stand M (internal)
 erbaccia
 
 cosmea rossa
@@ -2693,7 +2693,7 @@ vestito tropicale (Menta)
 
 
 
-ダミーDIYレシピ
+dummy diy recipe (internal)
 
 
 
@@ -2827,7 +2827,7 @@ camicia classica (Bianco)
 
 
 
-
+pinata hitting stick (internal)
 vite di mare
 riccio di mare
 dente di cane
@@ -3074,8 +3074,8 @@ vestito bambolina (Rosa)
 
 
 licenza strade
-じぶんのスマホ
-メモ
+my phone (internal)
+memo (internal)
 telescopio per turisti
 
 muretto di mattoni
@@ -3211,7 +3211,7 @@ giacca di jeans (Blu)
 
 
 grembiule di gomma (Nero)
-
+book (insect) (internal)
 
 
 
@@ -3411,7 +3411,7 @@ uniforme da fantino (Fascia)
 set di scatoloni piccoli
 set di scatoloni medi
 set di scatoloni grandi
-
+present boxes (internal)
 
 termitaio
 lampada cono gelato
@@ -3562,14 +3562,14 @@ banco da lavoro di ferro
 attaccapanni di ferro
 mensola di ferro
 scaffale di ferro
-
+tom nook's summer top (internal)
 uniforme di polizia (Nessuna variazione)
 
 
 
 
 toga (Rosso)
-
+tom nook's summer bottoms (internal)
 kimono floreale (Rosa)
 vestito gotico (Viola)
 chitone (Nessuna variazione)
@@ -4216,18 +4216,18 @@ gilet boa (Blu marino)
 
 
 
-
+isabelle's summer skirt (internal)
 
 piumino trapuntato (Blu marino)
-
+isabelle's shoes (black) (internal)
 gonna lunga plissettata (Bordò)
 gonnellino da tennis (Bianco)
 
 
 canestro da basket
 
-
-
+my design easel (internal)
+my design campus (internal)
 portacandela di vetro
 
 
@@ -4258,7 +4258,7 @@ pantalone imbottito (Blu)
 gonna chino lunga (Beige)
 
 
-
+tom nook's winter bottoms (internal)
 
 vestito a righe (Nero)
 montatura a doppio ponte (Dorato)
@@ -4276,7 +4276,7 @@ paio di jeans corti (Blu)
 maglietta a righe (Blu marino)
 
 piumino smanicato (Blu marino)
-
+tom nook's winter top (internal)
 set di ghiaccioli iceberg
 
 
@@ -4285,8 +4285,8 @@ gonna di tuta (Grigio)
 
 giacca di nylon (Nero)
 vestaglia (Marrone)
-
-
+my design PRO A-design one piece (internal)
+my design PRO Y-shirt (internal)
 cardigan pied de poule (Rosso)
 vestito a righe smanicato (Rosa)
 maglietta con taschino (Bianco)
@@ -4313,9 +4313,9 @@ kit progettazione rampa
 La città degli animali
 Arrivederci
 Gita al volante
-はずれ01
-はずれ02
-はずれ03
+miss / failed 01 (internal)
+miss / failed 02 (internal)
+miss / failed 03 (internal)
 Nuovi orizzonti
 hakama (Borgogna)
 maglietta legata davanti (Nero)
@@ -4381,14 +4381,14 @@ cavallo a molla
 
 palla da football
 
-
-
+shopping bag (internal)
+broom (internal)
 
 sparabolle
 
+coffee (internal)
 
-
-
+ice cream (soda) (internal)
 
 kit da prestidigitazione
 tinozza da bucato
@@ -4474,7 +4474,7 @@ pantaloncino da camminata (Giallo)
 
 
 tuta da supereroe (Blu)
-
+isabelle's winter skirt (internal)
 
 
 
@@ -4792,7 +4792,7 @@ maglione con pon-pon (Rosa)
 vestito elegante (Viola)
 felpa modesta (Viola)
 anorak (Cammello)
-
+transparent shop chair (internal)
 muro comune
 
 pavimento cantina
@@ -5122,7 +5122,7 @@ corona crisantemi semplice (Nessuna variazione)
 
 maglione fiocco di neve (Blu)
 
-
+timmy nook's apron (internal)
 
 maglione rovinato (Verde)
 tuta da wrestling (Rosso)
@@ -5395,7 +5395,7 @@ vestito da pattinaggio (Blu)
 casco spaziale (Bianco)
 maschera da paintball (Nero)
 
-
+player's smartphone (internal)
 cappello di paglia (Marrone)
 cappello australiano (Marrone)
 muro città
@@ -5478,7 +5478,7 @@ paio stivaletti ecopelliccia (Verde oliva)
 paio di ballerine maculate (Beige)
 paio di infradito perlati (Arancio)
 paio di stivali (Verde)
-
+dumbbell (internal)
 muro steccato
 muro finestre arcuate
 muro caffetteria
@@ -5528,7 +5528,7 @@ paio di pantofole (Grigio)
 
 muro stellato
 
-
+my design PRO3DS long sleeve one piece (internal)
 
 
 
@@ -5560,8 +5560,8 @@ paio di gambiere da samurai (Rosso)
 muro pannelli bianco
 
 paio ballerine con cinturino (Rosso)
-
-
+isabelle's new year's eve top (internal)
+isabelle's new year's eve skirt (internal)
 paio di pantofole da casa (Grigio)
 paio di ciabatte di gomma (Blu chiaro)
 paio di mocassini casual (Giallo)
@@ -5654,7 +5654,7 @@ paio di sandali da mare (Rosa)
 abito con collo alto (Nero)
 paio di scarpini da calcio (Blu)
 paio di scarpe a punta (Rosso)
-
+shop's wall-mounted display sign (internal)
 
 camicia fischerhemd (Nessuna variazione)
 paio di sneaker hi-tech (Arancio)
@@ -5707,7 +5707,7 @@ pantaloncino a righe (Rosa)
 
 pantalone di maglia (Grigio)
 gonna lunga di jeans (Blu)
-
+event balloon 0 (internal)
 gonna a grembiule (Viola)
 pantaloncino di tela (Rosa)
 
@@ -5723,8 +5723,8 @@ pantalone da allenamento (Limetta)
 gonna bomber (Avocado)
 pantaloncino con lustrini (Rosso)
 pantalone a zampa a righe (Giallo)
-
-
+event balloon 1 (internal)
+event balloon 2 (internal)
 ghianda
 pigna
 bambù giovane primavera
@@ -5760,8 +5760,8 @@ ghirlanda tulipani carina
 
 paio di stivali spaziali (Nessuna variazione)
 paio di sneaker da bimbi (Rosso)
-
-
+tom nook's new years eve top (internal)
+tom nook's new years eve bottom (internal)
 ghirlanda cosmee chic
 ghirlanda anemoni chic
 ghirlanda rose cupa
@@ -5774,11 +5774,11 @@ ghirlanda rose blu
 montatura a cannuccia (Verde)
 felpa senza maniche (Verde)
 paio di scarpe da passeggio (Rosa)
-
-
-
-
-
+NPC room marker (music) (internal)
+NPC room marker (clothes bed) (internal)
+NPC room marker (clothes wall) (internal)
+NPC room marker (insect) (internal)
+NPC room marker (fish) (internal)
 gonna etnica (Blu)
 
 
@@ -5788,11 +5788,11 @@ retino
 
 
 
-
-
-
+NPC room marker (floor 1x1) (internal)
+NPC room marker (floor 2x1) (internal)
+NPC room marker (floor 2x2) (internal)
 bottiglia con messaggio
-(DIY recipe)
+DIY recipe
 pantalone stile geometrico (Blu)
 vestito da sogno (Rosa)
 kimono appariscente (Verde)
@@ -5820,7 +5820,7 @@ vestito coreano maschile (Blu)
 codino cinese (Colore dei capelli)
 ghirlanda rose d'oro
 
-
+my design PRO mesh cap (internal)
 yukata con campanule (Blu chiaro)
 paio di sandali sportivi (Rosso)
 costume steampunk (Rosso)
@@ -5834,8 +5834,8 @@ parrucca visual kei (Colore dei capelli)
 goccia di moccio (Nessuna variazione)
 
 
-
-
+my design PRO knit cap (internal)
+my design PRO boater hat (internal)
 
 
 cappuccio borsa di carta (Beige)
@@ -5882,7 +5882,7 @@ gonna con limoni (Blu chiaro)
 
 
 
-
+k.k. slider's stool (internal)
 
 
 
@@ -5941,9 +5941,9 @@ replica scarab. kabutomushi
 
 scarabeo stercorario d'oro
 
-
+timmy nook's summer top (internal)
 replica di farfalla tigre
-
+timmy nook's winter top (internal)
 cilindro di Capodanno (Rosso)
 cilindro di Capodanno (Blu)
 cilindro di Capodanno (Giallo)
@@ -5972,7 +5972,7 @@ legna da ardere
 
 tronco ruvido da seduta
 set di paletti tronco
-
+firewood (internal)
 gioco d'equilibrio
 sfera di bambù
 lampada germoglio bambù
@@ -6056,7 +6056,7 @@ berretto con pon-pon (Marrone)
 basco scozzese (Rosso)
 
 maschera decorata (Rosso)
-ちず
+map (internal)
 
 
 
@@ -6098,7 +6098,7 @@ fascia (Rosa)
 
 
 
-
+spanner and hammer (internal)
 
 
 
@@ -6811,9 +6811,9 @@ foto di Cornelio
 
 camicia a quadri (Rosso)
 
-
-
-
+k.k. slider's concert chair (internal)
+aquarium's transparent corner chair (internal)
+museum's transparent sofa (internal)
 
 
 decorazione con palline
@@ -6821,8 +6821,8 @@ camicia aloha con ananas (Rosso)
 camicia aloha con ananas (Giallo)
 camicia aloha con ananas (Verde)
 maglietta stellona (Nessuna variazione)
-
-
+aquarium's long transparent corner chair (internal)
+museum tent's transparent chair (internal)
 
 lampada stella
 decorazione stellata
@@ -6834,7 +6834,7 @@ orologio fiore di ciliegio
 
 
 maglietta MVP (Nessuna variazione)
-
+tom nook's smartphone (internal)
 
 zaino urbano (Verde)
 zaino urbano (Arancio)
@@ -6884,7 +6884,7 @@ cappello di maglia (Ocra)
 
 paio di mocassini casual (Rosso)
 paio di mocassini casual (Blu)
-
+timmy nook's tour flag (internal)
 
 maglia nº 1 (Nessuna variazione)
 paio di mocassini casual (Verde)
@@ -6893,9 +6893,9 @@ paio di mocassini casual (Nero)
 paio scarpe punta in gomma (Viola)
 paio sneaker finto camoscio (Verde)
 paio di stivaletti appuntiti (Nero)
-
-ー
-
+dummy ー〇 (internal)
+dummy ー× (internal)
+tom nook's transparent cushion (internal)
 paio di calzini briosi (Verde)
 pantaloncino da camminata (Nero)
 
@@ -7121,10 +7121,10 @@ replica coleot. rosalia batesi
 repl. cimice d'acqua gigante
 replica di zigottero
 
-
-
-
-
+book (manga) (internal)
+shopping bag (low) (internal)
+shopping bag (high) (internal)
+fruit basket (NPC held) (internal)
 muro piastrelle blu
 
 
@@ -7208,7 +7208,7 @@ muro fiori di ciliegio
 
 
 cerchietto da coniglio (Nero)
-
+my design clothes (internal)
 kit creazione ponte
 foto di Capraldo
 foto di Ovilio
@@ -7221,7 +7221,7 @@ pavimento grazioso bianco
 pavimento grazioso rosso
 pavimento grazioso blu
 pavimento grazioso giallo
-
+airport clear chair (internal)
 
 
 
@@ -7254,7 +7254,7 @@ polpo ombrello
 orologio stella
 cappello di paglia orientale (Nessuna variazione)
 
-
+dodo's headset (internal)
 pedana con pedali
 creta da modellare
 lampada palma
@@ -7283,23 +7283,23 @@ slitta
 arazzo appeso
 
 soldatino
-
+labelle's sketch book (internal)
 cappello di seta piccolo (Viola)
 
-
-
-
+dodo's sunglasses (internal)
+blather's smartphone (internal)
+gullivar's smartphone (internal)
 maschera a foglia (Verde)
 
+butterfly garden's transparent chair (internal)
 
 
 
 
 
 
-
-
-
+timmy nook's apron top (internal)
+timmy nook's top (internal)
 borsa sportiva rétro (Blu)
 porcellino di mare
 borsello (Blu)
@@ -7307,18 +7307,18 @@ borsetta da sera (Rosa)
 
 
 granciporro
+feather duster (internal)
 
-
-
-
-
-
-
-
+NPC held bag (cute) (internal)
+NPC held bag (cool) (internal)
+NPC held book (novel) (internal)
+NPC held book (fashion) (internal)
+NPC held book (music magazine) (internal)
+NPC held book (exercise magazine) (internal)
 lapide giapponese
 cestello di Venere
-
-
+timmy nook's smartphone (internal)
+isabelle's smartphone (internal)
 
 tappeto amore rosa
 tappeto legno marrone
@@ -7393,13 +7393,13 @@ letto tatami
 distributore di caramelle
 pietra laghetto
 cappello da pioggia (Giallo)
+dumbbell (heavy) (internal)
 
-
-
-
-
-
-
+NPC held doughnut (donut) (internal)
+NPC held sandwich (internal)
+NPC held juice (internal)
+NPC held green tea (internal)
+NPC held insect magnifying glass (internal)
 tappeto spavaldo di mamma
 tappeto vinile giallo
 tappeto vinile blu
@@ -7408,7 +7408,7 @@ tappeto vinile rosso
 replica di centopiedi
 pietra laghetto foglie acero
 pietra laghetto fiori ciliegio
-
+NPC-use sold-out sign (internal)
 cozza
 tiara (Argentato)
 
@@ -7667,9 +7667,9 @@ K.K. Rap
 K.K. Break
 K.K. Khoomei
 K.K. Robot
-
-
-
+NPC cup (internal)
+NPC teacup (internal)
+NPC smoothie (internal)
 maglione Aran (Bianco)
 maglione Aran (Grigio)
 maglione Aran (Verde)
@@ -7754,7 +7754,7 @@ cardigan college (Rosso)
 cardigan college (Grigio)
 cardigan college (Arancio)
 cardigan college (Bianco)
-
+NPC candy (internal)
 maglietta a righe (Rosso)
 maglietta a righe (Cammello)
 maglietta a righe (Verde)
@@ -7860,9 +7860,9 @@ maglione a poncho (Blu pavone)
 maglione a poncho (Arancio)
 maglione a poncho (Blu)
 maglione a poncho (Grigio)
-
-
-
+NPC-use weed (foxtail)  (internal)
+NPC-use weed (branch) (internal)
+NPC-use weed (silvergrass, susuki) (internal)
 portakimono elaborato
 
 segnale direzionale obliquo
@@ -7905,7 +7905,7 @@ vestito sci-fi anni '80 (Blu)
 vestito sci-fi anni '80 (Verde)
 vestito sci-fi anni '80 (Giallo)
 vestito sci-fi anni '80 (Blu chiaro)
-
+isabelle's shoes (brown) (internal)
 vestito rétro scampanato (Blu)
 vestito rétro scampanato (Blu chiaro)
 vestito rétro scampanato (Giallo)
@@ -7923,7 +7923,7 @@ vestito a stampa grande (Beige)
 vestito da cocktail (Rosa)
 vestito da cocktail (Verde)
 vestito da cocktail (Beige)
-
+isabelle's summer top (internal)
 vestito marmorizzato (Rosa)
 vestito marmorizzato (Verde)
 vestito marmorizzato (Arancio)
@@ -7966,7 +7966,7 @@ vestito satinato (Rosa)
 
 
 
-
+c.j.'s fishing rod (internal)
 felpa semplice (Rosso)
 felpa semplice (Verde)
 felpa semplice (Blu)
@@ -8027,12 +8027,12 @@ completo con pantaloncini (Nero)
 cardigan lungo di ciniglia (Blu)
 cardigan lungo di ciniglia (Rosa)
 cardigan lungo di ciniglia (Verde)
-
+isabelle's winter top (internal)
 
 fontana
 
-
-
+NPC smoothie (pink) (internal)
+NPC smoothie (beige) (internal)
 tappeto antico blu
 tappeto antico giallo
 tappeto antico viola
@@ -8226,7 +8226,7 @@ maglietta teschio (Nero)
 cabinato con picchiaduro
 cabinato con sparatutto
 cabinato con mahjong
-
+my design PRO shirt (internal)
 giubba da moschettiere (Rosso)
 giubba da moschettiere (Verde)
 vestito da principessa (Verde)
@@ -8249,10 +8249,10 @@ vestito profumo di mare (Giallo)
 vestito profumo di mare (Menta)
 vestito profumo di mare (Rosso)
 vestito profumo di mare (Viola)
-
-
-
-
+my design PRO non-sleeve shirt (internal)
+my design PRO sweater (internal)
+my design PRO parka (internal)
+my design PRO coat (internal)
 
 vestito da domestica (Verde)
 vestito da domestica (Rosso)
@@ -8365,12 +8365,12 @@ tunica senza maniche (Giallo)
 vestito di merletto (Giallo)
 vestito di merletto (Rosa)
 
+my design PRO one piece dress (internal)
+my design PRO dress (internal)
+my design PRO balloon one piece dress (internal)
+my design PRO circle  (internal)
 
-
-
-
-
-
+my design PRO kimono (internal)
 canotta (Bianco)
 canotta (Marrone)
 canotta (Rosso)
@@ -8570,8 +8570,8 @@ bomber (Marrone)
 bomber mimetico (Grigio)
 bomber mimetico (Viola)
 completo punk (Rosso)
-
-
+bbq skewer (internal)
+minestrone (internal)
 pala d'oro
 pala da campeggio
 pala con motivo stampato
@@ -8603,8 +8603,8 @@ vestito casual-chic (Blu marino)
 vestito casual-chic (Viola)
 
 vestito hawaiano ardito (Rosa)
-
-
+shop's display stand S (internal)
+shop's display stand M (internal)
 
 piramide
 testa da pupazzo di neve (Nessuna variazione)
@@ -8770,7 +8770,7 @@ ombrello pesci
 bacchetta insetto
 bacchetta pesce
 
-
+tanuki exploration helmet (permit) (internal)
 licenza selciato
 licenza strada di mattoni
 licenza strada sterrata
@@ -8819,8 +8819,8 @@ vestito zigzag (Corallo)
 vestito zigzag (Limetta)
 vestito zigzag (Marrone)
 vestito con fiore (Verde)
-
-
+isabelle's water spray bottle (internal)
+resident service's transparent chair (internal)
 tappeto modello pers.
 
 sarcofago dorato
@@ -8925,8 +8925,8 @@ pantaloncino gobelin (Nero)
 gonna mosaico in ecopelle (Verde)
 gonna mosaico in ecopelle (Viola)
 gonna mosaico in ecopelle (Arancio)
-
-
+ice cream (orange) (internal)
+ice cream (chocolate) (internal)
 paio di tabi (Nero)
 paio di tabi (Blu marino)
 paio di calzini merlettati (Rosa)
@@ -9041,9 +9041,9 @@ tuta elegante (Grigio)
 tuta elegante (Beige)
 tuta elegante (Avocado)
 tuta elegante (Rosa)
-
-
-
+resident's services clear demo table (internal)
+book (fish) (internal)
+book (flowers) (internal)
 schema asta da salto
 schema pala fragile
 schema annaffiatoio fragile
@@ -9281,7 +9281,7 @@ pantaloncino con toppe (Verde)
 pantaloncino con toppe (Giallo)
 pantalone strappato (Nero)
 pantalone strappato (Grigio)
-汎用布地
+generic fabric (internal)
 trench (Blu chiaro)
 trench (Rosso)
 trench (Arancio)
@@ -9550,14 +9550,14 @@ tappetino tondo rosso S
 tappetino tondo blu S
 
 
-
-
-
-
-
-
-
-
+my design PRO3DS short sleeve one piece dress (internal)
+my design PRO3DS sleeveless one piece dress (internal)
+my design PRO3DS long sleeve one piece dress (internal)
+my design PRO3DS short sleeve top (internal)
+my design PRO3DS sleeveless top (internal)
+my design PRO3DS horned hat (internal)
+my design PRO3DS knit cap (internal)
+c.j.'s smartphone (internal)
 ombrello DAL
 ombrello Nook Inc.
 tappeto peloso viola
@@ -9585,7 +9585,7 @@ paio di calze neon (Giallo)
 palla da spiaggia
 paio di legging briosi (Blu chiaro)
 paio di legging neon (Giallo)
-
+my design face paint (internal)
 divisa da cuoco (Blu)
 divisa da cuoco (Verde)
 divisa da cuoco (Giallo)
@@ -9618,7 +9618,7 @@ La ruota degli strumenti
 ascia d'oro
 
 palo della corrente
-
+flick's spikey goth net (internal)
 
 vestito da coniglio (Giallo)
 vestito da coniglio (Bianco)
@@ -9651,7 +9651,7 @@ paio di calzini ordinari (Marrone)
 
 
 
-
+resident's services office chair (internal)
 copriocchi Nook Inc. (Nessuna variazione)
 paio di calze (Grigio)
 paio di calze (Bianco)
@@ -9762,8 +9762,8 @@ maglietta Nook Inc. (Nessuna variazione)
 sacca Nook Inc. (Nessuna variazione)
 ventaglio uchiwa Nook Inc.
 cappellino da baseball (Rosso)
-
-
+dodo's cup (internal)
+book (fossils) (internal)
 frigo compatto
 bidone con ruote
 maglione vichingo (Marrone)
@@ -10863,7 +10863,7 @@ poster di Raimondo
 poster di Sid
 poster di Capraldo
 poster di Ovilio
-
+rover's clothes (internal)
 
 cappello da scolaro (Blu marino)
 sombrero (Naturale e verde)
@@ -10894,7 +10894,7 @@ cappello di paglia (Blu)
 cappello di paglia (Rosso)
 cappello di paglia e nastro (Rosa)
 cappello di paglia e nastro (Nero)
-
+あやしいネコのふく
 maglia da scolaro (Pulcino)
 maglia da scolaro (Bocciolo di ciliegio)
 maglia da scolaro (Rana)
@@ -10916,8 +10916,8 @@ matanpushi (Blu)
 maglietta sportiva (Blu)
 maglietta sportiva (Verde)
 maglietta sportiva (Nero)
-
-
+my design wall (internal)
+my design floor (internal)
 cappello di ecopelliccia (Marrone)
 cappello di ecopelliccia (Grigio)
 cappello di ecopelliccia (Nero)
@@ -10997,7 +10997,7 @@ paio di scarponi da sci (Blu chiaro)
 paio di scarponi da sci (Viola)
 paio di scarpe da passeggio (Beige)
 paio di scarpe da passeggio (Rosso)
-
+コトブキのつえ
 monocolo (Dorato)
 monocolo (Argentato)
 montatura a tapparella (Blu)
@@ -11092,7 +11092,7 @@ montatura tondeggiante (Magenta)
 montatura tondeggiante (Senape)
 montatura tondeggiante (Nero)
 montatura di legno (Marrone scuro)
-
+interior mode transparent NPC (internal)
 vestito di spugna (Blu chiaro)
 vestito pigiama (Blu marino)
 
@@ -11127,7 +11127,7 @@ poster di My Melody
 poster di Kerokerokeroppi
 boccalone da parete
 marlin blu da parete
-
+hammer (internal)
 uniforme da fantino (Scacchi)
 uniforme da fantino (Rombi)
 uniforme da fantino (Anello)
@@ -12110,7 +12110,7 @@ vestito a pois semplici (Verde)
 vestito a pois semplici (Nero)
 cappello tropicale (Giallo)
 cappello tropicale (Rosa)
-
+large greenhouse transparent chair (internal)
 
 maglietta konnichiwa (Nessuna variazione)
 maglietta bonjour (Nessuna variazione)
@@ -12199,7 +12199,7 @@ gonna a quadri (Viola)
 gonna a quadri (Blu chiaro)
 maglietta teschio (Beige)
 maglietta teschio (Viola)
-
+plaza bench (internal)
 
 
 
@@ -12207,10 +12207,10 @@ maglietta teschio (Viola)
 pietra da giardino bassa
 sgabello da sala giochi
 pietra giardino muschiosa
+harvey's laundry basket (internal)
+harvey's clothesline (internal)
 
-
-
-デモ用たぬきマイルカード
+demo use tanuki mile card (internal)
 
 tappeto sacco di stelline
 tappeto anguria rosso
@@ -12227,7 +12227,7 @@ tappeto stella giallo
 
 
 
-
+harvey's stone kiln (internal)
 set di trottole festive
 
 
@@ -12335,7 +12335,7 @@ tavolo naturale quadrato
 tappeto teschio
 tappeto ghianda
 
-
+redd's apron (internal)
 sedia massaggio rétro
 sedia massaggio imbottita
 rete da pallavolo
@@ -12378,8 +12378,8 @@ cartello area per campeggio
 
 
 tappeto ceppo d'albero
-
-
+cyrus's (kaizo) clothes (internal)
+reese's (lisa) clothes (internal)
 
 
 
@@ -12472,8 +12472,8 @@ tazza grazie mamma
 tazza grazie papà
 valigia di Girolamo
 
-
-
+DJ K.Kのめがね
+DJ K.Kのぼうし
 germoglio osmanto giallo
 osmanto giallo giovane
 osmanto giallo adulto
@@ -12505,8 +12505,8 @@ smoking nuziale (Nessuna variazione)
 
 
 
-
-
+えきいんさんのぼうし
+えきいんさんのふく
 uovo terrestre
 uovo roccioso
 uovo frondoso
@@ -12530,24 +12530,24 @@ tappeto cielo stellato
 
 
 
-
+zipper's (pyontarou) combined egg balloons (internal)
 testa di roccia
-testa di roccia (falsificazione)
+testa di roccia (falso)
 pietra informativa
-pietra informativa (falsificazione)
+pietra informativa (falso)
 scultura imponente
-scultura imponente (falsificazione)
+scultura imponente (falso)
 statua guerriera
-statua guerriera (falsificazione)
+statua guerriera (falso)
 statua pensierosa
 
 Nintendo Switch
 bottiglia messaggio uovo
 
 gemma dell'amore
-
-
-
+reese's (lisa) dress (internal)
+reese's (lisa) bell (internal)
+cyrus's (kaizo) tuxedo (internal)
 muschio luminoso
 pianta di edera
 tavolo sirena
@@ -12569,7 +12569,7 @@ muro pirata
 pavimento sirena
 pavimento pirata
 quadro intenso (metà sx)
-quadro intenso (metà sx) (falsificazione)
+quadro intenso (metà sx) (falso)
 barile pirata in orizzontale
 forziere pirata
 barile pirata in verticale
@@ -12578,7 +12578,7 @@ corona fatta a mano (Nessuna variazione)
 corona girasoli (Nessuna variazione)
 bacchetta caccia all'uovo
 Nintendo Switch ACNH
-
+コトブキのぼうし
 
 foto di Zoe
 foto di Rita
@@ -12614,27 +12614,27 @@ distributore di giochi
 servizio da tè lussuoso
 poltrona a pavone
 ascia consumata
-
-
+painting brush (internal)
+タクミ夏服ワンピース
 quadro sfavillante
 quadro accademico
-quadro accademico (falsificazione)
+quadro accademico (falso)
 quadro acquatico
 quadro dettagliato
-quadro dettagliato (falsificazione)
+quadro dettagliato (falso)
 quadro abbagliante
 quadro misterioso
 
 
 
-quadro invernale (falsificazione)
+quadro invernale (falso)
 recinzione caccia all'uovo
+redd's display table S (internal)
+redd's display table M (internal)
 
+redd's wall display (internal)
 
-
-
-
-
+セイイチのキャンバス
 scrivania diagnostica
 
 
@@ -12654,7 +12654,7 @@ scrivania diagnostica
 letto d'ospedale moderno
 
 
-
+ナッティーの夏服ボトムス
 
 
 
@@ -12670,7 +12670,7 @@ costume da mozzo pirata (Rosso)
 sgabello a ciambella
 cassettiera con rotelle
 
-
+マラカス(NPC用)
 archivio alto
 archivio basso
 divisorio piante
@@ -12694,7 +12694,7 @@ orologio da fiera
 lampione con stendardi
 
 bacchetta nuziale
-
+ナッティーの夏服トップス
 
 
 insegna con cavalletto
@@ -12730,6 +12730,7 @@ pavimento circo
 pavimento sala operatoria
 pavimento in pietra antico
 
+reese's (lisa) flower bouquet (internal)
 
 
 
@@ -12737,8 +12738,7 @@ pavimento in pietra antico
 
 
 
-
-
+museum's stamp stand (internal)
 planisfero
 
 
@@ -12845,7 +12845,7 @@ pasta ai peperoni
 
 
 
-
+タクミのサンダル
 muro da corridoio
 muro armadietti rossi
 
@@ -12893,7 +12893,7 @@ specchio da terra
 borsa di carta resistente
 set scatole di scarpe
 recinzione nuziale
-
+ニコの夏服トップス
 
 pianta di pomodoro S
 pianta di pomodoro matura
@@ -12954,7 +12954,7 @@ set di dolcetti brividi
 
 
 
-
+カメヤマさんのあみ
 abito principessa sirena (Rosa)
 abito a scaglie sirena (Rosa)
 maglione cuore dell'inverno (Nessuna variazione)
@@ -12969,13 +12969,13 @@ pannolino (Blu chiaro)
 perla
 
 muta Nook Inc. (Nessuna variazione)
-
-
+Redd's market top (internal)
+Redd's market bottom (internal)
 
 stella filante blu
 benda oculare (Nessuna variazione)
 minidharma
-
+pascal's scallop (internal)
 
 
 corona tesoro pirata (Nessuna variazione)
@@ -13057,7 +13057,7 @@ poster di Gilbertuccio
 poster di Gedeone
 tappetino in fibra di cocco
 tappetino ingresso semplice
-
+my design train track object (internal)
 
 
 
@@ -13127,7 +13127,7 @@ palloncino verde
 palloncino rosa
 pavimento selciato rovinato
 gagliardetto Nook Inc.
-
+かおだしかんばん
 muro discoteca
 
 
@@ -13216,7 +13216,7 @@ pattumiera in metallo
 maschera mare Nook Inc. (Nessuna variazione)
 
 
-
+dream-viewing aroma pot (internal)
 
 set di lanterne tonde
 letto di Sonia
@@ -13278,13 +13278,13 @@ vestito Hello Kitty (Nessuna variazione)
 torso di manichino
 parte inferiore di manichino
 testa di manichino
+マイデザインPROうちわ
+マイデザインPROペナント
 
 
 
 
-
-
-
+マイデザインPROかさ
 tappeto luna
 seggiolone
 
@@ -13315,7 +13315,7 @@ lampione curvo
 
 poster della Nook Inc.
 
-
+ジングルのプレゼントぶくろ
 muro primizie
 pavimento primizie
 
@@ -13350,14 +13350,14 @@ germoglio frangipani bianco
 frangipani bianco giovane
 frangipani bianco adulto
 piantina frangipani bianco
-
+イベントハロウィンなタワー
 ritratto di Fifonio
 
 
 carrellino
 ghirlanda festiva
 muro congelatore
-
+てんじょうかぐのちんれつだい
 bevanda in bottiglietta
 set di secchi di vernice
 spada a doppio taglio
@@ -13435,16 +13435,16 @@ vestito Kiki & Lala (Nessuna variazione)
 muro serra
 muro tenda
 
-
+スマホ（ポケットキャンプコラボ）
 muro con finestra nero
 custodia Pocket Camp
-
+フォークとナイフ
 muro armadietti grigi
 muro rivestito con mensole
-
-
-
-
+フライパン(NPC用)
+おぼん
+カルテ
+リセットさんのヘルメット
 piedistallo primizie
 caminetto primizie
 decorazione primizie
@@ -13536,11 +13536,11 @@ kit fissa-scala di ferro
 
 
 
-
-
-
-
-
+フランクリンキッチンN
+フランクリンキッチンS
+ハーベストなテーブルキャンドルN
+ハーベストなテーブルキャンドルS
+ハーベストなクローシュ
 arco buon anno 2021
 
 
@@ -13596,14 +13596,14 @@ tappeto pietre scure
 piastrella quadrata bianca
 tappeto girasole
 tappeto mattoni grigi
-
+かおだしかんばん3DS
 
 
 
 paio di scarpe di Peach (Nessuna variazione)
 muro nevicata
 pavimento marocchino
-
+リセットさんのツルハシ
 pila di cassette per pesce
 
 cesto di verdure
@@ -13708,7 +13708,7 @@ drappeggio
 
 
 bomboletta spray
-
+りゅうぼく
 
 castello di carte
 
@@ -13781,14 +13781,14 @@ pesce alla mugnaia
 sformato
 zuppa di vongole
 crostata di zucca
-
+フランクリンのちょうりきぐ
 menu in stile occidentale
 menu stravagante
 menu in stile cinese
 Fai da te primizie
 
-
-
+ハーベストなクロスつきテーブルN
+ハーベストなクロスつきテーブルS
 
 carta da regalo festiva
 regalo
@@ -13835,6 +13835,7 @@ Twomp
 
 cocktail alla frutta
 sacco dei regali
+イベントおおきなクリスマスツリー
 
 
 
@@ -13856,8 +13857,7 @@ sacco dei regali
 
 
 
-
-
+皿
 finto parquet chiaro
 piastr. finto parquet chiaro
 foto di Jingle
@@ -13892,7 +13892,7 @@ mobile da cucina country
 
 
 
-
+タクミのリボン
 separatore di cemento L
 
 separatore di mattoni L
@@ -13919,7 +13919,7 @@ scamiciato hawaiano CV (Nessuna variazione)
 
 
 molletta frangipani (Bianco)
-
+バインダー
 
 
 
@@ -13927,7 +13927,7 @@ monitor sospeso
 cartello indicazioni sospeso
 Nintendo Switch Lite
 
-
+ラケットさんのヘルメット
 set di calze per regali
 zuppa di carote
 zuppa di patate
@@ -14031,7 +14031,7 @@ bouquet a cuore
 Set di emozioni Carnevale
 targa da porta trifoglio
 decoraz. Capodanno lunare
-
+じむしょのロッカー
 
 piastr. finto parquet bianco
 piastr. finto parquet scuro
@@ -14043,7 +14043,7 @@ forsizia
 denaro della fortuna
 sebaetdon
 otoshidama
-
+レイジのぼうし
 xilofoide
 dolcioide
 zuppa di funghi
@@ -14258,7 +14258,7 @@ foto di Fuffi
 tuta muschio luminoso (Nessuna variazione)
 
 vestito muschio luminoso (Nessuna variazione)
-
+うりきれカンバンウェアラン
 smoking vivace (Rosso)
 fascia ballo scolastico (Rosso)
 paio di scarpe da ballo (Nero)
@@ -14266,7 +14266,7 @@ corona ballo scolastico (Dorato)
 tiara ballo scolastico (Dorato)
 blocco fluttuante
 amaca Casimira vacanze
-
+スマホ（タクミ）
 camice da medico strappato (Cravatta rossa)
 camicia scolastica (Cravatta rossa)
 camicia da marinaretto (Blu marino)
@@ -14339,10 +14339,10 @@ separatore di marmo S
 vassoio di dango
 melanzana dell'Obon
 petofono
-
-
-
-
+じむしょのかべかけちんれつだい
+タクミの冬服トップス
+ナッティーの冬服トップス
+ニコの冬服トップス
 
 cartello sospeso
 
@@ -14357,8 +14357,8 @@ piatto di fagottini di riso
 piatto di surichwi tteok
 forma di Double Gloucester
 decorazione timone
-
-
+タクミのブーツ
+ニコのイヤーマフ
 gilet a quadri (Grigio)
 montatura browline quadra (Nero)
 felpa da ginnastica aperta (Rosso)
@@ -14408,10 +14408,10 @@ smoking vivace (Arancio)
 smoking vivace (Viola)
 smoking vivace (Marrone)
 smoking vivace (Monocromo)
-
-
-
-
+ナッティーのカンカンぼう
+ニコのカンカンぼう
+タクミの夏服プルメリア
+タクミの冬服プルメリア
 lanterna portatile
 uniforme stile giapponese (Rosso)
 
@@ -14453,7 +14453,7 @@ maglietta kanji entusiasmo (Tamashii (anima))
 
 
 
-
+ナッティーのフード
 giacca Casimira vacanze (Nessuna variazione)
 blazer Casimira vacanze (Nessuna variazione)
 maglietta Casimira vacanze (Nessuna variazione)
@@ -14471,8 +14471,8 @@ pizza margherita
 kit fissa-scala d'oro
 
 foto di Girolamo
-
-
+しょうだんばのとうめいいす
+しょうだんばのとうめいベンチ
 targa da porta sposini
 campana sposini
 portanelli sposini
@@ -14503,21 +14503,21 @@ piatto decorativo d'oro
 
 minicappello da festa (Arancio)
 bastoncino fluorescente
+バインダー（タクミ事務所）
+バインダー（汎用）
+バインダー（レストラン）
+ココナッツジュース(NPC用)
+ブラッドオレンジジュース(NPC用)
+シャベル
+重なった皿
+紙袋（NPC用）
+ピッチャー
+スパナ
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+チョコ(NPC用)
+ぞうきん
+マグカップ（タクミ事務所）
+ヤシのうちわ
 luce al neon da muro
 
 
@@ -14533,7 +14533,7 @@ tavolo richiudibile lungo
 placca d'arte
 tenuta da samurai d'oro
 tazza di noodle istantanei
-
+ボンゴ
 
 
 frullato proteico
@@ -14620,11 +14620,11 @@ corona con palline (Nessuna variazione)
 tendina noren verticale
 tendina noren orizzontale
 foglio spiegato
-
-
-
-
-
+カフェカウンターのとうめいいす
+はんようぬのじのラグ
+はんようぬのじふく
+はんようぬのじイーゼル
+はんようぬのじキャンパス
 ventaglio rosa pesca
 bubble tea con latte
 zucchero filato
@@ -14652,17 +14652,17 @@ berretto frigio (Arancio)
 berretto frigio (Verde)
 berretto frigio (Blu chiaro)
 berretto frigio (Viola)
-
-
-
-
-
-
-
+メロンソーダ(NPC用)
+アイスコーヒー(NPC用)
+アイスレモンティー(NPC用)
+アイスカフェラテ(NPC用)
+カラフルジュース(NPC用)
+ストロベリーソーダ(NPC用)
+ミルクセーキ(NPC用)
 
 pantalone stampa a rose (Rose rosse su nero)
 pantalone stampa pitonata (Marrone)
-
+ちょうりきぐ
 mascherina chirurgica (Blu)
 mascherina chirurgica (Rosa)
 mascherina chirurgica (Crema)
@@ -14698,12 +14698,12 @@ pizza ai frutti di mare
 pizza alla frutta
 pizza ai funghi
 foto della Casimira vacanze
+ナッティーのマラカス
 
 
 
 
-
-
+はまべのパラソルテーブル
 tappeto grande CV
 tappetino Casimira vacanze
 pianta Casimira vacanze
@@ -14715,9 +14715,9 @@ parrucca punk (Giallo)
 cassetta delle donazioni
 
 plumcake salato
-
-
-
+ナッティーのイス
+ソースパン
+スパークリングサイダー(NPC用)
 
 
 
@@ -14729,11 +14729,11 @@ uniforme fast food (Nero)
 albero decorativo
 
 
-
+かっぺいのサングラス
 canotta dinamica (Nero)
 
 cono al limone e ramune
-
+はまべのパラソル
 
 
 decorazione calendula
@@ -14767,11 +14767,11 @@ paio di ballerine semplici (Nero)
 gonna stampa a rose (Rose rosse su nero)
 
 
+たぬきち体操トップス
+しずえ体操トップス
+しずえ体操パンツ
 
-
-
-
-
+まめきち体操トップス
 ポキ袋
 succo d'uva in lattina
 succo di mela in lattina
@@ -14796,24 +14796,24 @@ canotta sporca (Bianco)
 montatura da sole semplice (Nero)
 Guida isolana
 cappello da macchinista (Blu)
-
+じむしょのダンボール
 specchio da tavolo floreale
 
 giacca da macchinista (Blu)
-
+はまべのうえきのポッド
 cuscino Casimira vacanze
 set di fazzoletti CV
 maglietta comoda (Marrone)
 pantaloncino comodo (Marrone)
 tazza Casimira vacanze
 poster Casimira vacanze
-
-
+マスターのふきんセット
+テイクアウトコーヒー（ふたなし）
 ricettario base
 borsa riutilizzabile pesci (Nessuna variazione)
 borsa riutilizzabile pane (Nessuna variazione)
 borsa riutilizzabile fiori (Nessuna variazione)
-
+ラジオたいそうのラジオ
 ricettario festival primizie
 
 vestito lungo CV (Nessuna variazione)
@@ -14825,7 +14825,7 @@ jet pack (Grigio)
 cartella (Marrone)
 pochette da sogno (Nessuna variazione)
 espositore illuminato
-
+ラジオたいそうランタン
 Nuove emozioni
 I migliori 4 tagli favolosi
 zaino panda (Bianco e nero)
@@ -14833,7 +14833,7 @@ ripostiglio di legno
 
 piumino lungo CV (Nessuna variazione)
 vestito Casimira vacanze (Nessuna variazione)
-
+はまべのバブルマシン
 cono al cioccolato
 cono alla fragola
 zaino da sogno (Rosa)
@@ -14856,7 +14856,7 @@ cesto con intreccio a rombi (Nessuna variazione)
 cesto a strisce (Marrone)
 borsa tote motivo fiorellini (Rosa)
 borsa tote con logo (Grigio)
-
+カットリーヌのはさみとコーム
 borsa a scatto orientale (Nero)
 borsa a scatto giapponese (Blu scuro)
 borsa a scatto perlata (Viola)
@@ -14872,7 +14872,7 @@ borsa boutique (Rosa)
 borsa negozio di elettronica (Giallo)
 borsa centro commerciale (Blu)
 consegna
-
+カットリーヌのイス
 
 
 
@@ -14890,14 +14890,14 @@ colonna spezzata in rovina
 
 borsa tote mimetica (Verde)
 armatura da guerriero (Argentato)
-
+スマホ（タクミライフ）
 vestito steampunk (Rosso)
 borsa stampa pitone band. (Marrone)
 borsa stampa zebrata band. (Bianco)
 muro A tutto design
 pavimento A tutto design
-
-
+コトブキのとうめいいす
+カフェのはとどけい
 maglietta kanji entusiasmo (Kizuna (legame))
 maglietta kanji entusiasmo (Men (tagliolini))
 maglietta kanji entusiasmo (Yume (sogno))
