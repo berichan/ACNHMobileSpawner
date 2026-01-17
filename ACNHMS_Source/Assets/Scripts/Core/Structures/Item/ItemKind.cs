@@ -1,14 +1,15 @@
+using System.Collections.Generic;
 using static NHSE.Core.ItemKind;
 
 namespace NHSE.Core
 {
-    /// <summary>
-    /// Kinds of items
-    /// </summary>
+	/// <summary>
+	/// Kinds of items
+	/// </summary>
 #pragma warning disable CA1027 // Mark enums with FlagsAttribute
-    public enum ItemKind : byte
+	public enum ItemKind : byte
 #pragma warning restore CA1027 // Mark enums with FlagsAttribute
-    {
+	{
 		Bottoms_Long,
 		Bottoms_Middle,
 		Bottoms_Short,
@@ -220,55 +221,56 @@ namespace NHSE.Core
 		Unknown = byte.MaxValue,
 	}
 
-    public static class ItemKindExtensions
-    {
-        private static readonly HashSet<ItemKind> Clothing = new HashSet<ItemKind>
-        {
-            Bottoms_Long,
-            Bottoms_Middle,
-            Bottoms_Short,
-            Kind_Accessory,
-            Kind_Bag,
-            Kind_Cap,
-            Kind_Helmet,
-            Kind_NpcOutfit,
-            Kind_PlayerDemoOutfit,
-            Kind_Socks,
-            Onepiece_Dress,
-            Onepiece_Long,
-            Onepiece_Middle,
-            Onepiece_Short,
-            Shoes_Boots,
-            Shoes_Pumps,
-            Top_Long,
-            Top_Middle,
-            Top_Short,
-        };
+	public static class ItemKindExtensions
+	{
+		private static readonly HashSet<ItemKind> Clothing = new HashSet<ItemKind>
+		{
+			Bottoms_Long,
+			Bottoms_Middle,
+			Bottoms_Short,
+			Kind_Accessory,
+			Kind_Bag,
+			Kind_Cap,
+			Kind_Helmet,
+			Kind_NpcOutfit,
+			Kind_PlayerDemoOutfit,
+			Kind_Socks,
+			Onepiece_Dress,
+			Onepiece_Long,
+			Onepiece_Middle,
+			Onepiece_Short,
+			Shoes_Boots,
+			Shoes_Pumps,
+			Top_Long,
+			Top_Middle,
+			Top_Short,
+		};
 
-        private static readonly HashSet<ItemKind> Furniture = new HashSet<ItemKind>
-        {
-            Ftr_1x1_Chair,
-            Ftr_1x1_Floor,
-            Ftr_2x1_Bed,
-            Ftr_2x1_Floor,
-            Ftr_2x2_Floor,
-            Kind_DummyFtr,
-            Kind_EventObjFtr,
-            Kind_Ftr,
-        };
+		private static readonly HashSet<ItemKind> Furniture = new HashSet<ItemKind>
+		{
+			Ftr_1x1_Chair,
+			Ftr_1x1_Floor,
+			Ftr_2x1_Bed,
+			Ftr_2x1_Floor,
+			Ftr_2x2_Floor,
+			Kind_DummyFtr,
+			Kind_EventObjFtr,
+			Kind_Ftr,
+		};
 
-        private static readonly HashSet<ItemKind> Fish = new HashSet<ItemKind>
-        {
-            Kind_DiveFish,
-            Kind_Fish,
-            Kind_ShellFish
-        };
+		private static readonly HashSet<ItemKind> Fish = new HashSet<ItemKind>
+		{
+			Kind_DiveFish,
+			Kind_Fish,
+			Kind_ShellFish
+		};
 
-        public static bool IsFlower(this ItemKind k) => (Kind_Flower <= k && k <= Kind_FlowerBud) || (UnitIcon_FlwAnemone <= k && k <= UnitIcon_FlwTulip);
-        public static bool IsFlowerPicked(this ItemKind k) => k == Kind_Flower || (UnitIcon_FlwAnemone <= k && k <= UnitIcon_FlwTulip);
-        public static bool IsFlowerGene(this ItemKind k) => k.IsFlower() && !k.IsFlowerPicked();
-        public static bool IsClothing(this ItemKind k) => Clothing.Contains(k);
-        public static bool IsCrafting(this ItemKind k) => k == Kind_Ore || k == Kind_CraftMaterial || k == Kind_CraftPhoneCase || k == Kind_CraftRemake;
-        public static bool IsFurniture(this ItemKind k) => Furniture.Contains(k);
-        public static bool IsFish(this ItemKind k) => Fish.Contains(k);
+		public static bool IsFlower(this ItemKind k) => (Kind_Flower <= k && k <= Kind_FlowerBud) || (UnitIcon_FlwAnemone <= k && k <= UnitIcon_FlwTulip);
+		public static bool IsFlowerPicked(this ItemKind k) => k == Kind_Flower || (UnitIcon_FlwAnemone <= k && k <= UnitIcon_FlwTulip);
+		public static bool IsFlowerGene(this ItemKind k) => k.IsFlower() && !k.IsFlowerPicked();
+		public static bool IsClothing(this ItemKind k) => Clothing.Contains(k);
+		public static bool IsCrafting(this ItemKind k) => k == Kind_Ore || k == Kind_CraftMaterial || k == Kind_CraftPhoneCase || k == Kind_CraftRemake;
+		public static bool IsFurniture(this ItemKind k) => Furniture.Contains(k);
+		public static bool IsFish(this ItemKind k) => Fish.Contains(k);
+	}
 }
