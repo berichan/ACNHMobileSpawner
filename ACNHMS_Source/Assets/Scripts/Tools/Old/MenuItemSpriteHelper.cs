@@ -4,7 +4,7 @@ using NH_CreationEngine;
 
 public class MenuItemSpriteHelper
 {
-    private const string menumapid = "1"; // change when there's a new one
+    private const string menumapid = "2"; // change when there's a new one
     private const string resourceroot = "SpriteLoading";
     private const string imgdumpin = "imagedump_menu";
     private const string imgheaderin = "imagedump_menuheader";
