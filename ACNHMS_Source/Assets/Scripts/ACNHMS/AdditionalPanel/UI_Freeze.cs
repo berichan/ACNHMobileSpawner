@@ -92,7 +92,7 @@ public class UI_Freeze : IUI_Additional
     public void SendMapFreeze()
     {
         var chunkSize = mapSizeBytes / mapChunkCount;
-        uint[] offsets = getUnsafeOffsetsByChunkCount((uint)OffsetHelper.FieldItemStart, mapSizeBytes, mapChunkCount);
+        uint[] offsets = getUnsafeOffsetsByChunkCount((uint)OffsetHelper.FieldItemStartLayer1, mapSizeBytes, mapChunkCount);
         StartCoroutine(createFreezes(offsets, chunkSize, mapString));
     }
 
@@ -139,7 +139,7 @@ public class UI_Freeze : IUI_Additional
 
     public void ClearMapFreeze()
     {
-        uint[] offsets = getUnsafeOffsetsByChunkCount((uint)OffsetHelper.FieldItemStart, mapSizeBytes, mapChunkCount);
+        uint[] offsets = getUnsafeOffsetsByChunkCount((uint)OffsetHelper.FieldItemStartLayer1, mapSizeBytes, mapChunkCount);
         foreach (var o in offsets)
             CurrentConnection.UnFreezeBytes(o);
         UpdateFreezeCount();

@@ -48,23 +48,32 @@ public class UI_MapTerrain : MonoBehaviour
     private MapGraphicGenerator graphicGenerator;
 
     // acre data from NHSE.Core.MainSave.cs
-    public const int AcreWidth = 7 + (2 * 1); // 1 on each side cannot be traversed
-    private const int AcreHeight = 6 + (2 * 1); // 1 on each side cannot be traversed
+    public const int AcreWidth = MapGrid.AcreWidth + (2 * 1); // 1 on each side cannot be traversed
+    private const int AcreHeight = MapGrid.AcreHeight + (2 * 1); // 1 on each side cannot be traversed
     private const int AcreMax = AcreWidth * AcreHeight;
     private const int AcreSizeAll = AcreMax * 2;
     private const int AcrePlusAdditionalParams = AcreSizeAll + 2 + 4 + 8 + sizeof(uint); // MainFieldParamUniqueID + EventPlazaLeftUpX + EventPlazaLeftUpZ
-    private const int MapItemCount = MapGrid.MapTileCount32x32 / 4; // Ignore extensions
     private const int MapItemsWidthMax = MapGrid.AcreWidth * 32;
     private const int MapItemsHeightMax = MapGrid.AcreHeight * 32;
     private const int MapEndX = (MapGrid.AcreWidth * 32) - 16; // End of selectable 8x8 corner
     private const int MapEndY = (MapGrid.AcreHeight * 32) - 16; // End of selectable 8x8 corner
 
-    private const int FieldSize = MapGrid.MapTileCount32x32 * 2 * Item.SIZE;
+    private const int FieldSize = (int)OffsetHelper.FieldSize;
     private const int TerrainSize = MapGrid.MapTileCount16x16 * TerrainTile.SIZE;
 
     private const int BuildingSize = 46 * Building.SIZE;
 
-    private byte[] field, terrain, acre_plaza, structure;
+    private byte[] field1, field2;
+    private byte[] field
+    {
+        get => field1.Concat(field2).ToArray();
+        set
+        {
+            field1 = value.Take(FieldSize).ToArray();
+            field2 = value.Slice(FieldSize, FieldSize).ToArray();
+        }
+    }
+    private byte[] terrain, acre_plaza, structure;
     private uint plazaX, plazaY;
     private bool fetched = false;
     private int lastCursorX, lastCursorY;
@@ -449,7 +458,7 @@ public class UI_MapTerrain : MonoBehaviour
         switch (index)
         {
             case 0:
-                createFetchPopup($"Fetching field{(refetch ? string.Empty : " (1 of 3)")}...\r\nThis may take a long time if your thread sleep time is above 20ms", 0, (uint)OffsetHelper.FieldItemStart, FieldSize, () => { fetchIndex(1, refetch); });
+                createFetchPopup($"Fetching field{(refetch ? string.Empty : " (1 of 3)")}...\r\nThis may take a long time if your thread sleep time is above 20ms", 0, (uint)OffsetHelper.FieldItemStartLayer1, FieldSize, () => { fetchIndex(1, refetch); });
                 break;
             case 1 when !refetch:
                 createFetchPopup("Fetching terrain (2 of 3)...", 1, (uint)OffsetHelper.LandMakingMapStart, TerrainSize, () => { fetchIndex(2, refetch); });
@@ -458,7 +467,10 @@ public class UI_MapTerrain : MonoBehaviour
                 createFetchPopup("Fetching acre (3 of 3)...", 2, (uint)OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams, () => { fetchIndex(3, refetch); });
                 break;
             case 3 when !refetch:
-                createFetchPopup("Placing buildings and generating map...", 3, (uint)OffsetHelper.MainFieldStructurStart, BuildingSize, () => { fetchIndex(4, refetch); saveAll(); });
+                createFetchPopup("Placing buildings and generating map...", 3, (uint)OffsetHelper.MainFieldStructurStart, BuildingSize, () => { fetchIndex(4, refetch); });
+                break;
+            case 4 when !refetch:
+                createFetchPopup("Fetching field layer 2...", 4, (uint)OffsetHelper.FieldItemStartLayer2, FieldSize, () => { fetchIndex(5, refetch); saveAll(); });
                 break;
             default:
                 generateAll();
@@ -476,10 +488,11 @@ public class UI_MapTerrain : MonoBehaviour
     {
         switch (index)
         {
-            case 0: field = pop; break;
+            case 0: field1 = pop; break;
             case 1: terrain = pop; break;
             case 2: acre_plaza = pop; break;
             case 3: structure = pop; break;
+            case 4: field2 = pop; break;
         }
     }
 
@@ -520,8 +533,8 @@ public class UI_MapTerrain : MonoBehaviour
         var splitlt1 = templateLayer1.ChunkBy(acreSizeItems);
         var splitlt2 = templateLayer2.ChunkBy(acreSizeItems);
 
-        var offset = (uint)OffsetHelper.FieldItemStart;
-        var offsetl2 = offset + (MapGrid.MapTileCount32x32 * Item.SIZE);
+        var offset = (uint)OffsetHelper.FieldItemStartLayer1;
+        var offsetl2 = (uint)OffsetHelper.FieldItemStartLayer2;
         var dataSendList = new List<OffsetData>();
 
         // layer 1
@@ -609,29 +622,32 @@ public class UI_MapTerrain : MonoBehaviour
     {
         UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Fetching all map data. Please wait, this may take up to 2 minutes.", () =>
         {
-            var field = MapParent.CurrentConnection.ReadBytes(OffsetHelper.FieldItemStart, FieldSize);
+            var field1 = MapParent.CurrentConnection.ReadBytes(OffsetHelper.FieldItemStartLayer1, FieldSize);
+            var field2 = MapParent.CurrentConnection.ReadBytes(OffsetHelper.FieldItemStartLayer2, FieldSize);
             var terrain = MapParent.CurrentConnection.ReadBytes(OffsetHelper.LandMakingMapStart, TerrainSize);
             var outside = MapParent.CurrentConnection.ReadBytes(OffsetHelper.OutsideFieldStart, AcrePlusAdditionalParams);
             var structure = MapParent.CurrentConnection.ReadBytes(OffsetHelper.MainFieldStructurStart, BuildingSize);
 
-            var sequentialData = field.Concat(terrain).Concat(outside).Concat(structure);
+            var sequentialData = field1.Concat(field2).Concat(terrain).Concat(outside).Concat(structure);
 
             UI_NFSOACNHHandler.LastInstanceOfNFSO.SaveFile($"MapData_{DateTime.Now.ToString("yyyyddMM_HHmmss")}.bin", sequentialData.ToArray());
         });
     }
 
-    public void LoadMapdata() => UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenAnyFile(SendMapdata, FieldSize + TerrainSize + AcrePlusAdditionalParams + BuildingSize);
+    public void LoadMapdata() => UI_NFSOACNHHandler.LastInstanceOfNFSO.OpenAnyFile(SendMapdata, (FieldSize * 2) + TerrainSize + AcrePlusAdditionalParams + BuildingSize);
     
     private void SendMapdata(byte[] data)
     {
         UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Sending all map data. Please wait, this may take up to 2 minutes.", () =>
         {
-            var field = data.Take(FieldSize);
+            var field1 = data.Take(FieldSize);
+            var field2 = data.Skip(FieldSize).Take(FieldSize);
             var terrain = data.Skip(FieldSize).Take(TerrainSize);
             var outside = data.Skip(FieldSize + TerrainSize).Take(AcrePlusAdditionalParams);
             var structure = data.Skip(FieldSize + TerrainSize + AcrePlusAdditionalParams);
 
-            MapParent.CurrentConnection.WriteBytes(field.ToArray(), OffsetHelper.FieldItemStart);
+            MapParent.CurrentConnection.WriteBytes(field1.ToArray(), OffsetHelper.FieldItemStartLayer1);
+            MapParent.CurrentConnection.WriteBytes(field2.ToArray(), OffsetHelper.FieldItemStartLayer2);
             MapParent.CurrentConnection.WriteBytes(terrain.ToArray(), OffsetHelper.LandMakingMapStart);
             MapParent.CurrentConnection.WriteBytes(outside.ToArray(), OffsetHelper.OutsideFieldStart);
             MapParent.CurrentConnection.WriteBytes(structure.ToArray(), OffsetHelper.MainFieldStructurStart);

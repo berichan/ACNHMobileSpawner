@@ -11,6 +11,10 @@
         public const int AcreHeight = 6;
         public const int AcreCount = AcreWidth * AcreHeight;
 
+        public const int ItemAcreWidth = 9;
+        public const int ItemAcreHeight = 6;
+        public const int ItemAcreCount = ItemAcreWidth * ItemAcreHeight;
+
         public const int MapTileCount16x16 = 16 * 16 * AcreCount;
         public const int MapTileCount32x32 = 32 * 32 * AcreCount;
 

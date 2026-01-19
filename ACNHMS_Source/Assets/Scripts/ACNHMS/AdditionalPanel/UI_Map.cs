@@ -50,8 +50,6 @@ public class UI_Map : IUI_Additional
 {
     private const int YieldCount = 3; // yield for a frame every x loops
     private const int FieldItemLayerSize = MapGrid.MapTileCount32x32 * Item.SIZE;
-    public static string MapAddress = OffsetHelper.FieldItemStart.ToString("X"); 
-    public static uint CurrentMapAddress { get { return StringUtil.GetHexValue(MapAddress); } }
     public static string ArriverAddress = OffsetHelper.ArriverNameLocAddress.ToString("X");
     public static uint CurrentArriverAddress { get { return StringUtil.GetHexValue(ArriverAddress); } }
 
@@ -81,8 +79,8 @@ public class UI_Map : IUI_Additional
     // Start is called before the first frame update
     void Start()
     {
-        RAMOffset.text = MapAddress;
-        RAMOffset.onValueChanged.AddListener(delegate { MapAddress = RAMOffset.text; });
+        //RAMOffset.text = MapAddress;
+        //RAMOffset.onValueChanged.AddListener(delegate { MapAddress = RAMOffset.text; });
 
         ButtonLabel.text = $"Remove every {currentRemovalItem.ToString().ToLower()}";
 
@@ -161,13 +159,13 @@ public class UI_Map : IUI_Additional
         UI_Popup.CurrentInstance.CreatePopupMessage(0.001f, "Resending original items, this may help if the items on your floor have shifted. This may take a few minutes... \r\nPlease disconnect from the internet, enter a building and stay in there for the duration of this function.", () =>
         {
             var bytes = layer1Dump.SetArray(Item.SIZE);
-            CurrentConnection.WriteBytes(bytes, CurrentMapAddress);
-            CurrentConnection.WriteBytes(bytes, CurrentMapAddress + (uint)OffsetHelper.BackupSaveDiff);
+            CurrentConnection.WriteBytes(bytes, OffsetHelper.FieldItemStartLayer1);
+            CurrentConnection.WriteBytes(bytes, OffsetHelper.FieldItemStartLayer1 + (uint)OffsetHelper.BackupSaveDiff);
             if (Layer2Affect.isOn && layer2Dump != null)
             {
                 bytes = layer2Dump.SetArray(Item.SIZE);
-                CurrentConnection.WriteBytes(bytes, CurrentMapAddress + FieldItemLayerSize);
-                CurrentConnection.WriteBytes(bytes, CurrentMapAddress + FieldItemLayerSize + (uint)OffsetHelper.BackupSaveDiff);
+                CurrentConnection.WriteBytes(bytes, OffsetHelper.FieldItemStartLayer2);
+                CurrentConnection.WriteBytes(bytes, OffsetHelper.FieldItemStartLayer2 + (uint)OffsetHelper.BackupSaveDiff);
             }
         });
     }
@@ -244,8 +242,8 @@ public class UI_Map : IUI_Additional
         int maxtransferSizeRemainder = CurrentConnection.MaximumTransferSize % Item.SIZE;
         int maxtransferSize = CurrentConnection.MaximumTransferSize - maxtransferSizeRemainder;
 
-        uint fieldItemsStart1 = CurrentMapAddress;
-        uint fieldItemsStart2 = CurrentMapAddress + FieldItemLayerSize;
+        uint fieldItemsStart1 = (uint)OffsetHelper.FieldItemStartLayer1;
+        uint fieldItemsStart2 = (uint)OffsetHelper.FieldItemStartLayer2;
         uint itemsPerFrame = (uint)maxtransferSize / Item.SIZE;
         uint lastTileIndex = 0;
         
