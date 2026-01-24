@@ -10,23 +10,6 @@ public class UI_BatteryCheck : MonoBehaviour
     public Text PercentageText;
 
     private IRAMReadWriter Connection => UI_ACItemGrid.LastInstanceOfItemGrid.GetCurrentlyActiveReadWriter();
-    private bool? CanCheckBattery = null;
-
-    public void CheckVersion()
-    {
-        var ver = System.Text.Encoding.UTF8.GetString(Connection.GetVersion()).TrimEnd('\0').TrimEnd('\n');
-        var verLower = ver.ToLower();
-        var verDouble = double.TryParse(verLower, out var version);
-        if (verDouble && version > 1.729)
-        {
-            CanCheckBattery = true;
-        }
-        else
-        {
-            PopupHelper.CreateError("Battery checks require sys-botbase version 1.73 or above.", 3f);
-            CanCheckBattery = false;
-        }
-    }
 
     public void CheckBattery()
     {
@@ -42,15 +25,6 @@ public class UI_BatteryCheck : MonoBehaviour
 
     private void doBatteryCheckAndUpdateUI()
     {
-        if (!CanCheckBattery.HasValue)
-            CheckVersion();
-
-        if (!CanCheckBattery.Value)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
-
         var batteryString = System.Text.Encoding.UTF8.GetString(Connection.GetBattery()).TrimEnd('\0').TrimEnd('\n');
         var battery = int.Parse(batteryString);
 

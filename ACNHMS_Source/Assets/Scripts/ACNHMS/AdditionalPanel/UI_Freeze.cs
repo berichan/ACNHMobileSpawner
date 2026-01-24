@@ -40,19 +40,7 @@ public class UI_Freeze : IUI_Additional
 
     public void CheckUsability()
     {
-        var ver = getVersion().TrimEnd('\0').TrimEnd('\n');
-        VersionLabel.text = ver;
-        var verLower = ver.ToLower();
-        var verDouble = double.TryParse(verLower, out var version);
-        if (verDouble && version > 1.699)
-        {
-            Blocker.SetActive(false);
-        }
-        else
-        {
-            PopupHelper.CreateError("Installed version of botbase is outdated. Please use a later version.", 3f);
-            return;
-        }
+        Blocker.SetActive(false);
         UpdateFreezeCount();
         OffsetField.text = $"{invOffset:X8}";
         SizeField.text = PocketInjector.size.ToString();
@@ -204,7 +192,5 @@ public class UI_Freeze : IUI_Additional
             offsets[i] = startOffset + (i * chunkSize);
         return offsets;
     }
-
-    private string getVersion() => System.Text.Encoding.UTF8.GetString(CurrentConnection.GetVersion());
     
 }
